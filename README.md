@@ -7,7 +7,7 @@ A skeleton for creating applications with [CakePHP](http://cakephp.org) 3.x.
 
 The framework source code can be found here: [cakephp/cakephp](https://github.com/cakephp/cakephp).
 
-## Installation
+## Project Setup
 
 1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
 2. Git clone `git@bitbucket.org:cleteci/coach.git`.
