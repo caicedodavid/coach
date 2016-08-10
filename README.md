@@ -12,7 +12,7 @@ The framework source code can be found here: [cakephp/cakephp](https://github.co
 1. Download [Composer](http://getcomposer.org/doc/00-intro.md) or update `composer self-update`.
 2. Git clone `git@bitbucket.org:cleteci/coach.git`.
 3. Composer install.
-4. Update database settings in config/app.php
+4. Update database settings in config/app.php.
 
 
 ## Configuration
