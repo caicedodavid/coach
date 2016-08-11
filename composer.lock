@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8c8eee0878b0852c6d5651b334b36d7f",
-    "content-hash": "601fb31c8d0d4504a213a0c837654da4",
+    "hash": "f14d61cc5ac064a50f0445ec70a49369",
+    "content-hash": "1d2d2cceeefc4fb7015b12d012acb915",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -125,6 +125,71 @@
                 "localization"
             ],
             "time": "2014-08-24 00:00:00"
+        },
+        {
+            "name": "cakedc/users",
+            "version": "3.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CakeDC/users.git",
+                "reference": "2b20c8db0a8dde4523fada2b253cf3746a3cf21a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CakeDC/users/zipball/2b20c8db0a8dde4523fada2b253cf3746a3cf21a",
+                "reference": "2b20c8db0a8dde4523fada2b253cf3746a3cf21a",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": ">=3.2.9 <4.0.0"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "^2.0",
+                "league/oauth2-facebook": "@stable",
+                "league/oauth2-google": "@stable",
+                "league/oauth2-instagram": "@stable",
+                "league/oauth2-linkedin": "@stable",
+                "phpunit/phpunit": "*"
+            },
+            "suggest": {
+                "google/recaptcha": "Provides reCAPTCHA validation for registration form",
+                "league/oauth1-client": "Provides Social Authentication with Twitter",
+                "league/oauth2-facebook": "Provides Social Authentication with Facebook",
+                "league/oauth2-google": "Provides Social Authentication with Google+",
+                "league/oauth2-instagram": "Provides Social Authentication with Instagram",
+                "league/oauth2-linkedin": "Provides Social Authentication with LinkedIn"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "CakeDC\\Users\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "CakeDC",
+                    "homepage": "http://www.cakedc.com",
+                    "role": "Author"
+                },
+                {
+                    "name": "Others",
+                    "homepage": "https://github.com/CakeDC/users/graphs/contributors"
+                }
+            ],
+            "description": "Users Plugin for CakePHP 3",
+            "homepage": "https://github.com/CakeDC/users",
+            "keywords": [
+                "Authentication",
+                "auth",
+                "cakedc",
+                "cakephp",
+                "oauth2"
+            ],
+            "time": "2016-08-05 10:07:12"
         },
         {
             "name": "cakephp/cakephp",
