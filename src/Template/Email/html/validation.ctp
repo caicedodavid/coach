@@ -24,7 +24,7 @@ $activationUrl = [
     <strong><?= $this->Html->link(__d('CakeDC/Users', 'Activate your account here'), $activationUrl) ?></strong>
 </p>
 <p>
-    <?= __d('CakeDC/Users', "THIS IS Custom {0}", $this->Url->build($activationUrl)) ?>
+    <?= __d('CakeDC/Users', "This is David Caicedo's message. {0}", $this->Url->build($activationUrl)) ?>
 </p>
 <p>
     <?= __d('CakeDC/Users', 'Thank you') ?>,

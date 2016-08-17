@@ -37,6 +37,7 @@ class AppController extends Controller
      *
      * @return void
      */
+
     public function initialize()
     {
         parent::initialize();
@@ -56,10 +57,12 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
+        $this->set('userAuth',$this->Auth->user());
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
             $this->set('_serialize', true);
         }
     }
+
 }
