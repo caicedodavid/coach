@@ -13,7 +13,7 @@ The framework source code can be found here: [cakephp/cakephp](https://github.co
 2. Git clone `git@bitbucket.org:cleteci/coach.git`.
 3. Composer install.
 4. Update database settings in config/app.php.
-5. Run the command bin/cake migrations migrate -p CakeDC/User
+5. Run the command bin/cake migrations migrate -p CakeDC/Users
 
 
 ## Configuration
