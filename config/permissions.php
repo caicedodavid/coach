@@ -28,7 +28,7 @@ return [
 return [
    'Users.SimpleRbac.permissions' => [
         [
-           'role' => 'user'
+           'role' => 'user',
            'controller' => 'Users',
            'action' => ['view'],
         ],
