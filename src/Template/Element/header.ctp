@@ -7,9 +7,7 @@
     <div class="top-bar-section">
         <ul class="right">
             <?php if ($userAuth):?>
-                <?php
-                    //<?=$this->Html->link(__d('CakeDC/Users', 'Logout'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'logout']);
-                ?>
+                    <?=$this->Html->link(__d('CakeDC/Users', 'Logout'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'logout', 'prefix'=>false]);?>
             <?php else: ?>
                 <?= $this->Html->link(__d('CakeDC/Users', 'Register'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'register']);?>
                 <?= $this->Html->link(__d('CakeDC/Users', 'Login'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'login']);?>

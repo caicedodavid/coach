@@ -17,14 +17,8 @@
         <?php
             echo $this->Form->input('first_name');
             echo $this->Form->input('last_name');
+            echo $this->Form->input('role', ['options' => $rolesList]);
             echo $this->Form->input('active');
-            echo $this->Form->radio(
-                'role',
-                [
-                    ['value' => 'user', 'text' => 'User'],
-                    ['value' => 'admin', 'text' => 'Admin'],
-                ]
-            );
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit')) ?>

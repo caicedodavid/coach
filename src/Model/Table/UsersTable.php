@@ -5,6 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Core\Configure;
+use Cake\Utility\Hash;
 
 /**
  * Users Model
@@ -106,7 +108,7 @@ class UsersTable extends Table
         $validator
             ->requirePresence('role','create')
             ->add('role','validRole',[
-                    'rule' => ['inList', ['user','admin'], false]
+                    'rule' => ['inList', ['user','superuser'], false]
                 ]
             );
 
@@ -126,5 +128,16 @@ class UsersTable extends Table
         $rules->add($rules->isUnique(['email']));
 
         return $rules;
+    }
+    /**
+     * Return the role list
+     *
+     * @return array
+     */
+    public function getRoleList()
+    {
+        $roles = (array)Configure::read('Users.roles');
+
+        return Hash::combine($roles, '{n}.role', '{n}.description');
     }
 }

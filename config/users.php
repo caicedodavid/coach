@@ -94,6 +94,16 @@ $config = [
                 ]
             ]
         ],
+        'roles' => [
+            [
+                'role'=>'superuser',
+                'description' => 'Administrator'
+            ],
+            [
+                'role'=>'user',
+                'description' => 'User'
+            ]
+        ]
     ],
     //default configuration used to auto-load the Auth Component, override to change the way Auth works
     'Auth' => [
