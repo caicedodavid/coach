@@ -32,6 +32,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
+    <?php echo $this->AssetCompress->css('bootstrap');?>
+    <?php echo $this->AssetCompress->css('font-awesome');?>
+    <?php echo $this->AssetCompress->script('jquery');?>
+    <?php echo $this->AssetCompress->script('bootstrap');?>
+
 </head>
 <body>
     <?= $this->element('header') ?>
