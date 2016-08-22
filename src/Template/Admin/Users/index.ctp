@@ -20,13 +20,9 @@
             <tr>
                 <td><?= h($user->full_name) ?></td>
                 <td><?= h($user->active) ?></td>
-                <td>
-                    <?php if ($user->role == 'superuser'):?>
-                        <h>Admin</h>
-                    <?php else: ?>
-                        <h>User</h>
-                    <?php endif; ?>
-                </td>
+                <td><?= h($user->role) ?></td>
+
+
                 <td class="actions">
                     <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
                     <?= $this->Html->link(__('Edit'), ['action' => 'edit', $user->id]) ?>
