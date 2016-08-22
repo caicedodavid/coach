@@ -108,7 +108,7 @@ class UsersTable extends Table
         $validator
             ->requirePresence('role','create')
             ->add('role','validRole',[
-                    'rule' => ['inList', ['user','superuser'], false]
+                    'rule' => ['inList', ['user','admin'], false]
                 ]
             );
 

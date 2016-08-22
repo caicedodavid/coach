@@ -96,7 +96,7 @@ $config = [
         ],
         'roles' => [
             [
-                'role'=>'superuser',
+                'role'=>'admin',
                 'description' => 'Administrator'
             ],
             [

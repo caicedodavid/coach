@@ -9,7 +9,16 @@ return [
             'controller' => 'Posts',
             'action' => ['view'],
         ],
-         [
+        [
+            'role' => 'user',
+            'plugin'=> 'CakeDC/Users',
+            'controller' => 'Users',
+            'action' => ['logout',
+                'requestResetPassword',
+                'resendTokenValidation'
+            ]
+        ],
+        [
             'role' => 'user',
             'controller' => 'Posts',
             'action' => ['edit', 'delete'],
@@ -23,14 +32,17 @@ return [
                 return false;
             }
         ],
-    ]
-];
-return [
-   'Users.SimpleRbac.permissions' => [
         [
-           'role' => 'user',
-           'controller' => 'Users',
-           'action' => ['view'],
+            'role' => 'admin',
+            'prefix' => 'Admin',
+            'controller' => '*',
+            'action' => '*',
         ],
+        [
+            'role' => 'admin',
+            'plugin'=> 'CakeDC/Users',
+            'controller' => 'Users',
+            'action' => 'logout',
+        ]
     ]
 ];
