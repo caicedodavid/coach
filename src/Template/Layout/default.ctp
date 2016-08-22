@@ -30,8 +30,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <?= $this->Html->css('cake.css') ?>
 
     <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css') ?>
-    <?= $this->fetch('script') ?>
+    <?= $this->fetch('css')?>
+    <?= $this->fetch('script')?>
+    <?php echo $this->AssetCompress->css('head');?>
+    <?php echo $this->AssetCompress->script('head');?>
 </head>
 <body>
     <?= $this->element('header') ?>

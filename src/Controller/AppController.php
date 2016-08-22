@@ -27,6 +27,7 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
+    public $helpers = ['AssetCompress.AssetCompress'];
 
     /**
      * Initialization hook method.
@@ -47,6 +48,7 @@ class AppController extends Controller
         $this->loadComponent('Security');
         $this->loadComponent('Csrf');
         $this->loadComponent('CakeDC/Users.UsersAuth');
+        $this->loadComponent('Paginator');
     }
 
     /**
