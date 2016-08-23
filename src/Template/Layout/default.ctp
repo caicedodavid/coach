@@ -17,31 +17,31 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
 <html>
-<head>
-    <?= $this->Html->charset() ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
-    </title>
-    <?= $this->Html->meta('icon') ?>
-
-    <?= $this->Html->css('base.css') ?>
-    <?= $this->Html->css('cake.css') ?>
-
-    <?= $this->fetch('meta') ?>
-    <?= $this->fetch('css')?>
-    <?= $this->fetch('script')?>
-    <?php echo $this->AssetCompress->css('head');?>
-    <?php echo $this->AssetCompress->script('head');?>
-</head>
-<body>
-    <?= $this->element('header') ?>
-    <?= $this->Flash->render() ?>
-    <div class="container clearfix">
-        <?= $this->fetch('content') ?>
-    </div>
-    <footer>
-    </footer>
-</body>
+    <head>
+        <?= $this->Html->charset() ?>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>
+            <?= $cakeDescription ?>:
+            <?= $this->fetch('title') ?>
+        </title>
+        <?= $this->Html->meta('icon') ?>
+        <?= $this->fetch('meta') ?>
+        <?= $this->fetch('css')?>
+        <?= $this->fetch('script')?>
+        <?php echo $this->AssetCompress->css('head');?>
+        <?php echo $this->AssetCompress->script('head');?>
+    </head>
+    <body>
+        <?= $this->element('header') ?>
+        <div class="content">
+            <?= $this->Flash->render() ?>
+            <?= $this->Flash->render('Auth') ?>
+            <div class="container clearfix">
+                <?= $this->fetch('content') ?>
+            </div>
+        </div>
+        <footer>
+        </footer>
+        <?php echo $this->AssetCompress->script('bottom');?>
+    </body>
 </html>
