@@ -10,17 +10,19 @@
         <li><?= $this->Html->link(__('List Users'), ['action' => 'index']) ?></li>
     </ul>
 </nav>
-<div class="users form large-9 medium-8 columns content">
+<div class="users form">
     <?= $this->Form->create($user) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
-            echo $this->Form->input('first_name');
-            echo $this->Form->input('last_name');
-            echo $this->Form->input('role', ['options' => $rolesList]);
+            echo $this->Form->input('email', ['class' => 'form-control']);
+            echo $this->Form->input('first_name', ['class' => 'form-control']);
+            echo $this->Form->input('last_name', ['class' => 'form-control']);
+            echo $this->Form->input('role', ['options' => $rolesList, 'class' => 'form-control', 'empty' => __('Select...')]);
             echo $this->Form->input('active');
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary pull-right']) ?>
+    <?= $this->Html->link(__('Cancel'), ['action' => 'index'],['class' => 'btn btn-default pull-right']) ?>
     <?= $this->Form->end() ?>
 </div>

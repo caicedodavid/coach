@@ -17,8 +17,8 @@ use Cake\Core\Configure;
     <?= $this->Form->create() ?>
     <fieldset>
         <legend><?= __d('CakeDC/Users', 'Please enter your username and password') ?></legend>
-        <?= $this->Form->input('username', ['required' => true]) ?>
-        <?= $this->Form->input('password', ['required' => true]) ?>
+        <?= $this->Form->input('username', ['required' => true, 'class' => 'form-control']) ?>
+        <?= $this->Form->input('password', ['required' => true, 'class' => 'form-control']) ?>
         <?php
         if (Configure::read('Users.reCaptcha.login')) {
             echo $this->User->addReCaptcha();
@@ -47,6 +47,6 @@ use Cake\Core\Configure;
             ?>
     </fieldset>
     <?= implode(' ', $this->User->socialLoginList()); ?>
-    <?= $this->Form->button(__d('CakeDC/Users', 'Login')); ?>
+    <?= $this->Form->button(__d('CakeDC/Users', 'Login'), ['class' => 'btn btn-primary pull-right']); ?>
     <?= $this->Form->end() ?>
 </div>
