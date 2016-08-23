@@ -13,14 +13,14 @@ use Cake\Core\Configure;
 <div class="users form large-10 medium-9 columns">
     <?= $this->Form->create($user); ?>
     <fieldset>
-        <legend><?= __d('CakeDC/Users', 'Add User') ?></legend>
+        <legend><?= __d('CakeDC/Users', 'Register') ?></legend>
         <?php
-        echo $this->Form->input('username');
-        echo $this->Form->input('email');
-        echo $this->Form->input('password');
-        echo $this->Form->input('password_confirm', ['type' => 'password']);
-        echo $this->Form->input('first_name');
-        echo $this->Form->input('last_name');
+        echo $this->Form->input('username', ['class' => 'form-control']);
+        echo $this->Form->input('email', ['class' => 'form-control']);
+        echo $this->Form->input('password', ['class' => 'form-control']);
+        echo $this->Form->input('password_confirm', ['type' => 'password', 'class' => 'form-control']);
+        echo $this->Form->input('first_name', ['class' => 'form-control']);
+        echo $this->Form->input('last_name', ['class' => 'form-control']);
         if (Configure::read('Users.Tos.required')) {
             echo $this->Form->input('tos', ['type' => 'checkbox', 'label' => __d('CakeDC/Users', 'Accept TOS conditions?'), 'required' => true]);
         }
@@ -29,6 +29,7 @@ use Cake\Core\Configure;
         }
         ?>
     </fieldset>
-    <?= $this->Form->button(__d('CakeDC/Users', 'Submit')) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary pull-right']) ?>
+    <?= $this->Html->link(__('Cancel'), '/login' ,['class' => 'btn btn-default pull-right']) ?>
     <?= $this->Form->end() ?>
 </div>
