@@ -20,6 +20,14 @@ return [
         ],
         [
             'role' => 'user',
+            'plugin'=> false,
+            'controller' => 'AppUsers',
+            'action' => [
+                'edit'
+            ]
+        ],
+        [
+            'role' => 'user',
             'controller' => 'Posts',
             'action' => ['edit', 'delete'],
             'allowed' => function (array $user, $role, Request $request) {
