@@ -11,7 +11,9 @@
         "cakephp/migrations": "~1.0",
         "cakephp/plugin-installer": "*",
         "cakedc/users": "^3.2",
-        "markstory/asset_compress": "^3.0"
+        "markstory/asset_compress": "^3.0",
+        "burzum/cakephp-imagine-plugin": "2.*",
+        "tinymce/tinymce": ">= 4"
     },
     "require-dev": {
         "psy/psysh": "@stable",
