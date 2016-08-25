@@ -28,7 +28,6 @@ use Cake\Event\Event;
  */
 class PagesController extends AppController
 {
-
     /**
      * Displays a view
      *

@@ -1,5 +1,5 @@
 <div class="users form">
-    <?= $this->Form->create($user) ?>
+    <?= $this->Form->create($user,['type' => 'file']) ?>
     <?php $this->TinyMCE->editor(array('theme' => 'advanced', 'mode' => 'textareas'));?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
@@ -9,8 +9,8 @@
             echo $this->Form->input('fb_account', ['class' => 'form-control']);
             echo $this->Form->input('tw_account', ['class' => 'form-control']);
             echo $this->Form->input('description',['class' => 'form-control']);
-            //echo $this->Form->file('user_imag', ['class' => 'form-control']);
-            //echo $this->Form->error('user_imag',['class' => 'form-control']);
+            echo $this->Form->file('user_images', ['class' => 'form-control']);
+            echo $this->Form->error('user_images',['class' => 'form-control']);
 
         ?>
     </fieldset>

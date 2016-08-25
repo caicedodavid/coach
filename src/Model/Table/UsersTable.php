@@ -45,6 +45,13 @@ class UsersTable extends Table
         $this->hasMany('SocialAccounts', [
             'foreignKey' => 'user_id'
         ]);
+        $this->hasOne('UserImages', [
+            'className' => 'UserImages',
+            'foreignKey' => 'user_id',
+            'conditions' => [
+                'UserImages.model' => 'UserImage'
+            ]
+        ]);
     }
 
     /**
