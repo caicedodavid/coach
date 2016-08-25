@@ -13,7 +13,7 @@
         "cakedc/users": "^3.2",
         "markstory/asset_compress": "^3.0",
         "burzum/cakephp-imagine-plugin": "2.*",
-        "tinymce/tinymce": ">= 4"
+        "cakedc/tiny-mce": "3.x-dev"
     },
     "require-dev": {
         "psy/psysh": "@stable",

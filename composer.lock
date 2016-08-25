@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "82b3fb8b2fef164b399434e0dfb5241f",
-    "content-hash": "1856846bcf05a015cbef8602cca15718",
+    "hash": "76f0a40d3cd75f2e655ba37efbb1c829",
+    "content-hash": "cbf0a1921e89e557419b661d99e32f00",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -127,6 +127,64 @@
             "time": "2014-08-24 00:00:00"
         },
         {
+            "name": "burzum/cakephp-file-storage",
+            "version": "1.1.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/burzum/cakephp-file-storage.git",
+                "reference": "849307926e9241d1bdfc1860d20ed8cbf12dc6db"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/burzum/cakephp-file-storage/zipball/849307926e9241d1bdfc1860d20ed8cbf12dc6db",
+                "reference": "849307926e9241d1bdfc1860d20ed8cbf12dc6db",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "3.*",
+                "cakephp/migrations": "~1.0",
+                "cakephp/plugin-installer": "*",
+                "knplabs/gaufrette": "*"
+            },
+            "require-dev": {
+                "burzum/cakephp-imagine-plugin": "2.*",
+                "fig-r/psr2r-sniffer": "dev-master",
+                "phpunit/phpunit": "4.8"
+            },
+            "suggest": {
+                "burzum/cakephp-imagine-plugin": "Required if you want to use the image processing feature of FileStorage"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "Burzum\\FileStorage\\": "src",
+                    "Burzum\\FileStorage\\Test\\Fixture\\": "tests\\Fixture"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Florian Krämer",
+                    "homepage": "http://florian-kraemer.net"
+                }
+            ],
+            "description": "This plugin is giving you the possibility to store files in virtually and kind of storage backend. This plugin is wrapping the Gaufrette library (https://github.com/KnpLabs/Gaufrette) library in a CakePHP fashion and provides a simple way to use the storage adapters through the StorageManager class.",
+            "homepage": "http://github.com/burzum/cakephp-file-storage-plugin",
+            "keywords": [
+                "abstraction",
+                "cakephp",
+                "file",
+                "filesystem",
+                "media",
+                "storage",
+                "upload"
+            ],
+            "time": "2016-06-14 15:43:30"
+        },
+        {
             "name": "burzum/cakephp-imagine-plugin",
             "version": "2.1.1",
             "source": {
@@ -174,6 +232,58 @@
                 "media"
             ],
             "time": "2016-01-28 23:14:15"
+        },
+        {
+            "name": "cakedc/tiny-mce",
+            "version": "3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/CakeDC/TinyMCE.git",
+                "reference": "0dc2988ccde8b42b3e53bede81bae1a25898c642"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/CakeDC/TinyMCE/zipball/0dc2988ccde8b42b3e53bede81bae1a25898c642",
+                "reference": "0dc2988ccde8b42b3e53bede81bae1a25898c642",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/plugin-installer": "*",
+                "php": ">=5.2.8"
+            },
+            "require-dev": {
+                "cakephp/cakephp": "~3.0",
+                "phpunit/phpunit": "*"
+            },
+            "type": "cakephp-plugin",
+            "extra": {
+                "installer-name": "TinyMCE"
+            },
+            "autoload": {
+                "psr-4": {
+                    "TinyMCE\\": "src",
+                    "TinyMCE\\Test\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cake Development Corporation",
+                    "email": "team@cakedc.com",
+                    "homepage": "http://cakedc.com"
+                }
+            ],
+            "description": "TinyMCE Plugin for CakePHP",
+            "homepage": "https://github.com/CakeDC/TinyMCE",
+            "keywords": [
+                "editor",
+                "tinymce",
+                "wysiwyg"
+            ],
+            "time": "2016-07-28 12:36:12"
         },
         {
             "name": "cakedc/users",
@@ -242,25 +352,26 @@
         },
         {
             "name": "cakephp/cakephp",
-            "version": "3.2.13",
+            "version": "3.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/cakephp.git",
-                "reference": "ed597225b2328ce80476e25fc06d1e4da79e17c1"
+                "reference": "0ac7ed9888f8b105d9e99c14e473bdc71653be9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/ed597225b2328ce80476e25fc06d1e4da79e17c1",
-                "reference": "ed597225b2328ce80476e25fc06d1e4da79e17c1",
+                "url": "https://api.github.com/repos/cakephp/cakephp/zipball/0ac7ed9888f8b105d9e99c14e473bdc71653be9e",
+                "reference": "0ac7ed9888f8b105d9e99c14e473bdc71653be9e",
                 "shasum": ""
             },
             "require": {
                 "aura/intl": "1.1.*",
-                "cakephp/chronos": "*",
+                "cakephp/chronos": "~1.0",
                 "ext-intl": "*",
                 "ext-mbstring": "*",
                 "php": ">=5.5.9",
-                "psr/log": "1.0"
+                "psr/log": "1.0",
+                "zendframework/zend-diactoros": "~1.0"
             },
             "replace": {
                 "cakephp/cache": "self.version",
@@ -310,7 +421,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2016-08-02 02:14:27"
+            "time": "2016-08-22 02:15:27"
         },
         {
             "name": "cakephp/chronos",
@@ -513,6 +624,90 @@
                 "image processing"
             ],
             "time": "2015-09-19 16:54:05"
+        },
+        {
+            "name": "knplabs/gaufrette",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/KnpLabs/Gaufrette.git",
+                "reference": "1696386ca66f2f046dea7892cf1f85fd82b5b68e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/KnpLabs/Gaufrette/zipball/1696386ca66f2f046dea7892cf1f85fd82b5b68e",
+                "reference": "1696386ca66f2f046dea7892cf1f85fd82b5b68e",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "amazonwebservices/aws-sdk-for-php": "1.5.*",
+                "aws/aws-sdk-php": "~2",
+                "doctrine/dbal": ">=2.3",
+                "dropbox-php/dropbox-php": "*",
+                "google/apiclient": "~1.1.3",
+                "herzult/php-ssh": "*",
+                "microsoft/windowsazure": "dev-master",
+                "mikey179/vfsstream": "~1.2.0",
+                "phpseclib/phpseclib": "^2.0",
+                "phpspec/phpspec": "2.0.*",
+                "phpunit/phpunit": "3.7.*",
+                "rackspace/php-opencloud": "1.9.*"
+            },
+            "suggest": {
+                "amazonwebservices/aws-sdk-for-php": "to use the legacy Amazon S3 adapters",
+                "aws/aws-sdk-php": "to use the Amazon S3 adapter",
+                "doctrine/dbal": "to use the Doctrine DBAL adapter",
+                "dropbox-php/dropbox-php": "to use the Dropbox adapter",
+                "ext-apc": "to use the APC adapter",
+                "ext-curl": "*",
+                "ext-fileinfo": "This extension is used to automatically detect the content-type of a file in the AwsS3, OpenCloud, AzureBlogStorage and GoogleCloudStorage adapters",
+                "ext-mbstring": "*",
+                "ext-mongo": "*",
+                "ext-zip": "to use the Zip adapter",
+                "google/apiclient": "to use GoogleCloudStorage adapter",
+                "herzult/php-ssh": "to use SFtp adapter",
+                "knplabs/knp-gaufrette-bundle": "to use with Symfony2",
+                "microsoft/windowsazure": "to use Microsoft Azure Blob Storage adapter",
+                "phpseclib/phpseclib": "to use PhpseclibSftp adapter",
+                "rackspace/php-opencloud": "to use Opencloud adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Gaufrette": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "The contributors",
+                    "homepage": "http://github.com/knplabs/Gaufrette/contributors"
+                },
+                {
+                    "name": "KnpLabs Team",
+                    "homepage": "http://knplabs.com"
+                }
+            ],
+            "description": "PHP5 library that provides a filesystem abstraction layer",
+            "homepage": "http://knplabs.com",
+            "keywords": [
+                "abstraction",
+                "file",
+                "filesystem",
+                "media"
+            ],
+            "time": "2016-03-03 09:36:22"
         },
         {
             "name": "league/climate",
@@ -739,6 +934,56 @@
                 "php mobile detect"
             ],
             "time": "2016-04-24 09:47:16"
+        },
+        {
+            "name": "psr/http-message",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/php-fig/http-message.git",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Psr\\Http\\Message\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "PHP-FIG",
+                    "homepage": "http://www.php-fig.org/"
+                }
+            ],
+            "description": "Common interface for HTTP messages",
+            "homepage": "https://github.com/php-fig/http-message",
+            "keywords": [
+                "http",
+                "http-message",
+                "psr",
+                "psr-7",
+                "request",
+                "response"
+            ],
+            "time": "2016-08-06 14:39:51"
         },
         {
             "name": "psr/log",
@@ -1158,50 +1403,54 @@
             "time": "2016-07-17 14:02:08"
         },
         {
-            "name": "tinymce/tinymce",
-            "version": "4.4.1",
+            "name": "zendframework/zend-diactoros",
+            "version": "1.3.5",
             "source": {
                 "type": "git",
-                "url": "https://github.com/tinymce/tinymce-dist.git",
-                "reference": "1fe6087b3b1194f5d4e1bd5e5d725262fe1fbbf0"
+                "url": "https://github.com/zendframework/zend-diactoros.git",
+                "reference": "b1d59735b672865dbeb930805029c24f226e3e77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tinymce/tinymce-dist/zipball/1fe6087b3b1194f5d4e1bd5e5d725262fe1fbbf0",
-                "reference": "1fe6087b3b1194f5d4e1bd5e5d725262fe1fbbf0",
+                "url": "https://api.github.com/repos/zendframework/zend-diactoros/zipball/b1d59735b672865dbeb930805029c24f226e3e77",
+                "reference": "b1d59735b672865dbeb930805029c24f226e3e77",
                 "shasum": ""
             },
-            "type": "component",
+            "require": {
+                "php": "^5.4 || ^7.0",
+                "psr/http-message": "~1.0"
+            },
+            "provide": {
+                "psr/http-message-implementation": "~1.0.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.6",
+                "squizlabs/php_codesniffer": "^2.3.1"
+            },
+            "type": "library",
             "extra": {
-                "component": {
-                    "scripts": [
-                        "tinymce.js",
-                        "plugins/*/plugin.js",
-                        "themes/*/theme.js"
-                    ],
-                    "files": [
-                        "tinymce.min.js",
-                        "plugins/*/plugin.min.js",
-                        "themes/*/theme.min.js",
-                        "skins/**"
-                    ]
+                "branch-alias": {
+                    "dev-master": "1.3-dev",
+                    "dev-develop": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Zend\\Diactoros\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL-2.1"
+                "BSD-2-Clause"
             ],
-            "description": "Web based JavaScript HTML WYSIWYG editor control.",
-            "homepage": "http://www.tinymce.com",
+            "description": "PSR HTTP Message implementations",
+            "homepage": "https://github.com/zendframework/zend-diactoros",
             "keywords": [
-                "editor",
-                "html",
-                "javascript",
-                "richtext",
-                "tinymce",
-                "wysiwyg"
+                "http",
+                "psr",
+                "psr-7"
             ],
-            "time": "2016-07-26 09:51:16"
+            "time": "2016-03-17 18:02:05"
         }
     ],
     "packages-dev": [
@@ -1667,6 +1916,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "cakedc/tiny-mce": 20,
         "psy/psysh": 0
     },
     "prefer-stable": true,
