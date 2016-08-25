@@ -1,6 +1,6 @@
 <div class="users form">
     <?= $this->Form->create($user) ?>
-    <?php $this->TinyMCE->editor(array('theme' => 'advanced', 'mode' => 'textareas'));?>
+    <?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
