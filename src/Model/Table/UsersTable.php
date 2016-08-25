@@ -25,7 +25,6 @@ use Cake\Utility\Hash;
  */
 class UsersTable extends Table
 {
-
     /**
      * Initialize method
      *
@@ -45,11 +44,11 @@ class UsersTable extends Table
         $this->hasMany('SocialAccounts', [
             'foreignKey' => 'user_id'
         ]);
-        $this->hasOne('UserImages', [
-            'className' => 'UserImages',
+        $this->hasOne('UserImage', [
+            'className' => 'UserImage',
             'foreignKey' => 'user_id',
             'conditions' => [
-                'UserImages.model' => 'UserImage'
+                'UserImage.model' => 'file_storage'
             ]
         ]);
     }

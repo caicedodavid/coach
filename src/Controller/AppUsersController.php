@@ -25,16 +25,17 @@ class AppUsersController extends AppController
      */
     public function edit()
     {
-
-        $user = $this->AppUsers->get($this->Auth->user()['id']);
+        $user = $this->AppUsers->find()
+            ->where(['Users.id' => $this->Auth->user()['id']])
+            ->contain('UserImage');
+            
+        $user=$user->first();
+        //$user = $this->AppUsers->get($this->Auth->user()['id']);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            Debugger::dump($user);
             $user = $this->Users->patchEntity($user, $this->request->data);
-            Debugger::dump($user);
             if ($this->Users->save($user)) {
 
-                $this->Flash->success($user);
-                Debugger::dump($user);
+                $this->Flash->success(__('The user has been saved.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -42,7 +43,6 @@ class AppUsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
-        $entity = $this->AppUsers->UserImages->newEntity();
         //Debugger::dump($user);
     }
     /**

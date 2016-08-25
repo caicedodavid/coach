@@ -3,7 +3,7 @@ namespace App\Model\Table;
 
 use Burzum\FileStorage\Model\Table\ImageStorageTable;
 
-class UserImagesTable extends ImageStorageTable 
+class UserImageTable extends ImageStorageTable 
 {
 
     public function uploadImage($userId, $entity) 
@@ -11,10 +11,9 @@ class UserImagesTable extends ImageStorageTable
 
         $entity = $this->patchEntity($entity, [
             'adapter' => 'Local',
-            'model' => 'UserImage',
-            'foreign_key' => $userId
+            'model' => 'Users',
+            'user_id' => $userId
         ]);
         return $this->save($entity);
     }
 }
-

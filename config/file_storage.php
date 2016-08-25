@@ -48,7 +48,7 @@ Configure::write('FileStorage', [
 ]);
 
 // This is very important! The hashes are needed to calculate the image versions!
-StorageUtils::generateHashes();
+\Burzum\FileStorage\Lib\FileStorageUtils::generateHashes();
 
 // Lets use the Amazon S3 adapter here instead of the default `Local` config.
 // We need to pass a S3Client instance to this adapter to make it work
