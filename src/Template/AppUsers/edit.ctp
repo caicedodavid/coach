@@ -1,13 +1,13 @@
 <div class="users form">
-    <?= $this->Form->create($user,['type' => 'file']) ?>
-    <?php $this->TinyMCE->editor(array('theme' => 'advanced', 'mode' => 'textareas'));?>
+    <?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>
+    <?= $this->Form->create($user) ?>
     <fieldset>
         <legend><?= __('Edit User') ?></legend>
         <?php
             echo $this->Form->input('first_name', ['class' => 'form-control']);
             echo $this->Form->input('last_name',  ['class' => 'form-control']);
-            echo $this->Form->input('fb_account', ['class' => 'form-control']);
-            echo $this->Form->input('tw_account', ['class' => 'form-control']);
+            echo $this->Form->input('fb_account', ['class' => 'form-control','label' => 'Facebook Account']);
+            echo $this->Form->input('tw_account', ['class' => 'form-control','label' => 'Twitter Account']);
             echo $this->Form->input('description',['class' => 'form-control']);
             echo $this->Form->file('user_images', ['class' => 'form-control']);
             echo $this->Form->error('user_images',['class' => 'form-control']);
