@@ -7,6 +7,22 @@ use Cake\Event\Event;
 
 class AppUsersController extends AppController
 {
+    public $paginate = [
+        'limit' => 5,
+        'finder' => 'Coaches',
+    ];
+    /**
+     * Index method for non-coach users
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function index()
+    {
+        $users = $this->paginate($this->AppUsers);
+        $this->set(compact('users'));
+        $this->set('_serialize', ['users']);
+    }
+
     /**
      * Override loadModel to load specific users table
      * @param string $modelClass model class
@@ -43,7 +59,6 @@ class AppUsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
-        //Debugger::dump($user);
     }
     /**
      * beforeRender, loading bbcode editor

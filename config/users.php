@@ -97,11 +97,15 @@ $config = [
         'roles' => [
             [
                 'role'=>'admin',
-                'description' => 'Administrator'
+                'description' => 'Administrator',
             ],
             [
                 'role'=>'user',
                 'description' => 'User'
+            ],
+            [
+                'role'=>'coach',
+                'description' => 'Coach'
             ]
         ]
     ],

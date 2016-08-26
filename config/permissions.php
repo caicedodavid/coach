@@ -10,7 +10,7 @@ return [
             'action' => ['view'],
         ],
         [
-            'role' => 'user',
+            'role' => ['user','coach'],
             'plugin'=> 'CakeDC/Users',
             'controller' => 'Users',
             'action' => ['logout',
@@ -19,11 +19,12 @@ return [
             ]
         ],
         [
-            'role' => 'user',
+            'role' => ['user','coach'],
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
-                'edit'
+                'edit',
+                'index'
             ]
         ],
         [

@@ -114,7 +114,7 @@ class UsersTable extends Table
         $validator
             ->requirePresence('role','create')
             ->add('role','validRole',[
-                    'rule' => ['inList', ['user','admin'], false]
+                    'rule' => ['inList', ['user','admin','coach'], false]
                 ]
             );
 
@@ -145,5 +145,14 @@ class UsersTable extends Table
         $roles = (array)Configure::read('Users.roles');
 
         return Hash::combine($roles, '{n}.role', '{n}.description');
+    }
+    /**
+     * Finder method for finding coches
+     *
+     * @return Query
+     */
+    public function findCoaches(Query $query, array $options)
+    {
+        return $query->where(['Users.role' => 'coach']);
     }
 }
