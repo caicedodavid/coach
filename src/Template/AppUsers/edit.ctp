@@ -9,7 +9,7 @@
             echo $this->Form->input('fb_account', ['class' => 'form-control','label' => 'Facebook Account']);
             echo $this->Form->input('tw_account', ['class' => 'form-control','label' => 'Twitter Account']);
             echo $this->Form->input('description',['class' => 'form-control']);
-            echo $this->Image->display($user['user_image']);
+            echo $this->Image->display($user['user_image'], 'large');
             echo $this->Form->file('user_image.file', ['class' => 'form-control']);
             echo $this->Form->error('user_image.file',['class' => 'form-control']);
 

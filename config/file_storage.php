@@ -1,10 +1,18 @@
 <?php
-use Aws\S3\S3Client;
-use Burzum\FileStorage\Storage\Listener\BaseListener;
+/*use Burzum\FileStorage\Storage\Listener\BaseListener;
 use Burzum\FileStorage\Storage\StorageUtils;
 use Burzum\FileStorage\Storage\StorageManager;
 use Cake\Core\Configure;
 use Cake\Event\EventManager;
+use Cake\Core\Plugin;
+
+Plugin::load('Burzum/FileStorage');
+
+StorageManager::config('Local', [
+        'adapterOptions' => [ROOT . DS . 'files', true],
+        'adapterClass' => '\Gaufrette\Adapter\Local',
+        'class' => '\Gaufrette\Filesystem'
+    ]);
 
 // Instantiate a storage event listener
 $listener = new BaseListener([
@@ -21,7 +29,7 @@ EventManager::instance()->on($listener);
 Configure::write('FileStorage', [
 // Configure image versions on a per model base
     'imageSizes' => [
-        'ProductImage' => [
+        'UserImage' => [
             'large' => [
                 'thumbnail' => [
                     'mode' => 'inbound',
@@ -48,27 +56,49 @@ Configure::write('FileStorage', [
 ]);
 
 // This is very important! The hashes are needed to calculate the image versions!
-\Burzum\FileStorage\Lib\FileStorageUtils::generateHashes();
+\Burzum\FileStorage\Lib\FileStorageUtils::generateHashes();*/
 
-// Lets use the Amazon S3 adapter here instead of the default `Local` config.
-// We need to pass a S3Client instance to this adapter to make it work
-//$S3Client = new S3Client([
-//    'version' => 'latest',
-//    'region'  => 'eu-central-1',
-//    'credentials' => [
-//        'key' => 'YOUR-AWS-S3-KEY-HERE',
-//        'secret' => 'YOUR-SECRET-HERE'
-//    ]
-//]);
+use Burzum\FileStorage\Event\ImageProcessingListener;
+use Burzum\FileStorage\Event\LocalFileStorageListener;
+use Burzum\FileStorage\Lib\FileStorageUtils;
+use Burzum\FileStorage\Lib\StorageManager;
+use Cake\Core\Configure;
+use Cake\Core\Plugin;
+use Cake\Event\EventManager;
 
-// Configure the S3 adapter instance through the StorageManager
-//StorageManager::config('S3', [
-//   'adapterOptions' => array(
-//        $S3Client,
-//        'YOUR-BUCKET-NAME-HERE', // Bucket
-//        [],
-//        true
-//    ),
-//    'adapterClass' => '\Gaufrette\Adapter\AwsS3',
-//    'class' => '\Gaufrette\Filesystem'
-//]);
+Plugin::load('Burzum/FileStorage');
+StorageManager::config('Local', [
+        'adapterOptions' => [ROOT . DS . 'files', true],
+        'adapterClass' => '\Gaufrette\Adapter\Local',
+        'class' => '\Gaufrette\Filesystem'
+    ]);
+
+Configure::write('FileStorage', [
+        // Configure image versions on a per model base
+        'imageSizes' => [
+            'file_storage' => [
+                'large' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 800,
+                        'height' => 800
+                    ]
+                ],
+                'small' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 60,
+                        'height' => 60
+                    ]
+                ],
+            ],
+        ],
+    ]);
+
+FileStorageUtils::generateHashes();
+
+$listener = new ImageProcessingListener(['preserveFilename' => true]);
+EventManager::instance()->on($listener);
+
+$listener = new LocalFileStorageListener();
+EventManager::instance()->on($listener);
