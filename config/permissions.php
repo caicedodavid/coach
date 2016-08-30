@@ -24,7 +24,8 @@ return [
             'controller' => 'AppUsers',
             'action' => [
                 'edit',
-                'index'
+                'index',
+                'view'
             ]
         ],
         [

@@ -6,6 +6,14 @@
         <tbody>
             <?php foreach ($users as $user): ?>
             <tr>
+                <td><?php
+                    if ($user['user_image']===NULL){
+                        echo $this->Image->display($blank, 'small');
+                    }
+                    else{
+                        echo $this->Image->display($user['user_image'], 'small'); 
+                    }
+                ?></td>
                 <td><?= h($user->full_name) ?></td>
                 <td><?= $user->description ?></td>
                 <td><?= h($user->rating) ?></td>

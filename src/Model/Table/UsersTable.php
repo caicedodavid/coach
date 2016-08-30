@@ -117,6 +117,13 @@ class UsersTable extends Table
                     'rule' => ['inList', ['user','admin','coach'], false]
                 ]
             );
+        $validator
+            ->add('birthdate','custom',[
+                'rule' => 'adultValidation',
+                'provider' => 'table',
+                'message'=>'You must be at least 18 years old',
+                ]
+            );
 
         return $validator;
     }
@@ -153,6 +160,19 @@ class UsersTable extends Table
      */
     public function findCoaches(Query $query, array $options)
     {
-        return $query->where(['Users.role' => 'coach']);
+        return $query->where(['Users.role' => 'coach'])
+            ->contain('UserImage');
+    }
+    /**
+     * Validator function to check if user is out of age
+     *
+     * @return boolean
+     */
+    public function adultValidation($check, array $context)
+    {   
+        if ($this->get($context['data']['id'])['role'] ==='coach'){
+            return date('Y-m-d',strtotime($check)) <= date('Y-m-d',strtotime("-18 years 7 months"));
+        }
+        return true;
     }
 }

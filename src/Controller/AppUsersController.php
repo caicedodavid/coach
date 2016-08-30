@@ -7,6 +7,7 @@ use Cake\Event\Event;
 
 class AppUsersController extends AppController
 {
+
     public $paginate = [
         'limit' => 5,
         'finder' => 'Coaches',
@@ -18,6 +19,7 @@ class AppUsersController extends AppController
      */
     public function index()
     {
+        $this->set('blank', $this->blankImage());
         $users = $this->paginate($this->AppUsers);
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
@@ -32,6 +34,17 @@ class AppUsersController extends AppController
     public function loadModel($modelClass = null, $type = 'Table')
     {
         return parent::loadModel('Users');
+    }
+
+    public function view($id = null)
+    {
+        $user = $this->AppUsers->get($id, [
+            'contain' => ['UserImage']
+        ]);
+        $this->set('blank', $this->blankImage());
+        $this->set('user', $user);
+        $this->set('_serialize', ['user']);
+        
     }
     /**
      * Edit method
@@ -57,6 +70,7 @@ class AppUsersController extends AppController
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
+        $this->set('blank', $this->blankImage());
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
@@ -70,5 +84,19 @@ class AppUsersController extends AppController
     {
         parent::beforeRender($event);
         $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
+    }
+     /** 
+     *blanckImage, retrning blank avatar
+     *
+     * @param Event $event
+     * @return image
+     */
+    protected function blankImage()
+    {
+        $super = $this->AppUsers->find()
+            ->where(['Users.username' => 'superadmin'])
+            ->contain('UserImage')
+            ->first();
+        return $super['user_image'];
     }
 }
