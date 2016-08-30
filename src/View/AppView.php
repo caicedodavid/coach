@@ -36,6 +36,8 @@ class AppView extends View
      */
     public function initialize()
     {
+        parent::initialize();
         $this->loadHelper('CakeDC/Users.AuthLink');
+        $this->loadHelper('Burzum/FileStorage.Image');
     }
 }

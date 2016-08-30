@@ -25,14 +25,17 @@ class AppUsersController extends AppController
      */
     public function edit()
     {
-
-        $user = $this->AppUsers->get($this->Auth->user()['id']);
+        $user = $this->AppUsers->find()
+            ->where(['Users.id' => $this->Auth->user()['id']])
+            ->contain('UserImage');
+            
+        $user=$user->first();
+        //$user = $this->AppUsers->get($this->Auth->user()['id']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {
 
                 $this->Flash->success(__('The user has been saved.'));
-                debug($user);
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
@@ -40,6 +43,7 @@ class AppUsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+        //Debugger::dump($user);
     }
     /**
      * beforeRender, loading bbcode editor

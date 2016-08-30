@@ -87,6 +87,8 @@ try {
 // When debug = false the metadata cache should last
 // for a very very long time, as we don't want
 // to refresh the cache while users are doing requests.
+$debug=true;
+
 if (!Configure::read('debug')) {
     Configure::write('Cache._cake_model_.duration', '+1 years');
     Configure::write('Cache._cake_core_.duration', '+1 years');
@@ -149,6 +151,7 @@ Email::configTransport(Configure::consume('EmailTransport'));
 Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
+Configure::write('Imagine.salt', 'H5JFLL0yhZobrIqNfMkFdG6RQLZsDiMadmFPXwe5');
 
 /**
  * The default crypto extension in 3.0 is OpenSSL.
@@ -193,6 +196,9 @@ Configure::write('Users.config', ['users']);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Migrations');
 Plugin::load('AssetCompress', ['bootstrap' => true]);
+//Plugin::load('Burzum/Imagine');
+include('file_storage.php');
+//include 'file_storage.php';
 
 // Only try to load DebugKit in development mode
 // Debug Kit should not be installed on a production system

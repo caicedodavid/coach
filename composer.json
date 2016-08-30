@@ -12,6 +12,7 @@
         "cakephp/plugin-installer": "*",
         "cakedc/users": "^3.2",
         "markstory/asset_compress": "^3.0",
+        "burzum/cakephp-file-storage": "1.1.*",
         "burzum/cakephp-imagine-plugin": "2.*",
         "cakedc/tiny-mce": "3.x-dev"
     },
