@@ -8,10 +8,6 @@ use Cake\Event\Event;
 class AppUsersController extends AppController
 {
 
-    public $paginate = [
-        'limit' => 5,
-        'finder' => 'Coaches',
-    ];
     /**
      * Index method for non-coach users
      *
@@ -19,6 +15,10 @@ class AppUsersController extends AppController
      */
     public function coaches()
     {
+        $this->paginate = [
+            'limit' => 5,
+            'finder' => 'Coaches',
+        ];
         $this->set('blank', $this->blankImage());
         $users = $this->paginate($this->AppUsers);
         $this->set(compact('users'));
