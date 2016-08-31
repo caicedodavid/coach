@@ -7,7 +7,13 @@ use Cake\View\Helper;
 class ImgHelper extends Helper
 {
     public $helpers = ['Image','Html'];
-
+    /**
+     * Display image method
+     *
+     * @param image UserImage
+     * @param size string
+     * @return the Users image or blank image
+     */
     public function display($image,$size)
     {
     	if($image){

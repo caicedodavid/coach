@@ -51,6 +51,14 @@ class UsersTable extends Table
                 'UserImage.model' => 'file_storage'
             ]
         ]);
+        $this->hasMany('Users', [
+            'foreignKey' => 'user_id',
+            'className' => 'Sessions',
+        ]);
+        $this->hasMany('Coaches', [
+            'foreignKey' => 'coach_id',
+            'className' => 'Sessions',
+        ]);
     }
 
     /**
@@ -171,7 +179,7 @@ class UsersTable extends Table
     public function adultValidation($check, array $context)
     {   
         if ($this->get($context['data']['id'])['role'] ==='coach'){
-            return date('Y-m-d',strtotime($check)) <= date('Y-m-d',strtotime("-18 years 7 months"));
+            return date('Y-m-d',strtotime($check)) <= date('Y-m-d',strtotime("-18 years"));
         }
         return true;
     }

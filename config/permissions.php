@@ -29,6 +29,14 @@ return [
             ]
         ],
         [
+            'role' => ['user','coach'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
+                'add',
+            ]
+        ],
+        [
             'role' => 'user',
             'controller' => 'Posts',
             'action' => ['edit', 'delete'],
