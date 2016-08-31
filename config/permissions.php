@@ -24,7 +24,7 @@ return [
             'controller' => 'AppUsers',
             'action' => [
                 'edit',
-                'index',
+                'coaches',
                 'view'
             ]
         ],

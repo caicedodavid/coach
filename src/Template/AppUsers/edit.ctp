@@ -5,12 +5,7 @@
         <legend><?= __('Edit User') ?></legend>
 
         <?php
-            if ($user['user_image']===NULL){
-                echo $this->Image->display($blank, 'large');
-            }
-            else{
-                echo $this->Image->display($user['user_image'], 'large'); 
-            }
+            echo $this->Img->display($user['user_image'], 'large'); 
             echo $this->Form->file('user_image.file', ['class' => 'form-control']);
             echo $this->Form->error('user_image.file',['class' => 'form-control']);
             echo $this->Form->input('first_name', ['class' => 'form-control']);

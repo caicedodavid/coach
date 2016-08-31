@@ -2,15 +2,7 @@
 </nav>
     <table class="vertical-table">
         <tr>
-            <td>
-            <?php 
-                if ($user['user_image']===NULL){
-                    echo $this->Image->display($blank, 'large');
-                }
-                else{
-                    echo $this->Image->display($user['user_image'], 'large'); 
-                }
-            ?></td>
+            <td><?php echo $this->Img->display($user['user_image'], 'large');?></td>
         </tr>
         <tr>
             <th><?= __('Username') ?></th>
