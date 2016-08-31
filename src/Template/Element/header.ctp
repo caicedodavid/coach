@@ -23,7 +23,7 @@
                         </ul>
                     </li>
                     <li>
-                        <?= $this->Html->link(__d('AppUsers', 'Coaches'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'index', 'prefix' => false]);?>
+                        <?= $this->Html->link(__d('AppUsers', 'Coaches'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'coaches', 'prefix' => false]);?>
                     </li>
                    <?php if ($this->AuthLink->isAuthorized(['controller' => 'Users', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false])):?>
                        <li class="pull-right dropdown">

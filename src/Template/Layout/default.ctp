@@ -43,6 +43,5 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <footer>
         </footer>
         <?php echo $this->AssetCompress->script('bottom');?>
-        <?php echo $this->AssetCompress->script('app');?>
     </body>
 </html>
