@@ -28,4 +28,5 @@ class AppUsersTable extends UsersTable
 	public function initialize(array $config) {
         $this->addBehavior('Burzum/Imagine.Imagine');
     }
+    
 }

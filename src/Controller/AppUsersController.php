@@ -7,6 +7,23 @@ use Cake\Event\Event;
 
 class AppUsersController extends AppController
 {
+
+    /**
+     * Index method for non-coach users
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function coaches()
+    {
+        $this->paginate = [
+            'limit' => 5,
+            'finder' => 'Coaches',
+        ];
+        $users = $this->paginate($this->AppUsers);
+        $this->set(compact('users'));
+        $this->set('_serialize', ['users']);
+    }
+
     /**
      * Override loadModel to load specific users table
      * @param string $modelClass model class
@@ -16,6 +33,16 @@ class AppUsersController extends AppController
     public function loadModel($modelClass = null, $type = 'Table')
     {
         return parent::loadModel('Users');
+    }
+
+    public function view($id = null)
+    {
+        $user = $this->AppUsers->get($id, [
+            'contain' => ['UserImage']
+        ]);
+        $this->set('user', $user);
+        $this->set('_serialize', ['user']);
+        
     }
     /**
      * Edit method
@@ -27,10 +54,9 @@ class AppUsersController extends AppController
     {
         $user = $this->AppUsers->find()
             ->where(['Users.id' => $this->Auth->user()['id']])
-            ->contain('UserImage');
+            ->contain('UserImage')
+            ->first();
             
-        $user=$user->first();
-        //$user = $this->AppUsers->get($this->Auth->user()['id']);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $user = $this->Users->patchEntity($user, $this->request->data);
             if ($this->Users->save($user)) {
@@ -43,7 +69,6 @@ class AppUsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
-        //Debugger::dump($user);
     }
     /**
      * beforeRender, loading bbcode editor

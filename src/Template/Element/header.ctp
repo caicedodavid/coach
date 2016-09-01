@@ -17,10 +17,13 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= $userAuth['first_name']?> <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li>
+                                <?= $this->Html->link(__d('AppUsers','Edit Profile'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?>
                                 <?= $this->Html->link(__d('CakeDC/Users', 'Logout'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'logout', 'prefix'=>false]);?>
-                                <?= $this->Html->link(__d('AppUsers','Edit'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?>
                             </li>
                         </ul>
+                    </li>
+                    <li>
+                        <?= $this->Html->link(__d('AppUsers', 'Coaches'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'coaches', 'prefix' => false]);?>
                     </li>
                    <?php if ($this->AuthLink->isAuthorized(['controller' => 'Users', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false])):?>
                        <li class="pull-right dropdown">

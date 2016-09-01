@@ -51,6 +51,14 @@ class UsersTable extends Table
                 'UserImage.model' => 'file_storage'
             ]
         ]);
+        $this->hasMany('Users', [
+            'foreignKey' => 'user_id',
+            'className' => 'Sessions',
+        ]);
+        $this->hasMany('Coaches', [
+            'foreignKey' => 'coach_id',
+            'className' => 'Sessions',
+        ]);
     }
 
     /**
@@ -114,7 +122,14 @@ class UsersTable extends Table
         $validator
             ->requirePresence('role','create')
             ->add('role','validRole',[
-                    'rule' => ['inList', ['user','admin'], false]
+                    'rule' => ['inList', ['user','admin','coach'], false]
+                ]
+            );
+        $validator
+            ->add('birthdate','custom',[
+                'rule' => 'adultValidation',
+                'provider' => 'table',
+                'message'=>'You must be at least 18 years old',
                 ]
             );
 
@@ -145,5 +160,27 @@ class UsersTable extends Table
         $roles = (array)Configure::read('Users.roles');
 
         return Hash::combine($roles, '{n}.role', '{n}.description');
+    }
+    /**
+     * Finder method for finding coches
+     *
+     * @return Query
+     */
+    public function findCoaches(Query $query, array $options)
+    {
+        return $query->where(['Users.role' => 'coach'])
+            ->contain('UserImage');
+    }
+    /**
+     * Validator function to check if user is out of age
+     *
+     * @return boolean
+     */
+    public function adultValidation($check, array $context)
+    {   
+        if ($this->get($context['data']['id'])['role'] ==='coach'){
+            return date('Y-m-d',strtotime($check)) <= date('Y-m-d',strtotime("-18 years"));
+        }
+        return true;
     }
 }
