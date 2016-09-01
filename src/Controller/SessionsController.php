@@ -57,7 +57,10 @@ class SessionsController extends AppController
         if ($this->request->is('post')) {            
             $session["user_id"] = $this->Auth->user()['id'];
             $session["coach_id"] = $coachId;
-            $session = $this->Sessions->patchEntity($session, $this->request->data);
+            $data = $this->request->data;
+            $data["schedule"] = $data["schedule"]." ".$data["time"].":00";
+            unset($data["time"]);
+            $session = $this->Sessions->patchEntity($session, $data);
 
             if ($this->Sessions->save($session)) {
                 $session = $this->Sessions->get($session['id'], [
@@ -85,7 +88,6 @@ class SessionsController extends AppController
         }
         $this->set('session',$session);
         $this->set('_serialize', ['session']);
-        //['Users.id' => $this->Auth->user()['id']]
     }
 
     /**

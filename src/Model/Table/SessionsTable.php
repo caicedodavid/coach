@@ -77,13 +77,13 @@ class SessionsTable extends Table
         $validator
             ->allowEmpty('comments');
 
- //       $validator
- //           ->add('schedule','validSchedule',[
- //               'rule' => 'validSchedule',
- //               'provider' => 'table',
- //               'message'=>'The session date must be at least 24 hours from now.',
- //               ]
- //           );
+        $validator
+            ->add('schedule','validSchedule',[
+                'rule' => 'validSchedule',
+                'provider' => 'table',
+                'message'=>'The session date must be at least 24 hours from now.',
+                ]
+            );
 
         return $validator;
     }
@@ -104,6 +104,6 @@ class SessionsTable extends Table
     }
     public function validSchedule($check, array $context)
     {   
-        return date('Y-m-d',strtotime($check)) >= date('Y-m-d',strtotime("-1 day"));
+        return (date('Y-m-d H:i',strtotime($check)) > date('Y-m-d H:i',strtotime("+1 day")));
     }
 }

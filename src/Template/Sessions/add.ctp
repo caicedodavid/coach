@@ -5,7 +5,8 @@
         <legend><?= __('Request Session') ?></legend>
 
         <?php
-            echo $this->Form->input('schedule', ['class' => 'form-control', 'label'=>'Date and time']);
+            echo $this->Form->input('schedule',  ['class' => 'datepicker','type'=>'text','label'=>'Date of session:   ']);
+            echo $this->Form->input('time',  ['class' => 'timepicker','type'=>'text','label'=>'time of session:   ']);
             echo $this->Form->input('subject',  ['class' => 'form-control']);
             echo $this->Form->input('comments',['class' => 'form-control']);
             ?>
