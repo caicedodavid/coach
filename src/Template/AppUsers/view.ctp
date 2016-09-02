@@ -5,35 +5,35 @@
             <td><?php echo $this->Img->display($user['user_image'], 'large');?></td>
         </tr>
         <tr>
-            <th><?= __('Username') ?></th>
+            <th><?= __('Username: ') ?></th>
             <td><?= h($user->username) ?></td>
         </tr>
         <tr>
-            <th><?= __('Name') ?></th>
+            <th><?= __('Name: ') ?></th>
             <td><?= h($user->full_name) ?></td>
         </tr>
         <tr>
-            <th><?= __('Birthdate') ?></th>
+            <th><?= __('Birthdate: ') ?></th>
             <td><?= h($user->birthdate) ?></td>
         </tr>
         <tr>
-            <th><?= __('Email') ?></th>
+            <th><?= __('Email: ') ?></th>
             <td><?= h($user->email) ?></td>
         </tr>
         <tr>
-            <th><?= __('Description') ?></th>
+            <th><?= __('Description: ') ?></th>
             <td><?= $user->description ?></td>
         </tr>
         <tr>
-            <th><?= __('Facebook') ?></th>
-            <td><?= $this->Html->link("facebook.com/".$user->fb_account,"https://www.facebook.com/".$user->fb_account) ?></td>
+            <th><?= __('Facebook: ') ?></th>
+            <td><?php if($user->fb_account){$this->Html->link("facebook.com/".$user->fb_account,"https://www.facebook.com/".$user->fb_account);} ?></td>
         </tr>
         <tr>
-            <th><?= __('Twitter') ?></th>
-            <td><?= $this->Html->link("twitter.com/".$user->tw_account,"https://www.twitter.com/".$user->tw_account) ?></td>
+            <th><?= __('Twitter: ') ?></th>
+            <td><?php if($user->tw_account){$this->Html->link("twitter.com/".$user->tw_account,"https://www.twitter.com/".$user->tw_account);}?></td>
         </tr>
         <tr>
-            <th><?= __('Request a Session:') ?></th>
+            <th><?= __('Request a Session: ') ?></th>
             <td><?= $this->Html->link(__d('Sessions', 'click here'), [$user->id,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix' => false]);?></td>
         </tr>
     </table>

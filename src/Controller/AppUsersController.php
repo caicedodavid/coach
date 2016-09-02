@@ -77,7 +77,7 @@ class AppUsersController extends AppController
         $this->set('_serialize', ['user']);
     }
     /**
-     * beforeRender, loading bbcode editor
+     * beforeRender, loading TinyMce editor
      *
      * @param Event $event
      * @return void
@@ -86,5 +86,15 @@ class AppUsersController extends AppController
     {
         parent::beforeRender($event);
         $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
+    }
+    /**
+     * beforeFilter, allowing coaches view
+     *
+     * @param Event $event
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow(['coaches']);
     }
 }

@@ -40,5 +40,10 @@ class AppView extends View
         $this->loadHelper('CakeDC/Users.AuthLink');
         $this->loadHelper('Burzum/FileStorage.Image');
         $this->loadHelper('Img');
+        $this->loadHelper('Form', [
+            'templates' => [
+                'error' => '<div class="alert-danger" role="alert">{{content}}</div>'
+            ]
+        ]);
     }
 }

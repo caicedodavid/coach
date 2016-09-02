@@ -2,21 +2,17 @@
 </nav>
 <div class="users">
     <h3><?= __('Coaches') ?></h3>
-    <table cellpadding="0" cellspacing="0" class="table table-striped">
-        <tbody>
-            <?php foreach ($users as $user): ?>
-            <tr>
-                <td><?php echo $this->Img->display($user['user_image'], 'small');?></td>
-                <td><?= h($user->full_name) ?></td>
-                <td><?= $user->description ?></td>
-                <td><?= h($user->rating) ?></td>
-                <td class="actions">
-                    <?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+        <?php foreach ($users as $user): ?>
+            <div class="row">
+                <div class="col-md-3">
+                    <?php echo $this->Img->display($user['user_image'], 'small', ['url' => ['action' => 'view', $user->id]]);?>
+                    <p><?= h($user->full_name) ?></p>
+                </div>
+                <div class="col-md-6"><?= $user->description ?></div>
+                <div class="col-md-2"><?php echo "<span class=\"stars\">" .$user->rating . "</span>"?></div>
+                <div class="col-md-1"><?= $this->Html->link(__('View'), ['action' => 'view', $user->id]) ?></div>
+            </div>
+        <?php endforeach; ?>
     <div class="paginator">
         <ul class="pagination">
             <?= $this->Paginator->prev('< ' . __('previous')) ?>

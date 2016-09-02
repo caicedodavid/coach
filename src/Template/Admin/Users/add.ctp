@@ -14,6 +14,7 @@
             echo $this->Form->input('password',  ['class' => 'form-control']);
             echo $this->Form->input('first_name',  ['class' => 'form-control']);
             echo $this->Form->input('last_name',  ['class' => 'form-control']);
+            echo $this->Form->input('role', ['options' => $rolesList, 'class' => 'form-control', 'empty' => __('Select...')]);
             echo $this->Form->input('active');
         ?>
     </fieldset>
