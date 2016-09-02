@@ -12,7 +12,6 @@ use Cake\Mailer\Email;
  */
 class SessionsController extends AppController
 {
-
     /**
      * Index method
      *
@@ -57,30 +56,10 @@ class SessionsController extends AppController
         if ($this->request->is('post')) {            
             $session["user_id"] = $this->Auth->user()['id'];
             $session["coach_id"] = $coachId;
-            $data = $this->request->data;
-            $data["schedule"] = $data["schedule"]." ".$data["time"].":00";
-            unset($data["time"]);
-            $session = $this->Sessions->patchEntity($session, $data);
+            $session = $this->Sessions->patchEntity($session, $this->request->data);
 
             if ($this->Sessions->save($session)) {
-                $session = $this->Sessions->get($session['id'], [
-                    'contain' => ['Users', 'Coaches']
-                ]);                
                 $this->Flash->success('The session has been saved.');
-                $coach = $session["coach"];
-                $user = $session["user"];
-
-                $email = new Email('default');
-                $email->template('userSession')
-                    ->emailFormat('html')
-                    ->subject('Scheduled a new session')
-                    ->to($coach["email"])
-                    ->viewVars(compact('user','coach','session'))
-                    ->send();
-                $email->template('coachSession')
-                    ->to($user["email"])
-                    ->send();
-
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));

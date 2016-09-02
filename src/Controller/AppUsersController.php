@@ -56,9 +56,15 @@ class AppUsersController extends AppController
             ->where(['Users.id' => $this->Auth->user()['id']])
             ->contain('UserImage')
             ->first();
-            
+        
+        $user["birthdate"] = date('Y-m-d',strtotime($user["birthdate"]));
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
+            $data = $this->request->data;
+
+            if(!$data["user_image"]["file"]["size"]){
+                unset($data["user_image"]);
+            }
+            $user = $this->Users->patchEntity($user, $data);
             if ($this->Users->save($user)) {
 
                 $this->Flash->success(__('The user has been saved.'));
