@@ -50,7 +50,7 @@ class SessionsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add($coachId)
+    public function add($coachId,$coachName)
     {   
         $session = $this->Sessions->newEntity();
         if ($this->request->is('post')) {            
@@ -65,6 +65,7 @@ class SessionsController extends AppController
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
         }
+        $this->set('coach',$coachName);
         $this->set('session',$session);
         $this->set('_serialize', ['session']);
     }

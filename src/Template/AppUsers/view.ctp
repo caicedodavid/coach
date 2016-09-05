@@ -34,7 +34,7 @@
         </tr>
         <tr>
             <th><?= __('Request a Session: ') ?></th>
-            <td><?= $this->Html->link(__d('Sessions', 'click here'), [$user->id,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix' => false]);?></td>
+            <td><?= $this->Html->link(__d('Sessions', 'click here'), [$user->id,$user->full_name,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix' => false]);?></td>
         </tr>
     </table>
 </div>
