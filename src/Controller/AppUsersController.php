@@ -95,6 +95,6 @@ class AppUsersController extends AppController
      */
     public function beforeFilter(Event $event)
     {
-        $this->Auth->allow(['coaches']);
+        $this->Auth->allow(['coaches','view']);
     }
 }

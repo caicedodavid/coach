@@ -127,7 +127,6 @@ class SessionsTable extends Table
      */
     public function afterSave(Event $event, Entity $entity, ArrayObject $options)
     {
-        debug($event);
         $session = $this->get($entity['id'], [
                     'contain' => ['Users', 'Coaches']
                 ]);
