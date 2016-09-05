@@ -14,11 +14,12 @@ class ImgHelper extends Helper
      * @param size string
      * @return the Users image or blank image
      */
-    public function display($image,$size)
+    public function display($image,$size,array $options=[])
     {
     	if($image){
-    		return $this->Image->display($image, $size);
+    		return $this->Image->display($image, $size,$options);
     	}
-    	return $this->Html->image("blank_".$size.".jpg",['alt' => 'CakePHP']);     
+        $options['alt'] = 'CakePHP';
+    	return $this->Html->image("blank_".$size.".jpg",$options);     
     }
 }

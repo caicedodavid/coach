@@ -168,7 +168,10 @@ class UsersTable extends Table
      */
     public function findCoaches(Query $query, array $options)
     {
-        return $query->where(['Users.role' => 'coach'])
+        return $query->where([
+                'Users.role' => 'coach',
+                'Users.active' => true
+            ])
             ->contain('UserImage');
     }
     /**

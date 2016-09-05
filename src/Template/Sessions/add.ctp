@@ -2,7 +2,7 @@
     <?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>
     <?= $this->Form->create($session) ?>
     <fieldset>
-        <legend><?= __('Request Session') ?></legend>
+        <legend><?= __('Request Session with {0}',$coach) ?></legend>
 
         <?php
             echo $this->Form->input('schedule',  ['class' => 'datepicker','type'=>'text','label'=>'Date of session:   ']);

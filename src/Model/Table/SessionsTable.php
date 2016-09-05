@@ -5,6 +5,12 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use ArrayObject;
+use Cake\Event\Event;
+use Cake\Orm\Entity;
+use Cake\Mailer\Email;
+use Cake\Datasource\EntityInterface;
+use Cake\Mailer\MailerAwareTrait;
 
 /**
  * Sessions Model
@@ -24,7 +30,7 @@ use Cake\Validation\Validator;
  */
 class SessionsTable extends Table
 {
-
+    use MailerAwareTrait;
     /**
      * Initialize method
      *
@@ -102,8 +108,46 @@ class SessionsTable extends Table
 
         return $rules;
     }
+    /**
+     * Returns true if schedule is at least a day after requesting a
+     * session
+     *
+     * @param datetime object and context
+     * @return boolean
+     */
     public function validSchedule($check, array $context)
     {   
         return (date('Y-m-d H:i',strtotime($check)) > date('Y-m-d H:i',strtotime("+1 day")));
     }
+    /**
+     * Logic after saving an event (send emails)
+     *
+     * @param datetime object and context
+     * @return boolean
+     */
+    public function afterSave(Event $event, Entity $entity, ArrayObject $options)
+    {
+        $session = $this->get($entity['id'], [
+                    'contain' => ['Users', 'Coaches']
+                ]);
+        $coach = $session["coach"];
+        $user = $session["user"];
+        $this->getMailer('Session')->send('userMail', [$user,$coach,$session]);            
+        $this->getMailer('Session')->send('coachMail', [$user,$coach,$session]);
+    }
+    /**
+     * Override patchEntity method from Table class
+     *
+     * Ajusting Datetime format
+     *
+     * @return Session Entity
+     */
+    public function patchEntity(EntityInterface $entity , array $data , array $options = [])
+    {
+        $data["schedule"] = $data["schedule"] . " ". $data["time"] . ":00";
+        unset($data["time"]);
+        return parent::patchEntity($entity, $data);
+    }
+
 }
+
