@@ -42,7 +42,7 @@ class AppView extends View
         $this->loadHelper('Img');
         $this->loadHelper('Form', [
             'templates' => [
-                'error' => '<div class="alert-danger" role="alert">{{content}}</div>'
+                'error' => '<div class="message alert-danger" role="alert">{{content}}</div>'
             ]
         ]);
     }

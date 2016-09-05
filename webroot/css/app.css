@@ -18,3 +18,8 @@ span.stars, span.stars span {
 span.stars span {
     background-position: 0 0;
 }
+
+.message {
+    padding: 5px;
+    margin-bottom: 10px;
+}
