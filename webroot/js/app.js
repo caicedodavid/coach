@@ -28,6 +28,7 @@ $(document).ready(function() {
 			var paging = $(data).find('div.paging');
 			$('#users').append(users);
 			$( "div.paging" ).replaceWith(paging);
+			$('span.stars').stars();
 		});
 		return false;
 	});
