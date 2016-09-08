@@ -16,7 +16,7 @@ class AppUsersController extends AppController
     public function coaches()
     {
         $this->paginate = [
-            'limit' => 5,
+            'limit' => 3,
             'finder' => 'Coaches',
         ];
         $users = $this->paginate($this->AppUsers);
@@ -79,6 +79,21 @@ class AppUsersController extends AppController
         }
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
+    }
+
+    /**
+     * Register a new user
+     *
+     * @throws NotFoundException
+     * @return type
+     */
+    public function register($role)
+    {
+        $user = $this->AppUsers->newEntity();
+        $user["role"] = $role;
+        $this->set(compact('user'));
+        $this->set('_serialize', ['user']);
+        $this->render('../Plugin/CakeDC/Users/Users/register');
     }
     /**
      * beforeRender, loading TinyMce editor

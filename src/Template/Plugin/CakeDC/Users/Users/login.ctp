@@ -34,7 +34,7 @@ use Cake\Core\Configure;
             <?php
             $registrationActive = Configure::read('Users.Registration.active');
             if ($registrationActive) {
-                echo $this->Html->link(__d('CakeDC/Users', 'Register'), ['action' => 'register']);
+                echo $this->Html->link(__d('Users', 'Register'), ['plugin' =>false,'controller'=>'Pages','action' => 'display','type_user','ext'=>'ctp']);
             }
             if (Configure::read('Users.Email.required')) {
                 if ($registrationActive) {
