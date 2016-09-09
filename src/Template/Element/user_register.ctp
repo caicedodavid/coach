@@ -21,7 +21,7 @@ use Cake\Core\Configure;
         echo $this->Form->input('password_confirm', ['type' => 'password', 'class' => 'form-control']);
         echo $this->Form->input('first_name', ['class' => 'form-control']);
         echo $this->Form->input('last_name', ['class' => 'form-control']);
-        echo $this->Form->hidden('role');
+        echo $this->Form->hidden('role',['value'=>'coach']);
         if (Configure::read('Users.Tos.required')) {
             echo $this->Form->input('tos', ['type' => 'checkbox', 'label' => __d('CakeDC/Users', 'Accept TOS conditions?'), 'required' => true]);
         }

@@ -4,8 +4,12 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Error\Debugger;
 use Cake\Event\Event;
+use CakeDC\Users\Controller\Component\UsersAuthComponent;
+use CakeDC\Users\Controller\UsersController;
+use App\Controller\UsersController as User;
+use Cake\ORM\TableRegistry;
 
-class AppUsersController extends AppController
+class AppUsersController extends UsersController
 {
 
     /**
@@ -36,7 +40,8 @@ class AppUsersController extends AppController
      */
     public function loadModel($modelClass = null, $type = 'Table')
     {
-        return parent::loadModel('Users');
+        $usersController = new User();
+        return $usersController->loadModel('Users');
     }
 
     public function view($id = null)
@@ -54,7 +59,7 @@ class AppUsersController extends AppController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit()
+    public function edit($id = null)
     {
         $user = $this->AppUsers->find()
             ->where(['Users.id' => $this->Auth->user()['id']])
@@ -87,12 +92,14 @@ class AppUsersController extends AppController
      * @throws NotFoundException
      * @return type
      */
-    public function register($role)
+    public function register()
     {
-        $user = $this->AppUsers->newEntity();
-        $user["role"] = $role;
-        $this->set(compact('user'));
-        $this->set('_serialize', ['user']);
+        echo "hahaha";
+        $this->eventManager()->on(UsersAuthComponent::EVENT_AFTER_REGISTER,[],function(Event $event){
+            echo "hahaha";
+            $this->Flash->success();
+        });
+        parent::register();
         $this->render('../Plugin/CakeDC/Users/Users/register');
     }
     /**

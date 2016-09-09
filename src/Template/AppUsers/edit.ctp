@@ -10,7 +10,16 @@
             echo $this->Form->error('user_image.file',['class' => 'form-control']);
             echo $this->Form->input('first_name', ['class' => 'form-control']);
             echo $this->Form->input('last_name',  ['class' => 'form-control']);
-            echo $this->Form->input('birthdate',  ['class' => 'datepicker','type'=>'text']);
+            echo $this->Form->input('birthdate',[
+                'class' => 'datepicker',
+                'type'=>'text',
+                'id'=>'date',
+                'name'=>'date',
+                'placeholder'=>'YYYY-MM-DD', 
+                'data-date-viewmode'=>'years',
+                'between' =>'<span class=\"add-on\"><i class=\"icon-calendar\"></i></span>'
+            ]);
+            echo "<span class=\"add-on\"><i class=\"icon-calendar\"></i></span>";
             echo $this->Form->input('fb_account', ['class' => 'form-control','label' => 'Facebook Account']);
             echo $this->Form->input('tw_account', ['class' => 'form-control','label' => 'Twitter Account']);
             echo $this->Form->input('description',['class' => 'form-control']);
