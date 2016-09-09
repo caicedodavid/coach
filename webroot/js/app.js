@@ -1,8 +1,16 @@
-$(function() {
-   	$( ".datepicker" ).datepicker({
-   		dateFormat: 'yy-mm-dd'
-   	});
- });
+ $(document).ready(function(){
+      var date_input=$('input[name="date"]'); //our date input has the name "date"
+      var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+      var options={
+        format: 'yyyy-mm-dd',
+        container: container,
+        todayHighlight: true,
+        autoclose: true,
+        startView: 'years',
+      };
+      date_input.datepicker(options);
+    });
+
 $(function() {
 	$('.timepicker').timepicker({
 	    timeFormat: 'HH:mm',
@@ -49,7 +57,7 @@ $(document).ready(function() {
 $.fn.stars = function() {
     return $(this).each(function() {
         // Get the value
-        var val = parseFloat($(this).attr("data-rating"));
+        var val = parseFloat($(this).data('rating'));
         // Make sure that the value is in 0 - 5 range, multiply to get width
         var size = Math.max(0, (Math.min(5, val))) * 16;
         // Create stars holder
