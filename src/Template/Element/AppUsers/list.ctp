@@ -3,7 +3,7 @@
 <div class="users">
     <h3><?= __('Coaches') ?></h3>
         <?php if (!$users->count()):?>
-            <div class="alert alert-info">There are no available coaches</div>
+            <div class="alert alert-info"><?= __('There are no available coaches')?></div>
         <?php else: ?>
             <div id="users">
                 <?php foreach ($users as $user): ?>
