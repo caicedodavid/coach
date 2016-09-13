@@ -94,7 +94,6 @@ class AppUsersController extends UsersController
      */
     public function register()
     {
-        echo "hahaha";
         $this->eventManager()->on(UsersAuthComponent::EVENT_AFTER_REGISTER,[],function(Event $event){
             echo "hahaha";
             $this->Flash->success();
