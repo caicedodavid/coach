@@ -23,3 +23,6 @@ span.stars span {
     padding: 5px;
     margin-bottom: 10px;
 }
+tr td {
+    padding-top: 10px;
+}
