@@ -20,14 +20,14 @@ class AppUsersController extends UsersController
     public function coaches()
     {
         $this->paginate = [
-            'limit' => 3,
+            'limit' => 10,
             'finder' => 'Coaches',
         ];
         $users = $this->paginate($this->AppUsers);
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
         if ($this->request->is('ajax')) {
-            $this->render('pagination_container');
+            $this->render('list');
         }
 
     }
