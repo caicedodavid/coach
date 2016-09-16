@@ -38,19 +38,16 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null,$role)
+    public function view($id = null)
     {
     	$user =$this->Auth->user();
         $session = $this->Sessions->get($id, [
             'contain' => [
-            	$role
+            	($user->role === 'coach' ? 'Users' : 'Coaches')
             ]
         ]);
-
-        $liveSession = new Braincert("g4cPvYO3AdSNEUh7zag5");
-        $response = $liveSession->requestSession($session,$user);
-        debug($response);
-        $this->set('url',$response['encryptedlaunchurl']);
+        $response = $this->Sessions->getUrl($session,$user);
+        $this->set('url',$response);
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
     }

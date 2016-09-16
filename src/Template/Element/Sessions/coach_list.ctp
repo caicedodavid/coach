@@ -14,7 +14,7 @@
                         </div>
                         <div class="col-md-2"><?= $session->schedule ?></div>
                         <div class="col-md-6"><?= $session->subject ?></div>
-                        <div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id, 'Coaches']) ?></div>
+                        <div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]) ?></div>
                     </div>
                 <?php endforeach; ?>
             </div>

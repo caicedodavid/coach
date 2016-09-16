@@ -15,7 +15,13 @@
         </tr>
         <tr>
             <th><?= __('Assist to session: ') ?></th>
-            <td><div class="col-md-1"><?= $this->Html->link(__('Assist to your class'), $url) ?></td>
+            <td><div class="col-md-1">
+                <?php if ($url):
+                    echo $this->Html->link(__('Assist to your class'), $url);
+                else:
+                    echo __('Your class is not available yet');
+                endif;?>
+            </td>
         </tr>
     </table>
 </div>

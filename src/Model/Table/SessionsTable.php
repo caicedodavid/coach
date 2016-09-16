@@ -83,7 +83,7 @@ class SessionsTable extends Table
 
         $validator
             ->allowEmpty('comments');
-
+/*
         $validator
             ->add('schedule','validSchedule',[
                 'rule' => 'validSchedule',
@@ -91,7 +91,7 @@ class SessionsTable extends Table
                 'message'=>'The session date must be at least 24 hours from now.',
                 ]
             );
-
+*/
         return $validator;
     }
 
@@ -179,6 +179,15 @@ class SessionsTable extends Table
                 'UserImage'
             ]
         ]); 
+    }
+    public function getUrl($session, $user)
+    {
+        $liveSession = new Braincert("g4cPvYO3AdSNEUh7zag5");
+        $response = $liveSession->requestSession($session,$user);
+        if($response['status']==='ok'):
+            return $response['encryptedlaunchurl'];
+        endif;
+        return NULL;
     }
 
 }

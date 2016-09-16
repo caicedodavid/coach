@@ -4,7 +4,6 @@
         	echo $this->element('Sessions/coach_list');
        	else:
        		echo $this->element('Sessions/user_list');
-       		echo $sessions->coach;
        	endif;?>
     </div>
 </div>
