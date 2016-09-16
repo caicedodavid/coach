@@ -3,7 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use Cake\Mailer\Email;
+use App\SessionAdapters\Braincert;
 
 /**
  * Sessions Controller
@@ -14,52 +14,61 @@ class SessionsController extends AppController
 {
     /**
      * Index method
-     *
      * @return \Cake\Network\Response|null
-     */
+     * Show the sessions scheduled by a user/coach
+     */ 
     public function index()
     {
-        $this->paginate = [
-            'contain' => ['Users', 'Coaches']
+    	$user =$this->Auth->user();
+		$this->paginate = [
+            'limit' => 10,
+            'finder' => [
+            	'Sessions' => ['user' => $user]
+            ],
         ];
         $sessions = $this->paginate($this->Sessions);
-
         $this->set(compact('sessions'));
-        $this->set('_serialize', ['sessions']);
+        $this->set('_serialize', ['session']);
+        $this->set('coach',$user['role']==='coach');
     }
-
     /**
      * View method
      *
      * @param string|null $id Session id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     
-    public function view($id = null)
+     */
+    public function view($id = null,$role)
     {
+    	$user =$this->Auth->user();
         $session = $this->Sessions->get($id, [
-            'contain' => ['Users', 'Coaches']
+            'contain' => [
+            	$role
+            ]
         ]);
 
+        $liveSession = new Braincert("g4cPvYO3AdSNEUh7zag5");
+        $response = $liveSession->requestSession($session,$user);
+        debug($response);
+        $this->set('url',$response['encryptedlaunchurl']);
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
     }
-
     /**
      * Add method
-     *
+     * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
     public function add($coachId,$coachName)
     {   
         $session = $this->Sessions->newEntity();
-        if ($this->request->is('post')) {            
+        if ($this->request->is('post')) {         
             $session["user_id"] = $this->Auth->user()['id'];
             $session["coach_id"] = $coachId;
             $session = $this->Sessions->patchEntity($session, $this->request->data);
 
             if ($this->Sessions->save($session)) {
-                $this->Flash->success('The session has been saved.');
+                $this->Flash->success(__('The session has been saved.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));

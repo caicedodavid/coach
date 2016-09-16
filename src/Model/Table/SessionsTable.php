@@ -11,6 +11,7 @@ use Cake\Orm\Entity;
 use Cake\Mailer\Email;
 use Cake\Datasource\EntityInterface;
 use Cake\Mailer\MailerAwareTrait;
+use App\SessionAdapters\Braincert;
 
 /**
  * Sessions Model
@@ -146,7 +147,38 @@ class SessionsTable extends Table
     {
         $data["schedule"] = $data["schedule"] . " ". $data["time"] . ":00";
         unset($data["time"]);
+
+        $liveSession = new Braincert("g4cPvYO3AdSNEUh7zag5");
+        $response = $liveSession->scheduleSession($data);
+        $data["class_id"] = $response["class_id"];
         return parent::patchEntity($entity, $data);
+
+    }
+    /**
+     * Query for finding sessions linked to a user
+     * @return Query
+     */
+    public function findSessions(Query $query, array $options)
+    {
+        $user = $options["user"];
+        $role = $user["role"];
+        $query = $query->where([
+                'Sessions.' . $role . "_id" => $user["id"],
+            ]);
+        //if I am a coach I want the data of my cochees
+        if($role === 'coach'):
+            return $query->contain([
+                'Users'=> [
+                    'UserImage'
+                ]
+            ]);
+        endif;
+
+        return $query->contain([
+            'Coaches'=> [
+                'UserImage'
+            ]
+        ]); 
     }
 
 }

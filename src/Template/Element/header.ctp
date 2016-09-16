@@ -18,6 +18,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <?= $this->Html->link(__d('AppUsers','Edit Profile'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?>
+                                <?= $this->Html->link(__d('AppUsers','My Sessions'), ['plugin' => false,'controller' => 'Sessions', 'action' => 'index', 'prefix' => false]);?>
                                 <?= $this->Html->link(__d('CakeDC/Users', 'Logout'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'logout', 'prefix'=>false]);?>
                             </li>
                         </ul>
