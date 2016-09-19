@@ -20,7 +20,7 @@ class AppUsersController extends UsersController
     public function coaches()
     {
         $this->paginate = [
-            'limit' => 10,
+            'limit' => 5,
             'finder' => 'Coaches',
         ];
         $users = $this->paginate($this->AppUsers);
