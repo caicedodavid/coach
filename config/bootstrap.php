@@ -194,6 +194,10 @@ Request::addDetector('tablet', function ($request) {
  *
  */
 Configure::write('Users.config', ['users']);
+Configure::write('Session.provider', [
+      'name' => 'Braincert',
+       'key' => 'g4cPvYO3AdSNEUh7zag5',
+]);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Migrations');
 Plugin::load('AssetCompress', ['bootstrap' => true]);

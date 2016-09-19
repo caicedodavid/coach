@@ -9,4 +9,5 @@ interface SessionAdapter
     public function scheduleSession($session);
 
     public function requestSession($session, $user);
+
 }

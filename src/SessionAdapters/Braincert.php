@@ -2,14 +2,14 @@
 namespace App\SessionAdapters;
 
 use App\SessionAdapters\SessionAdapter;
+use Cake\Network\Http\Client;
 /*
  * Implementation of the Live Session with Braincert
  *
  */
 class Braincert implements SessionAdapter
 {
-	private $api_key;
-	private $apiendpoint = "https://api.braincert.com/v2/";
+	const API_END_POINT = "https://api.braincert.com/v2/";
 
 	public function __construct ($api_key = "g4cPvYO3AdSNEUh7zag5")
 	{
@@ -67,14 +67,9 @@ class Braincert implements SessionAdapter
     private function postRequest($fields,$request)
     {
 		$fields['apikey'] = $this->api_key;
-		$ch = curl_init($this->apiendpoint . $request);
-		curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-		curl_setopt($ch, CURLOPT_POSTFIELDS,http_build_query($fields));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false); 
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-
-		return json_decode(curl_exec($ch),true);
+		$http = new Client();
+		$response = $http->post(self::API_END_POINT . $request, $fields);
+		return json_decode($response->body,true);
     }
     
 }

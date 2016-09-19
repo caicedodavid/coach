@@ -3,7 +3,6 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
-use App\SessionAdapters\Braincert;
 
 /**
  * Sessions Controller
@@ -43,7 +42,7 @@ class SessionsController extends AppController
     	$user =$this->Auth->user();
         $session = $this->Sessions->get($id, [
             'contain' => [
-            	($user->role === 'coach' ? 'Users' : 'Coaches')
+            	($user["role"] === 'coach' ? 'Users' : 'Coaches')
             ]
         ]);
         $response = $this->Sessions->getUrl($session,$user);

@@ -11,7 +11,7 @@ use Cake\Orm\Entity;
 use Cake\Mailer\Email;
 use Cake\Datasource\EntityInterface;
 use Cake\Mailer\MailerAwareTrait;
-use App\SessionAdapters\Braincert;
+use App\SessionAdapters\LiveSession;
 
 /**
  * Sessions Model
@@ -148,7 +148,7 @@ class SessionsTable extends Table
         $data["schedule"] = $data["schedule"] . " ". $data["time"] . ":00";
         unset($data["time"]);
 
-        $liveSession = new Braincert("g4cPvYO3AdSNEUh7zag5");
+        $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($data);
         $data["class_id"] = $response["class_id"];
         return parent::patchEntity($entity, $data);
@@ -180,9 +180,13 @@ class SessionsTable extends Table
             ]
         ]); 
     }
+    /**
+     * method for returning a Url if the LiveSession returnes one, if not return null
+     * @return string url| null
+     */
     public function getUrl($session, $user)
     {
-        $liveSession = new Braincert("g4cPvYO3AdSNEUh7zag5");
+        $liveSession = LiveSession::getInstance();
         $response = $liveSession->requestSession($session,$user);
         if($response['status']==='ok'):
             return $response['encryptedlaunchurl'];
