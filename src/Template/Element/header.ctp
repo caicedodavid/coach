@@ -18,12 +18,13 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <?= $this->Html->link(__d('AppUsers','Edit Profile'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?>
+                                <?= $this->Html->link(__d('AppUsers','My Sessions'), ['plugin' => false,'controller' => 'Sessions', 'action' => 'index', 'prefix' => false]);?>
                                 <?= $this->Html->link(__d('CakeDC/Users', 'Logout'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'logout', 'prefix'=>false]);?>
                             </li>
                         </ul>
                     </li>
                     <li>
-                        <?= $this->Html->link(__d('AppUsers', 'Coaches'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'coaches', 'prefix' => false]);?>
+                        <?= $this->AuthLink->link(__d('AppUsers', 'Coaches'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'coaches', 'prefix' => false]);?>
                     </li>
                    <?php if ($this->AuthLink->isAuthorized(['controller' => 'Users', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false])):?>
                        <li class="pull-right dropdown">
