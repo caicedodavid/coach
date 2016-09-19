@@ -73,8 +73,8 @@ class AppUsersController extends UsersController
             if(!$data["user_image"]["file"]["size"]){
                 unset($data["user_image"]);
             }
-            $user = $this->Users->patchEntity($user, $data);
-            if ($this->Users->save($user)) {
+            $user = $this->AppUsers->patchEntity($user, $data);
+            if ($this->AppUsers->save($user)) {
 
                 $this->Flash->success(__('The user has been saved.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
