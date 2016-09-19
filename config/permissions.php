@@ -20,13 +20,21 @@ return [
         ],
 
         [
-            'role' => ['user','coach'],
+            'role' => ['user'],
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
                 'edit',
                 'coaches',
                 'view'
+            ]
+        ],
+        [
+            'role' => ['coach'],
+            'plugin'=> false,
+            'controller' => 'AppUsers',
+            'action' => [
+                'edit'
             ]
         ],
         [
