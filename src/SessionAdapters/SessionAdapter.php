@@ -6,8 +6,21 @@ namespace App\SessionAdapters;
  */
 interface SessionAdapter
 {
+	 /**
+     * scheduleSession method
+     *
+     * @param $session array of session info.
+     * @return string POST response
+     */
     public function scheduleSession($session);
 
+    /**
+     * requestSession method
+     *
+     * @param $session Session entity,
+     * @param $session user entity,  
+     * @return string POST response
+     */
     public function requestSession($session, $user);
 
 }

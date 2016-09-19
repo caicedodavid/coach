@@ -48,7 +48,7 @@ class Braincert implements SessionAdapter
     public function requestSession($session, $user)
     {
     	$fields= array(
-    		'class_id' => $session["class_id"],
+    		'class_id' => $session["external_class_id"],
     		'userId' => $user["id"],
     		'userName' => $user["username"],
     		'isTeacher' => (int)('coach'===$user['role']),

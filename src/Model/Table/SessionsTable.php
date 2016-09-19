@@ -150,7 +150,7 @@ class SessionsTable extends Table
 
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($data);
-        $data["class_id"] = $response["class_id"];
+        $data["external_class_id"] = $response["class_id"];
         return parent::patchEntity($entity, $data);
 
     }
