@@ -25,11 +25,13 @@ class SessionsController extends AppController
             	'Sessions' => ['user' => $user]
             ],
         ];
+
         $sessions = $this->paginate($this->Sessions);
         $this->set(compact('sessions'));
         $this->set('_serialize', ['session']);
         $this->set('coach',$user['role']==='coach');
     }
+
     /**
      * View method
      *
@@ -50,6 +52,29 @@ class SessionsController extends AppController
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
     }
+
+    /**
+     * rate method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function rate($id = null)
+    {
+        $user =$this->Auth->user();
+        $session = $this->Sessions->find('all')
+            ->where(['Sessions.external_class_id'=>$id])
+            ->contain($user["role"] === 'coach' ? 'Users' : 'Coaches')
+            ->first();
+
+        $response = $this->Sessions->getSessionData($session);
+        debug($response);
+        $fu = $foo;
+        $this->set('session', $session);
+        $this->set('_serialize', ['session']);
+    }
+
     /**
      * Add method
      * @param string|null $id User id.

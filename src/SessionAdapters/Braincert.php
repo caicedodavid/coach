@@ -15,6 +15,7 @@ class Braincert implements SessionAdapter
 	{
 		$this->api_key	= $api_key;
 	}
+
     /**
      * scheduleSession method
      *
@@ -37,6 +38,7 @@ class Braincert implements SessionAdapter
     		);
     	return ($this->postRequest($fields,'schedule'));
 	}
+
     /**
      * requestSession method
      *
@@ -56,6 +58,21 @@ class Braincert implements SessionAdapter
     		);
     	return $this->postRequest($fields,'getclasslaunch');
     }
+
+    /**
+     * getSessionData method
+     *
+     * @param $session array of session info.
+     * @return string POST response
+     */
+    public function getSessionData($session)
+    {
+        $fields= array(
+            'class_id' => $session["external_class_id"],
+            );
+        return $this->postRequest($fields,'getclass');
+    }
+
     /**
      * postRequest method
      *

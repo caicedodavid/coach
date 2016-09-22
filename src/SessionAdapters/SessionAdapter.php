@@ -23,4 +23,12 @@ interface SessionAdapter
      */
     public function requestSession($session, $user);
 
+     /**
+     * getSessionData method
+     *
+     * @param $session array of session info.
+     * @return string POST response
+     */
+    public function getSessionData($session);
+
 }

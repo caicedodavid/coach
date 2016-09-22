@@ -44,7 +44,8 @@ return [
             'action' => [
                 'add',
                 'index',
-                'view'
+                'view',
+                'rate'
             ]
         ],
         [

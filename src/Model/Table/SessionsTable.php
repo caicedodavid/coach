@@ -113,17 +113,21 @@ class SessionsTable extends Table
      * Returns true if schedule is at least a day after requesting a
      * session
      *
-     * @param datetime object and context
+     * @param $check datetime object
+     * @param $context context object
      * @return boolean
      */
     public function validSchedule($check, array $context)
     {   
         return (date('Y-m-d H:i',strtotime($check)) > date('Y-m-d H:i',strtotime("+1 day")));
     }
+
     /**
      * Logic after saving an event (send emails)
      *
-     * @param datetime object and context
+     * @param $event Cake Event object
+     * @param $entity Session entity
+     * @param $options ArrayObject
      * @return boolean
      */
     public function afterSave(Event $event, Entity $entity, ArrayObject $options)
@@ -136,11 +140,14 @@ class SessionsTable extends Table
         $this->getMailer('Session')->send('userMail', [$user,$coach,$session]);            
         $this->getMailer('Session')->send('coachMail', [$user,$coach,$session]);
     }
+
     /**
      * Override patchEntity method from Table class
      *
      * Ajusting Datetime format
-     *
+     * @param  $entity Session enttity interface
+     * @param  $data array of data to be aptched in the entity
+     * @param  $options options array
      * @return Session Entity
      */
     public function patchEntity(EntityInterface $entity , array $data , array $options = [])
@@ -154,8 +161,11 @@ class SessionsTable extends Table
         return parent::patchEntity($entity, $data);
 
     }
+
     /**
      * Query for finding sessions linked to a user
+     * @param $query query object
+     * @param $options options array
      * @return Query
      */
     public function findSessions(Query $query, array $options)
@@ -180,8 +190,11 @@ class SessionsTable extends Table
             ]
         ]); 
     }
+
     /**
      * method for returning a Url if the LiveSession returnes one, if not return null
+     * @param $session session entity
+     * @param $user user object
      * @return string url| null
      */
     public function getUrl($session, $user)
@@ -194,5 +207,17 @@ class SessionsTable extends Table
         return NULL;
     }
 
+    /**
+     * method for returning the data of a session
+     * @param $session session entity
+     * @param $user user object
+     * @return string url| null
+     */
+    public function getSessionData($session)
+    {
+        $liveSession = LiveSession::getInstance();
+        $response = $liveSession->getSessionData($session);
+        return $response;
+    }
 }
 
