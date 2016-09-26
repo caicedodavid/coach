@@ -71,4 +71,31 @@
           $('span.stars').stars();
       });
 
+      $( function() {
+       $( "#tabs" ).tabs({
+         beforeLoad: function( event, ui ) {
+           ui.jqXHR.fail(function() {
+             ui.panel.html("Couldn't load this tab. We'll try to fix this as soon as possible. " );
+           });
+         }
+       });
+      });
+
+      $(document).ready(function() {
+        $(document).on('click', '#pagination-container a', function () {
+          var thisHref = $(this).attr('href');
+          if (!thisHref) {
+            return false;
+          }
+          $('#pagination-container').fadeOut(300);
+
+          $.get(thisHref, function(data) {
+            var sessions = $(data).find('#pagination-container');
+            $( "#pagination-container" ).replaceWith(sessions);
+          });
+          $('#pagination-container').fadeIn(200);
+          return false;
+        });
+      });
+
  });

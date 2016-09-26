@@ -20,7 +20,7 @@ class SessionsController extends AppController
     {
     	$user =$this->Auth->user();
 		$this->paginate = [
-            'limit' => 10,
+            'limit' => 2,
             'finder' => [
             	'Sessions' => ['user' => $user]
             ],
@@ -29,6 +29,7 @@ class SessionsController extends AppController
         $this->set(compact('sessions'));
         $this->set('_serialize', ['session']);
         $this->set('coach',$user['role']==='coach');
+
     }
     /**
      * View method
@@ -45,6 +46,28 @@ class SessionsController extends AppController
             	($user["role"] === 'coach' ? 'Users' : 'Coaches')
             ]
         ]);
+        $response = $this->Sessions->getUrl($session,$user);
+        $this->set('url',$response);
+        $this->set('session', $session);
+        $this->set('_serialize', ['session']);
+    }
+    /**
+     * View method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewPending($id = null)
+    {
+        $user =$this->Auth->user();
+        $session = $this->Sessions->find('all')
+            ->where([
+                'Sessions.external_class_id'=>$id,
+                'Sessions.status'=>'pending'
+            ])
+            ->contain($user["role"] === 'coach' ? 'Users' : 'Coaches');
+
         $response = $this->Sessions->getUrl($session,$user);
         $this->set('url',$response);
         $this->set('session', $session);

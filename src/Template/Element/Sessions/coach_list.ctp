@@ -5,20 +5,18 @@
         <?php if (!$sessions->count()):?>
             <div class="alert alert-info"><?= __('You have no programed sessions')?></div>
         <?php else: ?>
-            <div id="users">
-                <?php foreach ($sessions as $session): ?>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <?php echo $this->Img->display($session->coach['user_image'], 'small');?>
-                            <p><?= h($session->coach['full_name']) ?></p>
-                        </div>
-                        <div class="col-md-2"><?= $session->schedule ?></div>
-                        <div class="col-md-6"><?= $session->subject ?></div>
-                        <div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]) ?></div>
-                    </div>
-                <?php endforeach; ?>
+            <div id="tabs">
+                <ul>
+                    <li><a href="#tabs-1">Preloaded</a></li>
+                    <li><a href="#tabs-2">Tab 1</a></li>
+                </ul>
+                <div id="tabs-1">
+                    <?= $this->element('Sessions/approved');?>
+                </div>
+                <div id="tabs-2">
+                    <?= "JAJAJA";?>
+                </div>
             </div>
         <?php endif; ?>
-        <center><?php echo $this->element('pagination'); ?></center>
     </div>
 </div>
