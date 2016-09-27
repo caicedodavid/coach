@@ -12,25 +12,66 @@ use Cake\Event\Event;
 class SessionsController extends AppController
 {
     /**
-     * Index method
+     * Approved Sessions view
      * @return \Cake\Network\Response|null
      * Show the sessions scheduled by a user/coach
      */ 
-    public function index()
+    public function approved()
     {
     	$user =$this->Auth->user();
 		$this->paginate = [
             'limit' => 2,
             'finder' => [
-            	'Sessions' => ['user' => $user]
+            	'ApprovedSessions' => ['user' => $user]
             ],
         ];
-        $sessions = $this->paginate($this->Sessions);
-        $this->set(compact('sessions'));
-        $this->set('_serialize', ['session']);
+        $approvedSessions = $this->paginate($this->Sessions);
+        $this->set(compact('approvedSessions'));
+        $this->set('_serialize', ['approvedSessions']);
         $this->set('coach',$user['role']==='coach');
 
     }
+
+    /**
+     * View of Pending Sessions.
+     * @return \Cake\Network\Response|null
+     * Show the sessions scheduled by a user/coach
+     */ 
+    public function pending()
+    {   
+        $user =$this->Auth->user();
+        $this->paginate = [
+            'limit' => 2,
+            'finder' => [
+                'PendingSessions' => ['user' => $user]
+            ],
+        ];
+        $pendingSessions = $this->paginate($this->Sessions);
+        $this->set(compact('pendingSessions'));
+        $this->set('_serialize', ['pendingSessions']);
+        $this->set('coach',$user['role']==='coach');
+    }
+
+    /**
+     * View of the historic of the Sessions.
+     * @return \Cake\Network\Response|null
+     * Show the sessions scheduled by a user/coach
+     */ 
+    public function historic()
+    {   
+        $user =$this->Auth->user();
+        $this->paginate = [
+            'limit' => 2,
+            'finder' => [
+                'HistoricSessions' => ['user' => $user]
+            ],
+        ];
+        $historicSessions = $this->paginate($this->Sessions);
+        $this->set(compact('historicSessions'));
+        $this->set('_serialize', ['historicSessions']);
+        $this->set('coach',$user['role']==='coach');
+    }
+
     /**
      * View method
      *
@@ -51,28 +92,7 @@ class SessionsController extends AppController
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
     }
-    /**
-     * View method
-     *
-     * @param string|null $id Session id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function viewPending($id = null)
-    {
-        $user =$this->Auth->user();
-        $session = $this->Sessions->find('all')
-            ->where([
-                'Sessions.external_class_id'=>$id,
-                'Sessions.status'=>'pending'
-            ])
-            ->contain($user["role"] === 'coach' ? 'Users' : 'Coaches');
 
-        $response = $this->Sessions->getUrl($session,$user);
-        $this->set('url',$response);
-        $this->set('session', $session);
-        $this->set('_serialize', ['session']);
-    }
     /**
      * Add method
      * @param string|null $id User id.
@@ -130,21 +150,24 @@ class SessionsController extends AppController
      * Delete method
      *
      * @param string|null $id Session id.
-     * @return \Cake\Network\Response|null Redirects to index.
+     * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function delete($id = null)
     {
+        debug($id);
         $this->request->allowMethod(['post', 'delete']);
         $session = $this->Sessions->get($id);
-        if ($this->Sessions->delete($session)) {
-            $this->Flash->success(__('The session has been deleted.'));
+        $session['status'] ='rejected';
+        if ($this->Sessions->save($session)) {
+            $this->Flash->success(__('The session has been rejected.'));
         } else {
-            $this->Flash->error(__('The session could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The session could not be rejected. Please try again later'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect($this->here);
     }
+
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);

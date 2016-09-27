@@ -6,12 +6,6 @@ if (!isset($separator)) {
 		$separator = '';
 	}
 }
-if (empty($first)) {
-	$first = __d('tools', 'first');
-}
-if (empty($last)) {
-	$last = __d('tools', 'last');
-}
 if (empty($prev)) {
 	$prev = __d('tools', 'previous');
 }
@@ -22,9 +16,6 @@ if (!isset($format)) {
 	$format = __d('tools', 'Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total');
 }
 if (!empty($reverse)) {
-	$tmp = $first;
-	$first = $last;
-	$last = $tmp;
 	$tmp = $prev;
 	$prev = $next;
 	$next = $tmp;
@@ -38,15 +29,11 @@ $escape = isset($escape) ? $escape : true;
 
 <div class="paging">
 	<ul class="pagination">
-	<?php echo $this->Paginator->first($first, ['escape' => $escape]);?>
- <?php echo $separator; ?>
 	<?php echo $this->Paginator->prev($prev, ['escape' => $escape], null, ['class' => 'prev disabled']);?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->numbers(['escape' => $escape, 'separator' => $separator]);?>
  <?php echo $separator; ?>
 	<?php echo $this->Paginator->next($next, ['escape' => $escape], null, ['class' => 'next disabled']);?>
- <?php echo $separator; ?>
-	<?php echo $this->Paginator->last($last, ['escape' => $escape]);?>
 	</ul>
 
 	<p class="paging-description">

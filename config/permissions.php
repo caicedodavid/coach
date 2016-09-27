@@ -43,8 +43,11 @@ return [
             'controller' => 'Sessions',
             'action' => [
                 'add',
-                'index',
-                'view'
+                'pending',
+                'historic',
+                'approved',
+                'view',
+                'delete'
             ]
         ],
         [

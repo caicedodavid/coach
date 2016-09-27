@@ -82,20 +82,17 @@
       });
 
       $(document).ready(function() {
-        $(document).on('click', '#pagination-container a', function () {
+        $(document).on('click', '.paging a', function () {
           var thisHref = $(this).attr('href');
           if (!thisHref) {
             return false;
           }
-          $('#pagination-container').fadeOut(300);
+          $('#pagination-container').fadeTo(300, 0);
 
-          $.get(thisHref, function(data) {
-            var sessions = $(data).find('#pagination-container');
-            $( "#pagination-container" ).replaceWith(sessions);
+          $('#pagination-container').load(thisHref.concat(' #pagination-container'), function() {
+            $(this).fadeTo(200, 1);
           });
-          $('#pagination-container').fadeIn(200);
           return false;
         });
       });
-
  });

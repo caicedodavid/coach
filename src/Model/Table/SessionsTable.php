@@ -109,6 +109,7 @@ class SessionsTable extends Table
 
         return $rules;
     }
+
     /**
      * Returns true if schedule is at least a day after requesting a
      * session
@@ -120,6 +121,7 @@ class SessionsTable extends Table
     {   
         return (date('Y-m-d H:i',strtotime($check)) > date('Y-m-d H:i',strtotime("+1 day")));
     }
+
     /**
      * Logic after saving an event (send emails)
      *
@@ -136,6 +138,7 @@ class SessionsTable extends Table
         $this->getMailer('Session')->send('userMail', [$user,$coach,$session]);            
         $this->getMailer('Session')->send('coachMail', [$user,$coach,$session]);
     }
+
     /**
      * Override patchEntity method from Table class
      *
@@ -154,18 +157,69 @@ class SessionsTable extends Table
         return parent::patchEntity($entity, $data);
 
     }
+
     /**
-     * Query for finding sessions linked to a user
+     * Query for finding pending sessions linked to a user
+     * @param $query query object
+     * @param $options options array
      * @return Query
      */
-    public function findSessions(Query $query, array $options)
+    public function findPendingSessions(Query $query, array $options)
     {
         $user = $options["user"];
         $role = $user["role"];
         $query = $query->where([
                 'Sessions.' . $role . "_id" => $user["id"],
-            ]);
-        //if I am a coach I want the data of my cochees
+                'Sessions.status' => 'pending'
+        ]);
+        return $this->findSessions($query, $role);
+    }
+
+    /**
+     * Query for finding the historical of sessions linked to a user
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findHistoricSessions(Query $query, array $options)
+    {
+        $user = $options["user"];
+        $role = $user["role"];
+        $query = $query->where([
+                'Sessions.' . $role . "_id" => $user["id"],
+                'OR' =>[
+                    ['Sessions.status' => 'past'],
+                    ['Sessions.status' => 'rated']
+                ]
+        ]);
+        return $this->findSessions($query, $role);
+    }
+
+    /**
+     * Query for finding the historical of sessions linked to a user
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findApprovedSessions(Query $query, array $options)
+    {
+        $user = $options["user"];
+        $role = $user["role"];
+        $query = $query->where([
+                'Sessions.' . $role . "_id" => $user["id"],
+                'Sessions.status' => 'approved'
+        ]);
+        return $this->findSessions($query, $role);
+    }
+
+    /**
+     * Query for finding sessions linked to a user
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findSessions(Query $query, $role)
+    {
         if($role === 'coach'):
             return $query->contain([
                 'Users'=> [
@@ -180,6 +234,7 @@ class SessionsTable extends Table
             ]
         ]); 
     }
+
     /**
      * method for returning a Url if the LiveSession returnes one, if not return null
      * @return string url| null
