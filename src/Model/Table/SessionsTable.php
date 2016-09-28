@@ -195,7 +195,7 @@ class SessionsTable extends Table
     }
 
     /**
-     * Query for finding the historical of sessions linked to a user
+     * Query for finding the approved sessions linked to a user
      * @param $query query object
      * @param $options options array
      * @return Query
@@ -246,6 +246,17 @@ class SessionsTable extends Table
             return $response['encryptedlaunchurl'];
         endif;
         return NULL;
+    }
+
+    /**
+     * method for returning a Url if the LiveSession returnes one, if not return null
+     * @return string url| null
+     */
+    public function removeClass($session)
+    {
+        $liveSession = LiveSession::getInstance();
+        $response = $liveSession->removeSession($session);
+        return $response['status'];
     }
 
 }

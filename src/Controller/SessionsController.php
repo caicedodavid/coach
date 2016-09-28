@@ -29,6 +29,11 @@ class SessionsController extends AppController
         $this->set(compact('approvedSessions'));
         $this->set('_serialize', ['approvedSessions']);
         $this->set('coach',$user['role']==='coach');
+        if ($user["role"] === 'coach'): 
+            $this->render("approved_coach");
+        elseif($user["role"] === 'user'):
+            $this->render("approved_user");
+        endif;
 
     }
 
@@ -136,6 +141,7 @@ class SessionsController extends AppController
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
         $session['status'] ='rejected';
+        echo $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been rejected.'));
         } else {
@@ -148,7 +154,7 @@ class SessionsController extends AppController
     }
 
     /**
-     * accept session method
+     * approve session method
      *
      * @param string|null $id Session id.
      * @return \Cake\Network\Response|null Refresh page.
@@ -168,6 +174,30 @@ class SessionsController extends AppController
         return $this->redirect(
             ['action' => 'pending']
         );
+    }
+
+    /**
+     * cancel a approved session method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null Refresh page.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function cancelSession($id)
+    {
+        $this->request->allowMethod(['post','get']);
+        $session = $this->Sessions->get($id);
+        $session['status'] ='canceled';
+        echo $this->Sessions->removeClass($session);
+        if ($this->Sessions->save($session)) {
+            $this->Flash->success(__('The session has been Canceled.'));
+        } else {
+            $this->Flash->error(__('The session could not be canceled. Please try again later'));
+        }
+        return $this->redirect(
+            ['action' => 'approved']
+        );
+        
     }
 
     public function beforeRender(Event $event)

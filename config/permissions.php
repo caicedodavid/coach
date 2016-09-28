@@ -51,6 +51,14 @@ return [
             ]
         ],
         [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
+                'cancelSession'
+            ]
+        ],
+        [
             'role' => ['coach'],
             'plugin'=> false,
             'controller' => 'Sessions',
