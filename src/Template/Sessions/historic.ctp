@@ -1,4 +1,4 @@
-<?= $this->extend('/Element/Sessions/coach_list');
+<?= $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "historic");
 ?>
 <br>

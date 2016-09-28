@@ -50,6 +50,11 @@ class SessionsController extends AppController
         $this->set(compact('pendingSessions'));
         $this->set('_serialize', ['pendingSessions']);
         $this->set('coach',$user['role']==='coach');
+        if ($user["role"] === 'coach'): 
+            $this->render("pending_coach");
+        elseif($user["role"] === 'user'):
+            $this->render("pending_user");
+        endif;
     }
 
     /**
@@ -107,6 +112,7 @@ class SessionsController extends AppController
             $session = $this->Sessions->patchEntity($session, $this->request->data);
 
             if ($this->Sessions->save($session)) {
+                $this->Sessions->sendEmails($session);
                 $this->Flash->success(__('The session has been saved.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
@@ -119,44 +125,15 @@ class SessionsController extends AppController
     }
 
     /**
-     * Edit method
-     *
-     * @param string|null $id Session id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-
-    public function edit($id = null)
-    {
-        $session = $this->Sessions->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $session = $this->Sessions->patchEntity($session, $this->request->data);
-            if ($this->Sessions->save($session)) {
-                $this->Flash->success(__('The session has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The session could not be saved. Please, try again.'));
-            }
-        }
-        $users = $this->Sessions->Users->find('list', ['limit' => 200]);
-        $coaches = $this->Sessions->Coaches->find('list', ['limit' => 200]);
-        $this->set(compact('session', 'users', 'coaches'));
-        $this->set('_serialize', ['session']);
-    }
-
-    /**
-     * Delete method
+     * reject session method
      *
      * @param string|null $id Session id.
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function rejectSession($id = null)
     {
-        debug($id);
-        $this->request->allowMethod(['post', 'delete']);
+        $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
         $session['status'] ='rejected';
         if ($this->Sessions->save($session)) {
@@ -165,12 +142,38 @@ class SessionsController extends AppController
             $this->Flash->error(__('The session could not be rejected. Please try again later'));
         }
 
-        return $this->redirect($this->here);
+        return $this->redirect(
+            ['action' => 'pending']
+        );
+    }
+
+    /**
+     * accept session method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null Refresh page.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function approveSession($id)
+    {
+        //$this->autoRender = false;
+        //$this->request->allowMethod(['post','get']);
+        $session = $this->Sessions->get($id);
+        $session['status'] ='approved';
+        if ($this->Sessions->save($session)) {
+            $this->Flash->success(__('The session has been Accepted.'));
+        } else {
+            $this->Flash->error(__('The session could not be accepted. Please try again later'));
+        }
+        return $this->redirect(
+            ['action' => 'pending']
+        );
     }
 
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
         $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
+
     }
 }

@@ -47,7 +47,16 @@ return [
                 'historic',
                 'approved',
                 'view',
-                'delete'
+                'cancel'
+            ]
+        ],
+        [
+            'role' => ['coach'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
+                'rejectSession',
+                'approveSession'
             ]
         ],
         [

@@ -123,14 +123,13 @@ class SessionsTable extends Table
     }
 
     /**
-     * Logic after saving an event (send emails)
+     * Logic after requesting a session (send emails)
      *
-     * @param datetime object and context
-     * @return boolean
+     * @param session | session entity
      */
-    public function afterSave(Event $event, Entity $entity, ArrayObject $options)
+    public function sendEmails($session)
     {
-        $session = $this->get($entity['id'], [
+        $session = $this->get($session['id'], [
                     'contain' => ['Users', 'Coaches']
                 ]);
         $coach = $session["coach"];

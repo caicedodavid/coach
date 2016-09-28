@@ -1,4 +1,4 @@
-<?= $this->extend('/Element/Sessions/coach_list');
+<?= $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "pending");
 ?>
 <br>
@@ -14,11 +14,7 @@
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>
                 <div class="col-md-5"><?= $session->subject ?></div>
-                <div class="col-md-2">
-                    <?= $this->Html->link(__d('Session', 'Accept'), ['plugin' => false,'action' => 'register','coach','controller' => 'Sessions'],['class' => 'buttonS','id' =>'accept', 'method'=>'get']);?>
-                    <?= $this->Form->postLink(__('Decline'),['plugin' => false,'action' => 'delete',$session->id, 'controller' => 'Sessions'], 
-                        ['class' => 'buttonS', 'method'=>'post','id' =>'decline','confirm' => __('Are you sure you want to reject this requested session?')]);?>
-                </div>
+                <div class="col-md-2"><div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]) ?></div>
             </div>
         <?php endforeach; ?>
         <?php echo $this->element('classic_pagination'); ?>
