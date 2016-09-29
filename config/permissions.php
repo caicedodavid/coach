@@ -43,9 +43,29 @@ return [
             'controller' => 'Sessions',
             'action' => [
                 'add',
-                'index',
+                'pending',
+                'historic',
+                'approved',
                 'view',
+                'cancel',
                 'rate'
+            ]
+        ],
+        [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
+                'cancelSession'
+            ]
+        ],
+        [
+            'role' => ['coach'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
+                'rejectSession',
+                'approveSession'
             ]
         ],
         [

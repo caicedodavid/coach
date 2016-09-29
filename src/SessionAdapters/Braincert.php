@@ -35,7 +35,7 @@ class Braincert implements SessionAdapter
     		'start_time' => $startTime,
     		'end_time' => $endTime,
     		'date' => $date
-    		);
+    	);
     	return ($this->postRequest($fields,'schedule'));
 	}
 
@@ -55,7 +55,7 @@ class Braincert implements SessionAdapter
     		'isTeacher' => (int)('coach'===$user['role']),
     		'lessonName' => $session["subject"],
     		'courseName' => $session["subject"]
-    		);
+    	);
     	return $this->postRequest($fields,'getclasslaunch');
     }
 
@@ -73,6 +73,21 @@ class Braincert implements SessionAdapter
         return $this->postRequest($fields,'getclass');
     }
 
+    /**
+     * removeSession method
+     *
+     * @param $session Session entity,
+     * @param $session user entity,  
+     * @return string POST response
+     */
+    public function removeSession($session)
+    {
+        $fields= array(
+            'cid' => $session["external_class_id"],
+        );
+        return $this->postRequest($fields,'removeclass');
+    }
+    
     /**
      * postRequest method
      *

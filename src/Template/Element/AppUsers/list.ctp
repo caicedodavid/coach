@@ -19,6 +19,6 @@
                 <?php endforeach; ?>
             </div>
         <?php endif; ?>
-        <center><?php echo $this->element('pagination'); ?></center>
+        <center><?php echo $this->element('endless_pagination'); ?></center>
     </div>
 </div>
