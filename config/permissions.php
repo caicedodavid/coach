@@ -48,7 +48,8 @@ return [
                 'approved',
                 'view',
                 'cancel',
-                'rate'
+                'rate',
+                'updateStartTime'
             ]
         ],
         [
@@ -65,7 +66,7 @@ return [
             'controller' => 'Sessions',
             'action' => [
                 'rejectSession',
-                'approveSession'
+                'approveSession',
             ]
         ],
         [

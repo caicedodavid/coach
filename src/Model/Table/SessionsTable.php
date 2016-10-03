@@ -83,6 +83,12 @@ class SessionsTable extends Table
 
         $validator
             ->allowEmpty('comments');
+
+        $validator
+            ->notEmpty('user_rating');
+
+        $validator
+            ->notEmpty('coach_rating');
 /*
         $validator
             ->add('schedule','validSchedule',[
@@ -140,7 +146,7 @@ class SessionsTable extends Table
     }
 
     /**
-     * Override patchEntity method from Table class
+     * Shedule a class with the server
      *
      * Ajusting Datetime format
      * @param  $entity Session enttity interface
@@ -148,7 +154,7 @@ class SessionsTable extends Table
      * @param  $options options array
      * @return Session Entity
      */
-    public function patchEntity(EntityInterface $entity , array $data , array $options = [])
+    public function scheduleSession(EntityInterface $entity , array $data)
     {
         $data["schedule"] = $data["schedule"] . " ". $data["time"] . ":00";
         unset($data["time"]);
@@ -156,7 +162,7 @@ class SessionsTable extends Table
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($data);
         $data["external_class_id"] = $response["class_id"];
-        return parent::patchEntity($entity, $data);
+        return $this->patchEntity($entity, $data);
 
     }
 
@@ -189,10 +195,7 @@ class SessionsTable extends Table
         $role = $user["role"];
         $query = $query->where([
                 'Sessions.' . $role . "_id" => $user["id"],
-                'OR' =>[
-                    ['Sessions.status' => 'past'],
-                    ['Sessions.status' => 'rated']
-                ]
+                'Sessions.status' => 'past'
         ]);
         return $this->findSessions($query, $role);
     }
@@ -277,5 +280,19 @@ class SessionsTable extends Table
         return $response['status'];
     }
 
+    /**
+     * method for setting the time in a session of a user or coach
+     * @return $data Array
+     */
+    public function setTime($session,$isCoach,$startTime)
+    {
+        $time = gmdate("H:i",strtotime("now") - (int) $startTime);
+        if($isCoach):
+            $session["coach_time"] = $session["coach_time"]?: $time;
+        else:
+            $session["user_time"] = $session["user_time"]?: $time;
+        endif;
+        return $session;
+    }
 }
 

@@ -67,5 +67,15 @@ class AppController extends Controller
             $this->set('_serialize', true);
         }
     }
+    /**
+     * isCoach function.
+     *
+     * @param Array $user
+     * @return boolean
+     */
+    public function isCoach($user)
+    {
+        return $user['role']==='coach';
+    }
 
 }

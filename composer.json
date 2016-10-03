@@ -6,15 +6,16 @@
     "license": "MIT",
     "require": {
         "php": ">=5.5.9",
-        "cakephp/cakephp": "~3.2",
+        "cakephp/cakephp": "3.3.2",
         "mobiledetect/mobiledetectlib": "2.*",
         "cakephp/migrations": "~1.0",
         "cakephp/plugin-installer": "*",
-        "cakedc/users": "^3.2",
+        "cakedc/users": "3.2.2",
         "markstory/asset_compress": "^3.0",
         "burzum/cakephp-file-storage": "1.1.*",
         "burzum/cakephp-imagine-plugin": "2.*",
-        "cakedc/tiny-mce": "3.x-dev"
+        "cakedc/tiny-mce": "3.x-dev",
+        "kartik-v/bootstrap-star-rating": "@dev"
     },
     "require-dev": {
         "psy/psysh": "@stable",

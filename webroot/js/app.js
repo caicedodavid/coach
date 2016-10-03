@@ -108,4 +108,15 @@
         });
       });
 
+      $('#start').click(function(){
+        var param1 = $(this).attr("name"); 
+        console.log(param1);
+        $.ajax({
+          url:"http://"+ document.domain +":8765/sessions/updateStartTime/"+ param1,
+          type:"GET",
+          dataType : 'json',
+          async: true,
+        });
+      });
+
  });

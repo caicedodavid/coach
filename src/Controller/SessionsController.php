@@ -111,19 +111,35 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function rate($id = null)
+    public function rate()
     {
         $user =$this->Auth->user();
-        $session = $this->Sessions->find('all')
-            ->where(['Sessions.external_class_id'=>$id])
-            ->contain($user["role"] === 'coach' ? 'Users' : 'Coaches')
-            ->first();
-
-        $response = $this->Sessions->getSessionData($session);
-        debug($response);
-        $fu = $foo;
+        $appSession = $this->request->session();
+        $id = $appSession->read('Class.id');
+        $startTime = $appSession->read('Class.startTime');
+        if (!$id){
+            $this->Flash->error(__('Invalid Action'));
+            return $this->redirect(['action' => 'display','controller' => 'Pages']);
+        }
+        $session = $this->Sessions->get($id);
+        $session = $this->Sessions->setTime($session,$this->isCoach($user),$startTime);
+        $this->Sessions->save($session);
+        if ($this->request->is('post')) {      
+            $session = $this->Sessions->patchEntity($session,$this->request->data);
+            if ($this->Sessions->save($session)) {
+                $this->Flash->success(__('Thank you for your rating.'));
+                return $this->redirect(['action' => 'display','controller' => 'Pages']);
+            } else {
+                $this->Flash->error(__('Your rating could not be saved. Please, try again.'));
+            }
+        }
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
+        if($this->isCoach($user)):
+            $this->render("rate_coach");
+        else:
+            $this->render("rate_user");
+        endif;
     }
 
     /**
@@ -137,11 +153,11 @@ class SessionsController extends AppController
         if ($this->request->is('post')) {         
             $session["user_id"] = $this->Auth->user()['id'];
             $session["coach_id"] = $coachId;
-            $session = $this->Sessions->patchEntity($session, $this->request->data);
+            $session = $this->Sessions->scheduleSession($session, $this->request->data);
 
             if ($this->Sessions->save($session)) {
                 $this->Sessions->sendEmails($session);
-                $this->Flash->success(__('The session has been saved.'));
+                $this->Flash->success(__('The session has been requested.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
@@ -190,9 +206,9 @@ class SessionsController extends AppController
         $session = $this->Sessions->get($id);
         $session['status'] ='approved';
         if ($this->Sessions->save($session)) {
-            $this->Flash->success(__('The session has been Accepted.'));
+            $this->Flash->success(__('The session has been confirmed.'));
         } else {
-            $this->Flash->error(__('The session could not be accepted. Please try again later'));
+            $this->Flash->error(__('The session could not be confirmed. Please try again later'));
         }
         return $this->redirect(
             ['action' => 'pending']
@@ -223,10 +239,32 @@ class SessionsController extends AppController
         
     }
 
+    /**
+     * Stores in app session the startime and id of the class session that was attended
+     *
+     * @param string|null $id Session id.
+     */
+    public function updateStartTime($id = NULL)
+    {
+
+        $this->request->allowMethod(['post','get']);
+        $appSession = $this->request->session();
+        $appSession->write('Class.id',$id);
+        $appSession->write('Class.startTime',(string) time());
+        $this->autoRender = false;
+    }
+
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
         $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
 
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Security->config('unlockedActions', ['updateStartTime']);
+        $this->Auth->allow('updateStartTime');
     }
 }
