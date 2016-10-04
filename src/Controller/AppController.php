@@ -67,15 +67,26 @@ class AppController extends Controller
             $this->set('_serialize', true);
         }
     }
+
     /**
-     * isCoach function.
+     * isCoach function
      *
-     * @param Array $user
+     * @param \Cake\Event\Event $event The beforeRender event.
      * @return boolean
      */
     public function isCoach($user)
     {
-        return $user['role']==='coach';
+        return $user["role"] === ROLE_COACH;
     }
+
+    /**
+     * getUser function
+     * @return user array
+     */
+    public function getUser()
+    {
+        return $this->Auth->user();
+    }
+
 
 }

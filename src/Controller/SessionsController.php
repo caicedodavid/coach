@@ -18,23 +18,16 @@ class SessionsController extends AppController
      */ 
     public function approved()
     {
-    	$user =$this->Auth->user();
+    	$user =$this->getUser();
 		$this->paginate = [
             'limit' => 2,
             'finder' => [
-            	'ApprovedSessions' => ['user' => $user]
+            	'approvedSessions' => ['user' => $user]
             ],
         ];
         $approvedSessions = $this->paginate($this->Sessions);
         $this->set(compact('approvedSessions'));
         $this->set('_serialize', ['approvedSessions']);
-        $this->set('coach',$user['role']==='coach');
-        if ($user["role"] === 'coach'): 
-            $this->render("approved_coach");
-        elseif($user["role"] === 'user'):
-            $this->render("approved_user");
-        endif;
-
     }
 
     /**
@@ -44,20 +37,19 @@ class SessionsController extends AppController
      */ 
     public function pending()
     {   
-        $user =$this->Auth->user();
+        $user =$this->getUser();
         $this->paginate = [
             'limit' => 2,
             'finder' => [
-                'PendingSessions' => ['user' => $user]
+                'pendingSessions' => ['user' => $user]
             ],
         ];
         $pendingSessions = $this->paginate($this->Sessions);
         $this->set(compact('pendingSessions'));
         $this->set('_serialize', ['pendingSessions']);
-        $this->set('coach',$user['role']==='coach');
-        if ($user["role"] === 'coach'): 
+        if ($this->isCoach($user)): 
             $this->render("pending_coach");
-        elseif($user["role"] === 'user'):
+        else:
             $this->render("pending_user");
         endif;
     }
@@ -70,17 +62,16 @@ class SessionsController extends AppController
      */ 
     public function historic()
     {   
-        $user =$this->Auth->user();
+        $user =$this->getUser();
         $this->paginate = [
             'limit' => 2,
             'finder' => [
-                'HistoricSessions' => ['user' => $user]
+                'historicSessions' => ['user' => $user]
             ],
         ];
         $historicSessions = $this->paginate($this->Sessions);
         $this->set(compact('historicSessions'));
         $this->set('_serialize', ['historicSessions']);
-        $this->set('coach',$user['role']==='coach');
     }
 
     /**
@@ -92,14 +83,33 @@ class SessionsController extends AppController
      */
     public function view($id = null)
     {
-    	$user =$this->Auth->user();
+    	$user =$this->getUser();
         $session = $this->Sessions->get($id, [
             'contain' => [
-            	($user["role"] === 'coach' ? 'Users' : 'Coaches')
+            	($this->isCoach($user) ? 'Users' : 'Coaches')
             ]
         ]);
         $response = $this->Sessions->getUrl($session,$user);
         $this->set('url',$response);
+        $this->set('session', $session);
+        $this->set('_serialize', ['session']);
+    }
+
+    /**
+     * View pending sessions method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewPending($id = null)
+    {
+        $user =$this->getUser();
+        $session = $this->Sessions->get($id, [
+            'contain' => [
+                ($this->isCoach($user) ? 'Users' : 'Coaches')
+            ]
+        ]);
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
     }
@@ -127,6 +137,7 @@ class SessionsController extends AppController
         if ($this->request->is('post')) {      
             $session = $this->Sessions->patchEntity($session,$this->request->data);
             if ($this->Sessions->save($session)) {
+                $appSession->delete('Class.id');
                 $this->Flash->success(__('Thank you for your rating.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
@@ -151,10 +162,11 @@ class SessionsController extends AppController
     {   
         $session = $this->Sessions->newEntity();
         if ($this->request->is('post')) {         
-            $session["user_id"] = $this->Auth->user()['id'];
+            $session["user_id"] = $this->getUser()['id'];
             $session["coach_id"] = $coachId;
-            $session = $this->Sessions->scheduleSession($session, $this->request->data);
-
+            $data = $this->Sessions->fixSchedule($this->request->data);
+            $session = $this->Sessions->patchEntity($session,$data);
+            
             if ($this->Sessions->save($session)) {
                 $this->Sessions->sendEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
@@ -179,8 +191,7 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session['status'] ='rejected';
-        echo $this->Sessions->removeClass($session);
+        $session['status'] = STATUS_REJECTED;
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been rejected.'));
         } else {
@@ -204,7 +215,8 @@ class SessionsController extends AppController
         //$this->autoRender = false;
         //$this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session['status'] ='approved';
+        $session['status'] = STATUS_APPROVED;
+        $session['external_class_id'] = $this->Sessions->scheduleSession($session);
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been confirmed.'));
         } else {
@@ -226,8 +238,8 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session['status'] ='canceled';
-        echo $this->Sessions->removeClass($session);
+        $session['status'] = STATUS_CANCELED;
+        $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been Canceled.'));
         } else {

@@ -9,8 +9,8 @@
         <?php foreach ($pendingSessions as $session): ?>
             <div class="row">
                 <div class="col-md-3">
-                    <?php echo $this->Img->display($session->coach['user_image'], 'small');?>
-                    <p><?= h($session->coach['full_name']) ?></p>
+                    <?php echo $this->Img->display($session->user['user_image'], 'small');?>
+                    <p><?= h($session->user['full_name']) ?></p>
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>
                 <div class="col-md-5"><?= $session->subject ?></div>

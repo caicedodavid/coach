@@ -203,6 +203,7 @@ Plugin::load('Migrations');
 Plugin::load('AssetCompress', ['bootstrap' => true]);
 //Plugin::load('Burzum/Imagine');
 include('file_storage.php');
+include('sessions.php');
 //include 'file_storage.php';
 
 // Only try to load DebugKit in development mode

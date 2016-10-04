@@ -44,19 +44,13 @@ return [
             'action' => [
                 'add',
                 'pending',
+                'viewPending',
                 'historic',
                 'approved',
                 'view',
                 'cancel',
                 'rate',
-                'updateStartTime'
-            ]
-        ],
-        [
-            'role' => ['user'],
-            'plugin'=> false,
-            'controller' => 'Sessions',
-            'action' => [
+                'updateStartTime',
                 'cancelSession'
             ]
         ],

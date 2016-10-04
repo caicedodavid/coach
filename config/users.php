@@ -12,6 +12,11 @@
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 
+define("ROLE_ADMIN","admin");
+define("ROLE_USER","user");
+define("ROLE_COACH","coach");
+
+
 $config = [
     'Users' => [
         //Table used to manage users

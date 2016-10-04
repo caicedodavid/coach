@@ -13,9 +13,8 @@ class AddStatusToSession extends AbstractMigration
     public function change()
     {
         $table = $this->table('sessions');
-        $table->addColumn('status', 'string', [
-            'default' => 'pending',
-            'limit' => 25,
+        $table->addColumn('status', 'integer', [
+            'default' => 1,
             'null' => false,
             'after'=> 'coach_id'
         ]);

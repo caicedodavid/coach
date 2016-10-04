@@ -154,15 +154,26 @@ class SessionsTable extends Table
      * @param  $options options array
      * @return Session Entity
      */
-    public function scheduleSession(EntityInterface $entity , array $data)
+    public function scheduleSession($session)
+    {
+
+        $liveSession = LiveSession::getInstance();
+        $response = $liveSession->scheduleSession($session);
+        return $response["class_id"];
+    }
+
+    /**
+     * Fix Schedule
+     *
+     * Ajusting Datetime format
+     * @param  $data array of data to be patched in the entity
+     * @return $data array of data to be patched in the entity
+     */
+    public function fixSchedule(array $data)
     {
         $data["schedule"] = $data["schedule"] . " ". $data["time"] . ":00";
         unset($data["time"]);
-
-        $liveSession = LiveSession::getInstance();
-        $response = $liveSession->scheduleSession($data);
-        $data["external_class_id"] = $response["class_id"];
-        return $this->patchEntity($entity, $data);
+        return $data;
 
     }
 
@@ -176,11 +187,10 @@ class SessionsTable extends Table
     {
         $user = $options["user"];
         $role = $user["role"];
-        $query = $query->where([
-                'Sessions.' . $role . "_id" => $user["id"],
-                'Sessions.status' => 'pending'
-        ]);
-        return $this->findSessions($query, $role);
+        return $query
+            ->where(['Sessions.' . $role . "_id" => $user["id"]])
+            ->find('pending')
+            ->find('contain', ['role'=>$role]);
     }
 
     /**
@@ -193,15 +203,15 @@ class SessionsTable extends Table
     {
         $user = $options["user"];
         $role = $user["role"];
-        $query = $query->where([
-                'Sessions.' . $role . "_id" => $user["id"],
-                'Sessions.status' => 'past'
-        ]);
-        return $this->findSessions($query, $role);
+        return $query
+            ->where(['Sessions.' . $role . "_id" => $user["id"]])
+            ->find('past')
+            ->find('contain', ['role'=>$role]);
     }
 
     /**
-     * Query for finding the approved sessions linked to a user
+
+     * Query for finding the Approved of sessions linked to a user
      * @param $query query object
      * @param $options options array
      * @return Query
@@ -210,12 +220,51 @@ class SessionsTable extends Table
     {
         $user = $options["user"];
         $role = $user["role"];
-        $query = $query->where([
-                'Sessions.' . $role . "_id" => $user["id"],
-                'Sessions.status' => 'approved'
-        ]);
-        return $this->findSessions($query, $role);
+        return $query
+            ->where(['Sessions.' . $role . "_id" => $user["id"]])
+            ->find('approved')
+            ->find('contain', ['role'=>$role]);
     }
+
+    /**
+     * Query for finding the Approved of sessions
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findApproved(Query $query, array $options)
+    {
+        return  $query = $query->where([
+                'Sessions.status' => STATUS_APPROVED
+        ]);
+    }
+
+    /**
+     * Query for finding pending sessions
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findPending(Query $query, array $options)
+    {
+        return  $query = $query->where([
+                'Sessions.status' => STATUS_PENDING
+        ]);
+    }
+
+    /**
+     * Query for finding past sessions
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findPast(Query $query, array $options)
+    {
+        return  $query = $query->where([
+                'Sessions.status' => STATUS_PAST
+        ]);
+    }
+
 
     /**
      * Query for finding sessions linked to a user
@@ -223,8 +272,9 @@ class SessionsTable extends Table
      * @param $role string role of user
      * @return Query
      */
-    public function findSessions(Query $query, $role)
+    public function findContain(Query $query, array $options)
     {
+        $role = $options["role"];
         if($role === 'coach'):
             return $query->contain([
                 'Users'=> [
