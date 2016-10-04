@@ -59,17 +59,17 @@ class AppUsersController extends UsersController
      * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
      * @throws \Cake\Network\Exception\NotFoundException When record not found.
      */
-    public function edit($id = null)
+    public function edit($id = NULL)
     {
         $user = $this->AppUsers->find()
-            ->where(['Users.id' => $this->Auth->user()['id']])
+            ->where(['Users.id' => $this->getUser()["id"]])
             ->contain('UserImage')
             ->first();
         
-        $user["birthdate"] = date('Y-m-d',strtotime($user["birthdate"]));
+        
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
-
+            $data["birthdate"] = date('Y-m-d',strtotime($data["birthdate"]));
             if(!$data["user_image"]["file"]["size"]){
                 unset($data["user_image"]);
             }
