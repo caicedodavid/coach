@@ -62,7 +62,7 @@ class AppUsersController extends UsersController
     public function edit($id = null)
     {
         $user = $this->AppUsers->find()
-            ->where(['Users.id' => $this->Auth->user()['id']])
+            ->where(['Users.id' => $this->getUser()['id']])
             ->contain('UserImage')
             ->first();
         

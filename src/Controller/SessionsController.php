@@ -22,13 +22,12 @@ class SessionsController extends AppController
 		$this->paginate = [
             'limit' => 2,
             'finder' => [
-            	'ApprovedSessions' => ['user' => $user]
+            	'approvedSessions' => ['user' => $user]
             ],
         ];
         $approvedSessions = $this->paginate($this->Sessions);
         $this->set(compact('approvedSessions'));
         $this->set('_serialize', ['approvedSessions']);
-        $this->set('coach',$user['role']==='coach');
 
     }
 
@@ -43,16 +42,15 @@ class SessionsController extends AppController
         $this->paginate = [
             'limit' => 2,
             'finder' => [
-                'PendingSessions' => ['user' => $user]
+                'pendingSessions' => ['user' => $user]
             ],
         ];
         $pendingSessions = $this->paginate($this->Sessions);
         $this->set(compact('pendingSessions'));
         $this->set('_serialize', ['pendingSessions']);
-        $this->set('coach',$user['role']==='coach');
-        if ($user["role"] === 'coach'): 
+        if ($this->isCoach($user)): 
             $this->render("pending_coach");
-        elseif($user["role"] === 'user'):
+        else:
             $this->render("pending_user");
         endif;
     }
@@ -68,13 +66,12 @@ class SessionsController extends AppController
         $this->paginate = [
             'limit' => 2,
             'finder' => [
-                'HistoricSessions' => ['user' => $user]
+                'historicSessions' => ['user' => $user]
             ],
         ];
         $historicSessions = $this->paginate($this->Sessions);
         $this->set(compact('historicSessions'));
         $this->set('_serialize', ['historicSessions']);
-        $this->set('coach',$user['role']==='coach');
     }
 
     /**
@@ -89,7 +86,7 @@ class SessionsController extends AppController
     	$user =$this->Auth->user();
         $session = $this->Sessions->get($id, [
             'contain' => [
-            	($user["role"] === 'coach' ? 'Users' : 'Coaches')
+            	($this->isCoach($user) ? 'Users' : 'Coaches')
             ]
         ]);
         $response = $this->Sessions->getUrl($session,$user);
@@ -135,7 +132,7 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session['status'] ='rejected';
+        $session['status'] = STATUS_REJECTED;
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been rejected.'));
         } else {
@@ -159,7 +156,7 @@ class SessionsController extends AppController
         //$this->autoRender = false;
         //$this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session['status'] ='approved';
+        $session['status'] = STATUS_APPROVED;
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been Accepted.'));
         } else {
