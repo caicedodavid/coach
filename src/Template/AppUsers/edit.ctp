@@ -10,16 +10,21 @@
             echo $this->Form->error('user_image.file',['class' => 'form-control']);
             echo $this->Form->input('first_name', ['class' => 'form-control']);
             echo $this->Form->input('last_name',  ['class' => 'form-control']);
+            echo "<b>Birthdate</b></br>";
             echo $this->Form->input('birthdate',[
-                'class' => 'datepicker',
+                'error'=> false,
+                'id' => 'birthdate',
+                'class' => 'form-control',
                 'type'=>'text',
-                'id'=>'date',
-                'name'=>'date',
-                'placeholder'=>'YYYY-MM-DD', 
-                'data-date-viewmode'=>'years',
-                'between' =>'<span class=\"add-on\"><i class=\"icon-calendar\"></i></span>'
+                'placeholder'=>'YYYY-MM-DD',
+                'label' => false,
+                'templates' => [
+                    'inputContainer' => '<div class="input text required"><div class="input-group date" id="date" name ="date">{{content}}<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>'
+                ],
             ]);
-            echo "<span class=\"add-on\"><i class=\"icon-calendar\"></i></span>";
+            if ($this->Form->isFieldError('birthdate')) {
+                echo $this->Form->error('birthdate');
+            }
             echo $this->Form->input('fb_account', ['class' => 'form-control','label' => 'Facebook Account']);
             echo $this->Form->input('tw_account', ['class' => 'form-control','label' => 'Twitter Account']);
             echo $this->Form->input('description',['class' => 'form-control']);

@@ -12,24 +12,68 @@ use Cake\Event\Event;
 class SessionsController extends AppController
 {
     /**
-     * Index method
+     * Approved Sessions view
      * @return \Cake\Network\Response|null
      * Show the sessions scheduled by a user/coach
      */ 
-    public function index()
+    public function approved()
     {
     	$user =$this->Auth->user();
 		$this->paginate = [
-            'limit' => 10,
+            'limit' => 2,
             'finder' => [
-            	'Sessions' => ['user' => $user]
+            	'approvedSessions' => ['user' => $user]
             ],
         ];
-        $sessions = $this->paginate($this->Sessions);
-        $this->set(compact('sessions'));
-        $this->set('_serialize', ['session']);
-        $this->set('coach',$user['role']==='coach');
+        $approvedSessions = $this->paginate($this->Sessions);
+        $this->set(compact('approvedSessions'));
+        $this->set('_serialize', ['approvedSessions']);
+
     }
+
+    /**
+     * View of Pending Sessions.
+     * @return \Cake\Network\Response|null
+     * Show the sessions scheduled by a user/coach
+     */ 
+    public function pending()
+    {   
+        $user =$this->Auth->user();
+        $this->paginate = [
+            'limit' => 2,
+            'finder' => [
+                'pendingSessions' => ['user' => $user]
+            ],
+        ];
+        $pendingSessions = $this->paginate($this->Sessions);
+        $this->set(compact('pendingSessions'));
+        $this->set('_serialize', ['pendingSessions']);
+        if ($this->isCoach($user)): 
+            $this->render("pending_coach");
+        else:
+            $this->render("pending_user");
+        endif;
+    }
+
+    /**
+     * View of the historic of the Sessions.
+     * @return \Cake\Network\Response|null
+     * Show the sessions scheduled by a user/coach
+     */ 
+    public function historic()
+    {   
+        $user =$this->Auth->user();
+        $this->paginate = [
+            'limit' => 2,
+            'finder' => [
+                'historicSessions' => ['user' => $user]
+            ],
+        ];
+        $historicSessions = $this->paginate($this->Sessions);
+        $this->set(compact('historicSessions'));
+        $this->set('_serialize', ['historicSessions']);
+    }
+
     /**
      * View method
      *
@@ -42,7 +86,7 @@ class SessionsController extends AppController
     	$user =$this->Auth->user();
         $session = $this->Sessions->get($id, [
             'contain' => [
-            	($user["role"] === 'coach' ? 'Users' : 'Coaches')
+            	($this->isCoach($user) ? 'Users' : 'Coaches')
             ]
         ]);
         $response = $this->Sessions->getUrl($session,$user);
@@ -50,6 +94,7 @@ class SessionsController extends AppController
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
     }
+
     /**
      * Add method
      * @param string|null $id User id.
@@ -64,6 +109,7 @@ class SessionsController extends AppController
             $session = $this->Sessions->patchEntity($session, $this->request->data);
 
             if ($this->Sessions->save($session)) {
+                $this->Sessions->sendEmails($session);
                 $this->Flash->success(__('The session has been saved.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
@@ -76,55 +122,55 @@ class SessionsController extends AppController
     }
 
     /**
-     * Edit method
+     * reject session method
      *
      * @param string|null $id Session id.
-     * @return \Cake\Network\Response|void Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-
-    public function edit($id = null)
+     * @return \Cake\Network\Response|null Refresh page.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function rejectSession($id = null)
     {
-        $session = $this->Sessions->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $session = $this->Sessions->patchEntity($session, $this->request->data);
-            if ($this->Sessions->save($session)) {
-                $this->Flash->success(__('The session has been saved.'));
-
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The session could not be saved. Please, try again.'));
-            }
+        $this->request->allowMethod(['post','get']);
+        $session = $this->Sessions->get($id);
+        $session['status'] = STATUS_REJECTED;
+        if ($this->Sessions->save($session)) {
+            $this->Flash->success(__('The session has been rejected.'));
+        } else {
+            $this->Flash->error(__('The session could not be rejected. Please try again later'));
         }
-        $users = $this->Sessions->Users->find('list', ['limit' => 200]);
-        $coaches = $this->Sessions->Coaches->find('list', ['limit' => 200]);
-        $this->set(compact('session', 'users', 'coaches'));
-        $this->set('_serialize', ['session']);
+
+        return $this->redirect(
+            ['action' => 'pending']
+        );
     }
 
     /**
-     * Delete method
+     * accept session method
      *
      * @param string|null $id Session id.
-     * @return \Cake\Network\Response|null Redirects to index.
+     * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function delete($id = null)
+    public function approveSession($id)
     {
-        $this->request->allowMethod(['post', 'delete']);
+        //$this->autoRender = false;
+        //$this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        if ($this->Sessions->delete($session)) {
-            $this->Flash->success(__('The session has been deleted.'));
+        $session['status'] = STATUS_APPROVED;
+        if ($this->Sessions->save($session)) {
+            $this->Flash->success(__('The session has been Accepted.'));
         } else {
-            $this->Flash->error(__('The session could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The session could not be accepted. Please try again later'));
         }
-
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(
+            ['action' => 'pending']
+        );
     }
+
     public function beforeRender(Event $event)
     {
         parent::beforeRender($event);
         $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
+
     }
 }
