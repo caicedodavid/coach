@@ -1,7 +1,7 @@
 <?php
 
-define("STATUS_PENDING","pending");
-define("STATUS_PAST","past");
-define("STATUS_APPROVED","approved");
-define("STATUS_REJECTED","rejected");
-define("STATUS_CANCELED","canceled");
+define("STATUS_PENDING",1);
+define("STATUS_APPROVED",2);
+define("STATUS_REJECTED",3);
+define("STATUS_CANCELED",4);
+define("STATUS_PAST",5);

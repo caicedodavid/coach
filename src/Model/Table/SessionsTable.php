@@ -190,6 +190,7 @@ class SessionsTable extends Table
     }
 
     /**
+
      * Query for finding the Approved of sessions linked to a user
      * @param $query query object
      * @param $options options array
@@ -219,7 +220,7 @@ class SessionsTable extends Table
     }
 
     /**
-     * Query for finding past sessions
+     * Query for finding pending sessions
      * @param $query query object
      * @param $options options array
      * @return Query
@@ -281,6 +282,17 @@ class SessionsTable extends Table
             return $response['encryptedlaunchurl'];
         endif;
         return NULL;
+    }
+
+    /**
+     * method for returning a Url if the LiveSession returnes one, if not return null
+     * @return string url| null
+     */
+    public function removeClass($session)
+    {
+        $liveSession = LiveSession::getInstance();
+        $response = $liveSession->removeSession($session);
+        return $response['status'];
     }
 
 }

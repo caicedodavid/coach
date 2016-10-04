@@ -23,4 +23,13 @@ interface SessionAdapter
      */
     public function requestSession($session, $user);
 
+    /**
+     * requestSession method
+     *
+     * @param $session Session entity,
+     * @param $session user entity,  
+     * @return string POST response
+     */
+    public function removeSession($session);
+
 }

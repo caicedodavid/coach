@@ -18,7 +18,7 @@ class SessionsController extends AppController
      */ 
     public function approved()
     {
-    	$user =$this->Auth->user();
+    	$user =$this->getUser();
 		$this->paginate = [
             'limit' => 2,
             'finder' => [
@@ -28,7 +28,6 @@ class SessionsController extends AppController
         $approvedSessions = $this->paginate($this->Sessions);
         $this->set(compact('approvedSessions'));
         $this->set('_serialize', ['approvedSessions']);
-
     }
 
     /**
@@ -38,7 +37,7 @@ class SessionsController extends AppController
      */ 
     public function pending()
     {   
-        $user =$this->Auth->user();
+        $user =$this->getUser();
         $this->paginate = [
             'limit' => 2,
             'finder' => [
@@ -62,7 +61,7 @@ class SessionsController extends AppController
      */ 
     public function historic()
     {   
-        $user =$this->Auth->user();
+        $user =$this->getUser();
         $this->paginate = [
             'limit' => 2,
             'finder' => [
@@ -83,7 +82,7 @@ class SessionsController extends AppController
      */
     public function view($id = null)
     {
-    	$user =$this->Auth->user();
+    	$user =$this->getUser();
         $session = $this->Sessions->get($id, [
             'contain' => [
             	($this->isCoach($user) ? 'Users' : 'Coaches')
@@ -104,7 +103,7 @@ class SessionsController extends AppController
     {   
         $session = $this->Sessions->newEntity();
         if ($this->request->is('post')) {         
-            $session["user_id"] = $this->Auth->user()['id'];
+            $session["user_id"] = $this->getUser()['id'];
             $session["coach_id"] = $coachId;
             $session = $this->Sessions->patchEntity($session, $this->request->data);
 
@@ -145,7 +144,7 @@ class SessionsController extends AppController
     }
 
     /**
-     * accept session method
+     * approve session method
      *
      * @param string|null $id Session id.
      * @return \Cake\Network\Response|null Refresh page.
@@ -165,6 +164,30 @@ class SessionsController extends AppController
         return $this->redirect(
             ['action' => 'pending']
         );
+    }
+
+    /**
+     * cancel a approved session method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null Refresh page.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function cancelSession($id)
+    {
+        $this->request->allowMethod(['post','get']);
+        $session = $this->Sessions->get($id);
+        $session['status'] = STAUS_CANCELED;
+        echo $this->Sessions->removeClass($session);
+        if ($this->Sessions->save($session)) {
+            $this->Flash->success(__('The session has been Canceled.'));
+        } else {
+            $this->Flash->error(__('The session could not be canceled. Please try again later'));
+        }
+        return $this->redirect(
+            ['action' => 'approved']
+        );
+        
     }
 
     public function beforeRender(Event $event)

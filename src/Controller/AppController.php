@@ -83,9 +83,9 @@ class AppController extends Controller
      * getUser function
      * @return user array
      */
-    public function getUser($user)
+    public function getUser()
     {
-        return $user =$this->Auth->user();
+        return $this->Auth->user();
     }
 
 
