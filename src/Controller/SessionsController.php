@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use App\Model\Entity\Session;
 
 /**
  * Sessions Controller
@@ -121,10 +122,10 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function rate()
+    public function rateCoach()
     {
 
-        $user =$this->Auth->user();
+        $user =$this->getUser();
         $appSession = $this->request->session();
         $id = $appSession->read('Class.id');
         $startTime = $appSession->read('Class.startTime');
@@ -134,7 +135,8 @@ class SessionsController extends AppController
             return $this->redirect(['action' => 'display','controller' => 'Pages']);
         }
         $session = $this->Sessions->get($id);
-        $session = $this->Sessions->setTime($session,$this->isCoach($user),$startTime);
+        $session["coach_time"] = $session["coach_time"]?:$this->Sessions->setTime($startTime);
+        $session['status'] = Session::STATUS_PAST;
         $this->Sessions->save($session);
         if ($this->request->is('post')) {      
             $session = $this->Sessions->patchEntity($session,$this->request->data);
@@ -148,11 +150,40 @@ class SessionsController extends AppController
         }
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
-        if($this->isCoach($user)):
-            $this->render("rate_coach");
-        else:
-            $this->render("rate_user");
-        endif;
+    }
+
+    /**
+     * rate method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function rateUser()
+    {
+
+        $user =$this->getUser();
+        $appSession = $this->request->session();
+        $id = $appSession->read('Class.id');
+        if (!$id) {
+            $this->Flash->error(__('Invalid Action'));
+            return $this->redirect(['action' => 'display','controller' => 'Pages']);
+        }
+
+        $session = $this->Sessions->get($id);
+        if ($this->request->is('post')) {      
+            $session = $this->Sessions->patchEntity($session,$this->request->data);
+            if ($this->Sessions->save($session)) {
+                $appSession->delete('Class.id');
+                $this->Flash->success(__('Thank you for your rating.'));
+                return $this->redirect(['action' => 'display','controller' => 'Pages']);
+            } else {
+                $this->Flash->error(__('Your rating could not be saved. Please, try again.'));
+            }
+        }
+
+        $this->set('session', $session);
+        $this->set('_serialize', ['session']);
     }
 
     /**
@@ -193,7 +224,7 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session['status'] = STATUS_REJECTED;
+        $session['status'] = Session::STATUS_REJECTED;
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been rejected.'));
         } else {
@@ -215,7 +246,7 @@ class SessionsController extends AppController
     public function approveSession($id)
     {
         $session = $this->Sessions->get($id);
-        $session['status'] = STATUS_APPROVED;
+        $session['status'] = Session::STATUS_APPROVED;
         $session['external_class_id'] = $this->Sessions->scheduleSession($session);
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been confirmed.'));
@@ -238,7 +269,7 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session['status'] = STATUS_CANCELED;
+        $session['status'] = Session::STATUS_CANCELED;
         $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The session has been Canceled.'));
@@ -257,12 +288,19 @@ class SessionsController extends AppController
      * @param string|null $id Session id.
      */
     public function updateStartTime($id = NULL)
-    {
+    {   
+        $this->autoRender = false;
+        //if (!$this->isCoach($this->getUser())) {
+          //  return false;
+        //}
+
         $this->request->allowMethod(['post','get']);
         $appSession = $this->request->session();
+        $session = $this->Sessions->get($id);
+        $session['status'] = Session::STATUS_RUNNING;
+        $this->Sessions->save($session);
         $appSession->write('Class.id',$id);
         $appSession->write('Class.startTime',(string) time());
-        $this->autoRender = false;
     }
 
     public function beforeRender(Event $event)

@@ -61,6 +61,15 @@ return [
             'action' => [
                 'rejectSession',
                 'approveSession',
+                'rateCoach'
+            ]
+        ],
+        [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
+                'rateUser'
             ]
         ],
         [
