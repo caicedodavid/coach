@@ -17,14 +17,16 @@
                     'inputContainer' => '<div class="input text required"><div class="input-group date" id="date1" name ="date">{{content}}<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>'
                 ],
             ]);
+        ?>
+        <?php
             echo "<b>Time of session</b><br>";
-            echo $this->Form->input('time',  ['class' => 'timepicker','type'=>'text','label'=>false]);
+            echo $this->Form->input('time',  ['class' => 'form-control timepicker','type'=>'text','label'=>false]);
             if ($this->Form->isFieldError('schedule')) {
                 echo $this->Form->error('schedule');
             }
             echo $this->Form->input('subject',  ['class' => 'form-control']);
             echo $this->Form->input('comments',['class' => 'form-control']);
-            ?>
+        ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary pull-right']) ?>
     <?= $this->Html->link(__('Cancel'), ['action' => 'approved'],['class' => 'btn btn-default pull-right']) ?>

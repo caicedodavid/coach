@@ -109,10 +109,11 @@
       });
 
       $('#start').click(function(){
-        var param1 = $(this).attr("name"); 
+        var sessionId = $(this).attr("name"); 
         console.log(param1);
+        var url = "sessions/updateStartTime/"+ sessionId;
         $.ajax({
-          url:"http://"+ document.domain +":8765/sessions/updateStartTime/"+ param1,
+          url: url,
           type:"GET",
           dataType : 'json',
           async: true,

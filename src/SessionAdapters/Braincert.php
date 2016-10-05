@@ -70,7 +70,14 @@ class Braincert implements SessionAdapter
         $fields= array(
             'class_id' => $session["external_class_id"],
             );
-        return $this->postRequest($fields,'getclass');
+        $savedKeyes = [
+            'start_time',
+            'end_time',
+            'session_id',
+            'status',
+            'duration'
+        ];
+        return array_intersect_key($this->postRequest($fields,'getclass')['0'], array_flip($savedKeyes));
     }
 
     /**

@@ -315,8 +315,7 @@ class SessionsTable extends Table
     public function getSessionData($session)
     {
         $liveSession = LiveSession::getInstance();
-        $response = $liveSession->getSessionData($session);
-        return $response;
+        return $liveSession->getSessionData($session);
     }
 
     /**

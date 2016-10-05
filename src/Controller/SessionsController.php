@@ -123,11 +123,13 @@ class SessionsController extends AppController
      */
     public function rate()
     {
+
         $user =$this->Auth->user();
         $appSession = $this->request->session();
         $id = $appSession->read('Class.id');
         $startTime = $appSession->read('Class.startTime');
-        if (!$id){
+        
+        if (!$id) {
             $this->Flash->error(__('Invalid Action'));
             return $this->redirect(['action' => 'display','controller' => 'Pages']);
         }
@@ -212,8 +214,6 @@ class SessionsController extends AppController
      */
     public function approveSession($id)
     {
-        //$this->autoRender = false;
-        //$this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
         $session['status'] = STATUS_APPROVED;
         $session['external_class_id'] = $this->Sessions->scheduleSession($session);
@@ -222,9 +222,9 @@ class SessionsController extends AppController
         } else {
             $this->Flash->error(__('The session could not be confirmed. Please try again later'));
         }
-        return $this->redirect(
-            ['action' => 'pending']
-        );
+        return $this->redirect([
+            'action' => 'pending'
+        ]);
     }
 
     /**
@@ -258,7 +258,6 @@ class SessionsController extends AppController
      */
     public function updateStartTime($id = NULL)
     {
-
         $this->request->allowMethod(['post','get']);
         $appSession = $this->request->session();
         $appSession->write('Class.id',$id);
