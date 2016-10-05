@@ -20,6 +20,12 @@ use Cake\ORM\Entity;
  */
 class Session extends Entity
 {
+    const STATUS_PENDING = 1;
+    const STATUS_APPROVED = 2;
+    const STATUS_RUNNING = 3;
+    const STATUS_REJECTED = 4;
+    const STATUS_CANCELED = 5;
+    const STATUS_PAST = 6;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
