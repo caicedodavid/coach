@@ -31,7 +31,7 @@ class Braincert implements SessionAdapter
     	$endTime = date('h:ia',$endTimeValue);
     	$fields= array(
     		'title' => $session["subject"],
-    		'timezone' => 76,
+    		'timezone' => 57,
     		'start_time' => $startTime,
     		'end_time' => $endTime,
     		'date' => $date

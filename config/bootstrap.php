@@ -152,7 +152,7 @@ Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
 Configure::write('Imagine.salt', 'H5JFLL0yhZobrIqNfMkFdG6RQLZsDiMadmFPXwe5');
-date_default_timezone_set('America/Caracas');
+date_default_timezone_set('America/Santiago');
 
 /**
  * The default crypto extension in 3.0 is OpenSSL.
