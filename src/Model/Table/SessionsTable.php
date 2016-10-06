@@ -83,6 +83,12 @@ class SessionsTable extends Table
 
         $validator
             ->allowEmpty('comments');
+
+        $validator
+            ->notEmpty('user_rating');
+
+        $validator
+            ->notEmpty('coach_rating');
 /*
         $validator
             ->add('schedule','validSchedule',[
@@ -114,7 +120,8 @@ class SessionsTable extends Table
      * Returns true if schedule is at least a day after requesting a
      * session
      *
-     * @param datetime object and context
+     * @param $check datetime object
+     * @param $context context object
      * @return boolean
      */
     public function validSchedule($check, array $context)
@@ -139,21 +146,34 @@ class SessionsTable extends Table
     }
 
     /**
-     * Override patchEntity method from Table class
+     * Shedule a class with the server
      *
      * Ajusting Datetime format
-     *
+     * @param  $entity Session enttity interface
+     * @param  $data array of data to be aptched in the entity
+     * @param  $options options array
      * @return Session Entity
      */
-    public function patchEntity(EntityInterface $entity , array $data , array $options = [])
+    public function scheduleSession($session)
+    {
+
+        $liveSession = LiveSession::getInstance();
+        $response = $liveSession->scheduleSession($session);
+        return $response["class_id"];
+    }
+
+    /**
+     * Fix Schedule
+     *
+     * Ajusting Datetime format
+     * @param  $data array of data to be patched in the entity
+     * @return $data array of data to be patched in the entity
+     */
+    public function fixSchedule(array $data)
     {
         $data["schedule"] = $data["schedule"] . " ". $data["time"] . ":00";
         unset($data["time"]);
-
-        $liveSession = LiveSession::getInstance();
-        $response = $liveSession->scheduleSession($data);
-        $data["external_class_id"] = $response["class_id"];
-        return parent::patchEntity($entity, $data);
+        return $data;
 
     }
 
@@ -272,6 +292,8 @@ class SessionsTable extends Table
 
     /**
      * method for returning a Url if the LiveSession returnes one, if not return null
+     * @param $session session entity
+     * @param $user user object
      * @return string url| null
      */
     public function getUrl($session, $user)
@@ -285,7 +307,19 @@ class SessionsTable extends Table
     }
 
     /**
-     * method for returning a Url if the LiveSession returnes one, if not return null
+     * method for returning the data of a session
+     * @param $session session entity
+     * @param $user user object
+     * @return string url| null
+     */
+    public function getSessionData($session)
+    {
+        $liveSession = LiveSession::getInstance();
+        return $liveSession->getSessionData($session);
+    }
+
+    /**
+     * method for removing a class from the LiveSession server database
      * @return string url| null
      */
     public function removeClass($session)
@@ -295,5 +329,19 @@ class SessionsTable extends Table
         return $response['status'];
     }
 
+    /**
+     * method for setting the time in a session of a user or coach
+     * @return $data Array
+     */
+    public function setTime($session,$isCoach,$startTime)
+    {
+        $time = gmdate("H:i",strtotime("now") - (int) $startTime);
+        if($isCoach):
+            $session["coach_time"] = $session["coach_time"]?: $time;
+        else:
+            $session["user_time"] = $session["user_time"]?: $time;
+        endif;
+        return $session;
+    }
 }
 

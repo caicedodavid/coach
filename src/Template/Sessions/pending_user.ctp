@@ -14,7 +14,7 @@
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>
                 <div class="col-md-5"><?= $session->subject ?></div>
-                <div class="col-md-2"><div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]) ?></div>
+                <div class="col-md-2"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewPending', $session->id]) ?></div>
             </div>
         <?php endforeach; ?>
         <?php echo $this->element('classic_pagination'); ?>

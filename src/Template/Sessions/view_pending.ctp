@@ -3,7 +3,7 @@
     <table class="vertical-table">
         <tr>
             <th><?= __('Subject: ') ?></th>
-            <td><?= h($session->Subject) ?></td>
+            <td><?= h($session->subject) ?></td>
         </tr>
         <tr>
             <th><?= __('Date and time: ') ?></th>

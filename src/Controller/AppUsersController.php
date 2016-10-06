@@ -8,6 +8,7 @@ use CakeDC\Users\Controller\Component\UsersAuthComponent;
 use CakeDC\Users\Controller\UsersController;
 use App\Controller\UsersController as User;
 use Cake\ORM\TableRegistry;
+use Cake\ORM\Query;
 
 class AppUsersController extends UsersController
 {
@@ -21,7 +22,7 @@ class AppUsersController extends UsersController
     {
         $this->paginate = [
             'limit' => 5,
-            'finder' => 'Coaches',
+            'finder' => 'coaches',
         ];
         $users = $this->paginate($this->AppUsers);
         $this->set(compact('users'));

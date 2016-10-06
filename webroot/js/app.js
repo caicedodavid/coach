@@ -108,4 +108,16 @@
         });
       });
 
+      $('#start').click(function(){
+        var sessionId = $(this).attr("name"); 
+        console.log(param1);
+        var url = "sessions/updateStartTime/"+ sessionId;
+        $.ajax({
+          url: url,
+          type:"GET",
+          dataType : 'json',
+          async: true,
+        });
+      });
+
  });

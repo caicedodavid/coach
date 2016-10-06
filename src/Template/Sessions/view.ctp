@@ -3,7 +3,7 @@
     <table class="vertical-table">
         <tr>
             <th><?= __('Subject: ') ?></th>
-            <td><?= h($session->Subject) ?></td>
+            <td><?= h($session->subject) ?></td>
         </tr>
         <tr>
             <th><?= __('Date and time: ') ?></th>
@@ -17,10 +17,11 @@
             <th><?= __('Assist to session: ') ?></th>
             <td><div class="col-md-1">
                 <?php if ($url):
-                    echo $this->Html->link(__('Assist to your class'), $url);
+                    echo $this->Html->link(__('Assist to your class'), $url, ['id' => 'start', 'name'=>$session->id]);
                 else:
                     echo __('Your class is not available yet');
-                endif;?>
+                endif;
+                ?>
             </td>
         </tr>
     </table>
