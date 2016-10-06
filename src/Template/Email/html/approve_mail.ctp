@@ -13,7 +13,7 @@
 	<?= __d('Sessions', "Hi {0}", $user->first_name) ?>,
 </p>
 <p>
-    <?= __d('Sessions', "You have requested a session with {0}", $coach->full_name) ?>
+    <?= __d('Sessions', "The coach {0} has ACCEPTED a session with you", $coach->full_name) ?>
 </p>
 <p>
     <strong><?= __d('Sessions', "Coach information:") ?></strong>

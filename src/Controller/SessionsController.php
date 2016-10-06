@@ -226,6 +226,7 @@ class SessionsController extends AppController
         $session = $this->Sessions->get($id);
         $session['status'] = Session::STATUS_REJECTED;
         if ($this->Sessions->save($session)) {
+            $this->Sessions->sendEmail($session,'rejectMail');
             $this->Flash->success(__('The session has been rejected.'));
         } else {
             $this->Flash->error(__('The session could not be rejected. Please try again later'));
@@ -249,6 +250,7 @@ class SessionsController extends AppController
         $session['status'] = Session::STATUS_APPROVED;
         $session['external_class_id'] = $this->Sessions->scheduleSession($session);
         if ($this->Sessions->save($session)) {
+            $this->Sessions->sendEmail($session,'approveMail');
             $this->Flash->success(__('The session has been confirmed.'));
         } else {
             $this->Flash->error(__('The session could not be confirmed. Please try again later'));
@@ -272,6 +274,7 @@ class SessionsController extends AppController
         $session['status'] = Session::STATUS_CANCELED;
         $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
+            $this->Sessions->sendEmail($session,$this->getUser()['role'] . 'CancelMail');
             $this->Flash->success(__('The session has been Canceled.'));
         } else {
             $this->Flash->error(__('The session could not be canceled. Please try again later'));

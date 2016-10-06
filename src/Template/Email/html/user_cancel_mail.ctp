@@ -10,19 +10,19 @@
  */
 ?>
 <p>
-	<?= __d('Sessions', "Hi {0}", $user->first_name) ?>,
+	<?= __d('Sessions', "Hi {0}", $coach->first_name) ?>,
 </p>
 <p>
-    <?= __d('Sessions', "You have requested a session with {0}", $coach->full_name) ?>
+    <?= __d('Sessions', "The coachee {0} has CANCELED a session with you", $user->full_name) ?>
 </p>
 <p>
-    <strong><?= __d('Sessions', "Coach information:") ?></strong>
+    <strong><?= __d('Sessions', "Coachee information:") ?></strong>
 </p>
 <p>
-    <?= __d('Sessions', "Username:{0}",$coach->username) ?>
+    <?= __d('Sessions', "Username:{0}",$user->username) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Email: {0}", $coach->email) ?>
+    <?= __d('Sessions', "Email: {0}", $user->email) ?>
 </p>
 <p>
     <strong><?= __d('Sessions', "Session details:") ?></strong>
