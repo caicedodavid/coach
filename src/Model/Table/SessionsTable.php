@@ -12,6 +12,7 @@ use Cake\Mailer\Email;
 use Cake\Datasource\EntityInterface;
 use Cake\Mailer\MailerAwareTrait;
 use App\SessionAdapters\LiveSession;
+use App\Model\Entity\Session;
 
 /**
  * Sessions Model
@@ -235,7 +236,7 @@ class SessionsTable extends Table
     public function findApproved(Query $query, array $options)
     {
         return  $query = $query->where([
-                'Sessions.status' => STATUS_APPROVED
+                'Sessions.status' => session::STATUS_APPROVED
         ]);
     }
 
@@ -248,7 +249,7 @@ class SessionsTable extends Table
     public function findPending(Query $query, array $options)
     {
         return  $query = $query->where([
-                'Sessions.status' => STATUS_PENDING
+                'Sessions.status' => session::STATUS_PENDING
         ]);
     }
 
@@ -261,7 +262,7 @@ class SessionsTable extends Table
     public function findPast(Query $query, array $options)
     {
         return  $query = $query->where([
-                'Sessions.status' => STATUS_PAST
+                'Sessions.status' => session::STATUS_PAST
         ]);
     }
 
@@ -333,15 +334,9 @@ class SessionsTable extends Table
      * method for setting the time in a session of a user or coach
      * @return $data Array
      */
-    public function setTime($session,$isCoach,$startTime)
+    public function setTime($startTime)
     {
-        $time = gmdate("H:i",strtotime("now") - (int) $startTime);
-        if($isCoach):
-            $session["coach_time"] = $session["coach_time"]?: $time;
-        else:
-            $session["user_time"] = $session["user_time"]?: $time;
-        endif;
-        return $session;
+        return gmdate("H:i",strtotime("now") - (int) $startTime);
     }
 }
 

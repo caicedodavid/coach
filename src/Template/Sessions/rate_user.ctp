@@ -7,7 +7,6 @@
         	echo $this->Form->label('Session.user_rating','Rate the class:',['class'=>'control-label']);
             echo $this->Form->input('user_rating',  ['class' => 'rating','data-min'=>'0', 'data-max'=>'5', 'data-step'=>'1','label'=>false,'data-size'=>'xs']);
             echo $this->Form->input('user_comments',['class' => 'form-control']);
-            echo $this->Form->hidden('status', ['value' => 5]);
             ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary pull-right']) ?>
