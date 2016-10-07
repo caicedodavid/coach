@@ -73,6 +73,11 @@ class SessionsController extends AppController
         $historicSessions = $this->paginate($this->Sessions);
         $this->set(compact('historicSessions'));
         $this->set('_serialize', ['historicSessions']);
+        if ($this->isCoach($user)) {
+            $this->render("historic_coach");
+        }
+
+    
     }
 
     /**
@@ -94,7 +99,20 @@ class SessionsController extends AppController
         $this->set('url',$response);
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
+
     }
+    /**
+     * View a past, rejected or canceled session
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewHistoric($id = null)
+    {
+        $user =$this->view($id);
+    }
+
 
     /**
      * View pending sessions method
@@ -105,14 +123,7 @@ class SessionsController extends AppController
      */
     public function viewPending($id = null)
     {
-        $user =$this->getUser();
-        $session = $this->Sessions->get($id, [
-            'contain' => [
-                ($this->isCoach($user) ? 'Users' : 'Coaches')
-            ]
-        ]);
-        $this->set('session', $session);
-        $this->set('_serialize', ['session']);
+        $user =$this->view($id);
     }
 
     /**
@@ -292,11 +303,8 @@ class SessionsController extends AppController
      */
     public function updateStartTime($id = NULL)
     {   
+        $this->log("UPDATESTARTTIME");
         $this->autoRender = false;
-        if (!$this->isCoach($this->getUser())) {
-          return false;
-        }
-
         $this->request->allowMethod(['post','get']);
         $appSession = $this->request->session();
         $session = $this->Sessions->get($id);
@@ -318,5 +326,17 @@ class SessionsController extends AppController
         parent::beforeFilter($event);
         $this->Security->config('unlockedActions', ['updateStartTime']);
         $this->Auth->allow('updateStartTime');
+    }
+
+    public function getStatusString($status) {
+
+        return [
+            1 => 'pending',
+            2 => 'Approved',
+            3 => 'Running',
+            4 => 'Rejected',
+            5 => 'Canceled',
+            6 => 'Past'
+        ];
     }
 }

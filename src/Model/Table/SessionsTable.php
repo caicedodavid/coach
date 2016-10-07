@@ -175,7 +175,6 @@ class SessionsTable extends Table
 
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($session);
-        debug($response);
         return $response["class_id"];
     }
 
@@ -252,7 +251,10 @@ class SessionsTable extends Table
     public function findApproved(Query $query, array $options)
     {
         return  $query = $query->where([
-                'Sessions.status' => session::STATUS_APPROVED
+            'OR'=>[
+                ['Sessions.status' => session::STATUS_APPROVED],
+                ['Sessions.status' => session::STATUS_RUNNING]
+            ]
         ]);
     }
 
@@ -278,10 +280,13 @@ class SessionsTable extends Table
     public function findPast(Query $query, array $options)
     {
         return  $query = $query->where([
-                'Sessions.status' => session::STATUS_PAST
+            'OR'=>[
+                ['Sessions.status' => session::STATUS_PAST],
+                ['Sessions.status' => session::STATUS_REJECTED],
+                ['Sessions.status' => session::STATUS_CANCELED]
+            ]
         ]);
     }
-
 
     /**
      * Query for finding sessions linked to a user

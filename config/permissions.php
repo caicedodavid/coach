@@ -61,7 +61,8 @@ return [
             'action' => [
                 'rejectSession',
                 'approveSession',
-                'rateCoach'
+                'rateCoach',
+                'viewHistoric'
             ]
         ],
         [
