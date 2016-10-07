@@ -13,10 +13,7 @@
 	<?= __d('Sessions', "Hi {0}", $user->first_name) ?>,
 </p>
 <p>
-    <?= __d('Sessions', "You have requested a session with {0}", $coach->full_name) ?>
-</p>
-<p>
-    <strong><?= __d('Sessions', "Coach information:") ?></strong>
+    <?= __d('Sessions', "The coach {0} has REJECTED session with you", $coach->full_name) ?>
 </p>
 <p>
     <?= __d('Sessions', "Username:{0}",$coach->username) ?>
@@ -35,4 +32,3 @@
 </p>
 <p>
     <?= __d('Sessions', "Comments: {0}",h($session->comments)) ?>
-</p>

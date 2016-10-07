@@ -10,10 +10,7 @@ use Cake\Network\Http\Client;
 class Braincert implements SessionAdapter
 {
 	const API_END_POINT = "https://api.braincert.com/v2/";
-
-	public function __construct ($api_key = "g4cPvYO3AdSNEUh7zag5")
-	{
-		$this->api_key	= $api_key;
+    const BRAINCERT_SANTIAGO_TIMEZONE = 57;
 	}
 
     /**
@@ -31,7 +28,7 @@ class Braincert implements SessionAdapter
     	$endTime = date('h:ia',$endTimeValue);
     	$fields= array(
     		'title' => $session["subject"],
-    		'timezone' => 76,
+    		'timezone' => self::BRAINCERT_KEY_LOCAL_TIMEZONE,
     		'start_time' => $startTime,
     		'end_time' => $endTime,
     		'date' => $date

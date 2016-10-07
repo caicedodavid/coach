@@ -135,7 +135,7 @@ class SessionsTable extends Table
      *
      * @param session | session entity
      */
-    public function sendEmails($session)
+    public function sendRequestEmails($session)
     {
         $session = $this->get($session['id'], [
                     'contain' => ['Users', 'Coaches']
@@ -144,6 +144,21 @@ class SessionsTable extends Table
         $user = $session["user"];
         $this->getMailer('Session')->send('userMail', [$user,$coach,$session]);            
         $this->getMailer('Session')->send('coachMail', [$user,$coach,$session]);
+    }
+
+    /**
+     * Logic after acepting a session (send email)
+     *
+     * @param session | session entity
+     */
+    public function sendEmail($session,$action)
+    {
+        $session = $this->get($session['id'], [
+                    'contain' => ['Users', 'Coaches']
+                ]);
+        $coach = $session["coach"];
+        $user = $session["user"];
+        $this->getMailer('Session')->send($action, [$user,$coach,$session]);            
     }
 
     /**
@@ -160,6 +175,7 @@ class SessionsTable extends Table
 
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($session);
+        debug($response);
         return $response["class_id"];
     }
 

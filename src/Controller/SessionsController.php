@@ -116,7 +116,7 @@ class SessionsController extends AppController
     }
 
     /**
-     * rate method
+     * rate method for coaches
      *
      * @param string|null $id Session id.
      * @return \Cake\Network\Response|null
@@ -153,7 +153,7 @@ class SessionsController extends AppController
     }
 
     /**
-     * rate method
+     * rate method for users
      *
      * @param string|null $id Session id.
      * @return \Cake\Network\Response|null
@@ -201,7 +201,7 @@ class SessionsController extends AppController
             $session = $this->Sessions->patchEntity($session,$data);
             
             if ($this->Sessions->save($session)) {
-                $this->Sessions->sendEmails($session);
+                $this->Sessions->sendRequestEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
@@ -226,6 +226,7 @@ class SessionsController extends AppController
         $session = $this->Sessions->get($id);
         $session['status'] = Session::STATUS_REJECTED;
         if ($this->Sessions->save($session)) {
+            $this->Sessions->sendEmail($session,'rejectMail');
             $this->Flash->success(__('The session has been rejected.'));
         } else {
             $this->Flash->error(__('The session could not be rejected. Please try again later'));
@@ -249,6 +250,7 @@ class SessionsController extends AppController
         $session['status'] = Session::STATUS_APPROVED;
         $session['external_class_id'] = $this->Sessions->scheduleSession($session);
         if ($this->Sessions->save($session)) {
+            $this->Sessions->sendEmail($session,'approveMail');
             $this->Flash->success(__('The session has been confirmed.'));
         } else {
             $this->Flash->error(__('The session could not be confirmed. Please try again later'));
@@ -272,6 +274,7 @@ class SessionsController extends AppController
         $session['status'] = Session::STATUS_CANCELED;
         $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
+            $this->Sessions->sendEmail($session,$this->getUser()['role'] . 'CancelMail');
             $this->Flash->success(__('The session has been Canceled.'));
         } else {
             $this->Flash->error(__('The session could not be canceled. Please try again later'));
@@ -290,9 +293,9 @@ class SessionsController extends AppController
     public function updateStartTime($id = NULL)
     {   
         $this->autoRender = false;
-        //if (!$this->isCoach($this->getUser())) {
-          //  return false;
-        //}
+        if (!$this->isCoach($this->getUser())) {
+          return false;
+        }
 
         $this->request->allowMethod(['post','get']);
         $appSession = $this->request->session();
