@@ -1,15 +1,22 @@
 <?php
 namespace App\Controller;
 
-use App\Controller\AppController;
-use Cake\Error\Debugger;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
 use CakeDC\Users\Controller\Component\UsersAuthComponent;
 use CakeDC\Users\Controller\UsersController;
-use App\Controller\UsersController as User;
-use Cake\ORM\TableRegistry;
-use Cake\ORM\Query;
+//use App\Controller\UsersController as User;
+//use Cake\ORM\TableRegistry;
+//use Cake\ORM\Query;
 
+
+/**
+ * Class AppUsersController
+ *
+ * @package App\Controller
+ *
+ * @property \App\Model\Table\AppUsersTable $AppUsers
+ */
 class AppUsersController extends UsersController
 {
 
@@ -33,17 +40,6 @@ class AppUsersController extends UsersController
 
     }
 
-    /**
-     * Override loadModel to load specific users table
-     * @param string $modelClass model class
-     * @param string $type type
-     * @return Table
-     */
-    public function loadModel($modelClass = null, $type = 'Table')
-    {
-        $usersController = new User();
-        return $usersController->loadModel('Users');
-    }
 
     public function view($id = null)
     {
@@ -63,7 +59,7 @@ class AppUsersController extends UsersController
     public function edit($id = NULL)
     {
         $user = $this->AppUsers->find()
-            ->where(['Users.id' => $this->getUser()["id"]])
+            ->where(['AppUsers.id' => $this->getUser()["id"]])
             ->contain('UserImage')
             ->first();
         
@@ -95,12 +91,17 @@ class AppUsersController extends UsersController
      */
     public function register()
     {
-        $this->eventManager()->on(UsersAuthComponent::EVENT_AFTER_REGISTER,[],function(Event $event){
-            echo "hahaha";
-            $this->Flash->success();
-        });
+
+        if ($this->request->is('post')) {
+            $role = $this->request->data['role'];
+            $this->eventManager()->on(UsersAuthComponent::EVENT_AFTER_REGISTER,[],function(Event $event) use ($role) {
+                    $user = Hash::get($event->data, 'user');
+                    $this->AppUsers->setRole($user->id, $role);
+                    $this->redirect('/');
+                });
+        }
+        $this->set('role', $this->request->pass[0]);
         parent::register();
-        $this->render('../Plugin/CakeDC/Users/Users/register');
     }
     /**
      * beforeRender, loading TinyMce editor
@@ -121,6 +122,7 @@ class AppUsersController extends UsersController
      */
     public function beforeFilter(Event $event)
     {
+        parent::beforeFilter($event);
         $this->Auth->allow(['coaches','view']);
     }
 }
