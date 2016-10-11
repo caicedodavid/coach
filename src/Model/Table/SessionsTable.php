@@ -52,12 +52,12 @@ class SessionsTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
-            'className' => 'Users',
+            'className' => 'AppUsers',
         ]);
         $this->belongsTo('Coaches', [
             'foreignKey' => 'coach_id',
             'joinType' => 'INNER',
-            'className' => 'Users',
+            'className' => 'AppUsers',
         ]);
     }
 
@@ -239,7 +239,7 @@ class SessionsTable extends Table
         return $query
             ->where(['Sessions.' . $role . "_id" => $user["id"]])
             ->find('approved')
-            ->find('contain', ['role'=>$role]);
+            ->find('contain', ['role' => $role]);
     }
 
     /**
@@ -297,14 +297,13 @@ class SessionsTable extends Table
     public function findContain(Query $query, array $options)
     {
         $role = $options["role"];
-        if($role === 'coach'):
+        if ($role === 'coach') {
             return $query->contain([
                 'Users'=> [
                     'UserImage'
                 ]
             ]);
-        endif;
-
+        }
         return $query->contain([
             'Coaches'=> [
                 'UserImage'

@@ -19,7 +19,7 @@ class SessionsController extends AppController
      */ 
     public function approved()
     {
-    	$user =$this->getUser();
+    	$user = $this->getUser();
 		$this->paginate = [
             'limit' => 2,
             'finder' => [

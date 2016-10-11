@@ -26,12 +26,12 @@
                     <li>
                         <?= $this->AuthLink->link(__d('AppUsers', 'Coaches'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'coaches', 'prefix' => false]);?>
                     </li>
-                   <?php if ($this->AuthLink->isAuthorized(['controller' => 'Users', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false])):?>
+                   <?php if ($this->AuthLink->isAuthorized(['controller' => 'AppUsers', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false])):?>
                        <li class="pull-right dropdown">
                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><?= __('Admin')?> <span class="caret"></span></a>
                            <ul class="dropdown-menu">
                                <li>
-                                   <?= $this->AuthLink->link(__d('Users', 'Users'), ['controller' => 'Users', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false]);?>
+                                   <?= $this->AuthLink->link(__d('Users', 'Users'), ['controller' => 'AppUsers', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false]);?>
                                </li>
                            </ul>
                        </li>
