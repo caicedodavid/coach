@@ -73,6 +73,7 @@ class SessionsController extends AppController
         $historicSessions = $this->paginate($this->Sessions);
         $this->set(compact('historicSessions'));
         $this->set('_serialize', ['historicSessions']);
+        $this->set('statusArray',$this->getStatusArray());
         if ($this->isCoach($user)) {
             $this->render("historic_coach");
         }
@@ -92,7 +93,9 @@ class SessionsController extends AppController
     	$user =$this->getUser();
         $session = $this->Sessions->get($id, [
             'contain' => [
-            	($this->isCoach($user) ? 'Users' : 'Coaches')
+            	($this->isCoach($user) ? 'Users' : 'Coaches') => [
+                    'UserImage'
+                ]
             ]
         ]);
         $response = $this->Sessions->getUrl($session,$user);
@@ -133,13 +136,13 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function rateCoach()
+    public function rateCoach($id = null)
     {
 
         $user =$this->getUser();
         $appSession = $this->request->session();
-        $id = $appSession->read('Class.id');
-        $startTime = $appSession->read('Class.startTime');
+        $startTime = $id? null:$appSession->read('Class.startTime');
+        $id = $id? $id:$appSession->read('Class.id');
         
         if (!$id) {
             $this->Flash->error(__('Invalid Action'));
@@ -328,15 +331,20 @@ class SessionsController extends AppController
         $this->Auth->allow('updateStartTime');
     }
 
-    public function getStatusString($status) {
+    /**
+     * Returns Array with Key/Value StatusValue/StatusString
+     *
+     * @return Array
+     */
+    public function getStatusArray() {
 
         return [
-            1 => 'pending',
-            2 => 'Approved',
-            3 => 'Running',
-            4 => 'Rejected',
-            5 => 'Canceled',
-            6 => 'Past'
+            Session::STATUS_PENDING => 'Pending',
+            Session::STATUS_APPROVED => 'Approved',
+            Session::STATUS_RUNNING => 'Running',
+            Session::STATUS_REJECTED => 'Rejected',
+            Session::STATUS_CANCELED => 'Canceled',
+            Session::STATUS_PAST => 'Past'
         ];
     }
 }
