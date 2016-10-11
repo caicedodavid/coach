@@ -73,7 +73,7 @@ Router::scope('/', function (RouteBuilder $routes) {
      */
     $routes->fallbacks('DashedRoute');
     Router::prefix('admin', function($routes) {
-        $routes->connect('/', ['controller'=>'Users','action'=>'index']);
+        $routes->connect('/', ['controller'=>'AppUsers','action'=>'index']);
         $routes->fallbacks('InflectedRoute');
     });
 });

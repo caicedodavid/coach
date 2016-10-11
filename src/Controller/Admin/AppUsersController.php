@@ -1,14 +1,14 @@
 <?php
 namespace App\Controller\Admin;
 
-use App\Controller\AppController;
+use CakeDC\Users\Controller\UsersController;
 
 /**
  * Users Controller
  *
- * @property \App\Model\Table\UsersTable $Users
+ * @property \App\Model\Table\AppUsers $Users
  */
-class UsersController extends AppController
+class AppUsersController extends UsersController
 {
     public $paginate = [
         'limit' => 20
@@ -22,7 +22,7 @@ class UsersController extends AppController
 
     public function index()
     {
-        $users = $this->paginate($this->Users);
+        $users = $this->paginate($this->AppUsers);
 
         $this->set(compact('users'));
         $this->set('_serialize', ['users']);
@@ -37,7 +37,7 @@ class UsersController extends AppController
      */
     public function view($id = null)
     {
-        $user = $this->Users->get($id, [
+        $user = $this->AppUsers->get($id, [
             'contain' => ['SocialAccounts']
         ]);
 
@@ -52,13 +52,18 @@ class UsersController extends AppController
      */
     public function add()
     {
-        $user = $this->Users->newEntity();
+        $user = $this->AppUsers->newEntity();
         $user['is_superuser'] = false;
         if ($this->request->is('post')) {
             $data= $this->request->data;
             $data['is_superuser'] =false;
-            $user = $this->Users->patchEntity($user, $data);
-            if ($this->Users->save($user)) {
+            $user = $this->AppUsers->patchEntity($user, $data,  ['accessibleFields' => [
+                    '*' => true,
+                    'id' => false,
+                    'is_superuser' => false,
+                    'role' => true,
+                ]]);
+            if ($this->AppUsers->save($user)) {
                 $this->Flash->success(__('The user has been saved.'));
 
                 return $this->redirect(['action' => 'index']);
@@ -66,7 +71,7 @@ class UsersController extends AppController
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
-        $this->set('rolesList',$this->Users->getRoleList());
+        $this->set('rolesList',$this->AppUsers->getRoleList());
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
@@ -80,12 +85,17 @@ class UsersController extends AppController
      */
     public function edit($id = null)
     {
-        $user = $this->Users->get($id, [
+        $user = $this->AppUsers->get($id, [
             'contain' => []
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $user = $this->Users->patchEntity($user, $this->request->data);
-            if ($this->Users->save($user)) {
+            $user = $this->AppUsers->patchEntity($user, $this->request->data, ['accessibleFields' => [
+                    '*' => true,
+                    'id' => false,
+                    'is_superuser' => false,
+                    'role' => true,
+                ]]);
+            if ($this->AppUsers->save($user)) {
 
                 $this->Flash->success(__('The user has been saved.'));
                 debug($user);
@@ -94,7 +104,7 @@ class UsersController extends AppController
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
-        $this->set('rolesList',$this->Users->getRoleList());
+        $this->set('rolesList',$this->AppUsers->getRoleList());
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
@@ -109,8 +119,8 @@ class UsersController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $user = $this->Users->get($id);
-        if ($this->Users->delete($user)) {
+        $user = $this->AppUsers->get($id);
+        if ($this->AppUsers->delete($user)) {
             $this->Flash->success(__('The user has been deleted.'));
         } else {
             $this->Flash->error(__('The user could not be deleted. Please, try again.'));

@@ -20,7 +20,7 @@ define("ROLE_COACH","coach");
 $config = [
     'Users' => [
         //Table used to manage users
-        'table' => 'CakeDC/Users.Users',
+        'table' => 'AppUsers',
         //configure Auth component
         'auth' => true,
         //Password Hasher
