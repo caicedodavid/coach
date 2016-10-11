@@ -5,7 +5,7 @@
     $class3 = ($type === "historic" ? "active": null);
 ?>
 <div class="sessions">
-    <h3><?= __('Your scheduled sessions with coaches') ?></h3>
+    <h3><?= __('Your Sessions') ?></h3>
     <div class="container">
         <ul class="nav nav-tabs">
             <?php

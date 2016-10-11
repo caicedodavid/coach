@@ -88,7 +88,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($id = null, $status = null)
     {
     	$user =$this->getUser();
         $session = $this->Sessions->get($id, [
@@ -102,6 +102,9 @@ class SessionsController extends AppController
         $this->set('url',$response);
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
+        if ($status == Session::STATUS_PAST) {
+            $this->render("view_historic");
+        }
 
     }
     /**
