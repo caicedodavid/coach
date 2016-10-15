@@ -12,7 +12,7 @@ use Cake\Event\Event;
  */
 class VirtualclassroomController extends AppController
 {
-    const API_END_POINT = "https://www.learn-cube.com/classv3/";
+    const API_END_POINT = "https://cleteci.virtual-classes-online.com/classv3/";
     /**
      * requestSession method
      *
