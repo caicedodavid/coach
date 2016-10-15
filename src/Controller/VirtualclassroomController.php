@@ -14,7 +14,7 @@ use Cake\Routing\Router;
  */
 class VirtualclassroomController extends AppController
 {
-    const API_END_POINT = "https://cleteci.virtual-classes-online.com/classv3/";
+    const API_END_POINT = "https://cleteci.virtual-classes-online.com/classv3/?";
     /**
      * requestSession method
      *
@@ -50,7 +50,8 @@ class VirtualclassroomController extends AppController
     private function postRequest($fields,$request)
     {
         $http = new Client();
-        $response = $http->post(self::API_END_POINT . $request, $fields, ['headers'=>['Referer'=>Router::url(['controller' => 'Pages', 'action' => 'display', 'home'])]]);
+        $response = $http->get(self::API_END_POINT . $request . http_build_query($fields, '','&'));
+        //$response = $http->get(self::API_END_POINT . $request . $fields, ['headers'=>['Referer'=>Router::url(['controller' => 'Pages', 'action' => 'display', 'home'])]]);
         return $response->body;
     }
     public function beforeFilter(Event $event)
