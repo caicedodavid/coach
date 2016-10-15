@@ -11,6 +11,12 @@ return [
         ],
         [
             'role' => ['user','coach'],
+            'controller' => 'Virtualclassroom',
+            'action' => ['requestSession'
+            ]
+        ],
+        [
+            'role' => ['user','coach'],
             'plugin'=> 'CakeDC/Users',
             'controller' => 'Users',
             'action' => ['logout',
