@@ -4,6 +4,8 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Network\Http\Client;
 use Cake\Event\Event;
+use Cake\Routing\Router;
+
 
 /**
  * Sessions Controller
@@ -48,12 +50,12 @@ class VirtualclassroomController extends AppController
     private function postRequest($fields,$request)
     {
         $http = new Client();
-        $response = $http->post(self::API_END_POINT . $request, $fields);
+        $response = $http->post(self::API_END_POINT . $request, $fields, ['headers'=>['Referer'=>Router::url(['controller' => 'Pages', 'action' => 'display', 'home'])]]);
         return $response->body;
     }
     public function beforeFilter(Event $event)
     {
-        $this->eventManager()->off($this->Csrf);
+        //$this->eventManager()->off($this->Csrf);
         parent::beforeFilter($event);
         $this->Security->config('unlockedActions', ['index','requestSession']);
         $this->Auth->allow('index','requestSession');
@@ -61,7 +63,7 @@ class VirtualclassroomController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->loadComponent('Csrf');
+        //$this->loadComponent('Csrf');
     }
 
 }
