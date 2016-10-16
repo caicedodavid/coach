@@ -15,14 +15,22 @@ use Cake\Routing\Router;
 class VirtualclassroomController extends AppController
 {
     const API_END_POINT = "https://cleteci.virtual-classes-online.com/classv3/?";
+
+    const CONNECT_LESSON_REQUEST = "connect_lesson";
+
+    const START_CLASS_REQUEST = "start_class";
+
+    const END_LESSON_REQUEST = "end_lesson";
+
+
     /**
      * requestSession method
      *
      * @param $session Session entity,
-     * @param $session user entity,  
+     * @param $session user entity,
      * @return string POST response
      */
-    public function requestSession($session = 111, $user_id = 1)
+    public function requestSession($session = 121, $user_id = 2)
     {
         $this->request->allowMethod(['post','get']);
         $fields= array(
@@ -34,18 +42,44 @@ class VirtualclassroomController extends AppController
         }
         $this->log('requestSession','debug');
         debug($this->postRequest($fields,''));
-        debug($this->request);
+
     }
 
     public function index()
     {
         $this->request->allowMethod(['post','get']);
-        $this->autoRender = false; 
-        $data = $this->request->data;
-        $this->log('index','debug');
-        $this->log($this->request->data,'debug');
+        $this->autoRender = false;
+        $request = $this->request->query->request;
+
+        switch ($request) {
+            case $this->CONNECT_LESSON_REQUEST:
+                $this->lessonRequest();
+                break;
+            case $this->START_CLASS_REQUEST:
+                $this->log('startClass','debug');
+                break;
+            case $this->END_LESSON_REQUEST:
+                $this->log('endLesson','debug');
+                break;
+        }
+
+        $this->log($this->request->query->request,'debug');
     }
 
+    private function lessonRequest()
+    {
+        $this->autoRender = false;
+        $this->response->type('json');
+        $fields = [
+            "status" =>true, 
+            "is_tutor" => false, 
+            "id" => 111,
+            "full_name" => "John Smith", 
+            "avatar" => "https:\/\domain.com\/images\/avatar.png",
+            "record" => false
+        ]
+        $this->response->body($fields);
+    }
 
     private function postRequest($fields,$request)
     {
@@ -56,7 +90,7 @@ class VirtualclassroomController extends AppController
     }
     public function beforeFilter(Event $event)
     {
-        //$this->eventManager()->off($this->Csrf);
+        $this->eventManager()->off($this->Csrf);
         parent::beforeFilter($event);
         $this->Security->config('unlockedActions', ['index','requestSession']);
         $this->Auth->allow('index','requestSession');
@@ -64,7 +98,5 @@ class VirtualclassroomController extends AppController
     public function initialize()
     {
         parent::initialize();
-        //$this->loadComponent('Csrf');
+        $this->loadComponent('Csrf');
     }
-
-}
