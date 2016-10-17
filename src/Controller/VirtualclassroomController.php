@@ -73,16 +73,18 @@ class VirtualclassroomController extends AppController
         $this->response->type('json');
         $fields = [
             "status" =>true,
-            "is_tutor" => $this->isCoach($user),
-            "id" => $user['id'],
-            "full_name" => "John Smith",
+            "is_tutor"=>false,
+            "id" => 2,
+            "full_name" => "student",
             "avatar" => "http://static.comicvine.com/uploads/original/11120/111201466/4876184-6766483597-27828.jpg",
             "record" => false
         ];
         $this->response->body(json_encode($fields));
         $this->response->send();
         $this->log('sendResponseee','debug');
-
+        $this->log($this->response,'debug');
+        $this->log(ROLE_COACH,'debug');
+        $this->log($this->Auth->user(),'debug');
     }
 
     private function postRequest($fields,$request)
