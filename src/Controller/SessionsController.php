@@ -73,6 +73,10 @@ class SessionsController extends AppController
         $historicSessions = $this->paginate($this->Sessions);
         $this->set(compact('historicSessions'));
         $this->set('_serialize', ['historicSessions']);
+        $this->set('statusArray',$this->getStatusArray());
+        if ($this->isCoach($user)) {
+            $this->render("historic_coach");
+        }
     }
 
     /**
@@ -82,19 +86,34 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null)
+    public function view($id = null, $status = null)
     {
-    	$user =$this->getUser();
-        $session = $this->Sessions->get($id, [
-            'contain' => [
-            	($this->isCoach($user) ? 'Users' : 'Coaches')
-            ]
+    	$user = $this->getUser();
+        $session = $this->Sessions->find('sessionData',[
+            'id' => $id,
+            'user' => $user
         ]);
         $response = $this->Sessions->getUrl($session,$user);
         $this->set('url',$response);
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
+        if ($status == Session::STATUS_PAST) {
+            $this->render("view_historic");
+        }
+
     }
+    /**
+     * View a past, rejected or canceled session
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewHistoric($id = null)
+    {
+        $user =$this->view($id);
+    }
+
 
     /**
      * View pending sessions method
@@ -105,14 +124,7 @@ class SessionsController extends AppController
      */
     public function viewPending($id = null)
     {
-        $user =$this->getUser();
-        $session = $this->Sessions->get($id, [
-            'contain' => [
-                ($this->isCoach($user) ? 'Users' : 'Coaches')
-            ]
-        ]);
-        $this->set('session', $session);
-        $this->set('_serialize', ['session']);
+        $user = $this->view($id); 
     }
 
     /**
@@ -122,20 +134,20 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function rateCoach()
+    public function rateCoach($id = null)
     {
 
         $user =$this->getUser();
         $appSession = $this->request->session();
-        $id = $appSession->read('Class.id');
-        $startTime = $appSession->read('Class.startTime');
+        $startTime = $id ? null: $appSession->read('Class.startTime');
+        $id = $id ? $id: $appSession->read('Class.id');
         
         if (!$id) {
             $this->Flash->error(__('Invalid Action'));
             return $this->redirect(['action' => 'display','controller' => 'Pages']);
         }
         $session = $this->Sessions->get($id);
-        $session["coach_time"] = $session["coach_time"]?:$this->Sessions->setTime($startTime);
+        $session["coach_time"] = $session["coach_time"] ?: $this->Sessions->setTime($startTime);
         $session['status'] = Session::STATUS_PAST;
         $this->Sessions->save($session);
         if ($this->request->is('post')) {      
@@ -293,10 +305,6 @@ class SessionsController extends AppController
     public function updateStartTime($id = NULL)
     {   
         $this->autoRender = false;
-        if (!$this->isCoach($this->getUser())) {
-          return false;
-        }
-
         $this->request->allowMethod(['post','get']);
         $appSession = $this->request->session();
         $session = $this->Sessions->get($id);
@@ -318,5 +326,22 @@ class SessionsController extends AppController
         parent::beforeFilter($event);
         $this->Security->config('unlockedActions', ['updateStartTime']);
         $this->Auth->allow('updateStartTime');
+    }
+
+    /**
+     * Returns Array with Key/Value StatusValue/StatusString
+     *
+     * @return Array
+     */
+    public function getStatusArray() {
+
+        return [
+            Session::STATUS_PENDING => 'Pending',
+            Session::STATUS_APPROVED => 'Approved',
+            Session::STATUS_RUNNING => 'Running',
+            Session::STATUS_REJECTED => 'Rejected',
+            Session::STATUS_CANCELED => 'Canceled',
+            Session::STATUS_PAST => 'Past'
+        ];
     }
 }

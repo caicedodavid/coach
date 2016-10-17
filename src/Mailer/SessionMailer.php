@@ -44,7 +44,7 @@ class SessionMailer extends Mailer
     {
         $this
             ->to($user["email"])
-            ->subject(sprintf('%s aceppted a session with you', $coach["full_name"]))
+            ->subject(sprintf('%s accepted a session with you', $coach["full_name"]))
             ->emailFormat('html')
             ->viewVars(compact('user','coach','session'));
     }
