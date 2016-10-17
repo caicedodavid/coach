@@ -32,10 +32,11 @@ class VirtualclassroomController extends AppController
      */
     public function requestSession($session = 121, $user_id = 2)
     {
+        $user = $this->getUser();
         $this->request->allowMethod(['post','get']);
         $fields= array(
             'token' => $session,
-            'user_id' => $user_id,
+            'user_id' => $user['id'],
         );
         if ($this->request->is('post')) {
             $this->log('PostRequestSession','debug');
@@ -49,36 +50,39 @@ class VirtualclassroomController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $this->autoRender = false;
-        $request = $this->request->query->request;
+        $request = $this->request->query["request"];
+        $this->log($request,'debug');
 
         switch ($request) {
-            case $this->CONNECT_LESSON_REQUEST:
+            case self::CONNECT_LESSON_REQUEST:
                 $this->lessonRequest();
                 break;
-            case $this->START_CLASS_REQUEST:
+            case self::START_CLASS_REQUEST:
                 $this->log('startClass','debug');
                 break;
-            case $this->END_LESSON_REQUEST:
+            case self::END_LESSON_REQUEST:
                 $this->log('endLesson','debug');
                 break;
         }
-
-        $this->log($this->request->query->request,'debug');
     }
 
     private function lessonRequest()
     {
+        $user = $this->getUser();
         $this->autoRender = false;
         $this->response->type('json');
         $fields = [
-            "status" =>true, 
-            "is_tutor" => false, 
-            "id" => 111,
-            "full_name" => "John Smith", 
-            "avatar" => "https:\/\domain.com\/images\/avatar.png",
+            "status" =>true,
+            "is_tutor" => $this->isCoach($user),
+            "id" => $user['id'],
+            "full_name" => "John Smith",
+            "avatar" => "http://static.comicvine.com/uploads/original/11120/111201466/4876184-6766483597-27828.jpg",
             "record" => false
-        ]
-        $this->response->body($fields);
+        ];
+        $this->response->body(json_encode($fields));
+        $this->response->send();
+        $this->log('sendResponseee','debug');
+
     }
 
     private function postRequest($fields,$request)
@@ -100,3 +104,4 @@ class VirtualclassroomController extends AppController
         parent::initialize();
         $this->loadComponent('Csrf');
     }
+}
