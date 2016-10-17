@@ -226,6 +226,22 @@ class SessionsTable extends Table
     }
 
     /**
+     * Query for finding all the session data
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findData(Query $query, array $options)
+    {
+        $id = $options["id"];
+        $user = $options["user"];
+        $role = $user["role"];
+        return $query
+            ->where(['Sessions.id' => $id])
+            ->find('contain', ['role'=>$role]);
+    }
+
+    /**
 
      * Query for finding the Approved of sessions linked to a user
      * @param $query query object
@@ -356,7 +372,7 @@ class SessionsTable extends Table
      */
     public function setTime($startTime)
     {
-        $startTime = $startTime? $startTime:strtotime("now");
+        $startTime = $startTime ? $startTime: strtotime("now");
         return gmdate("H:i",strtotime("now") - (int) $startTime);
     }
 }

@@ -77,8 +77,6 @@ class SessionsController extends AppController
         if ($this->isCoach($user)) {
             $this->render("historic_coach");
         }
-
-    
     }
 
     /**
@@ -90,13 +88,10 @@ class SessionsController extends AppController
      */
     public function view($id = null, $status = null)
     {
-    	$user =$this->getUser();
-        $session = $this->Sessions->get($id, [
-            'contain' => [
-            	($this->isCoach($user) ? 'Users' : 'Coaches') => [
-                    'UserImage'
-                ]
-            ]
+    	$user = $this->getUser();
+        $session = $this->Sessions->find('sessionData',[
+            'id' => $id,
+            'user' => $user
         ]);
         $response = $this->Sessions->getUrl($session,$user);
         $this->set('url',$response);
@@ -129,7 +124,7 @@ class SessionsController extends AppController
      */
     public function viewPending($id = null)
     {
-        $user =$this->view($id);
+        $user = $this->view($id); 
     }
 
     /**
@@ -144,15 +139,15 @@ class SessionsController extends AppController
 
         $user =$this->getUser();
         $appSession = $this->request->session();
-        $startTime = $id? null:$appSession->read('Class.startTime');
-        $id = $id? $id:$appSession->read('Class.id');
+        $startTime = $id ? null: $appSession->read('Class.startTime');
+        $id = $id ? $id: $appSession->read('Class.id');
         
         if (!$id) {
             $this->Flash->error(__('Invalid Action'));
             return $this->redirect(['action' => 'display','controller' => 'Pages']);
         }
         $session = $this->Sessions->get($id);
-        $session["coach_time"] = $session["coach_time"]?:$this->Sessions->setTime($startTime);
+        $session["coach_time"] = $session["coach_time"] ?: $this->Sessions->setTime($startTime);
         $session['status'] = Session::STATUS_PAST;
         $this->Sessions->save($session);
         if ($this->request->is('post')) {      
@@ -309,7 +304,6 @@ class SessionsController extends AppController
      */
     public function updateStartTime($id = NULL)
     {   
-        $this->log("UPDATESTARTTIME");
         $this->autoRender = false;
         $this->request->allowMethod(['post','get']);
         $appSession = $this->request->session();
