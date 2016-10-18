@@ -129,6 +129,22 @@ class SessionsController extends AppController
     }
 
     /**
+     * rate method
+     *
+     * @param string|null $id Session id.
+     */
+    public function rate($id = null)
+    {
+        if($this->isCoach($this->getUser())){
+            $this->rateCoach($id);
+            $this->render("rate_coach");
+        }
+        else{
+            $this->rateUser($id)
+            $this->render("rate_user");
+        }
+    }
+    /**
      * rate method for coaches
      *
      * @param string|null $id Session id.
