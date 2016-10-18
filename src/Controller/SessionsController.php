@@ -135,12 +135,12 @@ class SessionsController extends AppController
      */
     public function rate($id = null)
     {
-        if($this->isCoach($this->getUser())){
+        if($this->isCoach($this->getUser())) {
             $this->rateCoach($id);
             $this->render("rate_coach");
         }
-        else{
-            $this->rateUser($id)
+        else {
+            $this->rateUser($id);
             $this->render("rate_user");
         }
     }
