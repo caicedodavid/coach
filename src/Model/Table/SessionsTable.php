@@ -142,8 +142,12 @@ class SessionsTable extends Table
                 ]);
         $coach = $session["coach"];
         $user = $session["user"];
-        $this->getMailer('Session')->send('userMail', [$user,$coach,$session]);            
-        $this->getMailer('Session')->send('coachMail', [$user,$coach,$session]);
+        try{
+            $this->getMailer('Session')->send('userMail', [$user,$coach,$session]);            
+            $this->getMailer('Session')->send('coachMail', [$user,$coach,$session]);
+        }
+        catch(Exception $e){
+        }
     }
 
     /**
@@ -158,7 +162,11 @@ class SessionsTable extends Table
                 ]);
         $coach = $session["coach"];
         $user = $session["user"];
-        $this->getMailer('Session')->send($action, [$user,$coach,$session]);            
+        try{
+            $this->getMailer('Session')->send($action, [$user,$coach,$session]);
+        }
+        catch(Exception $e){
+        }        
     }
 
     /**
