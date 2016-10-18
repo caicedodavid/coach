@@ -11,7 +11,7 @@ use App\SessionAdapters\LiveSession;
  *
  * @property \App\Model\Table\SessionsTable $Sessions
  */
-class ExternlaClassroomController extends AppController
+class ExternalClassroomController extends AppController
 {
     const CONNECT_LESSON_REQUEST = "connect_lesson";
 
@@ -24,9 +24,9 @@ class ExternlaClassroomController extends AppController
     {
         $liveSession = LiveSession::getInstance();
         $this->request->allowMethod(['post','get']);
-        $this->autoRender = false;
-        $request = $this->request->query["request"];
-        $this->log($request,'debug');
+        //$this->autoRender = false;
+        //$request = $this->request->query["request"];
+        $this->log('shit','debug');
 
         switch ($request) {
             case self::CONNECT_LESSON_REQUEST:
@@ -45,8 +45,8 @@ class ExternlaClassroomController extends AppController
     {
         $this->eventManager()->off($this->Csrf);
         parent::beforeFilter($event);
-        $this->Security->config('unlockedActions', ['index','requestSession']);
-        $this->Auth->allow('index','requestSession');
+        $this->Security->config('unlockedActions', ['endPoint']);
+        $this->Auth->allow('endPoint');
     }
     public function initialize()
     {
