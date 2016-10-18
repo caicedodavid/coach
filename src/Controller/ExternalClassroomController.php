@@ -30,6 +30,7 @@ class ExternalClassroomController extends AppController
 
         switch ($request) {
             case self::CONNECT_LESSON_REQUEST:
+                $this->response->type('json');
                 $this->response->body($liveSession->sendData($this->getUser()));
                 $this->response->send();
                 break;
