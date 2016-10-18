@@ -47,8 +47,7 @@ class LearnCube implements SessionAdapter
             'token' => $session["external_class_id"],
             'user_id' => $user['id'],
         );
-        $this->log('requestSession','debug');
-        debug($this->getRequest($fields));
+        debug('requestSession','debug');
     	return ['encryptedlaunchurl'=> strtotime($session['schedule']) >= strtotime("now") ? $this->generateURL($fields): null];
     }
 
@@ -71,7 +70,7 @@ class LearnCube implements SessionAdapter
         ];
         $this->response->body(json_encode($fields));
         $this->response->send();
-        $this->log('sendResponseee','debug');
+        //$this->log('sendResponseee','debug');
         return true;
     }
 

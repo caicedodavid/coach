@@ -89,10 +89,11 @@ class SessionsController extends AppController
     public function view($id = null, $status = null)
     {
     	$user = $this->getUser();
-        $session = $this->Sessions->find('sessionData',[
+        $session = $this->Sessions->find('data',[
             'id' => $id,
             'user' => $user
-        ]);
+        ])
+        ->first();
         $response = $this->Sessions->getUrl($session,$user);
         $this->set('url',$response);
         $this->set('session', $session);
