@@ -24,9 +24,9 @@ class ExternalClassroomController extends AppController
     {
         $liveSession = LiveSession::getInstance();
         $this->request->allowMethod(['post','get']);
-        //$this->autoRender = false;
-        //$request = $this->request->query["request"];
-        $this->log('shit','debug');
+        $this->autoRender = false;
+        $request = $this->request->query["request"];
+        $this->log($request,'debug');
 
         switch ($request) {
             case self::CONNECT_LESSON_REQUEST:
