@@ -19,9 +19,6 @@ class ExternalClassroomController extends AppController
 
     const END_LESSON_REQUEST = "end_lesson";
 
-    private $user = null;
-
-
     public function endPoint()
     {
 
@@ -30,12 +27,14 @@ class ExternalClassroomController extends AppController
         $this->autoRender = false;
         $request = $this->request->query["request"];
         $this->log($request,'debug');
-        $this->log($this->user,'debug');
 
         switch ($request) {
             case self::CONNECT_LESSON_REQUEST:
+                $userId = $request = $this->request->query["user_id"];
+                $this->loadModel('AppUsers');
+                $user = $this->AppUsers->get($userId);
                 $this->response->type('json');
-                $this->response->body($liveSession->sendData($this->user));
+                $this->response->body($liveSession->sendData($user));
                 $this->response->send();
                 break;
             case self::START_CLASS_REQUEST:
@@ -57,7 +56,6 @@ class ExternalClassroomController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->user = $this->getUser();
         $this->loadComponent('Csrf');
     }
 }
