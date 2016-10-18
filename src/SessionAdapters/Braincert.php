@@ -10,7 +10,19 @@ use Cake\Network\Http\Client;
 class Braincert implements SessionAdapter
 {
 	const API_END_POINT = "https://api.braincert.com/v2/";
+    const OK_STATUS = "ok"
     const BRAINCERT_SANTIAGO_TIMEZONE = 57;
+    public $apiKey = NULL;
+
+    /**
+     * constructor LiveSession adapter
+     *
+     * @param $apiKey.
+     */
+    public function __construct($key)
+    {
+        $this->apiKey = $key;
+    }
 
     /**
      * scheduleSession method
@@ -27,7 +39,7 @@ class Braincert implements SessionAdapter
     	$endTime = date('h:ia',$endTimeValue);
     	$fields= array(
     		'title' => $session["subject"],
-    		'timezone' => self::BRAINCERT_KEY_LOCAL_TIMEZONE,
+    		'timezone' => self::BRAINCERT_SANTIAGO_TIMEZONE,
     		'start_time' => $startTime,
     		'end_time' => $endTime,
     		'date' => $date
@@ -52,7 +64,8 @@ class Braincert implements SessionAdapter
     		'lessonName' => $session["subject"],
     		'courseName' => $session["subject"]
     	);
-    	return $this->postRequest($fields,'getclasslaunch');
+        $response = $this->postRequest($fields,'getclasslaunch');
+    	return (response['status'] === self::OK_STATUS) ? $response : ['encryptedlaunchurl'=>null]; 
     }
 
     /**
@@ -100,10 +113,18 @@ class Braincert implements SessionAdapter
      */
     private function postRequest($fields,$request)
     {
-		$fields['apikey'] = $this->api_key;
+		$fields['apikey'] = $this->apiKey;
 		$http = new Client();
 		$response = $http->post(self::API_END_POINT . $request, $fields);
 		return json_decode($response->body,true);
+    }
+    /**
+     * send data method
+     *
+     * @param $session user entity,  
+     */
+    public function sendData($user){
+        return true;
     }
     
 }

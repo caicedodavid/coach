@@ -195,8 +195,8 @@ Request::addDetector('tablet', function ($request) {
  */
 Configure::write('Users.config', ['users']);
 Configure::write('Session.provider', [
-    'name' => 'Braincert',
-    'key' => 'pc0Etg4oMdHejaWVLtIt',
+    'name' => 'LearnCube',
+    'key' => '34914R77YE4GA',
 ]);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Migrations');

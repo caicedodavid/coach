@@ -119,14 +119,5 @@
         });
       });
 
-      $('#post1').click(function(){
-        var url = "/virtualclassroom/";
-        $.ajax({
-          url: url,
-          type:"POST",
-          data:{ name: "John", time: "2pm" }, 
-          dataType: 'json'
-        });
-      });
-
+      $('.rate-input').rating({displayOnly: true, step: 0.5});
  });

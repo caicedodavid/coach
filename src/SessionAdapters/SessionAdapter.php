@@ -6,7 +6,14 @@ namespace App\SessionAdapters;
  */
 interface SessionAdapter
 {
-	 /**
+    /**
+     * constructor LiveSession adapter
+     *
+     * @param $apiKey.
+     */
+    public function __construct($key);
+
+	/**
      * scheduleSession method
      *
      * @param $session array of session info.
@@ -39,5 +46,12 @@ interface SessionAdapter
      * @return string POST response
      */
     public function removeSession($session);
+
+    /**
+     * send data method
+     *
+     * @param $session user entity,  
+     */
+    public function sendData($user);
 
 }

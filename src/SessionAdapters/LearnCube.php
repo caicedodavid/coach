@@ -7,10 +7,21 @@ use Cake\Network\Http\Client;
  * Implementation of the Live Session with Braincert
  *
  */
-class Braincert implements SessionAdapter
+class LearnCube implements SessionAdapter
 {
-	const API_END_POINT = "https://api.braincert.com/v2/";
-    const BRAINCERT_SANTIAGO_TIMEZONE = 57;
+	const API_END_POINT = "https://cleteci.virtual-classes-online.com/classv3/?";
+
+    public $apiKey = NULL;
+
+    /**
+     * constructor LiveSession adapter
+     *
+     * @param $apiKey.
+     */
+    public function __construct($key)
+    {
+        $this->apiKey = $key;
+    }
 
     /**
      * scheduleSession method
@@ -20,19 +31,7 @@ class Braincert implements SessionAdapter
      */
     public function scheduleSession($session)
     {
-    	$startTimeValue = strtotime($session["schedule"]);
-    	$endTimeValue = strtotime($session["schedule"] . ' +30 minutes');
-    	$date = date('Y-m-d',$startTimeValue);
-    	$startTime = date('h:ia',$startTimeValue);
-    	$endTime = date('h:ia',$endTimeValue);
-    	$fields= array(
-    		'title' => $session["subject"],
-    		'timezone' => self::BRAINCERT_KEY_LOCAL_TIMEZONE,
-    		'start_time' => $startTime,
-    		'end_time' => $endTime,
-    		'date' => $date
-    	);
-    	return ($this->postRequest($fields,'schedule'));
+    	return ['class_id'=>$session['id']];
 	}
 
     /**
@@ -44,15 +43,36 @@ class Braincert implements SessionAdapter
      */
     public function requestSession($session, $user)
     {
-    	$fields= array(
-    		'class_id' => $session["external_class_id"],
-    		'userId' => $user["id"],
-    		'userName' => $user["username"],
-    		'isTeacher' => (int)('coach'===$user['role']),
-    		'lessonName' => $session["subject"],
-    		'courseName' => $session["subject"]
-    	);
-    	return $this->postRequest($fields,'getclasslaunch');
+        $fields= array(
+            'token' => $session["external_class_id"],
+            'user_id' => $user['id'],
+        );
+        $this->log('requestSession','debug');
+        debug($this->getRequest($fields));
+    	return ['encryptedlaunchurl'=> strtotime($session['schedule']) >= strtotime("now") ? $this->generateURL($fields): null];
+    }
+
+    /**
+     * send data method
+     *
+     * @param $session user entity,  
+     */
+    public function sendData($user)
+    {
+        $this->autoRender = false;
+        $this->response->type('json');
+        $fields = [
+            "status" =>true,
+            "is_tutor"=> 'coach'===$user['role'],
+            "id" => $user['id'],
+            "full_name" => $user['full_name'],
+            "avatar" => null,
+            "record" => false
+        ];
+        $this->response->body(json_encode($fields));
+        $this->response->send();
+        $this->log('sendResponseee','debug');
+        return true;
     }
 
     /**
@@ -63,17 +83,7 @@ class Braincert implements SessionAdapter
      */
     public function getSessionData($session)
     {
-        $fields= array(
-            'class_id' => $session["external_class_id"],
-            );
-        $savedKeyes = [
-            'start_time',
-            'end_time',
-            'session_id',
-            'status',
-            'duration'
-        ];
-        return array_intersect_key($this->postRequest($fields,'getclass')['0'], array_flip($savedKeyes));
+        return true;
     }
 
     /**
@@ -85,12 +95,22 @@ class Braincert implements SessionAdapter
      */
     public function removeSession($session)
     {
-        $fields= array(
-            'cid' => $session["external_class_id"],
-        );
-        return $this->postRequest($fields,'removeclass');
+        return true;
     }
     
+    /**
+     * getRequest method
+     *
+     * @param $fields array of fields to send to request,
+     * @param $request the request that will be sent,  
+     * @return string POST response
+     */
+    private function getRequest($fields)
+    {
+        $http = new Client();
+        $response = $http->get($this->generateURL($fields));
+    }
+
     /**
      * postRequest method
      *
@@ -98,12 +118,9 @@ class Braincert implements SessionAdapter
      * @param $request the request that will be sent,  
      * @return string POST response
      */
-    private function postRequest($fields,$request)
+    private function generateURL($fields)
     {
-		$fields['apikey'] = $this->api_key;
-		$http = new Client();
-		$response = $http->post(self::API_END_POINT . $request, $fields);
-		return json_decode($response->body,true);
+        return self::API_END_POINT . http_build_query($fields, '','&');
     }
     
 }
