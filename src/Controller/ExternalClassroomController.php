@@ -19,19 +19,23 @@ class ExternalClassroomController extends AppController
 
     const END_LESSON_REQUEST = "end_lesson";
 
+    private $user = null;
+
 
     public function endPoint()
     {
+
         $liveSession = LiveSession::getInstance();
         $this->request->allowMethod(['post','get']);
         $this->autoRender = false;
         $request = $this->request->query["request"];
         $this->log($request,'debug');
+        $this->log($this->user,'debug');
 
         switch ($request) {
             case self::CONNECT_LESSON_REQUEST:
                 $this->response->type('json');
-                $this->response->body($liveSession->sendData($this->getUser()));
+                $this->response->body($liveSession->sendData($this->user));
                 $this->response->send();
                 break;
             case self::START_CLASS_REQUEST:
@@ -53,6 +57,7 @@ class ExternalClassroomController extends AppController
     public function initialize()
     {
         parent::initialize();
+        $this->user = $this->getUser();
         $this->loadComponent('Csrf');
     }
 }

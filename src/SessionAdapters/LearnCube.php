@@ -58,18 +58,14 @@ class LearnCube implements SessionAdapter
      */
     public function sendData($user)
     {
-        $this->autoRender = false;
         $fields = [
             "status" =>true,
             "is_tutor"=> 'coach'===$user['role'],
             "id" => $user['id'],
-            "full_name" => $user['full_name'],
+            "full_name" => $user['username'],
             "avatar" => null,
             "record" => false
         ];
-        $this->response->body(json_encode($fields));
-        $this->response->send();
-        //$this->log('sendResponseee','debug');
         return json_encode($fields);
     }
 
