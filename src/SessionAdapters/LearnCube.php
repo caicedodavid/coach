@@ -48,7 +48,7 @@ class LearnCube implements SessionAdapter
             'user_id' => $user['id'],
         );
         $this->getRequest($fields);
-        $url =  (date('Y-m-d H:i',strtotime($session['schedule'])) > date('Y-m-d H:i',strtotime('now'))) ? $this->generateURL($fields): null;
+        $url =  (date('Y-m-d H:i',strtotime($session['schedule'])) <= date('Y-m-d H:i',strtotime('now'))) ? $this->generateURL($fields): null;
     	return ['encryptedlaunchurl'=> $url];
     }
 
