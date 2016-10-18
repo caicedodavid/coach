@@ -71,7 +71,7 @@ class LearnCube implements SessionAdapter
         $this->response->body(json_encode($fields));
         $this->response->send();
         //$this->log('sendResponseee','debug');
-        return true;
+        return json_encode($fields);
     }
 
     /**
