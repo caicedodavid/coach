@@ -9,43 +9,36 @@ use App\SessionAdapters\LiveSession;
 /**
  * Controller for APi classes that require an endpoint
  *
- * @property \App\Model\Table\SessionsTable $Sessions
  */
 class ExternalClassroomController extends AppController
 {
-    const CONNECT_LESSON_REQUEST = "connect_lesson";
-
-    const START_CLASS_REQUEST = "start_class";
-
-    const END_LESSON_REQUEST = "end_lesson";
-
+    /**
+     * EndPoint Method
+     * This is the end point for all the apps that require one for communication
+     *
+     * @return void
+     */
     public function endPoint()
     {
-
+        $this->request->allowMethod(['post']);
         $liveSession = LiveSession::getInstance();
-        $this->request->allowMethod(['post','get']);
         $this->autoRender = false;
-        $request = $this->request->query["request"];
         $this->log($request,'debug');
-
-        switch ($request) {
-            case self::CONNECT_LESSON_REQUEST:
-                $userId = $request = $this->request->query["user_id"];
-                $this->loadModel('AppUsers');
-                $user = $this->AppUsers->get($userId);
-                $this->response->type('json');
-                $this->response->body($liveSession->sendData($user));
-                $this->response->send();
-                break;
-            case self::START_CLASS_REQUEST:
-                $this->log('startClass','debug');
-                break;
-            case self::END_LESSON_REQUEST:
-                $this->log('endLesson','debug');
-                break;
+        $responseArray = $liveSession->manageRequest($this->request);
+        if ($responseArray['response']) {
+            $this->response->type($responseArray['type']);
+            $body = $responseArray['type'] === 'json' ? json_encode($responseArray['content']) : $responseArray['content'];
+            $this->response->body($body);
+            $this->response->send();
         }
     }
 
+    /**
+     * Before filter callback.
+     *
+     * @param \Cake\Event\Event $event The beforeRender event.
+     * @return void
+     */
     public function beforeFilter(Event $event)
     {
         $this->eventManager()->off($this->Csrf);
@@ -53,6 +46,12 @@ class ExternalClassroomController extends AppController
         $this->Security->config('unlockedActions', ['endPoint']);
         $this->Auth->allow('endPoint');
     }
+
+    /**
+     * Initialization hook method.
+     *
+     * @return void
+     */
     public function initialize()
     {
         parent::initialize();

@@ -3,6 +3,7 @@ namespace App\SessionAdapters;
 
 use App\SessionAdapters\SessionAdapter;
 use Cake\Network\Http\Client;
+use Cake\Network\Exception\NotImplementedException
 /*
  * Implementation of the Live Session with Braincert
  *
@@ -119,12 +120,12 @@ class Braincert implements SessionAdapter
 		return json_decode($response->body,true);
     }
     /**
-     * send data method
+     * manage request from endpoint
      *
      * @param $session user entity,  
      */
-    public function sendData($user){
-        return true;
+    public function manageRequest($requestArray){
+        throw new NotImplementedException("This method is not implemented for this Adapter", 501);
     }
     
 }

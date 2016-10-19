@@ -343,7 +343,7 @@ class SessionsTable extends Table
     public function getUrl($session, $user)
     {
         $liveSession = LiveSession::getInstance();
-        $response = $liveSession->requestSession($session,$user);
+        $response = $liveSession->requestSession($session, $user);
         return $response['encryptedlaunchurl'];
     }
 

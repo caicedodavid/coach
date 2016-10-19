@@ -3,12 +3,20 @@ namespace App\SessionAdapters;
 
 use App\SessionAdapters\SessionAdapter;
 use Cake\Network\Http\Client;
+use Cake\ORM\TableRegistry;
 /*
  * Implementation of the Live Session with Braincert
  *
  */
 class LearnCube implements SessionAdapter
 {
+
+    const CONNECT_LESSON_REQUEST = "connect_lesson";
+
+    const START_CLASS_REQUEST = "start_class";
+
+    const END_LESSON_REQUEST = "end_lesson";
+
 	const API_END_POINT = "https://cleteci.virtual-classes-online.com/classv3/?";
 
     public $apiKey = NULL;
@@ -31,7 +39,7 @@ class LearnCube implements SessionAdapter
      */
     public function scheduleSession($session)
     {
-    	return ['class_id'=>$session['id']];
+    	return ['class_id' => $session['id']];
 	}
 
     /**
@@ -53,21 +61,71 @@ class LearnCube implements SessionAdapter
     }
 
     /**
-     * send data method
+     * manage request method for managing request coming from the endpoint
      *
      * @param $session user entity,  
      */
-    public function sendData($user)
+    public function manageRequest($requestArray)
     {
-        $fields = [
-            "status" =>true,
-            "is_tutor"=> 'coach'===$user['role'],
-            "id" => $user['id'],
-            "full_name" => $user['username'],
-            "avatar" => null,
-            "record" => false
+        $request = $requestArray->query['request']
+        switch ($request) {
+            case self::CONNECT_LESSON_REQUEST:
+                return $this->connectLesson($requestArray->query['user_id']);
+            case self::START_CLASS_REQUEST:
+                $this->startClass();
+                break;
+            case self::END_LESSON_REQUEST:
+                $this->endLessson();
+                break;
+    }
+
+    /**
+     * connect lesson method
+     * used for making array to be sent
+     *
+     * @param $session user entity,  
+     */
+    private function connectLesson($userId)
+    {
+        $users = TableRegistry::get('AppUsers');
+        $user = $users->get($userId);
+        return [
+            "response" => true,
+            "type" => json,
+            "content" => [
+                "status" =>true,
+                "is_tutor"=> 'coach' === $user['role'],
+                "id" => $user['id'],
+                "full_name" => $user['username'],
+                "avatar" => null,
+                "record" => false
+            ]
         ];
-        return json_encode($fields);
+    }
+
+    /**
+     * start class  method
+     * logic to be done when starting a class
+     *
+     * @param $session user entity,  
+     */
+    private function startClass($user)
+    {
+        return [
+            "response" => false,
+        ];
+    }
+    /**
+     * end lesson method
+     * logic to be done after ending a class
+     *
+     * @param $session user entity,  
+     */
+    private function startClass($user)
+    {
+        return [
+            "response" => false,
+        ];
     }
 
     /**
