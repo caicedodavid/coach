@@ -136,12 +136,16 @@ class SessionsController extends AppController
     public function rate($id = null)
     {
         if($this->isCoach($this->getUser())) {
-            $this->rateCoach($id);
-            $this->render("rate_coach");
+            return $this->redirect([
+                'controller' => 'Sessions', 
+                'action' => 'rateCoach'
+            ]
         }
         else {
-            $this->rateUser($id);
-            $this->render("rate_user");
+            return $this->redirect([
+                'controller' => 'Sessions', 
+                'action' => 'rateUser'
+            ]
         }
     }
     /**

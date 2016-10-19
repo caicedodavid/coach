@@ -24,7 +24,7 @@ class ExternalClassroomController extends AppController
         $liveSession = LiveSession::getInstance();
         $this->autoRender = false;
         $responseArray = $liveSession->manageRequest($this->request);
-        $this->log($responseArray->query,'debug');
+        $this->log($this->request->query,'debug');
         if ($responseArray['response']) {
             $this->response->type($responseArray['type']);
             $body = $responseArray['type'] === 'json' ? json_encode($responseArray['content']) : $responseArray['content'];
