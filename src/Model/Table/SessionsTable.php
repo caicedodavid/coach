@@ -142,8 +142,12 @@ class SessionsTable extends Table
                 ]);
         $coach = $session["coach"];
         $user = $session["user"];
-        $this->getMailer('Session')->send('userMail', [$user,$coach,$session]);            
-        $this->getMailer('Session')->send('coachMail', [$user,$coach,$session]);
+        try{
+            $this->getMailer('Session')->send('userMail', [$user,$coach,$session]);            
+            $this->getMailer('Session')->send('coachMail', [$user,$coach,$session]);
+        }
+        catch(Exception $e){
+        }
     }
 
     /**
@@ -158,7 +162,11 @@ class SessionsTable extends Table
                 ]);
         $coach = $session["coach"];
         $user = $session["user"];
-        $this->getMailer('Session')->send($action, [$user,$coach,$session]);            
+        try{
+            $this->getMailer('Session')->send($action, [$user,$coach,$session]);
+        }
+        catch(Exception $e){
+        }        
     }
 
     /**
@@ -242,7 +250,6 @@ class SessionsTable extends Table
     }
 
     /**
-
      * Query for finding the Approved of sessions linked to a user
      * @param $query query object
      * @param $options options array
@@ -336,11 +343,8 @@ class SessionsTable extends Table
     public function getUrl($session, $user)
     {
         $liveSession = LiveSession::getInstance();
-        $response = $liveSession->requestSession($session,$user);
-        if($response['status']==='ok'):
-            return $response['encryptedlaunchurl'];
-        endif;
-        return NULL;
+        $response = $liveSession->requestSession($session, $user);
+        return $response['encryptedlaunchurl'];
     }
 
     /**

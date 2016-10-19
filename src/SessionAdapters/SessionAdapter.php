@@ -47,4 +47,10 @@ interface SessionAdapter
      */
     public function removeSession($session);
 
+    /**
+     * manage received request from endpoint
+     *
+     * @param $session user entity,  
+     */
+    public function manageRequest($requestArray);
 }

@@ -152,7 +152,7 @@ Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
 Configure::write('Imagine.salt', 'H5JFLL0yhZobrIqNfMkFdG6RQLZsDiMadmFPXwe5');
-date_default_timezone_set('America/Santiago');
+date_default_timezone_set('America/New_York');
 
 /**
  * The default crypto extension in 3.0 is OpenSSL.
@@ -195,8 +195,8 @@ Request::addDetector('tablet', function ($request) {
  */
 Configure::write('Users.config', ['users']);
 Configure::write('Session.provider', [
-    'name' => 'Braincert',
-    'key' => 'pc0Etg4oMdHejaWVLtIt',
+    'name' => 'LearnCube',
+    'key' => '34914R77YE4GA',
 ]);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Migrations');
