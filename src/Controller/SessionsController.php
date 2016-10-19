@@ -139,13 +139,13 @@ class SessionsController extends AppController
             return $this->redirect([
                 'controller' => 'Sessions', 
                 'action' => 'rateCoach'
-            ]
+            ]);
         }
         else {
             return $this->redirect([
                 'controller' => 'Sessions', 
                 'action' => 'rateUser'
-            ]
+            ]);
         }
     }
     /**
