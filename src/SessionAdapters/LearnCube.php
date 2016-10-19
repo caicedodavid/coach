@@ -67,7 +67,7 @@ class LearnCube implements SessionAdapter
      */
     public function manageRequest($requestArray)
     {
-        $request = $requestArray->query['request']
+        $request = $requestArray->query['request'];
         switch ($request) {
             case self::CONNECT_LESSON_REQUEST:
                 return $this->connectLesson($requestArray->query['user_id']);
@@ -77,6 +77,7 @@ class LearnCube implements SessionAdapter
             case self::END_LESSON_REQUEST:
                 $this->endLessson();
                 break;
+        }
     }
 
     /**
@@ -91,7 +92,7 @@ class LearnCube implements SessionAdapter
         $user = $users->get($userId);
         return [
             "response" => true,
-            "type" => json,
+            "type" => 'json',
             "content" => [
                 "status" =>true,
                 "is_tutor"=> 'coach' === $user['role'],
@@ -121,7 +122,7 @@ class LearnCube implements SessionAdapter
      *
      * @param $session user entity,  
      */
-    private function startClass($user)
+    private function endLesson($user)
     {
         return [
             "response" => false,
