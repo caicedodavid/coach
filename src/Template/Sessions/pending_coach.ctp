@@ -9,16 +9,14 @@
         <?php foreach ($pendingSessions as $session): ?>
             <div class="row">
                 <div class="col-md-3">
-                    <?php echo $this->Img->display($session->user['user_image'], 'small');?>
+                    <?php echo $this->Img->display($session->user['user_image'], 'small', ['url' => ['action' => 'view', 'controller' => 'AppUsers', $session->user['id']]]);?>
                     <p><?= h($session->user['full_name']) ?></p>
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>
-                <div class="col-md-5"><?= $session->subject ?></div>
+                <div class="col-md-4"><?= $session->subject ?></div>
+                <div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewPendingCoach', $session->id]) ?></div>
                 <div class="col-md-2">
-                    <?= //"<a href='javascript:; class = 'buttonS' id ='accept', name=" . $session->id . "></a>";
-                        $this->Html->link(__d('Session', 'Accept'), ['plugin' => false,'action' =>'approveSession',$session->id, 'controller' => 'Sessions'],['class' => 'buttonS','id' =>'accept','name'=>$session->id]);?>
-                    <?= $this->Form->postLink(__('Decline'),['plugin' => false,'action' => 'rejectSession',$session->id, 'controller' => 'Sessions'], 
-                        ['class' => 'buttonS', 'method'=>'post','id' =>'decline','confirm' => __('Are you sure you want to reject this requested session?')]);?>
+                    <?= $this->element('Sessions/accept_decline_buttons', ['session' => $session]);?>
                 </div>
             </div>
         <?php endforeach; ?>

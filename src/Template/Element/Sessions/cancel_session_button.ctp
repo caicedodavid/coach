@@ -1,0 +1,2 @@
+<?= $this->Form->postLink(__($button),['plugin' => false,'action' => 'cancelSession',$session->id, 'controller' => 'Sessions'], 
+                            ['class' => 'buttonS', 'method'=>'post','id' =>'decline','confirm' => __($message)]);?>

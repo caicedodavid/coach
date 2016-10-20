@@ -9,7 +9,7 @@
         <?php foreach ($historicSessions as $session): ?>
             <div class="row">
                 <div class="col-md-3">
-                    <?php echo $this->Img->display(isset($session->coach['user_image'])? $session->coach['user_image'] : $session->user['user_image'], 'small');?>
+                <?php echo $this->Img->display(isset($session->coach['user_image'])? $session->coach['user_image'] : $session->user['user_image'], 'small', ['url' => ['action' => 'view', 'controller' => 'AppUsers', isset($session->coach['id'])? $session->coach['id']: $session->user['id']]]);?>
                     <p><?= h(isset($session->coach['full_name'])? $session->coach['full_name']: $session->user['full_name']) ?></p>
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>

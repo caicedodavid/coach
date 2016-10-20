@@ -9,12 +9,15 @@
         <?php foreach ($pendingSessions as $session): ?>
             <div class="row">
                 <div class="col-md-3">
-                    <?php echo $this->Img->display($session->coach['user_image'], 'small');?>
+                    <?php echo $this->Img->display($session->coach['user_image'], 'small', ['url' => ['action' => 'view', 'controller' => 'AppUsers', $session->coach['id']]]);?>
                     <p><?= h($session->coach['full_name']) ?></p>
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>
-                <div class="col-md-5"><?= $session->subject ?></div>
-                <div class="col-md-2"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewPending', $session->id]) ?></div>
+                <div class="col-md-4"><?= $session->subject ?></div>
+                <div class="col-md-1">
+                    <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'message' => 'Are you sure you want to cancel this requested session?']);?>
+                </div>
+                <div class="col-md-2"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewPendingUser', $session->id]) ?></div>
             </div>
         <?php endforeach; ?>
         <?php echo $this->element('classic_pagination'); ?>

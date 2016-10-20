@@ -30,6 +30,9 @@ class AppUsersController extends UsersController
         $this->paginate = [
             'limit' => 5,
             'finder' => 'coaches',
+            'order' =>[
+                'AppUsers.rating' => 'desc'
+            ]
         ];
         $users = $this->paginate($this->AppUsers);
         $this->set(compact('users'));
