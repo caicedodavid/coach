@@ -15,6 +15,6 @@
         </tr>
     </table>
     <?php if (!$url):
-        echo $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'message' => 'Are you sure you want to cancel this session?']);
+        echo $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'action' => 'approved','message' => 'Are you sure you want to cancel this session?']);
     endif;?>
 </div>
