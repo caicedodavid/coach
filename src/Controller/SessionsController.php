@@ -325,7 +325,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function cancelSession($id)
+    public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
@@ -338,7 +338,7 @@ class SessionsController extends AppController
             $this->Flash->error(__('The session could not be canceled. Please try again later'));
         }
         return $this->redirect(
-            ['action' => 'approved']
+            ['action' => $action]
         );
         
     }

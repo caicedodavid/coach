@@ -8,6 +8,7 @@
  * @copyright Copyright 2010 - 2015, Cake Development Corporation (http://cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+use Cake\Routing\Router;
 ?>
 <p>
 	<?= __d('Sessions', "Hi {0}", $user->first_name) ?>,
