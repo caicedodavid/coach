@@ -30,11 +30,11 @@
         </tr>
         <tr>
             <th><?= __('Facebook: ') ?></th>
-            <td><?php if($user->fb_account){echo $this->Html->link("facebook.com/".$user->fb_account,"https://www.facebook.com/".$user->fb_account);} ?></td>
+            <td><?php if($user->fb_account){echo $this->Html->link("facebook.com/".$user->fb_account,"https://www.facebook.com/".$user->fb_account, ['target' => '_blank']);} ?></td>
         </tr>
         <tr>
             <th><?= __('Twitter: ') ?></th>
-            <td><?php if($user->tw_account){echo $this->Html->link("twitter.com/".$user->tw_account,"https://www.twitter.com/".$user->tw_account);}?></td>
+            <td><?php if($user->tw_account){echo $this->Html->link("twitter.com/".$user->tw_account,"https://www.twitter.com/".$user->tw_account, ['target' => '_blank']);}?></td>
         </tr>
         <tr>
             <th><?= __('Request a Session: ') ?></th>
