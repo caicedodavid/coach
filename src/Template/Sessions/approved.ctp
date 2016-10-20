@@ -14,7 +14,7 @@
                     <p><?= h(isset($session->coach['full_name'])? $session->coach['full_name']: $session->user['full_name']) ?></p>
                 </div>
                 <div class="col-md-1"><?= $session->schedule ?></div>
-                <div class="col-md-6"><?= $session->subject ?></div>
+                <div class="col-md-6"><?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?></div>
                 <div class="col-md-1">
                     <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'message' => 'Are you sure you want to cancel this session?']);?>
                 </div>

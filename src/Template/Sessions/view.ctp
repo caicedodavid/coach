@@ -4,7 +4,7 @@
         <?= $this->element('Sessions/general_view', ["session" => $session]);?>
         <tr>
             <th><?= __('Assist to session: ') ?></th>
-            <td><div class="col-md-1">
+            <td>
                 <?php if ($url):
                     echo $this->Html->link(__('Assist to your class'), $url, ['id' => 'start', 'name'=>$session->id]);
                 else:
@@ -14,4 +14,7 @@
             </td>
         </tr>
     </table>
+    <?php if (!$url):
+        echo $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'message' => 'Are you sure you want to cancel this session?']);
+    endif;?>
 </div>

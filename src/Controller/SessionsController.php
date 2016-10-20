@@ -76,7 +76,7 @@ class SessionsController extends AppController
                 'historicSessions' => ['user' => $user]
             ],
             'order' =>[
-                'Sessions.schedule' => 'desc'
+                'Sessions.modified' => 'desc'
             ]
         ];
         $historicSessions = $this->paginate($this->Sessions);
@@ -95,7 +95,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function view($id = null, $status = null)
+    public function view($id = null)
     {
     	$user = $this->getUser();
         $session = $this->Sessions->find('data',[
@@ -107,8 +107,12 @@ class SessionsController extends AppController
         $this->set('url',$response);
         $this->set('session', $session);
         $this->set('_serialize', ['session']);
-        if ($status == Session::STATUS_PAST) {
+        if ($session['status'] === Session::STATUS_PAST) {
             $this->render("view_historic");
+        }
+        elseif (($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED)){
+            $this->set('statusArray',$this->getStatusArray());
+            $this->render("view_canceled_rejected");
         }
 
     }

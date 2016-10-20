@@ -13,7 +13,7 @@
                     <p><?= h($session->coach['full_name']) ?></p>
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>
-                <div class="col-md-4"><?= $session->subject ?></div>
+                <div class="col-md-4"><?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?></div>
                 <div class="col-md-1">
                     <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'message' => 'Are you sure you want to cancel this requested session?']);?>
                 </div>

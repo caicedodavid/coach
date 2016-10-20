@@ -16,9 +16,9 @@ use App\Model\Entity\Session;
                     <p><?= h($session->user['full_name']) ?></p>
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>
-                <div class="col-md-3"><?= $session->subject ?></div>
+                <div class="col-md-3"><?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?></div>
                 <div class="col-md-3"><?= $statusArray[$session->status]?></div>
-                <div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id, $session->status]) ?></div>
+                <div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]) ?></div>
             </div>
         <?php endforeach; ?>
         <?php echo $this->element('classic_pagination'); ?>

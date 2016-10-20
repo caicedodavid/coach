@@ -13,7 +13,7 @@
                     <p><?= h($session->user['full_name']) ?></p>
                 </div>
                 <div class="col-md-2"><?= $session->schedule ?></div>
-                <div class="col-md-4"><?= $session->subject ?></div>
+                <div class="col-md-4"><?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?></div>
                 <div class="col-md-1"><?= $this->Html->link(__('Details'), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewPendingCoach', $session->id]) ?></div>
                 <div class="col-md-2">
                     <?= $this->element('Sessions/accept_decline_buttons', ['session' => $session]);?>
