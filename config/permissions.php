@@ -62,7 +62,8 @@ return [
                 'rejectSession',
                 'approveSession',
                 'rateCoach',
-                'viewHistoric'
+                'viewHistoric',
+                'viewPendingCoach'
             ]
         ],
         [
@@ -70,7 +71,8 @@ return [
             'plugin'=> false,
             'controller' => 'Sessions',
             'action' => [
-                'rateUser'
+                'rateUser',
+                'viewPendingUser'
             ]
         ],
         [

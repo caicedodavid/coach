@@ -39,5 +39,5 @@ use Cake\Routing\Router;
 </p>
 <p>
 	<?php echo __d('Sessions', "Please, answer your request: ");
-	 echo $this->Html->link(__d('AppUsers','My Sessions'), Router::url(['plugin' => false,'controller' => 'Sessions', 'action' => 'pending', 'prefix' => false],true), ['escape' => true]);?>
+	 echo $this->Html->link(__d('AppUsers','Requested Session'), Router::url(['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewPendingCoach', $session->id, 'prefix' => false],true), ['escape' => true]);?>
 </p>

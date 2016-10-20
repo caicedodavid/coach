@@ -25,6 +25,9 @@ class SessionsController extends AppController
             'finder' => [
             	'approvedSessions' => ['user' => $user]
             ],
+            'order' =>[
+                'Sessions.schedule' => 'asc'
+            ]
         ];
         $approvedSessions = $this->paginate($this->Sessions);
         $this->set(compact('approvedSessions'));
@@ -44,6 +47,9 @@ class SessionsController extends AppController
             'finder' => [
                 'pendingSessions' => ['user' => $user]
             ],
+            'order' =>[
+                'Sessions.schedule' => 'asc'
+            ]
         ];
         $pendingSessions = $this->paginate($this->Sessions);
         $this->set(compact('pendingSessions'));
@@ -69,6 +75,9 @@ class SessionsController extends AppController
             'finder' => [
                 'historicSessions' => ['user' => $user]
             ],
+            'order' =>[
+                'Sessions.schedule' => 'desc'
+            ]
         ];
         $historicSessions = $this->paginate($this->Sessions);
         $this->set(compact('historicSessions'));
@@ -117,13 +126,25 @@ class SessionsController extends AppController
 
 
     /**
-     * View pending sessions method
+     * View pending sessions method for users
      *
      * @param string|null $id Session id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function viewPending($id = null)
+    public function viewPendingUser($id = null)
+    {
+        $user = $this->view($id); 
+    }
+
+    /**
+     * View pending sessions method for Coaches
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewPendingCoach($id = null)
     {
         $user = $this->view($id); 
     }
@@ -236,7 +257,7 @@ class SessionsController extends AppController
             if ($this->Sessions->save($session)) {
                 $this->Sessions->sendRequestEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
-                return $this->redirect(['action' => 'display','controller' => 'Pages']);
+                return $this->redirect(['action' => 'pending','controller' => 'Sessions']);
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }

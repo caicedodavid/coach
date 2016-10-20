@@ -10,6 +10,7 @@
             echo $this->Form->error('user_image.file',['class' => 'form-control']);
             echo $this->Form->input('first_name', ['class' => 'form-control']);
             echo $this->Form->input('last_name',  ['class' => 'form-control']);
+            echo $this->Form->input('email', ['class' => 'form-control']);
             echo "<b>Birthdate</b></br>";
             echo $this->Form->input('birthdate',[
                 'error'=> false,
