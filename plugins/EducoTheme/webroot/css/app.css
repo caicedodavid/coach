@@ -1,0 +1,78 @@
+ul.single-line li {
+    display: inline;
+    padding-right: 5px;
+    color: #ffffff;
+}
+
+ul.single-line li a{
+    color: #ffffff;
+}
+
+ul.single-line li a:hover{
+    text-decoration: none;
+}
+
+.user-menu {
+    width: 50%;
+}
+
+ul.single-line  {
+    border-bottom: 0;
+    margin-bottom: 0;
+}
+
+fieldset {
+    min-width: 10px;
+}
+
+.ed_footer_top {
+    margin-top: 20px;
+}
+
+.form-control label, .input label {
+    color: #272727;
+    font-family: 'Roboto Slab', serif;
+    font-size: 14px;
+    margin-bottom: 5px;
+
+}
+
+h3.heading {
+    float: left;
+    width: 100%;
+    margin: 0px;
+    padding-bottom: 10px;
+    position: relative;
+    margin-bottom: 30px;
+}
+
+h3.heading:after {
+    position: absolute;
+    content: '';
+    width: 50px;
+    height: 2px;
+    background-color: #167ac6;
+    left: 0px;
+    top: 100%;
+}
+
+.input {
+    margin-bottom: 10px;
+    width: 100%;
+}
+.btn {
+    margin-left: 5px;
+}
+
+.btn.small {
+    font-weight: normal;
+    padding: 5px 10px;
+}
+
+.btn.ed_orange {
+    border: 2px solid #167ac6;
+}
+
+.content.main {
+    min-height: 300px;
+}
