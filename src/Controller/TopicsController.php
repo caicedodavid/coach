@@ -12,16 +12,40 @@ class TopicsController extends AppController
 {
 
     /**
-     * Index method
+     * List all of the coach topics
      *
      * @return \Cake\Network\Response|null
      */
-    public function index()
+    public function coachTopics($id =null)
     {
+        $userId = $id ? $id: $this->getUser()['id'];
+        $this->paginate = [
+            'limit' => 2,
+            'finder' => [
+                'topics' => ['coachId' => $userId]
+            ],
+            'order' =>[
+                'Topics.name' => 'asc'
+            ]
+        ];
         $topics = $this->paginate($this->Topics);
 
         $this->set(compact('topics'));
         $this->set('_serialize', ['topics']);
+
+        if ($this->request->is('ajax')) {
+            $this->render('list');
+        }
+    }
+
+    /**
+     * user view of all of the coach topics 
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function coachTopicsUser($id = null)
+    {
+        $this->coachTopics($id);
     }
 
     /**
@@ -34,7 +58,7 @@ class TopicsController extends AppController
     public function view($id = null)
     {
         $topic = $this->Topics->get($id, [
-            'contain' => []
+            'contain' => ['TopicImage','Coach']
         ]);
 
         $this->set('topic', $topic);
@@ -50,11 +74,17 @@ class TopicsController extends AppController
     {
         $topic = $this->Topics->newEntity();
         if ($this->request->is('post')) {
-            $topic = $this->Topics->patchEntity($topic, $this->request->data);
+
+            $data = $this->request->data;
+            $topic["coach_id"] = $this->getUser()["id"];
+            if(!$data["topic_image"]["file"]["size"]){
+                unset($data["topic_image"]);
+            }
+            $topic = $this->Topics->patchEntity($topic, $data);
             if ($this->Topics->save($topic)) {
                 $this->Flash->success(__('The topic has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'coachTopics']);
             } else {
                 $this->Flash->error(__('The topic could not be saved. Please, try again.'));
             }
@@ -73,14 +103,18 @@ class TopicsController extends AppController
     public function edit($id = null)
     {
         $topic = $this->Topics->get($id, [
-            'contain' => []
+            'contain' => ['TopicImage']
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
-            $topic = $this->Topics->patchEntity($topic, $this->request->data);
+            $data = $this->request->data;
+            if(!$data["topic_image"]["file"]["size"]){
+                unset($data["topic_image"]);
+            }
+            $topic = $this->Topics->patchEntity($topic, $data);
             if ($this->Topics->save($topic)) {
                 $this->Flash->success(__('The topic has been saved.'));
 
-                return $this->redirect(['action' => 'index']);
+                return $this->redirect(['action' => 'coachTopics']);
             } else {
                 $this->Flash->error(__('The topic could not be saved. Please, try again.'));
             }

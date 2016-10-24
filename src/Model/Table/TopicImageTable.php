@@ -12,7 +12,7 @@ class TopicImageTable extends ImageStorageTable
         $entity = $this->patchEntity($entity, [
             'adapter' => 'Local',
             'model' => 'Topics',
-            'topic_id' => $topicId
+            'foreign_key' => $topicId
         ]);
         return $this->save($entity);
     }

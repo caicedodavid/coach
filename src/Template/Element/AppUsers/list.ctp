@@ -5,7 +5,7 @@
         <?php if (!$users->count()):?>
             <div class="alert alert-info"><?= __('There are no available coaches')?></div>
         <?php else: ?>
-            <div id="users">
+            <div id="items">
                 <?php foreach ($users as $user): ?>
                     <div class="row">
                         <div class="col-md-3">

@@ -41,7 +41,7 @@ class TopicsTable extends Table
 
         $this->hasOne('TopicImage', [
             'className' => 'TopicImage',
-            'foreignKey' => 'coach_id',
+            'foreignKey' => 'foreign_key',
             'conditions' => [
                 'TopicImage.model' => 'file_storage'
             ]
@@ -83,13 +83,25 @@ class TopicsTable extends Table
             ->time('duration')
             ->requirePresence('duration', 'create')
             ->notEmpty('duration');
-        $validator
-            ->time('coach_id')
-            ->requirePresence('coach_id', 'create')
-            ->notEmpty('coach_id');
 
         return $validator;
     }
+
+    /**
+     * Query for finding the topics of a coach
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findTopics(Query $query, array $options)
+    {
+        $coachId = $options["coachId"];
+        return  $query = $query->where([
+                'Topics.coach_id' =>  $coachId
+        ])
+        ->contain('TopicImage');
+    }
+
 
 
 }

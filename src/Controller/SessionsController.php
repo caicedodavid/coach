@@ -249,12 +249,14 @@ class SessionsController extends AppController
      * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add($coachId,$coachName)
+    public function add($coachId,$coachName,$topicId = null,$topicName = null)
     {   
         $session = $this->Sessions->newEntity();
+        $session->subject = $topicName;
         if ($this->request->is('post')) {         
-            $session["user_id"] = $this->getUser()['id'];
-            $session["coach_id"] = $coachId;
+            $session['user_id'] = $this->getUser()['id'];
+            $session['coach_id'] = $coachId;
+            $session['topic_id'] = $topicId;
             $data = $this->Sessions->fixSchedule($this->request->data);
             $session = $this->Sessions->patchEntity($session,$data);
             

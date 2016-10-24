@@ -14,6 +14,7 @@ class AddCoachIdToTopics extends AbstractMigration
     {
         $table = $this->table('topics');
         $table->addColumn('coach_id', 'char', [
+            'limit' => 36,
             'null' => false,
             'after' => 'duration'
         ]);
