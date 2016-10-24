@@ -59,6 +59,7 @@ class AppController extends Controller
     public function beforeRender(Event $event)
     {
         $this->set('userAuth',$this->Auth->user());
+        $this->_setTheme();
         if (!array_key_exists('_serialize', $this->viewVars) &&
             in_array($this->response->type(), ['application/json', 'application/xml'])
         ) {
@@ -69,7 +70,7 @@ class AppController extends Controller
     /**
      * isCoach function
      *
-     * @param \Cake\Event\Event $event The beforeRender event.
+     * @param $user
      * @return boolean
      */
     public function isCoach($user)
@@ -84,6 +85,17 @@ class AppController extends Controller
     public function getUser()
     {
         return $this->Auth->user();
+    }
+
+
+    /**
+     * Sets the theme based on the section to render
+     *
+     * @return void
+     */
+    protected function _setTheme()
+    {
+        $this->viewBuilder()->theme('EducoTheme');
     }
 
 

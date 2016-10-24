@@ -232,3 +232,5 @@ Type::build('date')
     ->useImmutable();
 Type::build('datetime')
     ->useImmutable();
+
+Plugin::load('EducoTheme', ['bootstrap' => false, 'routes' => true]);
