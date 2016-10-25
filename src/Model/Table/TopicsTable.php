@@ -93,13 +93,49 @@ class TopicsTable extends Table
      * @param $options options array
      * @return Query
      */
-    public function findTopics(Query $query, array $options)
+    public function findTopicsByCoach(Query $query, array $options)
     {
         $coachId = $options["coachId"];
         return  $query = $query->where([
                 'Topics.coach_id' =>  $coachId
         ])
-        ->contain('TopicImage');
+            ->find('TopicsImage');
+    }
+
+    /**
+     * Query for finding the public topics
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findPublicTopics(Query $query, array $options)
+    {
+        return  $query = $query->where([
+                'Topics.active' => true
+        ]);
+    }
+
+    /**
+     * Query for finding the public topics by coach
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findPublicTopicsByCoach(Query $query, array $options)
+    {
+        return  $query = $query->find('PublicTopics')
+            ->find('TopicsByCoach', $options);
+    }
+
+    /**
+     * Query for finding a topic with its image
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findTopicsImage(Query $query, array $options)
+    {
+        return  $query = $query->contain('TopicImage');
     }
 
 

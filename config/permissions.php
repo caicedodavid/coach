@@ -90,7 +90,7 @@ return [
             'plugin'=> false,
             'controller' => 'Topics',
             'action' => [
-                'coachTopicsUser',
+                'publicTopicsByCoach',
             ]
         ],
         [

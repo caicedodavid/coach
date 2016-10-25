@@ -20,7 +20,7 @@ class ImgHelper extends Helper
     		return $this->Image->display($image, $size,$options);
     	}
         $options['alt'] = 'CakePHP';
-    	return $this->Html->image("blank_".$size.".jpg",$options);     
+    	return $this->Html->image("blank_" . $size . ".jpg",$options);     
     }
     /**
      * Display image method
@@ -35,6 +35,6 @@ class ImgHelper extends Helper
             return $this->Image->display($image, $size,$options);
         }
         $options['alt'] = 'CakePHP';
-        return $this->Html->image("blank2_".$size.".jpg",$options);     
+        return $this->Html->image("blank2_" . $size . ".jpg",$options);     
     }
 }

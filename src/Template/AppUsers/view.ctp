@@ -42,7 +42,7 @@
         </tr>
         <tr>
             <th><?= __('View my topics: ') ?></th>
-            <td><?= $this->Html->link(__d('Topics', 'click here'), ['plugin' => false,'controller' => 'Topics', 'action' => 'coachTopicsUser',$user->id, 'prefix' => false]);?></td>
+            <td><?= $this->Html->link(__d('Topics', 'click here'), ['plugin' => false,'controller' => 'Topics', 'action' => 'publicTopicsByCoach', $user->id, 'prefix' => false]);?></td>
         </tr>
     </table>
 </div>

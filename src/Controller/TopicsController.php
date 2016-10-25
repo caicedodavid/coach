@@ -16,15 +16,14 @@ class TopicsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function coachTopics($id =null)
+    public function coachTopics()
     {
-        $userId = $id ? $id: $this->getUser()['id'];
         $this->paginate = [
             'limit' => 2,
             'finder' => [
-                'topics' => ['coachId' => $userId]
+                'topicsByCoach' => ['coachId' => $this->getUser()['id']]
             ],
-            'order' =>[
+            'order' => [
                 'Topics.name' => 'asc'
             ]
         ];
@@ -43,9 +42,25 @@ class TopicsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function coachTopicsUser($id = null)
+    public function publicTopicsByCoach($id = null)
     {
-        $this->coachTopics($id);
+        $this->paginate = [
+            'limit' => 2,
+            'finder' => [
+                'publicTopicsByCoach' => ['coachId' => $id]
+            ],
+            'order' => [
+                'Topics.name' => 'asc'
+            ]
+        ];
+        $topics = $this->paginate($this->Topics);
+
+        $this->set(compact('topics'));
+        $this->set('_serialize', ['topics']);
+
+        if ($this->request->is('ajax')) {
+            $this->render('list');
+        }
     }
 
     /**
