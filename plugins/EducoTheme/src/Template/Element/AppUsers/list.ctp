@@ -18,7 +18,7 @@
                                             <div class="star-rating"><span style="width:100%;", input="4"></span></div>
                                         </div>
                                     </div>
-                                    <p>Bisque ornate send dictum portal, mi torpor Sagittarius.</p>
+                                    <p><?= $user->profession ?></p>
                                 </div>
                             </div>
                         </div>

@@ -71,15 +71,15 @@
           $('span.stars').stars();
       });
 
-      $( function() {
-       $( "#tabs" ).tabs({
-         beforeLoad: function( event, ui ) {
-           ui.jqXHR.fail(function() {
-             ui.panel.html("Couldn't load this tab. We'll try to fix this as soon as possible. " );
-           });
-         }
-       });
-      });
+      //$( function() {
+       //$( "#tabs" ).tabs({
+         //beforeLoad: function( event, ui ) {
+           //ui.jqXHR.fail(function() {
+             //ui.panel.html("Couldn't load this tab. We'll try to fix this as soon as possible. " );
+           //});
+         //}
+       //});
+      //});
 
       $(document).on('click', '.paging a', function () {
         var thisHref = $(this).attr('href');
@@ -120,4 +120,16 @@
       });
 
       $('.rate-input').rating({displayOnly: true, step: 0.5});
+
+      $("#users").each(function() {
+        console.log('each');
+        var heights = $(this).find(".ed_team_member").map(function() {
+          return $(this).height();
+        }).get(),
+    
+        maxHeight = Math.max.apply(null, heights);
+        console.log('max');
+    
+        $(".ed_team_member").height(maxHeight);
+      });
  });
