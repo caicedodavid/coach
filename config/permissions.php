@@ -42,7 +42,6 @@ return [
             'plugin'=> false,
             'controller' => 'Sessions',
             'action' => [
-                'add',
                 'pending',
                 'viewPending',
                 'historic',
@@ -72,7 +71,34 @@ return [
             'controller' => 'Sessions',
             'action' => [
                 'rateUser',
-                'viewPendingUser'
+                'viewPendingUser',
+                'add',
+            ]
+        ],
+        [
+            'role' => ['coach'],
+            'plugin'=> false,
+            'controller' => 'Topics',
+            'action' => [
+                'coachTopics',
+                'add',
+                'edit'
+            ]
+        ],
+        [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'Topics',
+            'action' => [
+                'publicTopicsByCoach',
+            ]
+        ],
+        [
+            'role' => ['coach','user'],
+            'plugin'=> false,
+            'controller' => 'Topics',
+            'action' => [
+                'view',
             ]
         ],
         [

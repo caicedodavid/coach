@@ -35,9 +35,9 @@
               return false;
           }
           $.get(thisHref, function(data) {
-              var users = $(data).find('#users');
+              var users = $(data).find('#items');
               var paging = $(data).find('div.paging');
-              $('#users').append(users);
+              $('#items').append(users);
               $( "div.paging" ).replaceWith(paging);
               $('span.stars').stars();
           });

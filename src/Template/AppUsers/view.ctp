@@ -38,7 +38,11 @@
         </tr>
         <tr>
             <th><?= __('Request a Session: ') ?></th>
-            <td><?= $this->Html->link(__d('Sessions', 'click here'), [$user->id,$user->full_name,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix' => false]);?></td>
+            <td><?= $this->Html->link(__d('Sessions', 'click here'), [ 'action' => 'add',$user->id,$user->full_name,'plugin' => false,'controller' => 'Sessions', 'prefix' => false]);?></td>
+        </tr>
+        <tr>
+            <th><?= __('View my topics: ') ?></th>
+            <td><?= $this->Html->link(__d('Topics', 'click here'), ['plugin' => false,'controller' => 'Topics', 'action' => 'publicTopicsByCoach', $user->id, 'prefix' => false]);?></td>
         </tr>
     </table>
 </div>
