@@ -28,7 +28,7 @@ class AppUsersController extends UsersController
     public function coaches()
     {
         $this->paginate = [
-            'limit' => 5,
+            'limit' => 8,
             'finder' => 'coaches',
             'order' =>[
                 'AppUsers.rating' => 'desc'
@@ -40,9 +40,7 @@ class AppUsersController extends UsersController
         if ($this->request->is('ajax')) {
             $this->render('list');
         }
-
     }
-
 
     public function view($id = null)
     {
