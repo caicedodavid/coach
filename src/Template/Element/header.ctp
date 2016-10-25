@@ -19,6 +19,7 @@
                             <li>
                                 <?= $this->Html->link(__d('AppUsers','Edit Profile'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?>
                                 <?= $this->Html->link(__d('AppUsers','My Sessions'), ['plugin' => false,'controller' => 'Sessions', 'action' => 'approved', 'prefix' => false]);?>
+                                <?= $this->AuthLink->link(__d('AppUsers', 'My Topics'), ['controller' => 'Topics', 'action' => 'coachTopics', 'plugin' => false]);?>
                                 <?= $this->Html->link(__d('CakeDC/Users', 'Logout'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'logout', 'prefix'=>false]);?>
                             </li>
                         </ul>
