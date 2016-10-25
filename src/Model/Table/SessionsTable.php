@@ -59,6 +59,9 @@ class SessionsTable extends Table
             'joinType' => 'INNER',
             'className' => 'AppUsers',
         ]);
+        $this->belongsTo('Topics', [
+            'foreignKey' => 'topic_id',
+        ]);
     }
 
     /**
