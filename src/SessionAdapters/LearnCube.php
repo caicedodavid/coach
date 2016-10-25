@@ -13,7 +13,7 @@ class LearnCube implements SessionAdapter
 
     const CONNECT_LESSON_REQUEST = "connect_lesson";
 
-    const START_CLASS_REQUEST = "start_class";
+    const START_CLASS_REQUEST = "start_lesson";
 
     const END_LESSON_REQUEST = "end_lesson";
 
