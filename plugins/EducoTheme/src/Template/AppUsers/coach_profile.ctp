@@ -2,7 +2,10 @@
     $this->assign('image', $user['user_image']);
     $this->assign('title', 'Coach');
     $this->assign('name', $user->full_name);
-    $this->assign('tabs', json_encode([
+?>
+
+<?php $this->start('tabs') ?>
+    <?= $this->element('AppUsers/sidebar', ['tabs' => [
         'Profile' => [
             'active', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
         ],
@@ -12,9 +15,9 @@
         'Upcoming Sessions' => [
             'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
         ]
-    ]));
+    ]])?>
+<?php $this->end('tabs') ?>
 
-?>
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">Coach Detail</a></li>
 </ul>
