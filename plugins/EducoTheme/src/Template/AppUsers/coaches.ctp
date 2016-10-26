@@ -11,7 +11,7 @@
 				<ul class="breadcrumb">
 					<li><a href="index.html">home</a></li>
 					<li><i class="fa fa-chevron-left"></i></li>
-					<li><a href="instructor.html">educo instructors</a></li>
+					<li><a href="instructor.html">educo coaches</a></li>
 				</ul>
 			</div>
 		</div>

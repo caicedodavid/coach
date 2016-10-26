@@ -41,6 +41,11 @@ class AppUsersController extends UsersController
             $this->render('list');
         }
     }
+    /**
+     * View method 
+     *
+     * @return \Cake\Network\Response|null
+     */
 
     public function view($id = null)
     {
@@ -51,6 +56,23 @@ class AppUsersController extends UsersController
         $this->set('_serialize', ['user']);
         
     }
+
+    /**
+     * View method 
+     *
+     * @return \Cake\Network\Response|null
+     */
+
+    public function coachProfile($id = null)
+    {
+        $user = $this->AppUsers->get($id, [
+            'contain' => ['UserImage']
+        ]);
+        $this->set('user', $user);
+        $this->set('_serialize', ['user']);
+        
+    }
+
     /**
      * Edit method
      *

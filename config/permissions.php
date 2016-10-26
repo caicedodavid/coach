@@ -26,7 +26,8 @@ return [
             'action' => [
                 'edit',
                 'coaches',
-                'view'
+                'view',
+                'coachProfile'
             ]
         ],
         [
