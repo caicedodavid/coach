@@ -137,7 +137,4 @@ class TopicsTable extends Table
     {
         return  $query = $query->contain('TopicImage');
     }
-
-
-
 }

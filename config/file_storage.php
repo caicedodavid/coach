@@ -91,6 +91,13 @@ Configure::write('FileStorage', [
                         'height' => 263
                     ]
                 ],
+                'medium-small' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 248,
+                        'height' => 156
+                    ]
+                ],
                 'small' => [
                     'thumbnail' => [
                         'mode' => 'inbound',

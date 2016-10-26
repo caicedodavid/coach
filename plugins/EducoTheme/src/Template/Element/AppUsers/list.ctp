@@ -4,7 +4,7 @@
             <?php if (!$users->count()):?>
                 <div class="alert alert-info"><?= __('There are no available coaches')?></div>
             <?php else: ?>
-                <div id="users">
+                <div id="items">
                     <?php foreach ($users as $user): ?>
                         <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                             <div class="ed_team_member">
@@ -12,7 +12,7 @@
                                     <?php echo $this->Img->display($user['user_image'], 'medium', ['url' => ['action' => 'coachProfile', $user->id]]);?>
                                 </div>
                                 <div class="ed_team_member_description">
-                                    <h4><?= $this->Html->link(__($user->full_name), ['action' => 'coachProfile', $user->id]) ?></h4>
+                                    <h4><?= $this->Html->link(__($user->full_name), ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']) ?></h4>
                                     <div class="ed_rating">
                                         <div class="ed_stardiv">
                                             <div class="star-rating"><span style="width:100%;", input="4"></span></div>
@@ -25,6 +25,8 @@
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
+        </div>
+        <div>
             <center><?php echo $this->element('endless_pagination'); ?></center>
         </div>
     </div>         

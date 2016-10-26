@@ -121,14 +121,12 @@
 
       $('.rate-input').rating({displayOnly: true, step: 0.5});
 
-      $("#users").each(function() {
-        console.log('each');
+      $("#items").each(function() {
         var heights = $(this).find(".ed_team_member").map(function() {
           return $(this).height();
         }).get(),
     
         maxHeight = Math.max.apply(null, heights);
-        console.log('max');
     
         $(".ed_team_member").height(maxHeight);
       });

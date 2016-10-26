@@ -18,10 +18,16 @@ class TopicsController extends AppController
      */
     public function coachTopics()
     {
+        $userId = $this->getUser()['id'];
+        $this->loadModel('AppUsers');
+        $user = $this->AppUsers->get($userId, [
+            'contain' => ['UserImage']
+        ]);
+
         $this->paginate = [
-            'limit' => 2,
+            'limit' => 6,
             'finder' => [
-                'topicsByCoach' => ['coachId' => $this->getUser()['id']]
+                'topicsByCoach' => ['coachId' => $userId]
             ],
             'order' => [
                 'Topics.name' => 'asc'
@@ -29,8 +35,9 @@ class TopicsController extends AppController
         ];
         $topics = $this->paginate($this->Topics);
 
+        $this->set('user', $user);
         $this->set(compact('topics'));
-        $this->set('_serialize', ['topics']);
+        $this->set('_serialize', ['topics','user']);
 
         if ($this->request->is('ajax')) {
             $this->render('list');
@@ -44,6 +51,10 @@ class TopicsController extends AppController
      */
     public function publicTopicsByCoach($id = null)
     {
+        $this->loadModel('AppUsers');
+        $user = $this->AppUsers->get($id, [
+            'contain' => ['UserImage']
+        ]);
         $this->paginate = [
             'limit' => 2,
             'finder' => [
@@ -55,8 +66,9 @@ class TopicsController extends AppController
         ];
         $topics = $this->paginate($this->Topics);
 
+        $this->set('user', $user);
         $this->set(compact('topics'));
-        $this->set('_serialize', ['topics']);
+        $this->set('_serialize', ['topics','user']);
 
         if ($this->request->is('ajax')) {
             $this->render('list');

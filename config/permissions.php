@@ -35,7 +35,8 @@ return [
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
-                'edit'
+                'edit',
+                'coachProfile'
             ]
         ],
         [

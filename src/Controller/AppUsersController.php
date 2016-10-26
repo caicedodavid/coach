@@ -65,6 +65,7 @@ class AppUsersController extends UsersController
 
     public function coachProfile($id = null)
     {
+        $id = $id? $id : $this->getUser()["id"];
         $user = $this->AppUsers->get($id, [
             'contain' => ['UserImage']
         ]);
