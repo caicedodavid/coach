@@ -27,26 +27,31 @@ use Cake\Utility\Hash;
 class AppUsersTable extends UsersTable
 {
 
-	public function initialize(array $config) {
+	public function initialize(array $config) 
+    {
         parent::initialize($config);
         $this->addBehavior('Burzum/Imagine.Imagine');
 
         $this->hasOne('UserImage', [
-                'className' => 'UserImage',
-                'foreignKey' => 'user_id',
-                'conditions' => [
-                    'UserImage.model' => 'file_storage'
-                ]
-            ]);
+            'className' => 'UserImage',
+            'foreignKey' => 'user_id',
+            'conditions' => [
+                'UserImage.model' => 'file_storage'
+            ]
+        ]);
 
         $this->hasMany('Users', [
-                'foreignKey' => 'user_id',
-                'className' => 'Sessions',
-            ]);
+            'foreignKey' => 'user_id',
+            'className' => 'Sessions',
+        ]);
         $this->hasMany('Coaches', [
-                'foreignKey' => 'coach_id',
-                'className' => 'Sessions',
-            ]);
+            'foreignKey' => 'coach_id',
+            'className' => 'Sessions',
+        ]);
+        $this->hasMany('Coach', [
+            'foreignKey' => 'coach_id',
+            'className' => 'Topics',
+        ]);
     }
 
     /**

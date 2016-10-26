@@ -39,3 +39,4 @@
 *.woff binary
 *.exe binary
 *.dll binary
+*.svg binary

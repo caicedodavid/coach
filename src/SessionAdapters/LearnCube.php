@@ -13,7 +13,7 @@ class LearnCube implements SessionAdapter
 
     const CONNECT_LESSON_REQUEST = "connect_lesson";
 
-    const START_CLASS_REQUEST = "start_class";
+    const START_CLASS_REQUEST = "start_lesson";
 
     const END_LESSON_REQUEST = "end_lesson";
 
@@ -75,11 +75,9 @@ class LearnCube implements SessionAdapter
             case self::CONNECT_LESSON_REQUEST:
                 return $this->connectLesson($requestArray->query['user_id']);
             case self::START_CLASS_REQUEST:
-                $this->startClass();
-                break;
+                return $this->startClass();
             case self::END_LESSON_REQUEST:
-                $this->endLessson();
-                break;
+                return $this->endLessson();
         }
     }
 
@@ -97,7 +95,7 @@ class LearnCube implements SessionAdapter
             "response" => true,
             "type" => 'json',
             "content" => [
-                "status" =>true,
+                "status" => true,
                 "is_tutor"=> 'coach' === $user['role'],
                 "id" => $user['id'],
                 "full_name" => $user['username'],
@@ -113,10 +111,14 @@ class LearnCube implements SessionAdapter
      *
      * @param $session user entity,  
      */
-    private function startClass($user)
+    private function startClass()
     {
         return [
-            "response" => false,
+            "response" => true,
+            "type" => 'json',
+            "content" => [
+                "status" => true,
+            ]
         ];
     }
     /**
@@ -125,10 +127,14 @@ class LearnCube implements SessionAdapter
      *
      * @param $session user entity,  
      */
-    private function endLesson($user)
+    private function endLesson()
     {
         return [
-            "response" => false,
+            "response" => true,
+            "type" => 'json',
+            "content" => [
+                "status" => false,
+            ]
         ];
     }
 

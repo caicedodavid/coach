@@ -24,7 +24,11 @@
             if ($this->Form->isFieldError('schedule')) {
                 echo $this->Form->error('schedule');
             }
-            echo $this->Form->input('subject',  ['class' => 'form-control']);
+            if ($session->subject){
+                echo $this->Form->input('subject',  ['readonly'=> 'readonly','class' => 'form-control']); 
+            } else {
+                echo $this->Form->input('subject',  ['class' => 'form-control']); 
+            }
             echo $this->Form->input('comments',['class' => 'form-control']);
         ?>
     </fieldset>
