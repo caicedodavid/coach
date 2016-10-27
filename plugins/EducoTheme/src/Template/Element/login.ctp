@@ -6,8 +6,9 @@
                     <ul class="single-line" style="list-style: none;">
                         <li><?= empty($userAuth) ? __('welcome guest') : $userAuth['first_name'] . ' :'?></li>
                     <?php if ($userAuth):?>
-                        <li><?= $this->Html->link(__d('AppUsers','Edit Profile'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?> |</li>
-                        <li><?= $this->Html->link(__d('AppUsers','My Sessions'), ['plugin' => false,'controller' => 'Sessions', 'action' => 'approved', 'prefix' => false]);?></li>
+                        <li><?= $this->AuthLink->link(__('My Profile'),['action' => 'myProfile', 'controller' => 'AppUsers'])?> |</li>
+                        <li><?= $this->AuthLink->link(__d('AppUsers','My Sessions'), ['plugin' => false,'controller' => 'Sessions', 'action' => 'approved', 'prefix' => false]);?> |</li>
+                        <li><?= $this->AuthLink->link(__d('AppUsers', 'My Topics'), ['controller' => 'Topics', 'action' => 'coachTopics', 'plugin' => false]);?></li>
                     <?php endif;?>
                     </ul>
                 </div>
