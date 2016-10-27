@@ -80,8 +80,29 @@ Configure::write('FileStorage', [
                 'large' => [
                     'thumbnail' => [
                         'mode' => 'inbound',
+                        'width' => 806,
+                        'height' => 387
+                    ]
+                ],
+                'large' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
                         'width' => 400,
                         'height' => 400
+                    ]
+                ],
+                'medium' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 263,
+                        'height' => 263
+                    ]
+                ],
+                'medium-small' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 248,
+                        'height' => 156
                     ]
                 ],
                 'small' => [

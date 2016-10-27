@@ -26,6 +26,7 @@
             if ($this->Form->isFieldError('birthdate')) {
                 echo $this->Form->error('birthdate');
             }
+            echo $this->Form->input('profession',['class' => 'form-control']);
             echo $this->Form->input('fb_account', ['class' => 'form-control','label' => 'Facebook Account']);
             echo $this->Form->input('tw_account', ['class' => 'form-control','label' => 'Twitter Account']);
             echo $this->Form->input('description',['class' => 'form-control']);

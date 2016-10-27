@@ -11,7 +11,12 @@
         [
             'url' => ['plugin' => false, 'controller' => 'Topics', 'action' => 'list'],
             'title' => __('Topics')
+        ],
+        [
+            'url' => ['action' => 'myProfile', 'controller' => 'AppUsers'],
+            'title' => __('My Profile')
         ]
+
     ]
 ?>
 

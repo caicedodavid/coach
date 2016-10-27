@@ -28,7 +28,7 @@ class AppUsersController extends UsersController
     public function coaches()
     {
         $this->paginate = [
-            'limit' => 5,
+            'limit' => 8,
             'finder' => 'coaches',
             'order' =>[
                 'AppUsers.rating' => 'desc'
@@ -40,9 +40,12 @@ class AppUsersController extends UsersController
         if ($this->request->is('ajax')) {
             $this->render('list');
         }
-
     }
-
+    /**
+     * View method 
+     *
+     * @return \Cake\Network\Response|null
+     */
 
     public function view($id = null)
     {
@@ -53,6 +56,45 @@ class AppUsersController extends UsersController
         $this->set('_serialize', ['user']);
         
     }
+    /**
+     * View profile of a user
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function userProfile($id)
+    {
+        $this->view($id);    
+    }
+
+    /**
+     * View profile of a coach
+     *
+     * @return \Cake\Network\Response|null
+     */
+
+    public function coachProfile($id)
+    {
+        $this->view($id);    
+    }
+
+    /**
+     * View my profile 
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function myProfile()
+    {
+        $user = $this->getUser();
+        if($this->isCoach($user)) {
+            $this->view($user['id']);
+            $this->render("coach_profile");
+        }
+        else {
+            $this->userProfile($user['id']);
+            $this->render("user_profile");
+        }    
+    }
+
     /**
      * Edit method
      *

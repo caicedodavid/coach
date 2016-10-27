@@ -18,23 +18,24 @@ return [
                 'resendTokenValidation'
             ]
         ],
-
+        [
+            'role' => ['user','coach'],
+            'plugin'=> false,
+            'controller' => 'AppUsers',
+            'action' => [
+                'edit',
+                'view',
+                'MyProfile',
+                'coachProfile',
+                'userProfile',
+            ]
+        ],
         [
             'role' => ['user'],
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
-                'edit',
                 'coaches',
-                'view'
-            ]
-        ],
-        [
-            'role' => ['coach'],
-            'plugin'=> false,
-            'controller' => 'AppUsers',
-            'action' => [
-                'edit'
             ]
         ],
         [
@@ -62,7 +63,8 @@ return [
                 'approveSession',
                 'rateCoach',
                 'viewHistoric',
-                'viewPendingCoach'
+                'viewPendingCoach',
+                'approvedCoach'
             ]
         ],
         [
@@ -73,6 +75,7 @@ return [
                 'rateUser',
                 'viewPendingUser',
                 'add',
+                'approvedUser'
             ]
         ],
         [
@@ -80,17 +83,8 @@ return [
             'plugin'=> false,
             'controller' => 'Topics',
             'action' => [
-                'coachTopics',
                 'add',
                 'edit'
-            ]
-        ],
-        [
-            'role' => ['user'],
-            'plugin'=> false,
-            'controller' => 'Topics',
-            'action' => [
-                'publicTopicsByCoach',
             ]
         ],
         [
@@ -98,7 +92,8 @@ return [
             'plugin'=> false,
             'controller' => 'Topics',
             'action' => [
-                'view',
+                'coachTopics',
+                'view'
             ]
         ],
         [

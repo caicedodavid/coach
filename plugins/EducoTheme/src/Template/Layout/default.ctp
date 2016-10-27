@@ -48,7 +48,6 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             </footer>
             <?= $this->Html->script('EducoTheme.jquery-1.12.2'); ?>
             <?= $this->AssetCompress->script('EducoTheme.bottom');?>
-            <?php echo $this->AssetCompress->script('bottom');?>
         </div>
     </body>
 </html>
