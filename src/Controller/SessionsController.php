@@ -12,31 +12,55 @@ use App\Model\Entity\Session;
  */
 class SessionsController extends AppController
 {
+    const APPROVED_SESSIONS_FINDER = "approvedSessions";
+    const PENDING_SESSIONS_FINDER = "pendingSessions";
+    const HISTORIC_SESSIONS_FINDER = "historicSessions";
+
     /**
-     * Approved Sessions view
+     * List of Sesisons
      * @return \Cake\Network\Response|null
      * Show the sessions scheduled by a user/coach
      */ 
-    public function approved()
+    public function sessionList($finder)
     {
-    	$user = $this->getUser();
+        $user = $this->getUser();
         $this->loadModel('AppUsers');
         $user = $this->AppUsers->get($user['id'], [
             'contain' => ['UserImage']
         ]);
-		$this->paginate = [
+        $this->paginate = [
             'limit' => 2,
             'finder' => [
-            	'approvedSessions' => ['user' => $user]
+                $finder => ['user' => $user]
             ],
             'order' =>[
                 'Sessions.schedule' => 'asc'
             ]
         ];
-        $approvedSessions = $this->paginate($this->Sessions);
+        $sessions = $this->paginate($this->Sessions);
         $this->set('user', $user);
-        $this->set(compact('approvedSessions'));
-        $this->set('_serialize', ['approvedSessions','users']);
+        $this->set(compact('sessions'));
+        $this->set('_serialize', ['sessions','users']);
+    }
+
+    /**
+     * Approved Sessions for coach view
+     * @return \Cake\Network\Response|null
+     * Show the sessions scheduled by a user/coach
+     */ 
+    public function approvedUser()
+    {
+        $this->sessionList(self::APPROVED_SESSIONS_FINDER);
+    }
+
+    /**
+     * Approved Sessions for coach view
+     * @return \Cake\Network\Response|null
+     * Show the sessions scheduled by a user/coach
+     */ 
+    public function approvedCoach()
+    {
+        $this->sessionList(self::APPROVED_SESSIONS_FINDER);
     }
 
     /**
@@ -46,31 +70,14 @@ class SessionsController extends AppController
      */ 
     public function pending()
     {   
-        $user =$this->getUser();
-        $this->loadModel('AppUsers');
-        $user = $this->AppUsers->get($user['id'], [
-            'contain' => ['UserImage']
-        ]);
-        $this->paginate = [
-            'limit' => 2,
-            'finder' => [
-                'pendingSessions' => ['user' => $user]
-            ],
-            'order' =>[
-                'Sessions.schedule' => 'asc'
-            ]
-        ];
-        $pendingSessions = $this->paginate($this->Sessions);
-        $this->set(compact('pendingSessions'));
-        $this->set('user', $user);
-        $this->set('_serialize', ['pendingSessions','users']);
-        if ($this->isCoach($user)): 
+        $this->sessionList(self::PENDING_SESSIONS_FINDER);
+        if ($this->isCoach($this->getUser())){ 
             $this->render("pending_coach");
-        else:
+        }
+        else{
             $this->render("pending_user");
-        endif;
+        }
     }
-
 
     /**
      * View of the historic of the Sessions.
@@ -79,26 +86,9 @@ class SessionsController extends AppController
      */ 
     public function historic()
     {   
-        $user = $this->getUser();
-        $this->loadModel('AppUsers');
-        $user = $this->AppUsers->get($user['id'], [
-            'contain' => ['UserImage']
-        ]);
-        $this->paginate = [
-            'limit' => 2,
-            'finder' => [
-                'historicSessions' => ['user' => $user]
-            ],
-            'order' =>[
-                'Sessions.modified' => 'desc'
-            ]
-        ];
-        $historicSessions = $this->paginate($this->Sessions);
-        $this->set(compact('historicSessions'));
-        $this->set('user', $user);
-        $this->set('_serialize', ['historicSessions','users']);
         $this->set('statusArray',$this->getStatusArray());
-        if ($this->isCoach($user)) {
+        $this->sessionList(self::HISTORIC_SESSIONS_FINDER);
+        if ($this->isCoach($this->getUser())) {
             $this->render("historic_coach");
         }
     }

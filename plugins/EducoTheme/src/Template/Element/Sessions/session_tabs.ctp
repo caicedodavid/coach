@@ -9,7 +9,8 @@
 <ul class="nav nav-tabs" role="tablist">
     <?php
     echo "<li role='presentation' class=" . $class1 . ">";
-    echo $this->AuthLink->link(__('Upcomming'), ['action' => 'approved','controller' => 'Sessions', 'data-toggle' => 'tab', 'aria-controls' => 'approved', 'role' => 'tab']);
+    echo $this->AuthLink->link(__('Upcomming'), ['action' => 'approvedCoach','controller' => 'Sessions', 'data-toggle' => 'tab', 'aria-controls' => 'approved', 'role' => 'tab']);
+    echo $this->AuthLink->link(__('Upcomming'), ['action' => 'approvedUser','controller' => 'Sessions', 'data-toggle' => 'tab', 'aria-controls' => 'approved', 'role' => 'tab']);
     echo "</li>";
     echo "<li role='presentation' class=" . $class2 . ">";
     echo $this->AuthLink->link(__('Pending'), ['action' => 'pending','controller' => 'Sessions', 'data-toggle' => 'tab', 'aria-controls' => 'pending', 'role' => 'tab']);

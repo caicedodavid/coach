@@ -56,22 +56,43 @@ class AppUsersController extends UsersController
         $this->set('_serialize', ['user']);
         
     }
+    /**
+     * View profile of a user
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function userProfile($id)
+    {
+        $this->view($id);    
+    }
 
     /**
-     * View method 
+     * View profile of a coach
      *
      * @return \Cake\Network\Response|null
      */
 
-    public function coachProfile($id = null)
+    public function coachProfile($id)
     {
-        $id = $id? $id : $this->getUser()["id"];
-        $user = $this->AppUsers->get($id, [
-            'contain' => ['UserImage']
-        ]);
-        $this->set('user', $user);
-        $this->set('_serialize', ['user']);
-        
+        $this->view($id);    
+    }
+
+    /**
+     * View my profile 
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function myProfile()
+    {
+        $user = $this->getUser();
+        if($this->isCoach($user)) {
+            $this->view($user['id']);
+            $this->render("coach_profile");
+        }
+        else {
+            $this->userProfile($user['id']);
+            $this->render("user_profile");
+        }    
     }
 
     /**

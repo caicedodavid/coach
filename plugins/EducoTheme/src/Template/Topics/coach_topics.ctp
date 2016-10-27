@@ -1,7 +1,6 @@
 <?= $this->extend('/Element/AppUsers/dashbord_sidebar');
     $this->assign('title', 'Coach');
 ?>
-
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar', [
         'tabs' => [
@@ -9,10 +8,10 @@
                 'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
             ],
             'Topics' => [
-                'active', ['action' => 'coachTopics', 'controller' => 'Topics']
+                'active', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
             ],
             'My Sessions' => [
-                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+                'null', ['action' => 'approvedCoach', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user

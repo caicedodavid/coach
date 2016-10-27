@@ -8,10 +8,10 @@
                 'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
             ],
             'Topics' => [
-                'null', ['action' => 'coachTopics', 'controller' => 'Topics']
+                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
             ],
             'My Sessions' => [
-                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+                'active', ['action' => 'approvedCoach', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user
@@ -19,14 +19,14 @@
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="approved">
+    <div role="tabpanel" class="tab-pane active" id="historic">
         <div class="ed_inner_dashboard_info">
             <div class="ed_course_single_info">
-                <?php if (!$historicSessions->count()):?>
+                <?php if (!$sessions->count()):?>
                     <div class="alert alert-info"><?= __('There are no sessions to show.')?></div>
                 <?php else: ?>
                     <div id="pagination-container">
-                        <?php foreach ($historicSessions as $session): ?>
+                        <?php foreach ($sessions as $session): ?>
                             <div class="ed_add_students">
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">

@@ -1,5 +1,5 @@
 <?= $this->extend('/Element/Sessions/session_tabs');
-    $this->assign('typeSession', "pending");
+    $this->assign('typeSession', "approved");
 ?>
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar', [
@@ -19,11 +19,11 @@
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="pending">
+    <div role="tabpanel" class="tab-pane active" id="approvedCoach">
         <div class="ed_inner_dashboard_info">
             <div class="ed_course_single_info">
                 <?php if (!$sessions->count()):?>
-                    <div class="alert alert-info"><?= __('There are no pending sessions to confirm.')?></div>
+                    <div class="alert alert-info"><?= __('There are no scheduled sessions.')?></div>
                 <?php else: ?>
                     <div id="pagination-container">
                         <?php foreach ($sessions as $session): ?>
@@ -38,11 +38,11 @@
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                 <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                                            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <?= $session->schedule ?>
                                             </div>
-                                            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <?= $this->element('Sessions/accept_decline_buttons', ['session' => $session]);?>
+                                            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                                                <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'action' => 'approvedCoach', 'message' => 'Are you sure you want to cancel this session?']);?>
                                             </div>
                                         </div>
                                     </div>

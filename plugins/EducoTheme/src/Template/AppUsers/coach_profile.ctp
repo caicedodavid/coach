@@ -9,10 +9,10 @@
                 'active', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
             ],
             'Topics' => [
-                'null', ['action' => 'coachTopics', 'controller' => 'Topics']
+                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
             ],
             'My Sessions' => [
-                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+                'null', ['action' => 'approvedCoach', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user
@@ -61,7 +61,7 @@
             </tr>
             <tr>
                 <th><?= __('Request a Session: ') ?></th>
-                <td><?= $this->Html->link(__d('Sessions', 'click here'), [$user->id,$user->full_name,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix'=>    false]);?>< /td>
+                <td><?= $this->Html->link(__d('Sessions', 'click here'), [$user->id,$user->full_name,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix'=>    false]);?></td>
             </tr>
         </table>
     </div>

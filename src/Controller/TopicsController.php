@@ -16,32 +16,18 @@ class TopicsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function coachTopics()
+    public function coachTopics($id)
     {
-        $userId = $this->getUser()['id'];
-        $this->loadModel('AppUsers');
-        $user = $this->AppUsers->get($userId, [
+        if($this->isCoach($this->getUser())) {
+            $this->profileTopics($id);
+        }
+        else{
+            $this->publicTopicsByCoach($id);
+        }
+        $user = $this->AppUsers->get($id, [
             'contain' => ['UserImage']
         ]);
 
-        $this->paginate = [
-            'limit' => 6,
-            'finder' => [
-                'topicsByCoach' => ['coachId' => $userId]
-            ],
-            'order' => [
-                'Topics.name' => 'asc'
-            ]
-        ];
-        $topics = $this->paginate($this->Topics);
-
-        $this->set('user', $user);
-        $this->set(compact('topics'));
-        $this->set('_serialize', ['topics','user']);
-
-        if ($this->request->is('ajax')) {
-            $this->render('list');
-        }
     }
 
     /**
@@ -49,14 +35,14 @@ class TopicsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function publicTopicsByCoach($id = null)
+    public function publicTopicsByCoach($id)
     {
         $this->loadModel('AppUsers');
         $user = $this->AppUsers->get($id, [
             'contain' => ['UserImage']
         ]);
         $this->paginate = [
-            'limit' => 2,
+            'limit' => 6,
             'finder' => [
                 'publicTopicsByCoach' => ['coachId' => $id]
             ],
@@ -70,9 +56,32 @@ class TopicsController extends AppController
         $this->set(compact('topics'));
         $this->set('_serialize', ['topics','user']);
 
-        if ($this->request->is('ajax')) {
-            $this->render('list');
-        }
+    }
+
+    /**
+     * user view of all of the coach topics 
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function profileTopics($id)
+    {
+        $this->loadModel('AppUsers');
+        $user = $this->AppUsers->get($id, [
+            'contain' => ['UserImage']
+        ]);
+        $this->paginate = [
+            'limit' => 6,
+            'finder' => [
+                'topicsByCoach' => ['coachId' => $id]
+            ],
+            'order' => [
+                'Topics.name' => 'asc'
+            ]
+        ];
+        $topics = $this->paginate($this->Topics);
+        $this->set('user', $user);
+        $this->set(compact('topics'));
+        $this->set('_serialize', ['topics','user']);
     }
 
     /**

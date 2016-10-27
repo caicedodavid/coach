@@ -13,7 +13,7 @@
             'title' => __('Topics')
         ],
         [
-            'url' => ['action' => 'coachProfile', 'controller' => 'AppUsers'],
+            'url' => ['action' => 'myProfile', 'controller' => 'AppUsers'],
             'title' => __('My Profile')
         ]
 
