@@ -5,9 +5,9 @@
 return [
     'Users.SimpleRbac.permissions' => [
         [
-            'role' => 'user',
-            'controller' => 'Posts',
-            'action' => ['view'],
+            'role' => 'coach',
+            'controller' => 'Pqges',
+            'action' => ['display'],
         ],
         [
             'role' => ['user','coach'],
