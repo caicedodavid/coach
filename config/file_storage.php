@@ -77,7 +77,7 @@ Configure::write('FileStorage', [
         // Configure image versions on a per model base
         'imageSizes' => [
             'file_storage' => [
-                'large' => [
+                'big' => [
                     'thumbnail' => [
                         'mode' => 'inbound',
                         'width' => 806,
