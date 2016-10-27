@@ -93,9 +93,10 @@ class TopicsController extends AppController
      */
     public function view($id = null)
     {
-        $topic = $this->Topics->get($id, [
-            'contain' => ['TopicImage','Coach']
-        ]);
+        $topic = $this->Topics->find('topicCoach', [
+            'id' => $id
+        ])
+        ->first();;
 
         $this->set('topic', $topic);
         $this->set('_serialize', ['topic']);

@@ -82,3 +82,6 @@ h3.heading:after {
 .ed_inner_dashboard_info .ed_add_students span {
     float: left;
 }
+.sidebar_wrapper {
+    margin-bottom: 0px;
+}

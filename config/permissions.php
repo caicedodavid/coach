@@ -93,6 +93,7 @@ return [
             'controller' => 'Topics',
             'action' => [
                 'coachTopics',
+                'view'
             ]
         ],
         [

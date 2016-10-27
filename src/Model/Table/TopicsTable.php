@@ -96,10 +96,10 @@ class TopicsTable extends Table
     public function findTopicsByCoach(Query $query, array $options)
     {
         $coachId = $options["coachId"];
-        return  $query = $query->where([
+        return $query->where([
                 'Topics.coach_id' =>  $coachId
         ])
-            ->find('TopicsImage');
+        ->find('topicsImage');
     }
 
     /**
@@ -110,7 +110,7 @@ class TopicsTable extends Table
      */
     public function findPublicTopics(Query $query, array $options)
     {
-        return  $query = $query->where([
+        return $query->where([
                 'Topics.active' => true
         ]);
     }
@@ -123,8 +123,8 @@ class TopicsTable extends Table
      */
     public function findPublicTopicsByCoach(Query $query, array $options)
     {
-        return  $query = $query->find('PublicTopics')
-            ->find('TopicsByCoach', $options);
+        return  $query->find('publicTopics')
+            ->find('topicsByCoach', $options);
     }
 
     /**
@@ -135,6 +135,37 @@ class TopicsTable extends Table
      */
     public function findTopicsImage(Query $query, array $options)
     {
-        return  $query = $query->contain('TopicImage');
+        return  $query->contain('TopicImage');
+    }
+
+    /**
+     * Query for finding a topic with the coach data and image
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findTopicCoach(Query $query, array $options)
+    {
+        $id = $options["id"];
+        return $query->where([
+                'Topics.id' =>  $id
+        ])
+        ->find('topicsImage')
+        ->find('containCoach');
+    }
+
+    /**
+     * Query for containing a topic with the coach info
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findContainCoach(Query $query, array $options)
+    {
+        return  $query->contain([
+            'Coach'=> [
+                'UserImage'
+            ]
+        ]);
     }
 }
