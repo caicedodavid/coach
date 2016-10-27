@@ -1,8 +1,5 @@
 <?php
     $title = $this->fetch('title');
-    $tabs = json_decode($this->fetch('tabs'),true);
-    $image = $this->fetch('image');
-    $name = $this->fetch('name');
 ?>
 <div class="ed_pagetitle" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="0" style="background-image: url(http://placehold.it/921X533);">
 <div class="ed_img_overlay"></div>
@@ -28,15 +25,7 @@
 		<div class="row">
 			<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
 				<div class="ed_sidebar_wrapper">
-					<div class="ed_profile_img">
-						<?php echo $this->Img->display($user['user_image'], 'medium', ['url' => ['action' => 'view', $user->id]]);?>
-					</div>
-					<h3><?= $name;?></h3>
-					 <div class="ed_tabs_left">
-						<ul class="nav nav-tabs">
-							<?= $this->fetch('tabs')?>
-						</ul>
-					</div>
+					<?= $this->fetch('tabs')?>
 				</div>
 			</div>
 			<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">

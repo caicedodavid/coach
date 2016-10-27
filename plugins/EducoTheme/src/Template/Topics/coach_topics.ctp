@@ -1,21 +1,22 @@
 <?= $this->extend('/Element/AppUsers/dashbord_sidebar');
-    $this->assign('image', $user['user_image']);
     $this->assign('title', 'Coach');
-    $this->assign('name', $user['full_name']);
 ?>
 
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar', ['tabs' => [
-        'Profile' => [
-            'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
+    <?= $this->element('AppUsers/sidebar', [
+        'tabs' => [
+            'Profile' => [
+                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
+            ],
+            'Topics' => [
+                'active', ['action' => 'coachTopics', 'controller' => 'Topics']
+            ],
+            'My Sessions' => [
+                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+            ]
         ],
-        'Topics' => [
-            'active', ['action' => 'coachTopics', 'controller' => 'Topics']
-        ],
-        'Upcoming Sessions' => [
-            'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
-        ]
-    ]])?>
+        'user' => $user
+    ])?>
 <?php $this->end('tabs') ?>
 
 <ul class="nav nav-tabs" role="tablist">

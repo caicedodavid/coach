@@ -76,3 +76,9 @@ h3.heading:after {
 .content.main {
     min-height: 300px;
 }
+.ed_inner_dashboard_info .ed_mostrecomeded_course_slider .ed_item_description {
+    min-height: 150px;
+}
+.ed_inner_dashboard_info .ed_add_students span {
+    float: left;
+}

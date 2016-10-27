@@ -20,6 +20,10 @@ class SessionsController extends AppController
     public function approved()
     {
     	$user = $this->getUser();
+        $this->loadModel('AppUsers');
+        $user = $this->AppUsers->get($user['id'], [
+            'contain' => ['UserImage']
+        ]);
 		$this->paginate = [
             'limit' => 2,
             'finder' => [
@@ -30,8 +34,9 @@ class SessionsController extends AppController
             ]
         ];
         $approvedSessions = $this->paginate($this->Sessions);
+        $this->set('user', $user);
         $this->set(compact('approvedSessions'));
-        $this->set('_serialize', ['approvedSessions']);
+        $this->set('_serialize', ['approvedSessions','users']);
     }
 
     /**
@@ -42,6 +47,10 @@ class SessionsController extends AppController
     public function pending()
     {   
         $user =$this->getUser();
+        $this->loadModel('AppUsers');
+        $user = $this->AppUsers->get($user['id'], [
+            'contain' => ['UserImage']
+        ]);
         $this->paginate = [
             'limit' => 2,
             'finder' => [
@@ -53,7 +62,8 @@ class SessionsController extends AppController
         ];
         $pendingSessions = $this->paginate($this->Sessions);
         $this->set(compact('pendingSessions'));
-        $this->set('_serialize', ['pendingSessions']);
+        $this->set('user', $user);
+        $this->set('_serialize', ['pendingSessions','users']);
         if ($this->isCoach($user)): 
             $this->render("pending_coach");
         else:
@@ -69,7 +79,11 @@ class SessionsController extends AppController
      */ 
     public function historic()
     {   
-        $user =$this->getUser();
+        $user = $this->getUser();
+        $this->loadModel('AppUsers');
+        $user = $this->AppUsers->get($user['id'], [
+            'contain' => ['UserImage']
+        ]);
         $this->paginate = [
             'limit' => 2,
             'finder' => [
@@ -81,7 +95,8 @@ class SessionsController extends AppController
         ];
         $historicSessions = $this->paginate($this->Sessions);
         $this->set(compact('historicSessions'));
-        $this->set('_serialize', ['historicSessions']);
+        $this->set('user', $user);
+        $this->set('_serialize', ['historicSessions','users']);
         $this->set('statusArray',$this->getStatusArray());
         if ($this->isCoach($user)) {
             $this->render("historic_coach");
