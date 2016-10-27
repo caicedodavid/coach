@@ -1,0 +1,105 @@
+<?php $this->start('banner') ?>
+    <?php echo $this->element('banner', ['title' => 'Request Session']); ?>
+<?php $this->end() ?>
+<div class="ed_graysection ed_purchase_course ed_toppadder80 ed_bottompadder80 course_purchase_wrapper">
+  <div class="container">
+    <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <div class="ed_course_single_item">
+                <div class="row">
+                    <div class="col-lg-5 col-md-5 col-sm-12">
+                        <div class="ed_course_single_image">
+                            <?php echo $this->Img->displayImage($image, 'medium-wide');?>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-12">
+                        <div class="ed_course_single_info">
+                            <h2><?= $session->subject ?><span><?= $this->Number->currency(10, 'USD');?></span></h2>
+                            <div class="ed_abbcart">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="ed_course_single_tab ed_toppadder40">
+                            <div role="tabpanel">
+                                <!-- Nav tabs -->
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">description</a></li>
+                                </ul>
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane active" id="description">
+                                        <div class="ed_course_tabconetent">       
+                                            <div class="ed_contact_form ed_toppadder60">
+                                                <div class="sessions form">
+                                                    <?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>
+                                                    <?= $this->Form->create($session) ?>
+                                                        <fieldset>
+                                                            <div class="form-group">
+                                                                <?php
+                                                                    echo "<b>Date and time of session</b>";
+                                                                    echo $this->Form->input('schedule',[
+                                                                        'error'=> false,
+                                                                        'id' => 'schedule',
+                                                                        'class' => 'form-control',
+                                                                        'type'=>'text',
+                                                                        'placeholder'=>'YYYY-MM-DD HH:mm',
+                                                                        'label' => false,
+                                                                        'templates' => [
+                                                                        'inputContainer' => '<div class="input text required"><div class="input-group date" id="date1" name ="date">{{content}}<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>'
+                                                                        ],
+                                                                    ]);
+                                                                    if ($this->Form->isFieldError('schedule')) {
+                                                                        echo $this->Form->error('schedule');
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <?php
+                                                                    if ($session->subject){
+                                                                        echo $this->Form->input('subject',  ['type' => 'hidden']); 
+                                                                    } else {
+                                                                        echo $this->Form->input('subject',  ['class' => 'form-control']); 
+                                                                    }
+                                                                ?>
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <?= $this->Form->input('comments',['class' => 'form-control']);?>
+                                                            </div>
+                                                        </fieldset>
+
+                                                        <?= $this->Form->button(__('Submit'), ['class' => 'btn ed_btn ed_orange pull-right']) ?>
+                                                        <?= $this->Html->link(__('Cancel'), ['controller' => 'AppUsers', 'action' => 'coaches'],['class' => 'btn ed_btn ed_green pull-right']) ?>
+                                                    <?= $this->Form->end() ?>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--tab End-->
+                    </div>
+                </div>
+            </div>  
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="sidebar_wrapper_upper">
+                <div class="sidebar_wrapper">
+                    <aside class="widget widget_sharing">
+                        <h4 class="widget-title">share this course</h4>
+                        <ul>
+                            <li><a href="course_single.html"><i class="fa fa-facebook"></i> facebook</a></li>
+                            <li><a href="course_single.html"><i class="fa fa-linkedin"></i> linkedin</a></li>
+                            <li><a href="course_single.html"><i class="fa fa-twitter"></i> twitter</a></li>
+                            <li><a href="course_single.html"><i class="fa fa-google-plus"></i> google+</a></li>
+                        </ul>
+                    </aside>
+                </div>
+            </div>
+        </div>
+<!--Sidebar End-->
+    </div>
+  </div>  
+</div>

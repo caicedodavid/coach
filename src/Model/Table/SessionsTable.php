@@ -198,8 +198,7 @@ class SessionsTable extends Table
      */
     public function fixSchedule(array $data)
     {
-        $data["schedule"] = $data["schedule"] . " ". $data["time"] . ":00";
-        unset($data["time"]);
+        $data["schedule"] = $data["schedule"] . ":00";
         return $data;
 
     }

@@ -1,25 +1,6 @@
-<!--Breadcrumb start-->
-<div class="ed_pagetitle" data-stellar-background-ratio="0.5" data-stellar-vertical-offset="0" style="background-image: url(http://placehold.it/921X533);">
-<div class="ed_img_overlay"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-4 col-sm-6">
-                <div class="page_title">
-                    <h2>Topic</h2>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-8 col-sm-6">
-                <ul class="breadcrumb">
-                    <li><a href="index.html">home</a></li>
-                    <li><i class="fa fa-chevron-left"></i></li>
-                    <li><a href="courses.html">educo courses</a></li>
-                    <li><i class="fa fa-chevron-left"></i></li>
-                    <li><a href="course_single.html">Topic</a></li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
+<?php $this->start('banner') ?>
+    <?php echo $this->element('banner', ['title' => 'Topic']); ?>
+<?php $this->end() ?>
 <div class="ed_graysection ed_course_single ed_toppadder80 ed_bottompadder80">
     <div class="container">
         <div class="row">
@@ -69,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit',$topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small']);?> 
+                        <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small']);?> 
                     </div><!--tab End-->
                 </div>
             </div>
@@ -78,7 +59,7 @@
                 <div class="sidebar_wrapper_upper">
                     <div class="sidebar_wrapper">
                         <aside class="widget widget_button">
-                            <?= $this->AuthLink->link(__d('Session', 'Request Session'), [ 'action' => 'add',$topic->coach->id,$topic->coach->full_name,$topic->id,$topic->name,'plugin' => false,'controller' => 'Sessions', 'prefix' => false],['class' => 'ed_btn ed_green']);?>
+                            <?= $this->AuthLink->link(__d('Session', 'Request Session'), ['controller' => 'Sessions', 'action' => 'add', $topic->coach->id, $topic->coach->full_name, $topic->id, 'plugin' => false, 'prefix' => false],['class' => 'ed_btn ed_green']);?>
                         </aside>
                         <aside class="widget widget_sharing">
                             <h4 class="widget-title">share this course</h4>

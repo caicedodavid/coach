@@ -20,7 +20,7 @@
 						<div class="ed_dashboard_inner_tab">
 							<div role="tabpanel">
 								<?= $this->fetch('content') ?>
-							<div>
+							</div>
 						</div>
 					</div>
 				</div>
