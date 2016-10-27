@@ -1,4 +1,5 @@
-<?= $this->extend('/Element/AppUsers/dashbord_sidebar');
+<?php
+    $this->extend('/Element/AppUsers/dashbord_sidebar');
     $this->assign('title', 'Coach');
 ?>
 
