@@ -38,8 +38,8 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <div class="content main">
                 <?= $this->Flash->render() ?>
                 <?= $this->Flash->render('Auth') ?>
+                <?= $this->fetch('banner') ?>
                 <div class="container clearfix">
-
                     <?= $this->fetch('content') ?>
                 </div>
             </div>
