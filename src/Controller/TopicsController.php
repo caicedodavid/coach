@@ -16,9 +16,11 @@ class TopicsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function coachTopics($id)
+    public function coachTopics($id = null)
     {
-        if($this->isCoach($this->getUser())) {
+        $user = $this->getUser();
+        $id  = $id? $id: $user['id'];
+        if($this->isCoach($user)) {
             $this->profileTopics($id);
         }
         else{

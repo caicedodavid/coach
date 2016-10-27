@@ -1,17 +1,13 @@
 <?php
     $menu = [
         [
-            'url' => '/',
+            'url' => ['controller' => 'Pages', 'action' => 'display', 'home'],
             'title' => __('Home')
         ],
         [
             'url' => ['plugin' => false, 'controller' => 'AppUsers', 'action' => 'coaches'],
             'title' => __('Coaches')
         ],
-        [
-            'url' => ['plugin' => false, 'controller' => 'Topics', 'action' => 'list'],
-            'title' => __('Topics')
-        ]
     ]
 ?>
 
@@ -33,7 +29,7 @@
                     <div class="edoco_menu">
                         <ul class="collapse navbar-collapse pull-right" id="ed_menu">
                         <?php foreach($menu as $item):?>
-                            <li><?= $this->Html->link($item['title'], $item['url'])?></li>
+                            <li><?= $this->AuthLink->link($item['title'], $item['url'])?></li>
                         <?php endforeach;?>
                         </ul>
                     </div>
