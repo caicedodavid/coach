@@ -1,20 +1,20 @@
  $(document).ready(function(){
+      var d = new Date();
+      d.setDate(d.getDate() - 1);
+
       var birthdateOptions={
         format: 'yyyy-mm-dd',
-        container: '#date',
-        todayHighlight: true,
         autoclose: true,
         startView: 2,
       };
       var sessionOptions={
-        format: 'yyyy-mm-dd',
-        container: '#date1',
-        todayHighlight: true,
-        startDate: new Date(), 
-        autoclose: true,
+        format: 'YYYY-MM-DD HH:mm',
+        stepping: 30,
+        minDate: d,
+        disabledDates: [d]
       };
-      $('#date').datepicker(birthdateOptions);
-      $('#date1').datepicker(sessionOptions);
+      $('#date').datetimepicker(birthdateOptions);
+      $('#date1').datetimepicker(sessionOptions);
 
       $('.timepicker').timepicker({
           timeFormat: 'HH:mm',
@@ -28,6 +28,8 @@
           scrollbar: true
       });
  
+
+
  
       $(document).on('click', '#pagination-button a', function () {
           var thisHref = $(this).attr('href');

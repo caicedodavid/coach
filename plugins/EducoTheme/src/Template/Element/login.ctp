@@ -7,8 +7,10 @@
                         <li><?= empty($userAuth) ? __('welcome guest') : $userAuth['first_name'] . ' :'?></li>
                     <?php if ($userAuth):?>
                         <li><?= $this->AuthLink->link(__('My Profile'),['action' => 'myProfile', 'controller' => 'AppUsers'])?> |</li>
-                        <li><?= $this->AuthLink->link(__d('AppUsers','My Sessions'), ['plugin' => false,'controller' => 'Sessions', 'action' => 'approved', 'prefix' => false]);?> |</li>
-                        <li><?= $this->AuthLink->link(__d('AppUsers', 'My Topics'), ['controller' => 'Topics', 'action' => 'coachTopics', 'plugin' => false]);?></li>
+                        <li>
+                            <?= $this->AuthLink->link(__d('AppUsers','My Sessions'), ['action' => 'approvedCoach', 'controller' => 'Sessions']);?>
+                            <?= $this->AuthLink->link(__d('AppUsers','My Sessions'), ['action' => 'approvedUser', 'controller' => 'Sessions']);?> 
+                        </li>
                     <?php endif;?>
                     </ul>
                 </div>

@@ -50,7 +50,7 @@
                                 </div>
                             </div>
                         </div>
-                        <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit',$topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small']);?> 
+                        <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small']);?> 
                     </div><!--tab End-->
                 </div>
             </div>
@@ -59,7 +59,7 @@
                 <div class="sidebar_wrapper_upper">
                     <div class="sidebar_wrapper">
                         <aside class="widget widget_button">
-                            <?= $this->AuthLink->link(__d('Session', 'Request Session'), [ 'action' => 'add',$topic->coach->id,$topic->coach->full_name,$topic->id,$topic->name,'plugin' => false,'controller' => 'Sessions', 'prefix' => false],['class' => 'ed_btn ed_green']);?>
+                            <?= $this->AuthLink->link(__d('Session', 'Request Session'), ['controller' => 'Sessions', 'action' => 'add', $topic->coach->id, $topic->coach->full_name, $topic->id, 'plugin' => false, 'prefix' => false],['class' => 'ed_btn ed_green']);?>
                         </aside>
                         <aside class="widget widget_sharing">
                             <h4 class="widget-title">share this course</h4>

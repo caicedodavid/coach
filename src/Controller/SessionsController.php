@@ -254,10 +254,15 @@ class SessionsController extends AppController
      * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add($coachId, $coachName, $topicId = null, $topicName = null)
+    public function add($coachId, $coachName, $topicId = null)
     {   
+        $this->loadModel('Topics');
+        $topic = !$topicId ? null : $this->Topics->get($topicId, [
+            'contain' => ['TopicImage']
+        ]);
+        $topicId = $topic ? $topic['id']: null; 
         $session = $this->Sessions->newEntity();
-        $session->subject = $topicName;
+        $session->subject = $topic['name'] ? $topic['name'] : null;
         if ($this->request->is('post')) {         
             $session['user_id'] = $this->getUser()['id'];
             $session['coach_id'] = $coachId;
@@ -273,7 +278,8 @@ class SessionsController extends AppController
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
         }
-        $this->set('coach',$coachName);
+        $this->set('image', $topic ? $topic['image']: null);
+        $this->set('coach', $coachName);
         $this->set('session',$session);
         $this->set('_serialize', ['session']);
     }
