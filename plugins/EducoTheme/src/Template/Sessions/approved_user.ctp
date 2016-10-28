@@ -5,13 +5,10 @@
     <?= $this->element('AppUsers/sidebar', [
         'tabs' => [
             'Profile' => [
-                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
-            ],
-            'Topics' => [
-                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
+                'null', ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers']
             ],
             'My Sessions' => [
-                'active', ['action' => 'approvedCoach', $user->id, 'controller' => 'Sessions']
+                'active', ['action' => 'approvedUser', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user
@@ -30,13 +27,13 @@
                             <div class="ed_add_students">
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
-                                        <?php echo $this->Img->display($session->user['user_image'], 'small', ['url' => ['action' => 'view', 'controller' => 'AppUsers', $session->user['id']]]);?>
+                                        <?php echo $this->Img->display($session->coach['user_image'], 'small',['url' => ['controller' => 'AppUsers', 'action' => 'coachProfile', $session->coach['id']]]);?>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
-                                        <span><?= h($session->user['full_name']) ?></span>
+                                        <span><?= h($session->coach['full_name']) ?></span>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewApprovedCoach', $session->id]);?>
+                                                <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewApprovedUser', $session->id]);?>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <?= $session->schedule ?>

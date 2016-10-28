@@ -248,7 +248,8 @@ class SessionsTable extends Table
         $role = $user["role"];
         return $query
             ->where(['Sessions.id' => $id])
-            ->find('contain', ['role'=>$role]);
+            ->find('contain', ['role'=>$role])
+            ->find('containTopic');
     }
 
     /**
@@ -314,7 +315,7 @@ class SessionsTable extends Table
     }
 
     /**
-     * Query for finding sessions linked to a user
+     * Query for finding the user data linked to a session
      * @param $query query object
      * @param $role string role of user
      * @return Query
@@ -334,6 +335,21 @@ class SessionsTable extends Table
                 'UserImage'
             ]
         ]); 
+    }
+
+    /**
+     * Query for finding the topic data linked to a session
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainTopic(Query $query, array $options)
+    {
+            return $query->contain([
+                'Topics' => [
+                    'TopicImage'
+                ]
+            ]); 
     }
 
     /**

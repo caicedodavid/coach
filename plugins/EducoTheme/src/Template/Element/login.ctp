@@ -8,9 +8,10 @@
                     <?php if ($userAuth):?>
                         <li><?= $this->AuthLink->link(__('My Profile'),['action' => 'myProfile', 'controller' => 'AppUsers'])?> |</li>
                         <li>
-                            <?= $this->AuthLink->link(__d('AppUsers','My Sessions'), ['action' => 'approvedCoach', 'controller' => 'Sessions']);?>
-                            <?= $this->AuthLink->link(__d('AppUsers','My Sessions'), ['action' => 'approvedUser', 'controller' => 'Sessions']);?> 
+                            <?= $this->AuthLink->link(__d('AppUsers', 'My Sessions'), ['action' => 'approvedCoach', 'controller' => 'Sessions']);?>
+                            <?= $this->AuthLink->link(__d('AppUsers', 'My Sessions'), ['action' => 'approvedUser', 'controller' => 'Sessions']);?> |
                         </li>
+                        <li><?= $this->AuthLink->link(__d('AppUsers', 'Edit Profile'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?></li>
                     <?php endif;?>
                     </ul>
                 </div>

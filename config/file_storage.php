@@ -115,8 +115,15 @@ Configure::write('FileStorage', [
                 'small' => [
                     'thumbnail' => [
                         'mode' => 'inbound',
-                        'width' => 60,
-                        'height' => 60
+                        'width' => 50,
+                        'height' => 58
+                    ]
+                ],
+                'extra-small' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 32,
+                        'height' => 32
                     ]
                 ],
             ],

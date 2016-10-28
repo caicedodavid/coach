@@ -91,6 +91,9 @@ class SessionsController extends AppController
         if ($this->isCoach($this->getUser())) {
             $this->render("historic_coach");
         }
+        else{
+            $this->render("historic_user");
+        }
     }
 
     /**
@@ -111,16 +114,14 @@ class SessionsController extends AppController
         $response = $this->Sessions->getUrl($session,$user);
         $this->set('url',$response);
         $this->set('session', $session);
+        $this->set('isCoach', $this->isCoach($user));
         $this->set('_serialize', ['session']);
-        if ($session['status'] === Session::STATUS_PAST) {
-            $this->render("view_historic");
-        }
-        elseif (($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED)){
+        if (($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED)){
             $this->set('statusArray',$this->getStatusArray());
             $this->render("view_canceled_rejected");
         }
-
     }
+
     /**
      * View a past, rejected or canceled session
      *
@@ -133,6 +134,29 @@ class SessionsController extends AppController
         $user =$this->view($id);
     }
 
+    /**
+     * View a session approved by user
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewApprovedUser($id = null)
+    {
+        $user =$this->view($id);
+    }
+
+    /**
+     * View a session approved by Coach
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewApprovedCoach($id = null)
+    {
+        $user =$this->view($id);
+    }
 
     /**
      * View pending sessions method for users
@@ -154,6 +178,30 @@ class SessionsController extends AppController
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function viewPendingCoach($id = null)
+    {
+        $user = $this->view($id); 
+    }
+
+    /**
+     * View historic session method for Coaches
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewHistoricCoach($id = null)
+    {
+        $user = $this->view($id); 
+    }
+
+    /**
+     * View pending session method for Users
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function viewHistoricUser($id = null)
     {
         $user = $this->view($id); 
     }

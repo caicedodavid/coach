@@ -64,7 +64,9 @@ return [
                 'rateCoach',
                 'viewHistoric',
                 'viewPendingCoach',
-                'approvedCoach'
+                'approvedCoach',
+                'viewApprovedCoach',
+                'viewHistoricCoach'
             ]
         ],
         [
@@ -75,7 +77,9 @@ return [
                 'rateUser',
                 'viewPendingUser',
                 'add',
-                'approvedUser'
+                'approvedUser',
+                'viewApprovedUser',
+                'viewHistoricUser'
             ]
         ],
         [

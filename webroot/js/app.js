@@ -3,33 +3,19 @@
       d.setDate(d.getDate() - 1);
 
       var birthdateOptions={
-        format: 'yyyy-mm-dd',
-        autoclose: true,
-        startView: 2,
+        format: 'YYYY-MM-DD',
+        viewMode: 'years',
+        maxDate: d,
       };
       var sessionOptions={
         format: 'YYYY-MM-DD HH:mm',
         stepping: 30,
         minDate: d,
-        disabledDates: [d]
+        disabledDates: [d],
+        sideBySide:true
       };
       $('#date').datetimepicker(birthdateOptions);
       $('#date1').datetimepicker(sessionOptions);
-
-      $('.timepicker').timepicker({
-          timeFormat: 'HH:mm',
-          interval: 30,
-          minTime: '00',
-          maxTime: '23:30',
-          defaultTime: '12',
-          startTime: '00',
-          dynamic: false,
-          dropdown: true,
-          scrollbar: true
-      });
- 
-
-
  
       $(document).on('click', '#pagination-button a', function () {
           var thisHref = $(this).attr('href');
@@ -72,16 +58,6 @@
       $(function() {
           $('span.stars').stars();
       });
-
-      //$( function() {
-       //$( "#tabs" ).tabs({
-         //beforeLoad: function( event, ui ) {
-           //ui.jqXHR.fail(function() {
-             //ui.panel.html("Couldn't load this tab. We'll try to fix this as soon as possible. " );
-           //});
-         //}
-       //});
-      //});
 
       $(document).on('click', '.paging a', function () {
         var thisHref = $(this).attr('href');
