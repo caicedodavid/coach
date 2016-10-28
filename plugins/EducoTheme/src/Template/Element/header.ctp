@@ -1,10 +1,6 @@
 <?php
     $menu = [
         [
-            'url' => ['controller' => 'Pages', 'action' => 'display', 'home'],
-            'title' => __('Home')
-        ],
-        [
             'url' => ['plugin' => false, 'controller' => 'AppUsers', 'action' => 'coaches'],
             'title' => __('Coaches')
         ],
@@ -31,6 +27,7 @@
                         <?php foreach($menu as $item):?>
                             <li><?= $this->AuthLink->link($item['title'], $item['url'])?></li>
                         <?php endforeach;?>
+                        <li><?= $this->Html->link('Home', ['controller' => 'Pages', 'action' => 'display', 'home']);?></li>
                         </ul>
                     </div>
                 </div>
