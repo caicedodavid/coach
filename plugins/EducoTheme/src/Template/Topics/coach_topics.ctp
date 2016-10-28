@@ -56,8 +56,8 @@
                     <?= $this->Paginator->next(__('next') . ' >') ?>
                 </ul>
             </div>
-            <?= $this->AuthLink->link(__('Add Topic'), ['plugin' => false,'action' =>'add', 'controller' => 'Topics'], ['class' => 'btn ed_btn pull-right ed_orange pull-right small']) ?>
         <?php endif; ?>
+        <?= $this->AuthLink->link(__('Add Topic'), ['plugin' => false,'action' =>'add', 'controller' => 'Topics'], ['class' => 'btn ed_btn pull-right ed_orange pull-right small']) ?>
     </div>
     </div>
 </div>
