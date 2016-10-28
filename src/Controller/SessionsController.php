@@ -29,7 +29,7 @@ class SessionsController extends AppController
             'contain' => ['UserImage']
         ]);
         $this->paginate = [
-            'limit' => 2,
+            'limit' => 5,
             'finder' => [
                 $finder => ['user' => $user]
             ],
