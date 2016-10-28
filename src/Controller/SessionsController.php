@@ -326,7 +326,7 @@ class SessionsController extends AppController
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
         }
-        $this->set('image', $topic ? $topic['image']: null);
+        $this->set('image', $topic ? $topic['topic_image']: null);
         $this->set('coach', $coachName);
         $this->set('session',$session);
         $this->set('_serialize', ['session']);

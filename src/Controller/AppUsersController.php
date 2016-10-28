@@ -108,7 +108,6 @@ class AppUsersController extends UsersController
             ->contain('UserImage')
             ->first();
         
-        
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
             $data["birthdate"] = date('Y-m-d',strtotime($data["birthdate"]));
