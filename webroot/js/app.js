@@ -9,7 +9,7 @@
       };
       var sessionOptions={
         format: 'YYYY-MM-DD HH:mm',
-        stepping: 30,
+        stepping: 5,
         minDate: d,
         disabledDates: [d],
         sideBySide:true

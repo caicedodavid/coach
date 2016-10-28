@@ -21,7 +21,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * Show the sessions scheduled by a user/coach
      */ 
-    public function sessionList($finder)
+    public function sessionList($finder, $columnOrder = 'schedule', $order = 'asc')
     {
         $user = $this->getUser();
         $this->loadModel('AppUsers');
@@ -34,7 +34,7 @@ class SessionsController extends AppController
                 $finder => ['user' => $user]
             ],
             'order' =>[
-                'Sessions.schedule' => 'asc'
+                'Sessions.' . $columnOrder => $order
             ]
         ];
         $sessions = $this->paginate($this->Sessions);
@@ -87,7 +87,7 @@ class SessionsController extends AppController
     public function historic()
     {   
         $this->set('statusArray',$this->getStatusArray());
-        $this->sessionList(self::HISTORIC_SESSIONS_FINDER);
+        $this->sessionList(self::HISTORIC_SESSIONS_FINDER,'modified','desc');
         if ($this->isCoach($this->getUser())) {
             $this->render("historic_coach");
         }
