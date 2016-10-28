@@ -60,11 +60,9 @@
                 <th><?= __('Twitter: ') ?></th>
                 <td><?php if($user->tw_account){echo $this->Html->link("twitter.com/".$user->tw_account,"https://www.twitter.com/".$user->tw_account, ['target' => '_blank']);}?></td>
             </tr>
-            <tr>
-                <th><?= __('Request a Session: ') ?></th>
-                <td><?= $this->Html->link(__d('Sessions', 'click here'), [$user->id,$user->full_name,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix'=>    false]);?></td>
-            </tr>
+                <?= $this->Html->link(__d('Sessions', 'Request a Session'), [$user->id,$user->full_name,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix'=>    false]);?>
         </table>
+        <?= $this->AuthLink->link(__d('Sessions', 'Request a Session'), [$user->id,$user->full_name,'plugin' => false,'controller' => 'Sessions', 'action' => 'add', 'prefix' =>    false], ['class' => 'btn ed_btn ed_orange pull-right small']);?>
     </div>
     </div>
 </div>
