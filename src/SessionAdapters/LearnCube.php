@@ -144,7 +144,7 @@ class LearnCube implements SessionAdapter
             "response" => true,
             "type" => 'json',
             "content" => [
-                "status" => false,
+                "status" => true,
             ]
         ];
     }
