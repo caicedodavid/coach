@@ -1,7 +1,7 @@
 <?= $this->extend('/Element/Sessions/session_layout');
 ?>
 <?php $this->start('banner') ?>
-    <?php echo $this->element('banner', ['title' => 'Pending Session']); ?>
+    <?php echo $this->element('banner', ['title' => 'Past Session']); ?>
 <?php $this->end() ?>
 
 <?php $this->start('image_title') ?>

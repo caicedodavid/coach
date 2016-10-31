@@ -395,7 +395,7 @@ class SessionsTable extends Table
     public function setTime($startTime)
     {
         $startTime = $startTime ? $startTime: strtotime("now");
-        return gmdate("H:i",strtotime("now") - (int) $startTime);
+        return strtotime("now") - (int) $startTime;
     }
 }
 

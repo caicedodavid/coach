@@ -246,7 +246,7 @@ class SessionsController extends AppController
             return $this->redirect(['action' => 'display','controller' => 'Pages']);
         }
         $session = $this->Sessions->get($id);
-        $session["coach_time"] = $session["coach_time"] ?: $this->Sessions->setTime($startTime);
+        $session['duration'] = $session['duration'] ?: $this->Sessions->setTime($startTime);
         $session['status'] = Session::STATUS_PAST;
         $this->Sessions->save($session);
         if ($this->request->is('post')) {      
@@ -417,7 +417,7 @@ class SessionsController extends AppController
         $session = $this->Sessions->get($id);
         $session['status'] = Session::STATUS_RUNNING;
         $this->Sessions->save($session);
-        $appSession->write('Class.id',$id);
+        $appSession->write('Class.id', $id);
         $appSession->write('Class.startTime',(string) time());
     }
 

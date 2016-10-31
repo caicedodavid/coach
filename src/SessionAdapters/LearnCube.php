@@ -75,9 +75,9 @@ class LearnCube implements SessionAdapter
             case self::CONNECT_LESSON_REQUEST:
                 return $this->connectLesson($requestArray->query['user_id']);
             case self::START_CLASS_REQUEST:
-                return $this->startClass();
+                return $this->startLesson($requestArray->query['token']);
             case self::END_LESSON_REQUEST:
-                return $this->endLessson();
+                return $this->endLesson($requestArray->query);
         }
     }
 
@@ -111,8 +111,14 @@ class LearnCube implements SessionAdapter
      *
      * @param $session user entity,  
      */
-    private function startClass()
+    private function startLesson($sessionId)
     {
+        $sessions = TableRegistry::get('Sessions');
+        $session = $sessions->get($sessionId);
+        $session['start_time'] = date('H:i:s');
+        $sessions->save($session);
+
+
         return [
             "response" => true,
             "type" => 'json',
@@ -127,8 +133,13 @@ class LearnCube implements SessionAdapter
      *
      * @param $session user entity,  
      */
-    private function endLesson()
+    private function endLesson($request)
     {
+        $sessions = TableRegistry::get('Sessions');
+        $session = $sessions->get($request['token']);
+        $session['duration'] = $request['time'];
+        $sessions->save($session);
+
         return [
             "response" => true,
             "type" => 'json',
