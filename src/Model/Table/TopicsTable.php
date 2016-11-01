@@ -179,12 +179,6 @@ class TopicsTable extends Table
     {
         return  $query->find('publicTopics')
             ->find('containCoach')
-            ->find('TopicsImage');
-    }
-
-
-    public function beforeFilter(Event $event)
-    {
-        $this->Auth->allow('index');
+            ->find('topicsImage');
     }
 }
