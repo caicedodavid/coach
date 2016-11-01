@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
 
 /**
  * Topics Controller
@@ -10,6 +11,27 @@ use App\Controller\AppController;
  */
 class TopicsController extends AppController
 {
+
+
+    /**
+     * List all of the public topics
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function index()
+    {
+        $this->paginate = [
+            'limit' => 6,
+            'finder' => 'indexTopics'
+        ];
+        $topics = $this->paginate($this->Topics);
+        $this->set(compact('topics'));
+        $this->set('_serialize', ['topics']);
+        if ($this->request->is('ajax')) {
+            $this->render('list');
+        }
+    }
+
 
     /**
      * List all of the coach topics
@@ -29,7 +51,6 @@ class TopicsController extends AppController
         $user = $this->AppUsers->get($id, [
             'contain' => ['UserImage']
         ]);
-
     }
 
     /**
@@ -180,5 +201,11 @@ class TopicsController extends AppController
         }
 
         return $this->redirect(['action' => 'index']);
+    }
+
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Auth->allow(['index']);
     }
 }

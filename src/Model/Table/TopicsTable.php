@@ -168,4 +168,23 @@ class TopicsTable extends Table
             ]
         ]);
     }
+
+    /**
+     * Query for containing a topic with the coach info
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findIndexTopics(Query $query, array $options)
+    {
+        return  $query->find('publicTopics')
+            ->find('containCoach')
+            ->find('TopicsImage');
+    }
+
+
+    public function beforeFilter(Event $event)
+    {
+        $this->Auth->allow('index');
+    }
 }
