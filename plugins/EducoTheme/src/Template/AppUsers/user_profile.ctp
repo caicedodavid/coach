@@ -41,10 +41,6 @@
                 <td><?= h($user->email) ?></td>
             </tr>
             <tr>
-                <th><?= __('Reputation: ') ?></th>
-                <td><div class="col-md-2"><?php echo "<span class=\"stars\", data-rating=\"" . $user->rating ."\"></span>"?></div></td>
-            </tr>
-            <tr>
                 <th><?= __('Description: ') ?></th>
                 <td><?= $user->description ?></td>
             </tr>

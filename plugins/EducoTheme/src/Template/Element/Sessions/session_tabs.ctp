@@ -1,5 +1,5 @@
 <?= $this->extend('/Element/AppUsers/dashbord_sidebar');
-    $this->assign('title', 'Coach');
+    $this->assign('title', 'Sessions');
     $type = $this->fetch('typeSession');
     $class1 = ($type === "approved" ? "active": null);
     $class2 = ($type === "pending" ? "active": null);

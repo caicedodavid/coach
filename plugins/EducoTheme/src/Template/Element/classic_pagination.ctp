@@ -26,14 +26,14 @@ if (!empty($addArrows)) {
 }
 $escape = isset($escape) ? $escape : true;
 ?>
-
+<?php if($this->Paginator->hasPage(2)):?>
 <div class="paging paginator ed_blog_bottom_pagination">
-	<ul class="pagination">
+	<ul class="pagination">	
 	<?php echo $this->Paginator->prev($prev, ['escape' => $escape], null, ['class' => 'prev disabled']);?>
  	<?php echo $separator; ?>
 	<?php echo $this->Paginator->numbers(['escape' => $escape, 'separator' => $separator]);?>
  	<?php echo $separator; ?>
 	<?php echo $this->Paginator->next($next, ['escape' => $escape], null, ['class' => 'next disabled']);?>
 	</ul>
-
 </div>
+<?php endif;?>
