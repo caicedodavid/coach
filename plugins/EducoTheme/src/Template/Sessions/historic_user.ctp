@@ -1,5 +1,6 @@
 <?= $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "historic");
+    $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar', [
@@ -8,7 +9,7 @@
                 'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
             ],
             'My Sessions' => [
-                'active', ['action' => 'approvedUser', $user->id, 'controller' => 'Sessions']
+                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user

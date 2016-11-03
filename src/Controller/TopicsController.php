@@ -136,13 +136,13 @@ class TopicsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($userId = null)
     {
         $topic = $this->Topics->newEntity();
         if ($this->request->is('post')) {
 
             $data = $this->request->data;
-            $topic["coach_id"] = $this->getUser()["id"];
+            $topic["coach_id"] = $userId;
             if(!$data["topic_image"]["file"]["size"]){
                 unset($data["topic_image"]);
             }

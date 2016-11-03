@@ -9,7 +9,7 @@
                 'active', ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers']
             ],
             'My Sessions' => [
-                'null', ['action' => 'approvedUser', $user->id, 'controller' => 'Sessions']
+                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user

@@ -42,25 +42,20 @@ class SessionsController extends AppController
         $this->set(compact('sessions'));
         $this->set('_serialize', ['sessions','users']);
     }
-
     /**
-     * Approved Sessions for coach view
+     * Approved Sessions
      * @return \Cake\Network\Response|null
      * Show the sessions scheduled by a user/coach
      */ 
-    public function approvedUser()
+    public function approved($id = null)
     {
-        $this->sessionList(self::APPROVED_SESSIONS_FINDER);
-    }
-
-    /**
-     * Approved Sessions for coach view
-     * @return \Cake\Network\Response|null
-     * Show the sessions scheduled by a user/coach
-     */ 
-    public function approvedCoach()
-    {
-        $this->sessionList(self::APPROVED_SESSIONS_FINDER);
+        $this->sessionList(self::PENDING_SESSIONS_FINDER);
+        if ($this->isCoach($this->getUser())){ 
+            $this->render("approved_coach");
+        }
+        else{
+            $this->render("approved_user");
+        }
     }
 
     /**
@@ -68,7 +63,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * Show the sessions scheduled by a user/coach
      */ 
-    public function pending()
+    public function pending($id = null)
     {   
         $this->sessionList(self::PENDING_SESSIONS_FINDER);
         if ($this->isCoach($this->getUser())){ 
@@ -84,7 +79,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * Show the sessions scheduled by a user/coach
      */ 
-    public function historic()
+    public function historic($id = null)
     {   
         $this->set('statusArray',$this->getStatusArray());
         $this->sessionList(self::HISTORIC_SESSIONS_FINDER,'modified','desc');

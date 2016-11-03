@@ -80,7 +80,7 @@ class TopicsTable extends Table
             ->notEmpty('active');
 
         $validator
-            ->time('duration')
+            ->integer('duration')
             ->requirePresence('duration', 'create')
             ->notEmpty('duration');
 

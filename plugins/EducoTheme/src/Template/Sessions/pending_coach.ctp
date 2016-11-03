@@ -1,5 +1,6 @@
 <?= $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "pending");
+    $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar', [
@@ -11,7 +12,7 @@
                 'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
             ],
             'My Sessions' => [
-                'active', ['action' => 'approvedCoach', $user->id, 'controller' => 'Sessions']
+                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user

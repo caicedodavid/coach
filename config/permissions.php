@@ -1,6 +1,7 @@
 <?php
     use Cake\ORM\TableRegistry;
     use Cake\Utility\Hash;
+    use Cake\Network\Request;
 
 return [
     'Users.SimpleRbac.permissions' => [
@@ -43,16 +44,31 @@ return [
             'plugin'=> false,
             'controller' => 'Sessions',
             'action' => [
-                'pending',
                 'viewPending',
-                'historic',
-                'approved',
                 'view',
                 'cancel',
                 'rate',
                 'updateStartTime',
                 'cancelSession'
             ]
+        ],
+        [
+            'role' => ['user','coach'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
+                'pending',
+                'approved',
+                'historic',
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $userId1 = Hash::get($request->params, 'pass.0');
+                $userId2 = Hash::get($user, 'id');
+                if (!empty($userId1) && !empty($userId2)) {
+                    return $userId1 === $userId2;
+                }
+                return false;
+            }
         ],
         [
             'role' => ['coach'],
@@ -64,7 +80,6 @@ return [
                 'rateCoach',
                 'viewHistoric',
                 'viewPendingCoach',
-                'approvedCoach',
                 'viewApprovedCoach',
                 'viewHistoricCoach'
             ]
@@ -77,7 +92,6 @@ return [
                 'rateUser',
                 'viewPendingUser',
                 'add',
-                'approvedUser',
                 'viewApprovedUser',
                 'viewHistoricUser'
             ]
@@ -88,8 +102,32 @@ return [
             'controller' => 'Topics',
             'action' => [
                 'add',
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $userId1 = Hash::get($request->params, 'pass.0');
+                $userId2 = Hash::get($user, 'id');
+                if (!empty($userId1) && !empty($userId2)) {
+                    return $userId1 === $userId2;
+                }
+                return false;
+            }
+        ],
+        [
+            'role' => ['coach'],
+            'plugin'=> false,
+            'controller' => 'Topics',
+            'action' => [
                 'edit'
-            ]
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $userId1 = Hash::get($user, 'id');
+                $topictId = Hash::get($request->params, 'pass.0');
+                $userId2 = TableRegistry::get('Topics')->get($topictId)['coach_id']; 
+                if (!empty($userId1) && !empty($userId2)) {
+                    return $userId1 ===$userId2;
+                }
+                return false;
+            }
         ],
         [
             'role' => ['coach','user'],

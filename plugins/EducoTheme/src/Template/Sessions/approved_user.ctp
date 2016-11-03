@@ -1,5 +1,6 @@
 <?= $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "approved");
+    $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar', [
@@ -8,7 +9,7 @@
                 'null', ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers']
             ],
             'My Sessions' => [
-                'active', ['action' => 'approvedUser', $user->id, 'controller' => 'Sessions']
+                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user
@@ -16,7 +17,7 @@
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">
-    <div role="tabpanel" class="tab-pane active" id="approvedCoach">
+    <div role="tabpanel" class="tab-pane active" id="approved">
         <div class="ed_inner_dashboard_info">
             <div class="ed_course_single_info">
                 <?php if (!$sessions->count()):?>
@@ -39,7 +40,7 @@
                                                 <?= $session->schedule ?>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'action' => 'approvedCoach', 'message' => 'Are you sure you want to cancel this session?']);?>
+                                                <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'action' => 'approved', 'message' => 'Are you sure you want to cancel this session?']);?>
                                             </div>
                                         </div>
                                     </div>
