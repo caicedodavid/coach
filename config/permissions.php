@@ -124,7 +124,7 @@ return [
                 $topictId = Hash::get($request->params, 'pass.0');
                 $userId2 = TableRegistry::get('Topics')->get($topictId)['coach_id']; 
                 if (!empty($userId1) && !empty($userId2)) {
-                    return $userId1 ===$userId2;
+                    return $userId1 === $userId2;
                 }
                 return false;
             }
