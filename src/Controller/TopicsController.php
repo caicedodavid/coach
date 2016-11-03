@@ -12,6 +12,12 @@ use Cake\Event\Event;
 class TopicsController extends AppController
 {
 
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['index']);
+    }
+
 
     /**
      * List all of the public topics
@@ -149,6 +155,7 @@ class TopicsController extends AppController
                 $this->Flash->error(__('The topic could not be saved. Please, try again.'));
             }
         }
+        $this->set('times',$this->getDurationArray());
         $this->set(compact('topic'));
         $this->set('_serialize', ['topic']);
     }
@@ -167,6 +174,8 @@ class TopicsController extends AppController
         ]);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
+            //$data['duration'] = (int)$data['duration'];
+            debug($data['duration']);
             if(!$data["topic_image"]["file"]["size"]){
                 unset($data["topic_image"]);
             }
@@ -179,6 +188,7 @@ class TopicsController extends AppController
                 $this->Flash->error(__('The topic could not be saved. Please, try again.'));
             }
         }
+        $this->set('times',$this->getDurationArray());
         $this->set(compact('topic'));
         $this->set('_serialize', ['topic']);
     }
@@ -203,9 +213,19 @@ class TopicsController extends AppController
         return $this->redirect(['action' => 'index']);
     }
 
-    public function beforeFilter(Event $event)
+
+    /**
+     * Making an arary for the duration of the class
+     *
+     * @return Array
+     */
+    public function getDurationArray()
     {
-        parent::beforeFilter($event);
-        $this->Auth->allow(['index']);
+        $array = array();
+        for ($i = 1; $i <= 6; $i++) {
+            $array[$i*10] = $i*10;
+        }
+        return $array;
     }
+
 }

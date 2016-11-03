@@ -6,6 +6,7 @@
         format: 'YYYY-MM-DD',
         viewMode: 'years',
         maxDate: d,
+        useCurrent: false
       };
       var sessionOptions={
         format: 'YYYY-MM-DD HH:mm',
@@ -46,6 +47,7 @@
           return $(this).each(function() {
               // Get the value
               var val = parseFloat($(this).data('rating'));
+              console.log(val);
               // Make sure that the value is in 0 - 5 range, multiply to get width
               var size = Math.max(0, (Math.min(5, val))) * 16;
               // Create stars holder
@@ -56,6 +58,7 @@
       };
  
       $(function() {
+          console.log('shit');
           $('span.stars').stars();
       });
 
@@ -99,13 +102,4 @@
 
       $('.rate-input').rating({displayOnly: true, step: 0.5});
 
-      $("#items").each(function() {
-        var heights = $(this).find(".ed_team_member").map(function() {
-          return $(this).height();
-        }).get(),
-    
-        maxHeight = Math.max.apply(null, heights);
-    
-        $(".ed_team_member").height(maxHeight);
-      });
  });

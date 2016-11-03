@@ -15,7 +15,7 @@
                                     <h4><?= $this->Html->link(__($user->full_name), ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']) ?></h4>
                                     <div class="ed_rating">
                                         <div class="ed_stardiv">
-                                            <div class="star-rating"><span style="width:100%;", input="4"></span></div>
+                                            <div class="col-md-2"><?php echo "<span class=\"stars\", data-rating=\"" . $user->rating ."\"></span>"?></div>
                                         </div>
                                     </div>
                                     <p><?= $user->profession ?></p>
