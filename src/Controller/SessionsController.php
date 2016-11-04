@@ -49,7 +49,7 @@ class SessionsController extends AppController
      */ 
     public function approved($id = null)
     {
-        $this->sessionList(self::PENDING_SESSIONS_FINDER);
+        $this->sessionList(self::APPROVED_SESSIONS_FINDER);
         if ($this->isCoach($this->getUser())){ 
             $this->render("approved_coach");
         }
@@ -106,8 +106,7 @@ class SessionsController extends AppController
             'user' => $user
         ])
         ->first();
-        $response = $this->Sessions->getUrl($session,$user);
-        $this->set('url',$response);
+        $this->set('user', $user);
         $this->set('session', $session);
         $this->set('isCoach', $this->isCoach($user));
         $this->set('_serialize', ['session']);
@@ -126,7 +125,7 @@ class SessionsController extends AppController
      */
     public function viewHistoric($id = null)
     {
-        $user =$this->view($id);
+        $this->view($id);
     }
 
     /**
@@ -138,7 +137,15 @@ class SessionsController extends AppController
      */
     public function viewApprovedUser($id = null)
     {
-        $user =$this->view($id);
+        $this->view($id);
+        $user = $this->getUser();
+        $session = $this->Sessions->find('data',[
+            'id' => $id,
+            'user' => $user
+        ])
+        ->first();
+        $response = $this->Sessions->getUrl($session,$user);
+        $this->set('url',$response);
     }
 
     /**
@@ -150,7 +157,15 @@ class SessionsController extends AppController
      */
     public function viewApprovedCoach($id = null)
     {
-        $user =$this->view($id);
+        $this->view($id);
+        $user = $this->getUser();
+        $session = $this->Sessions->find('data',[
+            'id' => $id,
+            'user' => $user
+        ])
+        ->first();
+        $response = $this->Sessions->getUrl($session,$user);
+        $this->set('url',$response);
     }
 
     /**
@@ -162,7 +177,7 @@ class SessionsController extends AppController
      */
     public function viewPendingUser($id = null)
     {
-        $user = $this->view($id); 
+        $this->view($id); 
     }
 
     /**
@@ -174,7 +189,7 @@ class SessionsController extends AppController
      */
     public function viewPendingCoach($id = null)
     {
-        $user = $this->view($id); 
+        $this->view($id); 
     }
 
     /**
@@ -186,7 +201,7 @@ class SessionsController extends AppController
      */
     public function viewHistoricCoach($id = null)
     {
-        $user = $this->view($id); 
+        $this->view($id); 
     }
 
     /**
@@ -198,7 +213,7 @@ class SessionsController extends AppController
      */
     public function viewHistoricUser($id = null)
     {
-        $user = $this->view($id); 
+        $this->view($id); 
     }
 
     /**
@@ -316,7 +331,7 @@ class SessionsController extends AppController
             if ($this->Sessions->save($session)) {
                 $this->Sessions->sendRequestEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
-                return $this->redirect(['action' => 'pending','controller' => 'Sessions']);
+                return $this->redirect(['action' => 'pending', $this->getUser()['id'], 'controller' => 'Sessions']);
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
@@ -347,7 +362,7 @@ class SessionsController extends AppController
         }
 
         return $this->redirect(
-            ['action' => 'pending']
+            ['action' => 'pending',$this->getUser()['id']] 
         );
     }
 
@@ -370,7 +385,7 @@ class SessionsController extends AppController
             $this->Flash->error(__('The session could not be confirmed. Please try again later'));
         }
         return $this->redirect([
-            'action' => 'pending'
+            'action' => 'pending', $this->getUser()['id']
         ]);
     }
 
@@ -394,7 +409,7 @@ class SessionsController extends AppController
             $this->Flash->error(__('The session could not be canceled. Please try again later'));
         }
         return $this->redirect(
-            ['action' => $action]
+            ['action' => $action, $this->getUser()['id']]
         );
         
     }
