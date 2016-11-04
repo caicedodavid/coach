@@ -13,7 +13,7 @@
                 'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
             ],
             'My Sessions' => [
-                'null', ['action' => 'approvedCoach', $user->id, 'controller' => 'Sessions']
+                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user

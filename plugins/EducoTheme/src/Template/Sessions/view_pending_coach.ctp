@@ -17,9 +17,7 @@
             <table class="vertical-table">
                 <?= $this->element('Sessions/general_view', ["session" => $session]);?>
             </table>
-            <?php if (!$url):
-                echo $this->element('Sessions/accept_decline_buttons', ['session' => $session]);
-            endif;?>
+                <?= $this->element('Sessions/accept_decline_buttons', ['session' => $session]);?>
         </div>
     </div>
 </div>

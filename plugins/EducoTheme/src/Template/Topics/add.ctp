@@ -1,3 +1,6 @@
+<?php $this->start('banner') ?>
+<?php echo $this->element('banner', ['title' => __('Add Topic')]); ?>
+<?php $this->end() ?>
 <div class="topics form large-9 medium-8 columns content">
     <?= $this->Form->create($topic,['type' => 'file']);?>
     <fieldset>

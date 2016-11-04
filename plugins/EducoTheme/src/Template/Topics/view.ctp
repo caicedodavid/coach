@@ -15,13 +15,13 @@
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                                 <div class="course_detail">
                                     <div class="course_faculty">
-                                        <?php echo $this->Img->display($topic->coach['user_image'], 'extra-small');?><?= $this->Html->link(__($topic->coach['full_name']), ['action' => 'coachProfile', $topic->coach['id'], 'controller' => 'AppUsers']) ?>
+                                        <?php echo $this->Img->display($topic->coach['user_image'], 'extra-small', ['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $topic->coach['id']]]);?><?= $this->Html->link(__($topic->coach['full_name']), ['action' => 'coachProfile', $topic->coach['id'], 'controller' => 'AppUsers']) ?>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right text-right">
                                 <div class="ed_course_duration">
-                                time duration: 60 min
+                                <?= 'time duration: ' . $topic->duration ?>
                             </div>
                             </div>
                         </div>

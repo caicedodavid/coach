@@ -6,6 +6,7 @@
         format: 'YYYY-MM-DD',
         viewMode: 'years',
         maxDate: d,
+        useCurrent: false
       };
       var sessionOptions={
         format: 'YYYY-MM-DD HH:mm',
@@ -99,13 +100,4 @@
 
       $('.rate-input').rating({displayOnly: true, step: 0.5});
 
-      $("#items").each(function() {
-        var heights = $(this).find(".ed_team_member").map(function() {
-          return $(this).height();
-        }).get(),
-    
-        maxHeight = Math.max.apply(null, heights);
-    
-        $(".ed_team_member").height(maxHeight);
-      });
  });

@@ -1,3 +1,6 @@
+<?php $this->start('banner') ?>
+<?php echo $this->element('banner', ['title' => __('Edit Topic')]); ?>
+<?php $this->end() ?>
 <div class="topics form large-9 medium-8 columns content">
     <?= $this->Form->create($topic,['type' => 'file']);?>
     <fieldset>
@@ -13,6 +16,6 @@
         ?>
     </fieldset>
     <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary pull-right']) ?>
-    <?= $this->Html->link(__('Cancel'), ['controller' => 'Topics', 'action' => 'coach_topics'],['class' => 'btn btn-default pull-right']) ?>
+    <?= $this->Html->link(__('Cancel'), ['controller' => 'Topics', 'action' => 'view', $topic->id],['class' => 'btn btn-default pull-right']) ?>
     <?= $this->Form->end() ?>
 </div>

@@ -9,7 +9,7 @@
                 'active', ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers']
             ],
             'My Sessions' => [
-                'null', ['action' => 'approvedUser', $user->id, 'controller' => 'Sessions']
+                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user
@@ -39,10 +39,6 @@
             <tr>
                 <th><?= __('Email: ') ?></th>
                 <td><?= h($user->email) ?></td>
-            </tr>
-            <tr>
-                <th><?= __('Reputation: ') ?></th>
-                <td><div class="col-md-2"><?php echo "<span class=\"stars\", data-rating=\"" . $user->rating ."\"></span>"?></div></td>
             </tr>
             <tr>
                 <th><?= __('Description: ') ?></th>
