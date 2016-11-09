@@ -139,6 +139,15 @@ return [
             ]
         ],
         [
+            'role' => ['coach','user'],
+            'plugin'=> false,
+            'controller' => 'PaymentInfos',
+            'action' => [
+                'add',
+                'view'
+            ]
+        ],
+        [
             'role' => 'admin',
             'prefix' => 'Admin',
             'controller' => '*',

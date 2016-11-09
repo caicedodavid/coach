@@ -198,6 +198,12 @@ Configure::write('Session.provider', [
     'name' => 'LearnCube',
     'key' => '34914R77YE4GA',
 ]);
+Configure::write('Omnipay.Stripe',[
+    'testSecretKey' => 'sk_test_2p4TkYVbTy2SaMngqCLvOHsx',
+    'testPublishableKey' => 'pk_test_6vZZTdRK1MJDCYXl4KwgMmI8',
+    'liveSecretKey' => 'sk_live_ehCM9jmYCyAMU87lEh0sBzAD',
+    'livePublishableKey' => 'pk_live_j9knkLmLpMh3xfwQ6YYh44c7'
+]);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Migrations');
 Plugin::load('AssetCompress', ['bootstrap' => true]);

@@ -52,6 +52,9 @@ class AppUsersTable extends UsersTable
             'foreignKey' => 'coach_id',
             'className' => 'Topics',
         ]);
+        $this->hasMany('PaymentInfos', [
+            'foreignKey' => 'user_id',
+        ]);
     }
 
     /**
