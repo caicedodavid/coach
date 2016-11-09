@@ -110,7 +110,7 @@ class PaymentInfosTable extends Table
      * @param $options options array
      * @return Query
      */
-    public function findHistoricSessions(Query $query, array $options)
+    public function findUserCards(Query $query, array $options)
     {
         $user = $options["user"];
         return $query
@@ -124,9 +124,34 @@ class PaymentInfosTable extends Table
      * @param $options options array
      * @return Query
      */
-    public function findHistoricSessions(Query $query, array $options)
-
+    public function findActiveCards(Query $query, array $options)
+    {
         return $query
-            ->where(['PaymentInfos.active' => true])
+            ->where(['PaymentInfos.active' => true]);
     }
+
+    /**
+     * Query for geting the data of all cards
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function getCardsData($userPaymentId)
+    {
+        if (is_null($userPaymentId)) {
+            return null;
+        }
+
+        $cards = $this->getUserCards($userPaymentId);
+        $cardsArray = [];
+        foreach ($cards as $card) {
+            $cardsArray[$card['id']] = [
+                'last4' => $card['last4'],
+                'exp_month' => $card['exp_month'],
+                'exp_year' => $card['exp_year']
+            ];
+        }
+        return $cardsArray;
+    }
+
 }

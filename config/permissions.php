@@ -143,9 +143,27 @@ return [
             'plugin'=> false,
             'controller' => 'PaymentInfos',
             'action' => [
+                'view',
                 'add',
-                'view'
-            ]
+                'edit'
+            ],
+
+        ],
+        [
+            'role' => ['coach','user'],
+            'plugin'=> false,
+            'controller' => 'PaymentInfos',
+            'action' => [
+                'cardsIndex'
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $userId1 = Hash::get($request->params, 'pass.0');
+                $userId2 = Hash::get($user, 'id');
+                if (!empty($userId1) && !empty($userId2)) {
+                    return $userId1 === $userId2;
+                }
+                return false;
+            }
         ],
         [
             'role' => 'admin',

@@ -76,4 +76,20 @@ class PaymentBehavior extends Behavior
         }
         return $responseArray;
 	}
+	 /**
+     * Get Customer from omnipay
+	 *
+     * Method that creates a user in stripe
+     *
+     * @param tokenId
+     * @return \Cake\Validation\Validator
+     */
+	public function getUserCards($userId)
+	{
+		$response = $this->gateway->fetchCustomer([
+        	'customerReference' => $userId,
+        ])
+        ->send();
+        return $response->getSources();
+	}
 }

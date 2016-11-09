@@ -21,17 +21,24 @@ class PaymentInfosController extends AppController
     {
         $user = $this->getUser();
         $this->loadModel('AppUsers');
-        $user = $this->AppUsers->get($user['id']);
+        $user = $this->AppUsers->get($user['id'],[
+            'contain' => ['UserImage']
+        ]);
         $this->paginate = [
-            'limit' => 10,
+            'limit' => 2,
             'finder' => [
                 'userCards' => ['user' => $user]
             ],
+            'order' =>[
+                'PaymentInfos.created' => 'asc'
+            ]
         ];
         $paymentInfos = $this->paginate($this->PaymentInfos);
-
+        $cardsArray = $this->PaymentInfos->getCardsData($user->external_payment_id);
         $this->set(compact('paymentInfos'));
-        $this->set('_serialize', ['paymentInfos']);
+        $this->set('user', $user);
+        $this->set('cardsArray', $cardsArray);
+        $this->set('_serialize', ['paymentInfos','user','cardsArray']);
     }
 
     /**
