@@ -122,6 +122,7 @@
 		</div>
 	</div>
 </div>
+<?= $this->Html->script('payment',['block' => true]);?>
 <?= $this->Html->script('https://js.stripe.com/v2/',['block' => true]);?>
 <?= $this->Html->scriptblock(
 		sprintf("Stripe.setPublishableKey('%s');", Configure::read('Omnipay.Stripe.testPublishableKey')),['block' => true]

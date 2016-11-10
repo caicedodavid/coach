@@ -60,7 +60,7 @@ class PaymentBehavior extends Behavior
 	{
         $response = $this->gateway->createCard([
         	'token' => $tokenId,
-        	'email' => $email,
+        	'description' => $email,
         ])
         ->send();
         $responseArray = array();

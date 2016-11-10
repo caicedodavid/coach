@@ -17,7 +17,7 @@ class PaymentInfosController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function cardsIndex()
+    public function cards()
     {
         $user = $this->getUser();
         $this->loadModel('AppUsers');
@@ -66,24 +66,19 @@ class PaymentInfosController extends AppController
     public function add()
     {
         $user = $this->getUser();
-        $this->loadModel('AppUsers');
-        $user = $this->AppUsers->get($user['id']);
+        $user = $this->PaymentInfos->AppUsers->get($user['id']);
         $paymentInfo = $this->PaymentInfos->newEntity();
         if ($this->request->is('post')) {
             $data = $this->request->data;
-            $response = $user->external_payment_id ? $this->PaymentInfos->addCreditCard($data['token_id'],$user->external_payment_id) : 
-                $this->PaymentInfos->createUser($data['token_id'],$user->email);
+            $response = $this->PaymentInfos->addCard($user,$data);
             if ($response['status'] === 'error'){
                 $this->Flash->error(__($response['message'] ));
             } else {
-                $data['card_id'] = $response['card_id']; 
-                $data['user_id'] = $user->id;
-                $user->external_payment_id = $user->external_payment_id ? $user->external_payment_id : $response['user_token'];
-                $this->AppUsers->save($user);
-
+                $data = $this->PaymentInfos->setData($user, $data, $response);
                 $paymentInfo = $this->PaymentInfos->patchEntity($paymentInfo, $data);
                 if ($this->PaymentInfos->save($paymentInfo)) {
                     $this->Flash->success(__('The payment info has been saved.'));
+                    return $this->redirect(['action' => 'cards',$user->id]);
                 } else {
                     $this->Flash->error(__('The payment info could not be saved. Please, try again.'));
                 }

@@ -12,7 +12,7 @@
                 'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
             ],
             'Payment Information' => [
-                'active', ['action' => 'cardsIndex', $user->id, 'controller' => 'PaymentInfos']
+                'active', ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos']
             ]
         ],
         'user' => $user
@@ -42,7 +42,7 @@
                         <?php foreach ($paymentInfos as $paymentInfo): ?>
                         <tr>
                             <td><?= h($paymentInfo->name) ?></td>
-                            <td><?= h('●●● - ●●●● - ●●●● - ' . $cardsArray[$paymentInfo->card_id]['last4']) ?></td>
+                            <td><?= h('●●● - ●●●● - ●●●● - ' . $cardsArray[$paymentInfo->external_card_id]['last4']) ?></td>
                             <td class="actions">
                                 <?= $this->Html->link(__('Edit'), ['action' => 'edit', $paymentInfo->id]) ?>
                                 <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $paymentInfo->id], ['confirm' => __('Are you sure you want to delete # {0}?', 

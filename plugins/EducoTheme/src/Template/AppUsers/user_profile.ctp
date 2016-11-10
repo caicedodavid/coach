@@ -12,7 +12,7 @@
                 'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
             ],
             'Payment Information' => [
-                'null', ['action' => 'cardsIndex', $user->id, 'controller' => 'PaymentInfos']
+                'null', ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos']
             ]
         ],
         'user' => $user

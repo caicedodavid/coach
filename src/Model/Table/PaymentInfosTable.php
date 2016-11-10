@@ -154,4 +154,33 @@ class PaymentInfosTable extends Table
         return $cardsArray;
     }
 
+     /**
+     * Method to determine if a User in the payment Api has to be
+     * created or just a card
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function addCard($user, $data)
+    {
+        return $user->external_payment_id ? $this->addCreditCard($data['token_id'],$user->external_payment_id) : 
+                $this->createUser($data['token_id'],$user->email);
+    }
+
+    /**
+     * Method to set the data for patch entity
+     * created or just a card
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function setData($user, $data, $response)
+    {
+        $data['external_card_id'] = $response['card_id']; 
+        $data['user_id'] = $user->id;
+        $user->external_payment_id = $user->external_payment_id ? $user->external_payment_id : $response['user_token'];
+        $this->AppUsers->save($user);
+        return $data;
+    }
+
 }

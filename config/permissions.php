@@ -154,7 +154,7 @@ return [
             'plugin'=> false,
             'controller' => 'PaymentInfos',
             'action' => [
-                'cardsIndex'
+                'cards'
             ],
             'allowed' => function (array $user, $role, Request $request) {
                 $userId1 = Hash::get($request->params, 'pass.0');
