@@ -14,7 +14,7 @@
                                 <div class="ed_item_description ed_most_recomended_data">
                                     <h4>
                                         <?= $this->Html->link(__($topic->name), ['controller' => 'Topics', 'plugin' => false, 'action' => 'view', $topic->id])?>
-                                        <span><?= $this->Number->currency(10, 'USD');?></span>
+                                        <span><?= $this->Number->currency($topic->price, 'USD');?></span>
                                     </h4>
                                     <div class="course_detail">
                                         <div class="course_faculty">

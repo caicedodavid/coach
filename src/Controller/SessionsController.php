@@ -314,8 +314,7 @@ class SessionsController extends AppController
      */
     public function add($coachId, $coachName, $topicId = null)
     {   
-        $this->loadModel('Topics');
-        $topic = !$topicId ? null : $this->Topics->get($topicId, [
+        $topic = !$topicId ? null : $this->Sessions->Topics->get($topicId, [
             'contain' => ['TopicImage']
         ]);
         $topicId = $topic ? $topic['id']: null; 
@@ -336,7 +335,8 @@ class SessionsController extends AppController
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
         }
-        $this->set('image', $topic ? $topic['topic_image']: null);
+        $this->set('image', $topic ? $topic->topic_image: null);
+        $this->set('price', $topic ? $topic->price: 10);
         $this->set('coach', $coachName);
         $this->set('session',$session);
         $this->set('_serialize', ['session']);
@@ -382,20 +382,22 @@ class SessionsController extends AppController
         $response = $this->Sessions->paySession($session);
         if($response['status'] === 'error'){
             $this->Flash->error(__('Payment error'));
+            $this->Sessions->sendEmail($session,'paymentErrorMail',$response['message']);
+
         } else {
 
             $session['status'] = Session::STATUS_APPROVED;
             $session['external_class_id'] = $this->Sessions->scheduleSession($session);
             if ($this->Sessions->save($session)) {
-                //$this->Sessions->sendEmail($session,'approveMail');
+                $this->Sessions->sendEmail($session,'approveMail');
                 $this->Flash->success(__('The session has been confirmed.'));
             } else {
                 $this->Flash->error(__('The session could not be confirmed. Please try again later'));
             }
-            return $this->redirect([
-                'action' => 'pending', $this->getUser()['id']
-            ]);
         }
+        return $this->redirect([
+            'action' => 'pending', $this->getUser()['id']
+        ]);
     }
 
     /**

@@ -164,7 +164,7 @@ class SessionsTable extends Table
      *
      * @param session | session entity
      */
-    public function sendEmail($session,$action)
+    public function sendEmail($session, $action, $message = null)
     {
         $session = $this->get($session['id'], [
                     'contain' => ['Users', 'Coaches']
@@ -172,7 +172,7 @@ class SessionsTable extends Table
         $coach = $session["coach"];
         $user = $session["user"];
         try{
-            $this->getMailer('Session')->send($action, [$user,$coach,$session]);
+            $this->getMailer('Session')->send($action, [$user,$coach,$session,$message]);
         }
         catch(Exception $e){
         }        
@@ -435,27 +435,33 @@ class SessionsTable extends Table
      * method for paying a session
      * @return $data Array
      */
-    public function paySession($session)
+    public function paySession(&$session)
     {
-        $payment = $this->Payments->newEntity();
-        $data['amount'] = $session->topic->price ? $session->topic->price : 10;
-        
-        $data['fk_table'] = 'sessions';
-        $data['fk_id'] = $session->id;
-        $response = $this->chargeUser($session->user->external_payment_id, $data['amount']);
-        debug($response);
-
-        $data['payment_infos_id'] = $this->Payments->PaymentInfos->find('cardByExternalId', [
-            'externalCardId' => $response['card_id'],
-            'user' => $session->user
-        ])
-        ->first()
-        ->id;
-        $payment = $this->Payments->patchEntity($payment,$data);
-
-        if ($response['status'] === 'error') {
-            return $response;
+        $price  = isset($session->topic->price) ? $session->topic->price : 10;
+        $amount = $price - $session->user->balance;
+        if ($amount > 0){
+            $payment = $this->Payments->newEntity();
+            $data['amount'] = $amount; 
+            $data['fk_table'] = 'sessions';
+            $data['fk_id'] = $session->id;
+            $response = $this->chargeUser($session->user->external_payment_id, $data['amount']);
+            if ($response['status'] === 'error') {
+                return $response;
+            }
+            $data['payment_infos_id'] = $this->Payments->PaymentInfos->find('cardByExternalId', [
+                'externalCardId' => $response['card_id'],
+                'user' => $session->user
+            ])
+            ->first()
+            ->id;
+            $payment = $this->Payments->patchEntity($payment,$data);
+            $this->Payments->save($payment);
+            $session->user->balance = 0;
+        } else {
+            $session->user->balance = abs($amount);
+            
         }
-        $this->Payments->save($payment);
+        $this->Users->save($session->user);
+        return $response;
     }
 }
