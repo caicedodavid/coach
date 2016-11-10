@@ -410,8 +410,12 @@ class SessionsController extends AppController
     public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
-        $session = $this->Sessions->get($id);
+        $session = $this->Sessions->find('containUserTopic', [
+            'id' => $id
+        ])
+        ->first();
         $session['status'] = Session::STATUS_CANCELED;
+        $this->Sessions->refundSession($session,$this->isCoach($this->getUser()));
         $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
             $this->Sessions->sendEmail($session,$this->getUser()['role'] . 'CancelMail');

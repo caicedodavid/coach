@@ -160,7 +160,8 @@ class SessionsTable extends Table
     }
 
     /**
-     * Logic after acepting a session (send email)
+     * Send Emails method.
+     * Method that sends an email to the user or coach depening on the action
      *
      * @param session | session entity
      */
@@ -433,6 +434,7 @@ class SessionsTable extends Table
 
     /**
      * method for paying a session
+     * @param $session session entity
      * @return $data Array
      */
     public function paySession(&$session)
@@ -463,5 +465,18 @@ class SessionsTable extends Table
         }
         $this->Users->save($session->user);
         return $response;
+    }
+
+    /**
+     * method for refunding the session price to a user
+     * @param $session session entity
+     * @return $data Array
+     */
+    public function refundSession($session,$isCoach)
+    {
+        if($isCoach){
+            $session->user->balance += isset($session->topic->price) ? $session->topic->price : 10;
+            $this->Users->save($session->user);
+        }
     }
 }
