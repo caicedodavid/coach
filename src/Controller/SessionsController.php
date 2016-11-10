@@ -329,7 +329,7 @@ class SessionsController extends AppController
             $session = $this->Sessions->patchEntity($session,$data);
             
             if ($this->Sessions->save($session)) {
-                $this->Sessions->sendRequestEmails($session);
+                //$this->Sessions->sendRequestEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
                 return $this->redirect(['action' => 'pending', $this->getUser()['id'], 'controller' => 'Sessions']);
             } else {
@@ -375,11 +375,15 @@ class SessionsController extends AppController
      */
     public function approveSession($id)
     {
-        $session = $this->Sessions->get($id);
+        $session = $this->Sessions->find('containUserTopic', [
+            'id' => $id
+        ])
+            ->first();
+        $this->Sessions->paySession($session);
         $session['status'] = Session::STATUS_APPROVED;
         $session['external_class_id'] = $this->Sessions->scheduleSession($session);
         if ($this->Sessions->save($session)) {
-            $this->Sessions->sendEmail($session,'approveMail');
+            //$this->Sessions->sendEmail($session,'approveMail');
             $this->Flash->success(__('The session has been confirmed.'));
         } else {
             $this->Flash->error(__('The session could not be confirmed. Please try again later'));

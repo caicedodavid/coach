@@ -48,6 +48,7 @@ class SessionsTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Payment');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
@@ -62,6 +63,11 @@ class SessionsTable extends Table
         $this->belongsTo('Topics', [
             'foreignKey' => 'topic_id',
         ]);
+        $assocOptions = [
+            'foreignKey' => 'fk_id',
+            'conditions' => ['Payments.fk_table' => 'Sessions'],
+        ];
+        $this->hasMany('Payments', $assocOptions);
     }
 
     /**
@@ -345,11 +351,38 @@ class SessionsTable extends Table
      */
     public function findContainTopic(Query $query, array $options)
     {
-            return $query->contain([
-                'Topics' => [
-                    'TopicImage'
-                ]
-            ]); 
+        return $query->contain([
+            'Topics' => [
+                'TopicImage'
+            ]
+        ]); 
+    }
+
+    /**
+     * Query for finding the user linked to a session
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainUser(Query $query, array $options)
+    {
+        return $query->contain([
+            'Users'
+        ]); 
+    }
+
+    /**
+     * Query for finding the user and topic
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainUserTopic(Query $query, array $options)
+    {
+        $id = $options['id'];
+        return $query->where(['Sessions.id' => $id])
+            ->find('containUser')
+            ->find('containTopic');
     }
 
     /**
@@ -397,5 +430,22 @@ class SessionsTable extends Table
         $startTime = $startTime ? $startTime: strtotime("now");
         return strtotime("now") - (int) $startTime;
     }
-}
 
+    /**
+     * method for paying a session
+     * @return $data Array
+     */
+    public function paySession($session)
+    {
+        $payment = $this->Payments->newEntity();
+        $data['amount'] = $session->topic->price ? $session->topic->price : 10;
+        $data['payment_infos_id'] = 12;
+        $data['fk_table'] = 'sessions';
+        $data['fk_id'] = $session->id;
+        $payment = $this->Payments->patchEntity($payment,$data);
+        $fu = $fe;
+        debug($payment);
+        debug(($this->Payments->save($payment) === false) ? 'CAGADA': 'yeah');
+        debug($payment->errors());
+    }
+}
