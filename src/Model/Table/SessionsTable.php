@@ -439,13 +439,23 @@ class SessionsTable extends Table
     {
         $payment = $this->Payments->newEntity();
         $data['amount'] = $session->topic->price ? $session->topic->price : 10;
-        $data['payment_infos_id'] = 12;
+        
         $data['fk_table'] = 'sessions';
         $data['fk_id'] = $session->id;
+        $response = $this->chargeUser($session->user->external_payment_id, $data['amount']);
+        debug($response);
+
+        $data['payment_infos_id'] = $this->Payments->PaymentInfos->find('cardByExternalId', [
+            'externalCardId' => $response['card_id'],
+            'user' => $session->user
+        ])
+        ->first()
+        ->id;
         $payment = $this->Payments->patchEntity($payment,$data);
-        $fu = $fe;
-        debug($payment);
-        debug(($this->Payments->save($payment) === false) ? 'CAGADA': 'yeah');
-        debug($payment->errors());
+
+        if ($response['status'] === 'error') {
+            return $response;
+        }
+        $this->Payments->save($payment);
     }
 }

@@ -69,13 +69,13 @@ class PaymentBehavior extends Behavior
 	    	$responseArray['status'] = self::SUCCESSFUL_STATUS;
             $responseArray['card_id'] = $response->getCardReference();
             $responseArray['user_token'] = $response->getCustomerReference();
-        }
-        else{
+        } else {
         	$responseArray['status'] = self::ERROR_STATUS;
         	$responseArray['message'] = $response->getMessage();
         }
         return $responseArray;
 	}
+
 	 /**
      * Get Customer from omnipay
 	 *
@@ -84,12 +84,45 @@ class PaymentBehavior extends Behavior
      * @param tokenId
      * @return \Cake\Validation\Validator
      */
-	public function getUserCards($userId)
+	public function getUserCards($customerId)
 	{
 		$response = $this->gateway->fetchCustomer([
-        	'customerReference' => $userId,
+        	'customerReference' => $customerId,
         ])
         ->send();
         return $response->getSources();
+	}
+
+	/**
+     * Charge User
+	 *
+     * Method that charges a user in Stripe
+     *
+     * @param tokenId
+     * @return \Cake\Validation\Validator
+     */
+	public function chargeUser($customerId, $amount)
+	{
+		if (is_null($customerId)) {
+			return ['status' => self::ERROR_STATUS];
+		}
+
+   		$transaction = $this->gateway->purchase([
+   		    'amount' => (float) $amount,
+   		    'currency' => 'USD',
+   		    'description' => 'This is a session purchase transaction.',
+   		    'customerReference' => $customerId,
+   		]);
+   		$response = $transaction->send();
+   		$responseArray = [];
+   		if ($response->isSuccessful()) {
+   			$responseArray['status'] = self::SUCCESSFUL_STATUS;
+            $responseArray['card_id'] = $response->getSource()['id'];
+   		    $responseArray['transaction_id'] = $response->getTransactionReference();
+   		} else {
+        	$responseArray['status'] = self::ERROR_STATUS;
+        	$responseArray['message'] = $response->getMessage();
+        }
+        return $responseArray;
 	}
 }

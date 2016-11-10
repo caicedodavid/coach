@@ -183,4 +183,37 @@ class PaymentInfosTable extends Table
         return $data;
     }
 
+    /**
+     * Method to find a card by externalId
+     * created or just a card
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findCardByExternalId(Query $query, array $options)
+    {
+        $user = $options["user"];
+        $externalCardId = $options["externalCardId"];
+        return $this->find('userCards', [
+            'user' => $user
+        ])
+        ->find('externalId', [
+            'externalCardId' => $externalCardId
+        ]);
+    }
+
+    /**
+     * Method to find a card by externalId
+     * created or just a card
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findExternalId(Query $query, array $options)
+    {
+        $externalCardId = $options["externalCardId"];
+        return $query
+            ->where(['PaymentInfos.external_card_id' => $externalCardId]);
+
+    }
 }
