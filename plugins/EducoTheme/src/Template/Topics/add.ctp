@@ -1,6 +1,7 @@
 <?php $this->start('banner') ?>
 <?php echo $this->element('banner', ['title' => __('Add Topic')]); ?>
 <?php $this->end() ?>
+<?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>
 <div class="topics form large-9 medium-8 columns content">
     <?= $this->Form->create($topic,['type' => 'file']);?>
     <fieldset>
@@ -10,7 +11,11 @@
             echo $this->Form->file('topic_image.file', ['class' => 'form-control', 'required'=>false]);
             echo $this->Form->error('topic_image.file',['class' => 'form-control']);
             echo $this->Form->input('name', ['class' => 'form-control']);
-            echo $this->Form->input('description', ['class' => 'form-control']);
+            echo $this->Form->input('description',['required' => false]);
+            echo $this->Form->input('price',[
+                'required' => true,
+                'class' => 'form-control',
+                'label' => 'Price (USD)']);
             echo $this->Form->input('active');
             echo $this->Form->input('duration', ['options' => $times, 'class' => 'form-control', 'empty' => __('Select...')]);
         ?>
