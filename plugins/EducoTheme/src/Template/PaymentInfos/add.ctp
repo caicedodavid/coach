@@ -60,7 +60,9 @@
 													'data-stripe' => 'number',
 													'label' => 'Card number',
 													'class' => 'form-control',
-													'type' => 'text'
+													'type' => 'text',
+													'maxlength' => '19',
+													'required' => true
 												]);?>
 											</div>
 										</div>
@@ -71,7 +73,9 @@
 													'label' => 'CVC',
 													'class' => 'form-control',
 													'type' => 'text',
-													'placeholder' => 'XXX'
+													'placeholder' => 'XXX',
+													'pattern' => '[0-9]{3}',
+													'maxlength' => '3'
 												]);?>
 											</div>
 										</div>
@@ -82,7 +86,9 @@
                                						'type' => 'text',
                                						'class' => 'form-control',
                                						'label' => false,
-                               						'placeholder' => 'MM'
+                               						'placeholder' => 'MM',
+                               						'pattern' => '[0-9]{2}',
+                               						'maxlength' => '2'
                                					])?>
 
 											</div>
@@ -95,7 +101,9 @@
                                						'type' => 'text',
                                						'class' => 'form-control',
                                						'label' => false,
-                               						'placeholder' => 'YYYY'
+                               						'placeholder' => 'YYYY',
+                               						'pattern' => '[0-9]{4}',
+                               						'maxlength' => '4'
                                					])?>
 											</div>
 										</div>
