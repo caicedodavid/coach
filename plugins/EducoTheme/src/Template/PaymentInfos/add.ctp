@@ -130,6 +130,9 @@
 		</div>
 	</div>
 </div>
+<?php $this->start('bottomScript'); ?>
+	<?= $this->Html->script('payments');?>
+<?php $this->end('bottomScript'); ?>
 
 <?= $this->Html->script('https://js.stripe.com/v2/',['block' => true]);?>
 <?= $this->Html->scriptblock(
