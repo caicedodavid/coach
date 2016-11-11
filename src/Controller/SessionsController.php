@@ -314,23 +314,24 @@ class SessionsController extends AppController
      */
     public function add($coachId, $coachName, $topicId = null)
     {   
+        $user = $this->getUser();
+        if(!$this->Sessions->checkUserCard($user['id'])){
+            $this->Flash->error(__('Please, add your payment information first so you can purchase a session.'));
+            return $this->redirect(['controller' => 'PaymentInfos','action' => 'add']);
+        }
         $topic = !$topicId ? null : $this->Sessions->Topics->get($topicId, [
             'contain' => ['TopicImage']
-        ]);
-        $topicId = $topic ? $topic['id']: null; 
+        ]); 
         $session = $this->Sessions->newEntity();
         $session->subject = $topic['name'] ? $topic['name'] : null;
-        if ($this->request->is('post')) {         
-            $session['user_id'] = $this->getUser()['id'];
-            $session['coach_id'] = $coachId;
-            $session['topic_id'] = $topicId;
-            $data = $this->Sessions->fixSchedule($this->request->data);
+        if ($this->request->is('post')) {
+            $data = $this->Sessions->fixData($session,$coachId,$user['id'],$topicId,$this->request->data);      
             $session = $this->Sessions->patchEntity($session,$data);
             
             if ($this->Sessions->save($session)) {
                 //$this->Sessions->sendRequestEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
-                return $this->redirect(['action' => 'pending', $this->getUser()['id'], 'controller' => 'Sessions']);
+                return $this->redirect(['action' => 'pending', $user['id'], 'controller' => 'Sessions']);
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }

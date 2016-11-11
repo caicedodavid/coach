@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Omnipay\Omnipay;
+use Cake\Routing\Router;
 
 /**
  * PaymentInfos Controller
@@ -65,6 +66,10 @@ class PaymentInfosController extends AppController
      */
     public function add()
     {
+        $appSession = $this->request->session();
+        if(!($this->referer() === Router::url(null, true))){
+            $appSession->write('Referer', $this->referer());
+        }
         $user = $this->getUser();
         $user = $this->PaymentInfos->AppUsers->get($user['id']);
         $paymentInfo = $this->PaymentInfos->newEntity();
@@ -78,7 +83,9 @@ class PaymentInfosController extends AppController
                 $paymentInfo = $this->PaymentInfos->patchEntity($paymentInfo, $data);
                 if ($this->PaymentInfos->save($paymentInfo)) {
                     $this->Flash->success(__('The payment info has been saved.'));
-                    return $this->redirect(['action' => 'cards',$user->id]);
+                    $referer = $appSession->read('Referer');
+                    $appSession->delete('Referer');
+                    return $this->redirect($referer);
                 } else {
                     $this->Flash->error(__('The payment info could not be saved. Please, try again.'));
                 }

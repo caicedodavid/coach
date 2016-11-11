@@ -479,4 +479,37 @@ class SessionsTable extends Table
             $this->Users->save($session->user);
         }
     }
+    /**
+     * Fix Data
+     *
+     * Setting the data for a new session
+     * @param  $session entity
+     * @param  $coachId id of a coach
+     * @param  $userId id of the user
+     * @param  $topicId id of the topic
+     * @param $data data array of form
+     * @return $data array of data to be patched in the entity
+     */
+    public function fixData(&$session, $coachId, $userId, $topicId, array $data)
+    {
+        $session['user_id'] = $userId;
+        $session['coach_id'] = $coachId;
+        $session['topic_id'] = $topicId;
+        return $this->fixSchedule($data);
+    }
+
+    /**
+     * check userCards
+     *
+     * check if the user has an associated card
+     * @param  $session entity
+     * @return boolean 
+     */
+    public function checkUserCard($userId)
+    {
+        $user = $this->Users->get($userId, [
+            'contain' => ['PaymentInfos']
+        ]);
+        return $user->payment_infos;
+    }
 }
