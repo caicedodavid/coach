@@ -79,7 +79,7 @@ class PaymentInfosController extends AppController
                 $paymentInfo = $this->PaymentInfos->patchEntity($paymentInfo, $data);
                 if ($this->PaymentInfos->save($paymentInfo)) {
                     $this->Flash->success(__('The payment info has been saved.'));
-                    return $this->redirect($url ? unserialize($url) : ['action' => 'cards']);
+                    return $this->redirect($url ? unserialize($url) : ['action' => 'cards',$user->id]);
                 } else {
                     $this->Flash->error(__('The payment info could not be saved. Please, try again.'));
                 }
