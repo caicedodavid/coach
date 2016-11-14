@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right text-right">
                                 <div class="ed_course_duration">
-                                <?= 'duration: ' . ((string) $topic->duration) . 'm' ?>
+                                <?php echo __('duration: {0} minutes', [$topic->duration]) ?>
                             </div>
                             </div>
                         </div>

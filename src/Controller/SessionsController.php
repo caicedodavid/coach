@@ -317,7 +317,8 @@ class SessionsController extends AppController
         $user = $this->getUser();
         if(!$this->Sessions->checkUserCard($user['id'])){
             $this->Flash->error(__('Please, add your payment information first so you can purchase a session.'));
-            return $this->redirect(['controller' => 'PaymentInfos','action' => 'add']);
+            return $this->redirect(['controller' => 'PaymentInfos','action' => 'add', 
+                serialize(['controller' => 'sessions', 'action' => 'add', $coachId, $coachName, $topicId])]);
         }
         $topic = !$topicId ? null : $this->Sessions->Topics->get($topicId, [
             'contain' => ['TopicImage']

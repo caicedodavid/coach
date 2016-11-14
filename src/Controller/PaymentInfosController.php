@@ -35,11 +35,11 @@ class PaymentInfosController extends AppController
             ]
         ];
         $paymentInfos = $this->paginate($this->PaymentInfos);
-        $cardsArray = $this->PaymentInfos->getCardsData($user->external_payment_id);
+        $cards = $this->PaymentInfos->getCardsData($user->external_payment_id);
         $this->set(compact('paymentInfos'));
         $this->set('user', $user);
-        $this->set('cardsArray', $cardsArray);
-        $this->set('_serialize', ['paymentInfos','user','cardsArray']);
+        $this->set('cards', $cards);
+        $this->set('_serialize', ['paymentInfos','user','cards']);
     }
 
     /**
@@ -64,12 +64,8 @@ class PaymentInfosController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($url = null)
     {
-        $appSession = $this->request->session();
-        if(!($this->referer() === Router::url(null, true))){
-            $appSession->write('Referer', $this->referer());
-        }
         $user = $this->getUser();
         $user = $this->PaymentInfos->AppUsers->get($user['id']);
         $paymentInfo = $this->PaymentInfos->newEntity();
@@ -83,9 +79,7 @@ class PaymentInfosController extends AppController
                 $paymentInfo = $this->PaymentInfos->patchEntity($paymentInfo, $data);
                 if ($this->PaymentInfos->save($paymentInfo)) {
                     $this->Flash->success(__('The payment info has been saved.'));
-                    $referer = $appSession->read('Referer');
-                    $appSession->delete('Referer');
-                    return $this->redirect($referer);
+                    return $this->redirect($url ? unserialize($url) : ['action' => 'cards']);
                 } else {
                     $this->Flash->error(__('The payment info could not be saved. Please, try again.'));
                 }
