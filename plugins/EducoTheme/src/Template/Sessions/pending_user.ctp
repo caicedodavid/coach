@@ -10,6 +10,9 @@
             ],
             'My Sessions' => [
                 'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+            ],
+            'Payment Information' => [
+                'null', ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos']
             ]
         ],
         'user' => $user

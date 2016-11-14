@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b478d442c31ecaa2d4a4d85d2d847b14",
-    "content-hash": "c9b29f617d462524d081597bae1b4283",
+    "hash": "e83857142ab4ecb90efe4f06c9dc2a76",
+    "content-hash": "70036b4c5ebfa1c0e1e62ad519f9e119",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -1175,16 +1175,16 @@
         },
         {
             "name": "omnipay/stripe",
-            "version": "v2.4.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/thephpleague/omnipay-stripe.git",
-                "reference": "6eab75f838e11e2c951af52cf3939aeb37d11059"
+                "url": "https://github.com/caicedodavid/omnipay-stripe.git",
+                "reference": "5a3d5ae12ca0d07a011980a0b5800d6c656c41e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay-stripe/zipball/6eab75f838e11e2c951af52cf3939aeb37d11059",
-                "reference": "6eab75f838e11e2c951af52cf3939aeb37d11059",
+                "url": "https://api.github.com/repos/caicedodavid/omnipay-stripe/zipball/5a3d5ae12ca0d07a011980a0b5800d6c656c41e5",
+                "reference": "5a3d5ae12ca0d07a011980a0b5800d6c656c41e5",
                 "shasum": ""
             },
             "require": {
@@ -1204,7 +1204,6 @@
                     "Omnipay\\Stripe\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -1228,7 +1227,10 @@
                 "payment",
                 "stripe"
             ],
-            "time": "2016-09-14 09:11:40"
+            "support": {
+                "source": "https://github.com/caicedodavid/omnipay-stripe/tree/master"
+            },
+            "time": "2016-11-09 19:10:11"
         },
         {
             "name": "psr/http-message",
@@ -2386,6 +2388,7 @@
     "stability-flags": {
         "cakedc/tiny-mce": 20,
         "kartik-v/bootstrap-star-rating": 20,
+        "omnipay/stripe": 20,
         "psy/psysh": 0
     },
     "prefer-stable": true,

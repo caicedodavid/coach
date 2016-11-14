@@ -16,7 +16,7 @@
         "burzum/cakephp-imagine-plugin": "2.*",
         "cakedc/tiny-mce": "3.x-dev",
         "kartik-v/bootstrap-star-rating": "@dev",
-        "omnipay/stripe": "2.4.1"
+        "omnipay/stripe": "dev-master"
     },
     "require-dev": {
         "psy/psysh": "@stable",
@@ -46,5 +46,11 @@
         "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump"
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:caicedodavid/omnipay-stripe.git"
+        }
+    ]
 }

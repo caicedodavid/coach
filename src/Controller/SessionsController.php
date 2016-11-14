@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use App\Model\Entity\Session;
+use App\Model\Behavior\PaymentBehavior;
 
 /**
  * Sessions Controller
@@ -314,29 +315,31 @@ class SessionsController extends AppController
      */
     public function add($coachId, $coachName, $topicId = null)
     {   
-        $this->loadModel('Topics');
-        $topic = !$topicId ? null : $this->Topics->get($topicId, [
+        $user = $this->getUser();
+        if(!$this->Sessions->checkUserCard($user['id'])){
+            $this->Flash->error(__('Please, add your payment information first so you can purchase a session.'));
+            return $this->redirect(['controller' => 'PaymentInfos','action' => 'add', 
+                serialize(['controller' => 'sessions', 'action' => 'add', $coachId, $coachName, $topicId])]);
+        }
+        $topic = !$topicId ? null : $this->Sessions->Topics->get($topicId, [
             'contain' => ['TopicImage']
-        ]);
-        $topicId = $topic ? $topic['id']: null; 
+        ]); 
         $session = $this->Sessions->newEntity();
         $session->subject = $topic['name'] ? $topic['name'] : null;
-        if ($this->request->is('post')) {         
-            $session['user_id'] = $this->getUser()['id'];
-            $session['coach_id'] = $coachId;
-            $session['topic_id'] = $topicId;
-            $data = $this->Sessions->fixSchedule($this->request->data);
+        if ($this->request->is('post')) {
+            $data = $this->Sessions->fixData($session,$coachId,$user['id'],$topicId,$this->request->data);      
             $session = $this->Sessions->patchEntity($session,$data);
             
             if ($this->Sessions->save($session)) {
                 $this->Sessions->sendRequestEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
-                return $this->redirect(['action' => 'pending', $this->getUser()['id'], 'controller' => 'Sessions']);
+                return $this->redirect(['action' => 'pending', $user['id'], 'controller' => 'Sessions']);
             } else {
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
         }
-        $this->set('image', $topic ? $topic['topic_image']: null);
+        $this->set('image', $topic ? $topic->topic_image: null);
+        $this->set('price', $topic ? $topic->price: 10);
         $this->set('coach', $coachName);
         $this->set('session',$session);
         $this->set('_serialize', ['session']);
@@ -375,14 +378,25 @@ class SessionsController extends AppController
      */
     public function approveSession($id)
     {
-        $session = $this->Sessions->get($id);
-        $session['status'] = Session::STATUS_APPROVED;
-        $session['external_class_id'] = $this->Sessions->scheduleSession($session);
-        if ($this->Sessions->save($session)) {
-            $this->Sessions->sendEmail($session,'approveMail');
-            $this->Flash->success(__('The session has been confirmed.'));
+        $session = $this->Sessions->find('containUserTopic', [
+            'id' => $id
+        ])
+        ->first();
+        $response = $this->Sessions->paySession($session);
+        if($response['status'] === PaymentBehavior::ERROR_STATUS){
+            $this->Flash->error(__('Payment error'));
+            $this->Sessions->sendEmail($session,'paymentErrorMail',$response['message']);
+
         } else {
-            $this->Flash->error(__('The session could not be confirmed. Please try again later'));
+
+            $session['status'] = Session::STATUS_APPROVED;
+            $session['external_class_id'] = $this->Sessions->scheduleSession($session);
+            if ($this->Sessions->save($session)) {
+                $this->Sessions->sendEmail($session,'approveMail');
+                $this->Flash->success(__('The session has been confirmed.'));
+            } else {
+                $this->Flash->error(__('The session could not be confirmed. Please try again later'));
+            }
         }
         return $this->redirect([
             'action' => 'pending', $this->getUser()['id']
@@ -399,8 +413,12 @@ class SessionsController extends AppController
     public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
-        $session = $this->Sessions->get($id);
+        $session = $this->Sessions->find('containUserTopic', [
+            'id' => $id
+        ])
+        ->first();
         $session['status'] = Session::STATUS_CANCELED;
+        $this->Sessions->refundSession($session,$this->isCoach($this->getUser()));
         $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
             $this->Sessions->sendEmail($session,$this->getUser()['role'] . 'CancelMail');

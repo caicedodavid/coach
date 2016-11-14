@@ -14,7 +14,7 @@
                     </div>
                     <div class="col-lg-7 col-md-7 col-sm-12">
                         <div class="ed_course_single_info">
-                            <h2><?= $session->subject ?><span><?= $this->Number->currency(10, 'USD');?></span></h2>
+                            <h2><?= $session->subject ?><span><?= $this->Number->currency($price, 'USD');?></span></h2>
                             <div class="ed_abbcart">
                             </div>
                         </div>

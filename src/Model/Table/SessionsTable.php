@@ -48,6 +48,7 @@ class SessionsTable extends Table
         $this->primaryKey('id');
 
         $this->addBehavior('Timestamp');
+        $this->addBehavior('Payment');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
@@ -62,6 +63,11 @@ class SessionsTable extends Table
         $this->belongsTo('Topics', [
             'foreignKey' => 'topic_id',
         ]);
+        $assocOptions = [
+            'foreignKey' => 'fk_id',
+            'conditions' => ['Payments.fk_table' => 'Sessions'],
+        ];
+        $this->hasMany('Payments', $assocOptions);
     }
 
     /**
@@ -154,11 +160,12 @@ class SessionsTable extends Table
     }
 
     /**
-     * Logic after acepting a session (send email)
+     * Send Emails method.
+     * Method that sends an email to the user or coach depening on the action
      *
      * @param session | session entity
      */
-    public function sendEmail($session,$action)
+    public function sendEmail($session, $action, $message = null)
     {
         $session = $this->get($session['id'], [
                     'contain' => ['Users', 'Coaches']
@@ -166,7 +173,7 @@ class SessionsTable extends Table
         $coach = $session["coach"];
         $user = $session["user"];
         try{
-            $this->getMailer('Session')->send($action, [$user,$coach,$session]);
+            $this->getMailer('Session')->send($action, [$user,$coach,$session,$message]);
         }
         catch(Exception $e){
         }        
@@ -345,11 +352,38 @@ class SessionsTable extends Table
      */
     public function findContainTopic(Query $query, array $options)
     {
-            return $query->contain([
-                'Topics' => [
-                    'TopicImage'
-                ]
-            ]); 
+        return $query->contain([
+            'Topics' => [
+                'TopicImage'
+            ]
+        ]); 
+    }
+
+    /**
+     * Query for finding the user linked to a session
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainUser(Query $query, array $options)
+    {
+        return $query->contain([
+            'Users'
+        ]); 
+    }
+
+    /**
+     * Query for finding the user and topic
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainUserTopic(Query $query, array $options)
+    {
+        $id = $options['id'];
+        return $query->where(['Sessions.id' => $id])
+            ->find('containUser')
+            ->find('containTopic');
     }
 
     /**
@@ -397,5 +431,85 @@ class SessionsTable extends Table
         $startTime = $startTime ? $startTime: strtotime("now");
         return strtotime("now") - (int) $startTime;
     }
-}
 
+    /**
+     * method for paying a session
+     * @param $session session entity
+     * @return $data Array
+     */
+    public function paySession(&$session)
+    {
+        $price  = isset($session->topic->price) ? $session->topic->price : 10;
+        $amount = $price - $session->user->balance;
+        if ($amount > 0){
+            $payment = $this->Payments->newEntity();
+            $data['amount'] = $amount; 
+            $data['fk_table'] = 'sessions';
+            $data['fk_id'] = $session->id;
+            $response = $this->chargeUser($session->user->external_payment_id, $data['amount']);
+            if ($response['status'] === 'error') {
+                return $response;
+            }
+            $data['payment_infos_id'] = $this->Payments->PaymentInfos->find('cardByExternalId', [
+                'externalCardId' => $response['card_id'],
+                'user' => $session->user
+            ])
+            ->first()
+            ->id;
+            $payment = $this->Payments->patchEntity($payment,$data);
+            $this->Payments->save($payment);
+            $session->user->balance = 0;
+        } else {
+            $session->user->balance = abs($amount);
+            
+        }
+        $this->Users->save($session->user);
+        return $response;
+    }
+
+    /**
+     * method for refunding the session price to a user
+     * @param $session session entity
+     * @return $data Array
+     */
+    public function refundSession($session,$isCoach)
+    {
+        if($isCoach){
+            $session->user->balance += isset($session->topic->price) ? $session->topic->price : 10;
+            $this->Users->save($session->user);
+        }
+    }
+    /**
+     * Fix Data
+     *
+     * Setting the data for a new session
+     * @param  $session entity
+     * @param  $coachId id of a coach
+     * @param  $userId id of the user
+     * @param  $topicId id of the topic
+     * @param $data data array of form
+     * @return $data array of data to be patched in the entity
+     */
+    public function fixData(&$session, $coachId, $userId, $topicId, array $data)
+    {
+        $session['user_id'] = $userId;
+        $session['coach_id'] = $coachId;
+        $session['topic_id'] = $topicId;
+        return $this->fixSchedule($data);
+    }
+
+    /**
+     * check userCards
+     *
+     * check if the user has an associated card
+     * @param  $session entity
+     * @return boolean 
+     */
+    public function checkUserCard($userId)
+    {
+        $user = $this->Users->get($userId, [
+            'contain' => ['PaymentInfos']
+        ]);
+        return $user->payment_infos;
+    }
+}

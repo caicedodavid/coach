@@ -1,8 +1,9 @@
  <div class="ed_sidebar_wrapper">
 	<div class="ed_profile_img">
-		<?php echo $this->Img->display($user['user_image'], 'medium', ['url' => ['action' => 'view', $user->id]]);?>
+		<?php echo $this->Img->display($user['user_image'], 'medium');?>
 	</div>
 	<h3><?= $user['full_name'];?></h3>
+	<?= $this->Balance->display($user);?>
 	 <div class="ed_tabs_left">
 		<ul class="nav nav-tabs">
 			<?php

@@ -99,5 +99,4 @@
       });
 
       $('.rate-input').rating({displayOnly: true, step: 0.5});
-
  });

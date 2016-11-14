@@ -13,10 +13,10 @@
 	<?= __d('Sessions', "Hi {0}", $user->first_name) ?>,
 </p>
 <p>
-    <?= __d('Sessions', "The coach {0} has CANCELED a session with you", $coach->full_name) ?>
+    <?= __d('Sessions', "The session could not be scheduled because there was a payment error. This was the response:") ?>
 </p>
 <p>
-    <?= __d('Sessions', "Because of this, you will be added {0} to your balance", $this->Number->currency(isset($session->topic->price) ? $session->topic->price : 10, 'USD'));?>
+    <strong><?= __d('Sessions', $message) ?>
 </p>
 <p>
     <strong><?= __d('Sessions', "Coach information:") ?></strong>

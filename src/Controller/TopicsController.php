@@ -11,7 +11,18 @@ use Cake\Event\Event;
  */
 class TopicsController extends AppController
 {
+    /**
+     * Before render method
+     *
+     * @param $event Event object 
+     * @return void
+     */
+    public function beforeRender(Event $event)
+    {
+        parent::beforeRender($event);
+        $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
 
+    }
     public function initialize()
     {
         parent::initialize();
@@ -215,7 +226,7 @@ class TopicsController extends AppController
 
 
     /**
-     * Making an arary for the duration of the class
+     * Making an arary for selection the duration of a cless when adding a topic
      *
      * @return Array
      */
@@ -223,7 +234,7 @@ class TopicsController extends AppController
     {
         $array = array();
         for ($i = 1; $i <= 6; $i++) {
-            $array[$i*10] = $i*10;
+            $array[$i*10] = ((string)$i*10) . ' min';
         }
         return $array;
     }

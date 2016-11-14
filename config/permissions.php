@@ -62,10 +62,10 @@ return [
                 'historic',
             ],
             'allowed' => function (array $user, $role, Request $request) {
-                $userId1 = Hash::get($request->params, 'pass.0');
-                $userId2 = Hash::get($user, 'id');
-                if (!empty($userId1) && !empty($userId2)) {
-                    return $userId1 === $userId2;
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
                 }
                 return false;
             }
@@ -104,10 +104,10 @@ return [
                 'add',
             ],
             'allowed' => function (array $user, $role, Request $request) {
-                $userId1 = Hash::get($request->params, 'pass.0');
-                $userId2 = Hash::get($user, 'id');
-                if (!empty($userId1) && !empty($userId2)) {
-                    return $userId1 === $userId2;
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
                 }
                 return false;
             }
@@ -120,11 +120,11 @@ return [
                 'edit'
             ],
             'allowed' => function (array $user, $role, Request $request) {
-                $userId1 = Hash::get($user, 'id');
+                $sessionUserId = Hash::get($user, 'id');
                 $topictId = Hash::get($request->params, 'pass.0');
-                $userId2 = TableRegistry::get('Topics')->get($topictId)['coach_id']; 
-                if (!empty($userId1) && !empty($userId2)) {
-                    return $userId1 === $userId2;
+                $ownerUserId = TableRegistry::get('Topics')->get($topictId)['coach_id']; 
+                if (!empty($sessionUserId) && !empty($ownerUserId)) {
+                    return $sessionUserId === $ownerUserId;
                 }
                 return false;
             }
@@ -137,6 +137,33 @@ return [
                 'coachTopics',
                 'view'
             ]
+        ],
+        [
+            'role' => ['coach','user'],
+            'plugin'=> false,
+            'controller' => 'PaymentInfos',
+            'action' => [
+                'view',
+                'add',
+                'edit'
+            ],
+
+        ],
+        [
+            'role' => ['coach','user'],
+            'plugin'=> false,
+            'controller' => 'PaymentInfos',
+            'action' => [
+                'cards'
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($sessionUserId) && !empty($ownerUserId)) {
+                    return $sessionUserId === $ownerUserId
+                }
+                return false;
+            }
         ],
         [
             'role' => 'admin',

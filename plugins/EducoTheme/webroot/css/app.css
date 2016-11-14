@@ -110,3 +110,21 @@ span.stars, span.stars span {
 span.stars span {
     background-position: 0 0;
 }
+
+span.payment-errors, span.payment-errors span {
+    font-family: 'sans-serif', serif;
+    font-size: 14px;
+    background-color: #F2DEDE;
+    color: #A94442;
+    text-transform: none;
+}
+
+span.payment-errors span {
+}
+
+#topic-button {
+    margin-top:5px;
+}
+.form-control{
+    border-radius: 0px;
+}

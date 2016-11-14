@@ -10,7 +10,7 @@
                         <?php echo $this->Img->displayImage($topic['topic_image'], 'big');?>
                     </div>
                     <div class="ed_course_single_info">
-                        <h2><?= h($topic->name) ?><span><?= $this->Number->currency(10, 'USD');?></span></h2>
+                        <h2><?= h($topic->name) ?><span><?= $this->Number->currency($topic->price, 'USD');?></span></h2>
                         <div class="row">
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                                 <div class="course_detail">
@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6 pull-right text-right">
                                 <div class="ed_course_duration">
-                                <?= 'duration: ' . $topic->duration ?>
+                                <?php echo __('duration: {0} minutes', [$topic->duration]) ?>
                             </div>
                             </div>
                         </div>
@@ -50,8 +50,8 @@
                                 </div>
                             </div>
                         </div>
-                        <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small']);?> 
                     </div><!--tab End-->
+                    <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small', 'id'=>'topic-button']);?> 
                 </div>
             </div>
 <!--Sidebar Start-->
