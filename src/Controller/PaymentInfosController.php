@@ -111,9 +111,6 @@ class PaymentInfosController extends AppController
                 $this->Flash->error(__('The payment info could not be saved. Please, try again.'));
             }
         }
-        $users = $this->PaymentInfos->Users->find('list', ['limit' => 200]);
-        $tokens = $this->PaymentInfos->Tokens->find('list', ['limit' => 200]);
-        $this->set(compact('paymentInfo', 'users', 'tokens'));
         $this->set('_serialize', ['paymentInfo']);
     }
 

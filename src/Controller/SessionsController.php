@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use App\Model\Entity\Session;
+use App\Model\Behavior\PaymentBehavior;
 
 /**
  * Sessions Controller
@@ -330,7 +331,7 @@ class SessionsController extends AppController
             $session = $this->Sessions->patchEntity($session,$data);
             
             if ($this->Sessions->save($session)) {
-                //$this->Sessions->sendRequestEmails($session);
+                $this->Sessions->sendRequestEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
                 return $this->redirect(['action' => 'pending', $user['id'], 'controller' => 'Sessions']);
             } else {
@@ -382,7 +383,7 @@ class SessionsController extends AppController
         ])
         ->first();
         $response = $this->Sessions->paySession($session);
-        if($response['status'] === 'error'){
+        if($response['status'] === PaymentBehavior::ERROR_STATUS){
             $this->Flash->error(__('Payment error'));
             $this->Sessions->sendEmail($session,'paymentErrorMail',$response['message']);
 
