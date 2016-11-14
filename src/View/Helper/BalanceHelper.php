@@ -7,7 +7,7 @@ use App\Controller\AppController;
 
 class BalanceHelper extends Helper
 {
-    public $helpers = ['Number'];
+    public $helpers = ['Number','Html'];
     /**
      * Display profile image method
      *
@@ -17,8 +17,8 @@ class BalanceHelper extends Helper
      */
     public function display($user)
     {
-        if ($_SESSION['Auth']['User']['id'] === $user['id']) {
-            return sprintf("<p><span>Balance :- </span> %s </p>", $this->Number->currency($user['balance'], 'USD'));
+        if ($this->request->session()->read('Auth.User.id') === $user['id']) {
+            return $this->Html->tag('p') . $this->Html->tag('span',__('Balance :- ' . $this->Number->currency($user['balance'], 'USD')));
         }
     }
 }

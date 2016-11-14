@@ -226,7 +226,7 @@ class TopicsController extends AppController
 
 
     /**
-     * Making an arary for the duration of the class
+     * Making an arary for selection the duration of a cless when adding a topic
      *
      * @return Array
      */
@@ -234,7 +234,7 @@ class TopicsController extends AppController
     {
         $array = array();
         for ($i = 1; $i <= 6; $i++) {
-            $array[$i*10] = ((string)$i*10) . ' m';
+            $array[$i*10] = ((string)$i*10) . ' min';
         }
         return $array;
     }
