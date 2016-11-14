@@ -50,8 +50,8 @@
                                 </div>
                             </div>
                         </div>
-                        <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small']);?> 
                     </div><!--tab End-->
+                    <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small', 'id'=>'topic-button']);?> 
                 </div>
             </div>
 <!--Sidebar Start-->
