@@ -11,7 +11,7 @@ use Cake\Network\Exception\NotImplementedException;
 class Braincert implements SessionAdapter
 {
 	const API_END_POINT = "https://api.braincert.com/v2/";
-    const OK_STATUS = "ok"
+    const OK_STATUS = "ok";
     const BRAINCERT_SANTIAGO_TIMEZONE = 57;
     public $apiKey = NULL;
 
