@@ -43,7 +43,7 @@
                                                 <?= $session->schedule ?>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                                <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'action' => 'approved', 'message' => 'Are you sure you want to cancel this session?']);?>
+                                                <!--<?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'action' => 'approved', 'message' => 'Are you sure you want to cancel this session?']);?>-->
                                             </div>
                                         </div>
                                     </div>

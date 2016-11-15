@@ -29,9 +29,9 @@
                     </td>
                 </tr>
             </table>
-            <?php if (!$url):
+            <!--<?php if (!$url):
                 echo $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'action' => 'approved','message' => 'Are you sure you want to cancel this session?']);
-            endif;?>
+            endif;?>-->
         </div>
     </div>
 </div>

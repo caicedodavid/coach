@@ -45,9 +45,10 @@
                                 <td><?= h($paymentInfo->name) ?></td>
                                 <td><?= h('●●● - ●●●● - ●●●● - ' . $cards[$paymentInfo->external_card_id]['last4']) ?></td>
                                 <td class="actions">
-                                    <?= $this->Html->link(__('Edit'), ['action' => 'edit', $paymentInfo->id]) ?>
-                                    <?= $this->Form->postLink(__('Delete'), ['action' => 'delete', $paymentInfo->id], ['confirm' => __('Are you sure you want to delete # {0}?', 
-                                    $paymentInfo->id)]);?>
+                                    <?= $this->Html->link(__('Edit'), '#') ?>
+                                    <?= $this->Html->link(__('Delete'), '#') ?>
+                                    <!--<?= $this->Form->postLink(__('Delete'), '#', ['confirm' => __('Are you sure you want to delete # {0}?', 
+                                    $paymentInfo->id)]);?>-->
                                 </td>
                             </tr>
                             <?php endforeach; ?>
