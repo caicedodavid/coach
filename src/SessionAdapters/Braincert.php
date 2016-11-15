@@ -66,7 +66,7 @@ class Braincert implements SessionAdapter
     		'courseName' => $session["subject"]
     	);
         $response = $this->postRequest($fields,'getclasslaunch');
-    	return (response['status'] === self::OK_STATUS) ? $response : ['encryptedlaunchurl'=>null]; 
+    	return ($response['status'] === self::OK_STATUS) ? $response : ['encryptedlaunchurl'=>null]; 
     }
 
     /**
