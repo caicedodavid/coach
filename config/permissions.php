@@ -160,7 +160,7 @@ return [
                 $ownerUserId = Hash::get($request->params, 'pass.0');
                 $sessionUserId = Hash::get($user, 'id');
                 if (!empty($sessionUserId) && !empty($ownerUserId)) {
-                    return $sessionUserId === $ownerUserId
+                    return $sessionUserId === $ownerUserId;
                 }
                 return false;
             }
