@@ -3,7 +3,7 @@ namespace App\SessionAdapters;
 
 use App\SessionAdapters\SessionAdapter;
 use Cake\Network\Http\Client;
-use Cake\Network\Exception\NotImplementedException
+use Cake\Network\Exception\NotImplementedException;
 /*
  * Implementation of the Live Session with Braincert
  *
