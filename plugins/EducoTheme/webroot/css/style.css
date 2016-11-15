@@ -1963,20 +1963,6 @@ a.ed_getinvolved:hover i{
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
 }
-.ed_team_member:hover .ed_team_member_img:after{
-	content:"";
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    right: 0%;
-    bottom: 0%;
-    background-color: rgba(22, 122, 198, 0.6);
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	-ms-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
-}
 .ed_team_member_img{
     float: left;
     width: 100%;

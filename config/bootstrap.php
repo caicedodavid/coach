@@ -195,8 +195,8 @@ Request::addDetector('tablet', function ($request) {
  */
 Configure::write('Users.config', ['users']);
 Configure::write('Session.provider', [
-    'name' => 'LearnCube',
-    'key' => '34914R77YE4GA',
+    'name' => 'Braincert',
+    'key' => 'z8atglFj3c64WV7mRocd',
 ]);
 Configure::write('Omnipay.Stripe',[
     'testSecretKey' => 'sk_test_2p4TkYVbTy2SaMngqCLvOHsx',

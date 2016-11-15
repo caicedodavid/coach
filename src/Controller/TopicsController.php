@@ -11,6 +11,20 @@ use Cake\Event\Event;
  */
 class TopicsController extends AppController
 {
+    
+    /**
+     * Initialization hook method.
+     *
+     * Use this method to add common initialization code like loading components.
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['index']);
+    }
+
     /**
      * Before render method
      *
@@ -23,12 +37,6 @@ class TopicsController extends AppController
         $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
 
     }
-    public function initialize()
-    {
-        parent::initialize();
-        $this->Auth->allow(['index']);
-    }
-
 
     /**
      * List all of the public topics

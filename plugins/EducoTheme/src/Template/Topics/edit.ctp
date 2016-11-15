@@ -20,7 +20,7 @@
             echo $this->Form->input('duration', ['options' => $times, 'class' => 'form-control', 'empty' => __('Select...')]);
         ?>
     </fieldset>
-    <?= $this->Form->button(__('Submit'), ['class' => 'btn btn-primary pull-right']) ?>
-    <?= $this->Html->link(__('Cancel'), ['controller' => 'Topics', 'action' => 'view', $topic->id],['class' => 'btn btn-default pull-right']) ?>
+    <?= $this->Form->button(__('Submit'), ['class' => 'ed_btn ed_orange medium btn btn-primary pull-right']) ?>
+    <?= $this->Html->link(__('Cancel'), ['controller' => 'Topics', 'action' => 'view', $topic->id],['class' => 'ed_btn ed_green medium btn btn-default pull-right']) ?>
     <?= $this->Form->end() ?>
 </div>
