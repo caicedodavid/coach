@@ -2,6 +2,9 @@
 <?php $this->start('banner') ?>
     <?php echo $this->element('banner', ['title' => 'Payment Information']); ?>
 <?php $this->end() ?>
+<?php $this->start('background')?>
+	<div class="ed_graysection ed_toppadder80 ed_bottompadder80">
+<?php $this->end()?>
 <!--checkout start-->
 <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

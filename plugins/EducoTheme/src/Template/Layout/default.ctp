@@ -39,11 +39,11 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
                 <?= $this->Flash->render() ?>
                 <?= $this->Flash->render('Auth') ?>
                 <?= $this->fetch('banner') ?>
-                <div class="ed_graysection ed_toppadder80 ed_bottompadder80">
+                <?= $this->fetch('background') ?>
                     <div class="container clearfix">
                         <?= $this->fetch('content') ?>
                     </div>
-                </div>
+                </div><!--background div -->
             </div>
             <footer>
                 <?= $this->element('footer')?>
