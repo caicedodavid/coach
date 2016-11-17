@@ -13,6 +13,8 @@ use Cake\Datasource\EntityInterface;
 use Cake\Mailer\MailerAwareTrait;
 use App\SessionAdapters\LiveSession;
 use App\Model\Entity\Session;
+use App\Model\Table\PaymentsTable;
+use App\Model\Behavior\PaymentBehavior;
 
 /**
  * Sessions Model
@@ -167,8 +169,9 @@ class SessionsTable extends Table
      */
     public function sendEmail($session, $action, $message = null)
     {
+
         $session = $this->get($session['id'], [
-                    'contain' => ['Users', 'Coaches']
+                    'contain' => ['Users', 'Coaches','Topics']
                 ]);
         $coach = $session["coach"];
         $user = $session["user"];
@@ -441,11 +444,23 @@ class SessionsTable extends Table
     {
         $price  = isset($session->topic->price) ? $session->topic->price : 10;
         $amount = $price - $session->user->balance;
-        if ($amount > 0){
+        if ($session->user->balance > 0) {
             $payment = $this->Payments->newEntity();
-            $data['amount'] = $amount; 
-            $data['fk_table'] = 'sessions';
+            $data['amount'] = number_format(min($price,$session->user->balance), 2); 
+            $data['fk_table'] = $this->table();
             $data['fk_id'] = $session->id;
+            $data['payment_type'] = PaymentsTable::PAYMENT_TYPE_BALANCE;
+            $session->user->balance = number_format(abs(min(0,$amount)), 2);
+            $payment = $this->Payments->patchEntity($payment,$data);
+            $this->Payments->save($payment);
+            $response['status'] = PaymentBehavior::SUCCESSFUL_STATUS; 
+        }
+        if ($amount > 0) {
+            $payment = $this->Payments->newEntity();
+            $data['amount'] = number_format($amount, 2); 
+            $data['fk_table'] = $this->table();
+            $data['fk_id'] = $session->id;
+            $data['payment_type'] = PaymentsTable::PAYMENT_TYPE_CREDIT;
             $response = $this->chargeUser($session->user->external_payment_id, $data['amount']);
             if ($response['status'] === 'error') {
                 return $response;
@@ -458,11 +473,7 @@ class SessionsTable extends Table
             ->id;
             $payment = $this->Payments->patchEntity($payment,$data);
             $this->Payments->save($payment);
-            $session->user->balance = 0;
-        } else {
-            $session->user->balance = abs($amount);
-            
-        }
+        } 
         $this->Users->save($session->user);
         return $response;
     }

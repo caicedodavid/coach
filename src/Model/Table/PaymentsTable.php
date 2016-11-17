@@ -24,6 +24,8 @@ use Cake\Validation\Validator;
  */
 class PaymentsTable extends Table
 {
+    const PAYMENT_TYPE_CREDIT = 'credit';
+    const PAYMENT_TYPE_BALANCE = 'balance';
 
     /**
      * Initialize method
@@ -60,7 +62,7 @@ class PaymentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('amount')
+            ->decimal('amount')
             ->requirePresence('amount', 'create')
             ->notEmpty('amount');
 

@@ -17,6 +17,9 @@ use Cake\Routing\Router;
     <?= __d('Sessions', "The coach {0} has ACCEPTED a session with you", $coach->full_name) ?>
 </p>
 <p>
+    <?= __d('Sessions', "Because of this, you will be charged {0}.", $this->Number->currency(isset($session->topic['price']) ? $session->topic['price'] : 10, 'USD'));?>
+</p>
+<p>
     <strong><?= __d('Sessions', "Coach information:") ?></strong>
 </p>
 <p>
