@@ -94,6 +94,7 @@ h3.heading:after {
 }
 .ed_team_member{
     min-height: 450px;
+    background-color: white;
 }
 
 span.stars, span.stars span {

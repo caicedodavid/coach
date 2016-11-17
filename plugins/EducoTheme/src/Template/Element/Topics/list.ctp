@@ -1,6 +1,4 @@
-<?php $this->start('background')?>
-    <div class="ed_courses ed_toppadder80 ed_bottompadder80">
-<?php $this->end()?>
+<?php $this->assign('customBackgroundClass','ed_courses')?>
 <div class="row">
     <?php if (!$topics->count()):?>
         <div class="alert alert-info"><?= __('You have no topics')?></div>

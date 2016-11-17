@@ -1,9 +1,7 @@
 <?php $this->start('banner') ?>
     <?php echo $this->element('banner', ['title' => 'Topic']); ?>
 <?php $this->end() ?>
-<?php $this->start('background')?>
-    <div class="ed_graysection ed_course_single ed_toppadder80 ed_bottompadder80">
-<?php $this->end()?>
+<?php $this->assign('customBackgroundClass','ed_course_single')?>
 <div class="row">
     <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
         <div class="ed_course_single_item">

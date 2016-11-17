@@ -4,9 +4,7 @@
 <?php $this->start('banner') ?>
 	<?php echo $this->element('banner', ['title' => $title]); ?>
 <?php $this->end() ?>
-<?php $this->start('background')?>
-	<div class="ed_dashboard_wrapper ed_toppadder80 ed_bottompadder80">
-<?php $this->end()?>
+<?php $this->assign('customBackgroundClass','ed_dashboard_wrapper')?>
 
 <div class="row">
 	<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">

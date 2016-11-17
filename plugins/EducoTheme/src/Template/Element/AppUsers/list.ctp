@@ -1,6 +1,3 @@
-<?php $this->start('background')?>
-    <div class="ed_transprentbg ed_toppadder80 ed_bottompadder80">
-<?php $this->end()?>
 <div class="row">
     <?php if (!$users->count()):?>
         <div class="alert alert-info"><?= __('There are no available coaches')?></div>
