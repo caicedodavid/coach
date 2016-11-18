@@ -13,6 +13,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Mailer\MailerAwareTrait;
 use App\SessionAdapters\LiveSession;
 use App\Model\Entity\Session;
+use App\Model\Behavior\PaymentBehavior;
 
 /**
  * Sessions Model
@@ -167,8 +168,9 @@ class SessionsTable extends Table
      */
     public function sendEmail($session, $action, $message = null)
     {
+
         $session = $this->get($session['id'], [
-                    'contain' => ['Users', 'Coaches']
+                    'contain' => ['Users', 'Coaches','Topics']
                 ]);
         $coach = $session["coach"];
         $user = $session["user"];
@@ -193,6 +195,7 @@ class SessionsTable extends Table
 
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($session);
+        debug($response);
         return $response["class_id"];
     }
 
@@ -437,33 +440,19 @@ class SessionsTable extends Table
      * @param $session session entity
      * @return $data Array
      */
-    public function paySession(&$session)
+    public function paySession($session)
     {
         $price  = isset($session->topic->price) ? $session->topic->price : 10;
         $amount = $price - $session->user->balance;
-        if ($amount > 0){
-            $payment = $this->Payments->newEntity();
-            $data['amount'] = $amount; 
-            $data['fk_table'] = 'sessions';
-            $data['fk_id'] = $session->id;
-            $response = $this->chargeUser($session->user->external_payment_id, $data['amount']);
-            if ($response['status'] === 'error') {
-                return $response;
-            }
-            $data['payment_infos_id'] = $this->Payments->PaymentInfos->find('cardByExternalId', [
-                'externalCardId' => $response['card_id'],
-                'user' => $session->user
-            ])
-            ->first()
-            ->id;
-            $payment = $this->Payments->patchEntity($payment,$data);
-            $this->Payments->save($payment);
-            $session->user->balance = 0;
-        } else {
-            $session->user->balance = abs($amount);
-            
+        $response['status'] = PaymentBehavior::SUCCESSFUL_STATUS; 
+        if ($amount > 0) {
+            $response = $this->saveSessionPaymentCredit($session, $amount);
+        } 
+        if (($session->user->balance > 0) and ($response['status'] === PaymentBehavior::SUCCESSFUL_STATUS)) {
+            $response = $this->saveSessionPaymentBalance($session, min($price, $session->user->balance));
+            $session->user->balance = number_format(abs(min(0,$amount)), 2);
+            $this->Users->save($session->user);
         }
-        $this->Users->save($session->user);
         return $response;
     }
 
@@ -512,4 +501,67 @@ class SessionsTable extends Table
         ]);
         return $user->payment_infos;
     }
+
+    /**
+     * set Paymet Data
+     *
+     * sets the data that will be stored after paying for a session
+     * @param  $session entity
+     * @return data to be stored
+     */
+    public function setPaymentData($session, $amount)
+    {
+        $data['amount'] = number_format($amount, 2); 
+        $data['fk_table'] = $this->table();
+        $data['fk_id'] = $session->id;
+        return $data;
+    }
+
+    /**
+     * set Paymet Data Credit
+     *
+     * sets the data that will be stored after paying for a session with
+     * the users balance
+     * @param  $session entity
+     * @return 
+     */
+    public function saveSessionPaymentCredit($session, $amount)
+    {
+        $payment = $this->Payments->newEntity();
+        $data = $this->setPaymentData($session, $amount);
+        $data['payment_type'] = $payment::PAYMENT_TYPE_CREDIT;
+        $response = $this->chargeUser($session->user->external_payment_id, $data['amount']);
+        if ($response['status'] === PaymentBehavior::ERROR_STATUS) {
+            return $response;
+        }
+        $data['payment_infos_id'] = $this->Payments->PaymentInfos->find('cardByExternalId', [
+            'externalCardId' => $response['card_id'],
+            'user' => $session->user
+        ])
+        ->first()
+        ->id;
+        $payment = $this->Payments->patchEntity($payment, $data);
+        $this->Payments->save($payment);
+        return $response;
+    }
+
+    /**
+     * set Paymet Data Balance
+     *
+     * sets the data that will be stored after paying for a session with
+     * credit card
+     * @param  $session entity
+     * @return response 
+     */
+    public function saveSessionPaymentBalance($session, $amount)
+    {
+        $payment = $this->Payments->newEntity();
+        $data = $this->setPaymentData($session, $amount);
+        $data['payment_type'] = $payment::PAYMENT_TYPE_BALANCE;
+        $payment = $this->Payments->patchEntity($payment, $data);
+        $this->Payments->save($payment);
+        $response['status'] = PaymentBehavior::SUCCESSFUL_STATUS;
+        return $response;
+    }
+
 }

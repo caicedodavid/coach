@@ -10,29 +10,29 @@
  */
 ?>
 <p>
-	<?= __d('Sessions', "Hi {0}", $user->first_name) ?>,
+	<?= __("Hi {0}", $user->first_name) ?>,
 </p>
 <p>
-    <?= __d('Sessions', "You have requested a session with {0}", $coach->full_name) ?>
+    <?= __("You have requested a session with {0}", $coach->full_name) ?>
 </p>
 <p>
-    <strong><?= __d('Sessions', "Coach information:") ?></strong>
+    <strong><?= __("Coach information:") ?></strong>
 </p>
 <p>
-    <?= __d('Sessions', "Username:{0}",$coach->username) ?>
+    <?= __("Username:{0}",$coach->username) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Email: {0}", $coach->email) ?>
+    <?= __("Email: {0}", $coach->email) ?>
 </p>
 <p>
-    <strong><?= __d('Sessions', "Session details:") ?></strong>
+    <strong><?= __("Session details:") ?></strong>
 </p>
 <p>
-    <?= __d('Sessions', "Subject: {0}",h($session->subject)) ?>
+    <?= __("Subject: {0}",h($session->subject)) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Date: {0}",h($session->schedule)) ?>
+    <?= __("Date: {0}",h($session->schedule)) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Comments: {0}",h($session->comments)) ?>
+    <?= __("Comments: {0}",h($session->comments)) ?>
 </p>

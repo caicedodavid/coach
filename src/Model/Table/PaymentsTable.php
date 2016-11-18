@@ -60,7 +60,7 @@ class PaymentsTable extends Table
             ->allowEmpty('id', 'create');
 
         $validator
-            ->integer('amount')
+            ->decimal('amount')
             ->requirePresence('amount', 'create')
             ->notEmpty('amount');
 
