@@ -8,7 +8,7 @@
 		<div class="row">
 			<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div class="woo-cart-table">
-					<?= $this->Form->create($paymentInfo,['class' => 'checkout woocommerce-checkout', 'id' => 'payment-form']) ?>
+					<?= $this->Form->create($paymentInfo,['class' => 'checkout woocommerce-checkout']) ?>
 						<fieldset>
 							<div class="row">
 								<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -109,6 +109,28 @@
 										</div>
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 											<span class="payment-errors"></span>
+										</div>
+										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+											<div class="form-group">
+											    <?php if(!$paymentInfo->is_default):?>
+											    	<?= $this->Form->input('is_default', [
+                               							'label' => 'Default card',
+                               						])?>
+                               					<?php else:?>
+                               						<?php
+                               							echo $this->Html->tag('div', null, ['class' => 'input checkbox']);
+                               							// Not allowed change - submit value..
+    													echo $this->Form->hidden('is_default', [
+                               								'value' => true,
+                               							]);
+                               							echo '<label>';
+    													// .. and show user the value being submitted
+    													echo '<input type="checkbox" disabled checked="checked"> Default card';
+    													echo '</label>';
+    													$this->Html->tag('/div', null);
+                               						?>
+                               					<?php endif;?>
+                               				</div>
 										</div>
 										
 										<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

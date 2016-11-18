@@ -43,6 +43,7 @@ class PaymentBehavior extends Behavior
 	    	$responseArray['status'] = self::SUCCESSFUL_STATUS;
             $cardId = $response->getCardReference();
             $responseArray['card_id'] = $cardId;
+            $this->setAsDefaultCard($customerId, $cardId);
         } else {
         	$responseArray['status'] = self::ERROR_STATUS;
         	$responseArray['message'] = $response->getMessage();
@@ -195,6 +196,22 @@ class PaymentBehavior extends Behavior
         return $transaction->send();
     }
 
-
+    /**
+     * SetAsDefaultCard
+     *
+     * Method that makes a card the default card of a user
+     *
+     * @param $customerId Id of customer in payment API
+     * @param $cardId card data form the form
+     * @return $response Array
+     */
+    public function setAsDefaultCard($customerId, $cardId)
+    {
+        $transaction = $this->gateway->updateCustomer([
+            'cardReference' => $cardId,
+            'customerReference' => $customerId,
+        ]);
+        return $transaction->send();
+    }            
       
 }

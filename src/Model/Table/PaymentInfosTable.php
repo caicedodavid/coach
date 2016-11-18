@@ -178,6 +178,7 @@ class PaymentInfosTable extends Table
     {
         $data['external_card_id'] = $response['card_id']; 
         $data['user_id'] = $user->id;
+        $data['is_default'] = true;
         $user->external_payment_id = $user->external_payment_id ? $user->external_payment_id : $response['user_token'];
         $this->AppUsers->save($user);
         return $data;
@@ -232,6 +233,7 @@ class PaymentInfosTable extends Table
     /**
      * Method to copy the data of another paymentInfo
      * 
+     * @param $paymentInfo entity
      * @param $data form data
      * @param $reponse payment api response
      * @return $data Array
@@ -240,7 +242,51 @@ class PaymentInfosTable extends Table
     {
         $data['external_card_id'] = $response? $response['card_id'] : $paymentInfo->external_card_id; 
         $data['user_id'] = $paymentInfo->app_user->id;
+        if ($data['is_default']){
+            $this->setAsDefaultCard($paymentInfo->app_user->external_payment_id, $data['external_card_id']);
+        }
         return $data;
     }
 
+    /**
+     * Return card data from payment infos form
+     * @param $data data from form
+     * @return Array
+     */
+    public function getCardData(&$data)
+    {
+        $cardData = array_intersect_key($data, array_flip(['cvc','card_number','exp_month','exp_year']));
+        unset($data['cvc'], $data['card_number'], $data['exp_month'], $data['exp_year']);
+        return $cardData;
+    }
+
+    /**
+     * check if data has changed
+     * @param $paymentInfo entity
+     * @return boolean
+     */
+    public function isDataChanged($paymentInfo, $data)
+    {
+        $newPaymentInfo = clone($paymentInfo);
+        $newPaymentInfo = $this->patchEntity($newPaymentInfo, $data);
+        $data = $newPaymentInfo->extract($newPaymentInfo->visibleProperties(), true);
+        unset($data['is_default']);
+        return $data;
+    }
+
+    /**
+     * SetDefaultCard
+     *
+     * If card is default update in payment API
+     *
+     * @param $customerId Id of customer in payment API
+     * @param $cardId card data form the form
+     * @return $response Array
+     */
+    public function setDefaultCard($customerId, $cardId, $data)
+    {
+        if($data['is_default']){
+            $this->setAsDefaultCard($customerId, $cardId);
+        }
+    }
 }

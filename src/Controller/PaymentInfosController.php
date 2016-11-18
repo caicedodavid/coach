@@ -104,22 +104,56 @@ class PaymentInfosController extends AppController
         $card = unserialize($card);
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
-            if($this->PaymentInfos->cardChange($data, $card)){
-                $response = $this->PaymentInfos->updateCard($paymentInfo, $data);
-                if ($response['status'] === 'error'){
-                    $this->Flash->error(__($response['message'] ));
-                } else {
-                    $data = $this->PaymentInfos->setUpdateData($paymentInfo, $data, $response);
-                    $this->saveShippingDetails($paymentInfo, $data);
-                }        
+            $cardData = $this->PaymentInfos->getCardData($data);
+            if($this->PaymentInfos->cardChange($cardData, $card)){
+                $this->updateCreditCard($paymentInfo, $data, $cardData);      
             } else {
-                $data = $this->PaymentInfos->setUpdateData($paymentInfo, $data);
-                $this->saveShippingDetails($paymentInfo, $data);
+                $this->updateShippingDetails($paymentInfo, $data);
             }
         }
         $this->set(compact('paymentInfo'));
         $this->set(compact('card'));
         $this->set('_serialize', ['paymentInfo','card']);
+    }
+
+    /**
+     * Method to be called when user is only updating shipping information
+     *
+     * @param $paymentInfo paymentInfo entity
+     * @param $data form data
+     */
+    public function updateShippingDetails($paymentInfo, $data) 
+    {
+        if (!$this->PaymentInfos->isDataChanged($paymentInfo, $data)) {
+            $paymentInfo = $this->PaymentInfos->patchEntity($paymentInfo, $data);
+            $this->PaymentInfos->setDefaultCard($paymentInfo->app_user->external_payment_id, $paymentInfo->external_card_id, $data);
+            if ($this->PaymentInfos->save($paymentInfo)) {
+                $this->Flash->success(__('The payment info has been saved.'));
+                return $this->redirect(['action' => 'cards', $this->getUser()['id']]);
+            } else {
+                $this->Flash->error(__('The payment info could not be saved. Please, try again.'));
+            }
+        } else {
+            $data = $this->PaymentInfos->setUpdateData($paymentInfo, $data);
+            $this->saveShippingDetails($paymentInfo, $data);
+        }
+    }
+
+    /**
+     * Method to be called when user is also saving credit card information
+     *
+     * @param $paymentInfo paymentInfo entity
+     * @param $data form data
+     */
+    public function updateCreditCard($paymentInfo, $data, $cardData) 
+    {
+        $response = $this->PaymentInfos->updateCard($paymentInfo, $cardData);
+        if ($response['status'] === 'error'){
+            $this->Flash->error(__($response['message'] ));
+        } else {
+            $data = $this->PaymentInfos->setUpdateData($paymentInfo, $data, $response);
+            $this->saveShippingDetails($paymentInfo, $data);
+        }
     }
 
     /**
@@ -132,7 +166,6 @@ class PaymentInfosController extends AppController
     {   
         #A new entity is created beacause we don't want to lose previous card information
         $paymentInfo = $this->PaymentInfos->newEntity();
-        unset($data['cvc'], $data['card_number'], $data['exp_month'], $data['exp_year']);
         $paymentInfo = $this->PaymentInfos->patchEntity($paymentInfo, $data);
         if ($this->PaymentInfos->save($paymentInfo)) {
             $this->Flash->success(__('The payment info has been saved.'));
