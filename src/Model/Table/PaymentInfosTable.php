@@ -170,9 +170,9 @@ class PaymentInfosTable extends Table
     /**
      * Method to set the data for patch entity
      * created or just a card
-     * @param $query query object
-     * @param $options options array
-     * @return Query
+     * @param $data form data
+     * @param $reponse payment api response
+     * @return $data Array
      */
     public function setData($user, $data, $response)
     {
@@ -216,4 +216,31 @@ class PaymentInfosTable extends Table
             ->where(['PaymentInfos.external_card_id' => $externalCardId]);
 
     }
+
+    /**
+     * check if the information of the card was updated
+     * @param $data form data
+     * @param $card card data
+     * @return Query
+     */
+    public function cardChange($data, $card)
+    { 
+        return $data['card_number'] or $data ['cvc'] or ($data['exp_month'] != $card['exp_month']) or ($data['exp_year'] != $card['exp_year']); 
+
+    }
+
+    /**
+     * Method to copy the data of another paymentInfo
+     * 
+     * @param $data form data
+     * @param $reponse payment api response
+     * @return $data Array
+     */
+    public function setUpdateData($paymentInfo, $data, $response = null)
+    {
+        $data['external_card_id'] = $response? $response['card_id'] : $paymentInfo->external_card_id; 
+        $data['user_id'] = $paymentInfo->app_user->id;
+        return $data;
+    }
+
 }

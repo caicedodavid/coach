@@ -4,6 +4,7 @@ namespace App\Model\Behavior;
 use Cake\ORM\Behavior;
 use Omnipay\Omnipay;
 use Cake\Core\Configure;
+use Omnipay\Common\CreditCard;
 
 class PaymentBehavior extends Behavior
 {
@@ -25,14 +26,15 @@ class PaymentBehavior extends Behavior
 	 *
      * Method that adds a credit card to stripe and returns a card token 
      *
-     * @param tokenId
-     * @return \Cake\Validation\Validator
+     * @param $tokenId
+     * @param $customerId id in payment api
+     * @return $response Array
      */
-	public function addCreditCard($tokenId, $userToken)
+	public function addCreditCard($tokenId, $customerId)
 	{
     	$response = $this->gateway->createCard([
 			'token' => $tokenId,
-        	'customerReference' => $userToken,
+        	'customerReference' => $customerId,
         ])
 		->send();
         $responseArray = array();
@@ -53,8 +55,9 @@ class PaymentBehavior extends Behavior
 	 *
      * Method that creates a user in stripe
      *
-     * @param tokenId
-     * @return \Cake\Validation\Validator
+     * @param $tokenId
+     * @param $email user email
+     * @return response Array
      */
 	public function createUser($tokenId, $email)
 	{
@@ -77,9 +80,9 @@ class PaymentBehavior extends Behavior
 	}
 
 	 /**
-     * Get Customer from omnipay
+     * Get Customer cards 
 	 *
-     * Method that creates a user in stripe
+     * Method that gets a user in payment api and returns his cards
      *
      * @param tokenId
      * @return \Cake\Validation\Validator
@@ -98,8 +101,9 @@ class PaymentBehavior extends Behavior
 	 *
      * Method that charges a user in Stripe
      *
-     * @param tokenId
-     * @return \Cake\Validation\Validator
+     * @param $customerId Id of the customer in payment api
+     * @param $amount amount to be charged
+     * @return $response Arraay
      */
 	public function chargeUser($customerId, $amount)
 	{
@@ -107,14 +111,13 @@ class PaymentBehavior extends Behavior
 			return ['status' => self::ERROR_STATUS];
 		}
 
-   		$transaction = $this->gateway->purchase([
+   		$transaction = $this->gateway->updateCard([
    		    'amount' => (float) $amount,
    		    'currency' => 'USD',
    		    'description' => 'This is a session purchase transaction.',
    		    'customerReference' => $customerId,
    		]);
    		$response = $transaction->send();
-   		$responseArray = [];
    		if ($response->isSuccessful()) {
    			$responseArray['status'] = self::SUCCESSFUL_STATUS;
             $responseArray['card_id'] = $response->getSource()['id'];
@@ -125,4 +128,73 @@ class PaymentBehavior extends Behavior
         }
         return $responseArray;
 	}
+
+    /**
+     * Update Card information
+     *
+     * Method that charges a user in Stripe
+     *
+     * @param $paymentInfo paymentInfo entity
+     * @param $cardData card data form the form
+     * @return $response Array
+     */
+    public function updateCard($paymentInfo, $cardData)
+    {
+        if($cardData['card_number'] xor $cardData['cvc']) {
+            $responseArray['status'] = self::ERROR_STATUS;
+            $responseArray['message'] = 'Both card number and CVC have to be updated at the same time';
+            return $responseArray;
+        } 
+        #if there is a change in the cardnumber or cvc, a new card must be created
+        if($cardData['card_number'] and $cardData['cvc']) {
+            $response = $this->createCard($paymentInfo, $cardData);
+        } else {
+            $card = new CreditCard([
+                'expiryMonth'  => $cardData['exp_month'],
+                'expiryYear'   => $cardData['exp_year'],
+            ]);
+            $transaction = $this->gateway->updateCard([
+                'customerReference' => $paymentInfo->app_user->external_payment_id,
+                'cardReference' => $paymentInfo->external_card_id,
+                'card' => $card
+            ]);
+            $response = $transaction->send();
+        }
+
+        if ($response->isSuccessful()) {
+            $responseArray['status'] = self::SUCCESSFUL_STATUS;
+            $responseArray['card_id'] = $response->getCardReference();
+        } else {
+            $responseArray['status'] = self::ERROR_STATUS;
+            $responseArray['message'] = $response->getMessage();
+        }
+        return $responseArray;
+    }
+
+    /**
+     * Create Card
+     *
+     * Method that creates a card wihout a token 
+     *
+     * @param $paymentInfo paymentInfo entity
+     * @param $cardData card data form the form
+     * @return $response Array
+     */
+    public function createCard($paymentInfo, $cardData)
+    {
+        $newCard = new CreditCard([
+            'expiryMonth'  => $cardData['exp_month'],
+            'expiryYear'   => $cardData['exp_year'],
+            'cvv' => $cardData['cvc'],
+            'number' => $cardData['card_number'],
+        ]);
+        $transaction = $this->gateway->createCard([
+            'card' => $newCard,
+            'customerReference' => $paymentInfo->app_user->external_payment_id,
+        ]);
+        return $transaction->send();
+    }
+
+
+      
 }
