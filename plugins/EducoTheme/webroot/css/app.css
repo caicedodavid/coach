@@ -25,10 +25,6 @@ fieldset {
     min-width: 10px;
 }
 
-.ed_footer_top {
-    margin-top: 20px;
-}
-
 .form-control label, .input label {
     color: #272727;
     font-family: 'Roboto Slab', serif;
@@ -98,6 +94,7 @@ h3.heading:after {
 }
 .ed_team_member{
     min-height: 450px;
+    background-color: white;
 }
 
 span.stars, span.stars span {
@@ -127,4 +124,11 @@ span.payment-errors span {
 }
 .form-control{
     border-radius: 0px;
+}
+.ed_bottompadder80 {
+    padding-bottom: 60px;
+}
+
+.ed_toppadder80 {
+    padding-top: 60px;
 }

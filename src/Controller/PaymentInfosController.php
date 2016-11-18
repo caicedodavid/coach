@@ -26,7 +26,7 @@ class PaymentInfosController extends AppController
             'contain' => ['UserImage']
         ]);
         $this->paginate = [
-            'limit' => 2,
+            'limit' => 10,
             'finder' => [
                 'userCards' => ['user' => $user]
             ],
