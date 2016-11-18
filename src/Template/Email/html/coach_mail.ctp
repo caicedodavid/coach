@@ -11,33 +11,33 @@
 use Cake\Routing\Router;
 ?>
 <p>
-	<?= __d('Sessions', "Hi {0}", $coach["first_name"]) ?>,
+	<?= __("Hi {0}", $coach["first_name"]) ?>,
 </p>
 <p>
-    <?= __d('Sessions', "{0} has requested a session with you", $user["full_name"]) ?>
+    <?= __("{0} has requested a session with you", $user["full_name"]) ?>
 </p>
 <p>
-    <strong><?= __d('Sessions', "Coachee information:") ?></strong>
+    <strong><?= __("Coachee information:") ?></strong>
 </p>
 <p>
-    <?= __d('Sessions', "Username:{0}",$user->username) ?>
+    <?= __("Username:{0}",$user->username) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Email: {0}", $user->email) ?>
+    <?= __("Email: {0}", $user->email) ?>
 </p>
 <p>
-    <strong><?= __d('Sessions', "Session details:") ?></strong>
+    <strong><?= __("Session details:") ?></strong>
 </p>
 <p>
-    <?= __d('Sessions', "Subject: {0}",h($session->subject)) ?>
+    <?= __("Subject: {0}",h($session->subject)) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Date: {0}",h($user->birthdate)) ?>
+    <?= __("Date: {0}",h($user->birthdate)) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Comments: {0}",h($session->comments)) ?>
+    <?= __("Comments: {0}",h($session->comments)) ?>
 </p>
 <p>
-	<?php echo __d('Sessions', "Please, answer your request: ");
+	<?php echo __("Please, answer your request: ");
 	 echo $this->Html->link(__d('AppUsers','Requested Session'), Router::url(['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewPendingCoach', $session->id, 'prefix' => false],true), ['escape' => true]);?>
 </p>

@@ -1,8 +1,7 @@
 <?php $this->start('banner') ?>
     <?php echo $this->element('banner', ['title' => 'Request Session']); ?>
 <?php $this->end() ?>
-<div class="ed_graysection ed_purchase_course ed_toppadder80 ed_bottompadder80 course_purchase_wrapper">
-  <div class="container">
+<?php $this->assign('customBackgroundClass','ed_purchase_course course_purchase_wrapper')?>
     <div class="row">
         <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <div class="ed_course_single_item">
@@ -101,5 +100,4 @@
         </div>
 <!--Sidebar End-->
     </div>
-  </div>  
-</div>
+
