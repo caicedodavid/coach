@@ -153,6 +153,7 @@ return [
             'controller' => 'PaymentInfos',
             'action' => [
                 'edit',
+                'delete'
             ],
             'allowed' => function (array $user, $role, Request $request) {
                 $sessionUserId = Hash::get($user, 'id');

@@ -167,5 +167,17 @@ class AppUsersTable extends UsersTable
         }
         return true;
     }
+
+    /**
+     * Check if user has active cards
+     *
+     * @return boolean
+     */
+    public function hasActiveCards($user)
+    {
+        return $this->PaymentInfos->find('userCards',['user' => $user])
+            ->first();
+    }
+    
     
 }

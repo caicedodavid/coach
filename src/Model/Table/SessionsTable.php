@@ -13,6 +13,7 @@ use Cake\Datasource\EntityInterface;
 use Cake\Mailer\MailerAwareTrait;
 use App\SessionAdapters\LiveSession;
 use App\Model\Entity\Session;
+use App\Model\Behavior\PaymentBehavior;
 
 /**
  * Sessions Model
@@ -439,6 +440,12 @@ class SessionsTable extends Table
      */
     public function paySession(&$session)
     {
+        if(!$this->Users->hasActiveCards($session->user)) {
+            $response = ['status' => PaymentBehavior::ERROR_STATUS,
+                'message' => 'You have no registered cards'
+            ];
+            return $response;
+        }
         $price  = isset($session->topic->price) ? $session->topic->price : 10;
         $amount = $price - $session->user->balance;
         if ($amount > 0){
@@ -447,7 +454,7 @@ class SessionsTable extends Table
             $data['fk_table'] = 'sessions';
             $data['fk_id'] = $session->id;
             $response = $this->chargeUser($session->user->external_payment_id, $data['amount']);
-            if ($response['status'] === 'error') {
+            if ($response['status'] === PaymentBehavior::ERROR_STATUS) {
                 return $response;
             }
             $data['payment_infos_id'] = $this->Payments->PaymentInfos->find('cardByExternalId', [
@@ -505,11 +512,8 @@ class SessionsTable extends Table
      * @param  $session entity
      * @return boolean 
      */
-    public function checkUserCard($userId)
+    public function checkUserCard($user)
     {
-        $user = $this->Users->get($userId, [
-            'contain' => ['PaymentInfos']
-        ]);
-        return $user->payment_infos;
+        return $this->Users->hasActiveCards($user);
     }
 }

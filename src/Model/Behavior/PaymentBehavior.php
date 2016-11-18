@@ -112,7 +112,7 @@ class PaymentBehavior extends Behavior
 			return ['status' => self::ERROR_STATUS];
 		}
 
-   		$transaction = $this->gateway->updateCard([
+   		$transaction = $this->gateway->purchase([
    		    'amount' => (float) $amount,
    		    'currency' => 'USD',
    		    'description' => 'This is a session purchase transaction.',

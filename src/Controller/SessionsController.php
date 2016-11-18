@@ -316,7 +316,7 @@ class SessionsController extends AppController
     public function add($coachId, $coachName, $topicId = null)
     {   
         $user = $this->getUser();
-        if(!$this->Sessions->checkUserCard($user['id'])){
+        if(!$this->Sessions->checkUserCard($user)){
             $this->Flash->error(__('Please, add your payment information first so you can purchase a session.'));
             return $this->redirect(['controller' => 'PaymentInfos','action' => 'add', 
                 serialize(['controller' => 'sessions', 'action' => 'add', $coachId, $coachName, $topicId])]);
@@ -384,7 +384,7 @@ class SessionsController extends AppController
         ->first();
         $response = $this->Sessions->paySession($session);
         if($response['status'] === PaymentBehavior::ERROR_STATUS){
-            $this->Flash->error(__('Payment error'));
+            $this->Flash->error(__('Payment error, we will conctact the cochee. Please try again later'));
             $this->Sessions->sendEmail($session,'paymentErrorMail',$response['message']);
 
         } else {

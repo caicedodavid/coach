@@ -1179,12 +1179,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/caicedodavid/omnipay-stripe.git",
-                "reference": "6e3bc94e083804b6e6e6d024a48acc0cb1521cb1"
+                "reference": "038ac712b8fec9e5f9e718167e61115c72f1753d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/caicedodavid/omnipay-stripe/zipball/6e3bc94e083804b6e6e6d024a48acc0cb1521cb1",
-                "reference": "6e3bc94e083804b6e6e6d024a48acc0cb1521cb1",
+                "url": "https://api.github.com/repos/caicedodavid/omnipay-stripe/zipball/038ac712b8fec9e5f9e718167e61115c72f1753d",
+                "reference": "038ac712b8fec9e5f9e718167e61115c72f1753d",
                 "shasum": ""
             },
             "require": {
@@ -1230,7 +1230,7 @@
             "support": {
                 "source": "https://github.com/caicedodavid/omnipay-stripe/tree/master"
             },
-            "time": "2016-11-18 04:29:00"
+            "time": "2016-11-18 10:03:38"
         },
         {
             "name": "psr/http-message",

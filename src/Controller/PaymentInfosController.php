@@ -125,8 +125,9 @@ class PaymentInfosController extends AppController
     public function updateShippingDetails($paymentInfo, $data) 
     {
         if (!$this->PaymentInfos->isDataChanged($paymentInfo, $data)) {
+            #Case in witch there was no changed data, except maybe is_default
             $paymentInfo = $this->PaymentInfos->patchEntity($paymentInfo, $data);
-            $this->PaymentInfos->setDefaultCard($paymentInfo->app_user->external_payment_id, $paymentInfo->external_card_id, $data);
+            $this->PaymentInfos->setDefaultCard($paymentInfo->app_user, $paymentInfo->external_card_id, $data);
             if ($this->PaymentInfos->save($paymentInfo)) {
                 $this->Flash->success(__('The payment info has been saved.'));
                 return $this->redirect(['action' => 'cards', $this->getUser()['id']]);
@@ -170,6 +171,7 @@ class PaymentInfosController extends AppController
         if ($this->PaymentInfos->save($paymentInfo)) {
             $this->Flash->success(__('The payment info has been saved.'));
             $oldPaymentInfo->active = false;
+            $oldPaymentInfo->is_default = false;
             $this->PaymentInfos->save($oldPaymentInfo);
             return $this->redirect(['action' => 'cards', $this->getUser()['id']]);
         } else {
@@ -187,14 +189,17 @@ class PaymentInfosController extends AppController
     public function delete($id = null)
     {
         $this->request->allowMethod(['post', 'delete']);
-        $paymentInfo = $this->PaymentInfos->get($id);
-        if ($this->PaymentInfos->delete($paymentInfo)) {
+        $paymentInfo = $this->PaymentInfos->get($id, [
+            'contain' => ['AppUsers']
+        ]);
+        $paymentInfo = $this->PaymentInfos->changeDefaultCard($paymentInfo);
+        if ($this->PaymentInfos->save($paymentInfo)) {
             $this->Flash->success(__('The payment info has been deleted.'));
         } else {
             $this->Flash->error(__('The payment info could not be deleted. Please, try again.'));
         }
 
-        return $this->redirect(['action' => 'index']);
+        return $this->redirect(['action' => 'cards', $this->getUser()['id']]);
     }
 
 }

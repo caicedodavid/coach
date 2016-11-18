@@ -27,7 +27,7 @@
     <div class="ed_inner_dashboard_info">
         <div class="paymentInfos index large-9 medium-8 columns content">
             <h3><?= __('Payment Information') ?></h3>
-            <?php if (!$cards):?>
+            <?php if (!$paymentInfos->count()):?>
                 <div class="alert alert-info"><?= __('You have no registerd cards.')?></div>
             <?php else: ?>
                 <div id= 'pagination-container'>
@@ -36,6 +36,7 @@
                             <tr>
                                 <th scope="col"><?= __('Cardholder') ?></th>
                                 <th scope="col"><?= __('Card') ?></th>
+                                <th scope="col"><?= __('Default') ?></th>
                                 <th scope="col" class="actions"><?= __('Actions') ?></th>
                             </tr>
                         </thead>
@@ -44,11 +45,11 @@
                             <tr>
                                 <td><?= h($paymentInfo->name) ?></td>
                                 <td><?= h('●●● - ●●●● - ●●●● - ' . $cards[$paymentInfo->external_card_id]['last4']) ?></td>
+                                <td><?= $paymentInfo->is_default ? $this->Html->image("check.png") : null;?></td>
                                 <td class="actions">
                                     <?= $this->Html->link(__('Edit'), ['controller' => 'PaymentInfos', 'action' => 'edit', $paymentInfo->id, serialize($cards[$paymentInfo->external_card_id])])?>
-                                    <?= $this->Html->link(__('Delete'), '#') ?>
-                                    <!--<?= $this->Form->postLink(__('Delete'), '#', ['confirm' => __('Are you sure you want to delete # {0}?', 
-                                    $paymentInfo->id)]);?>-->
+                                    <?= $this->Form->postLink(__('Delete'), ['controller' => 'PaymentInfos', 'action' => 'delete', $paymentInfo->id], ['confirm' => __('Are you sure you want to delete this card?', 
+                                    $paymentInfo->id)]);?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
