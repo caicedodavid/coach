@@ -479,11 +479,11 @@ class SessionsTable extends Table
      * @param $data data array of form
      * @return $data array of data to be patched in the entity
      */
-    public function fixData(&$session, $coachId, $userId, $topicId, array $data)
+    public function fixData(&$session, $topic, $userId, array $data)
     {
         $session['user_id'] = $userId;
-        $session['coach_id'] = $coachId;
-        $session['topic_id'] = $topicId;
+        $session['coach_id'] = $topic->coach_id;
+        $session['topic_id'] = $topic->id;
         return $this->fixSchedule($data);
     }
 

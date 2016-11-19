@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Routing\Router;
 
 /**
  * Topics Model
@@ -180,5 +181,23 @@ class TopicsTable extends Table
         return  $query->find('publicTopics')
             ->find('containCoach')
             ->find('topicsImage');
+    }
+
+    /**
+     * Method that returns the topics for the selection box
+     * @param $coachId
+     * @return Array
+     */
+    public function getTopicsList($coachId)
+    {
+        $topics = $this->find('publicTopicsByCoach', [
+            'coachId' => $coachId
+        ])
+        ->all();
+        $array = array();
+        foreach ($topics as $topic) :
+            $array[Router::url(['controller' => 'Sessions', 'action' => 'add', $coachId, $topic->id],true)] = $topic->name;
+        endforeach;
+        return $array;
     }
 }
