@@ -46,7 +46,6 @@ class CreateLiabilities extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
-        $tab
         $table->create();
     }
 }

@@ -69,6 +69,7 @@ class SessionsTable extends Table
             'conditions' => ['Payments.fk_table' => 'Sessions'],
         ];
         $this->hasMany('Payments', $assocOptions);
+        $this->hasMany('Liabilities', $assocOptions);
     }
 
     /**
