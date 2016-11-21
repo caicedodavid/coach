@@ -176,7 +176,7 @@ class AppUsersTable extends UsersTable
     public function hasActiveCards($user)
     {
         return $this->PaymentInfos->find('userCards',['user' => $user])
-            ->first();
+            ->count() > 0;
     }
     
     
