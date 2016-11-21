@@ -104,7 +104,6 @@
         var coachId = $(this).attr("coach-id");
         var topicId= this.options[this.selectedIndex].value
         var url = "/sessions/add/" + coachId + "/" + topicId;
-        console.log(url);
         window.location.replace(url);
       });
  });
