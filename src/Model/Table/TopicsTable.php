@@ -5,7 +5,6 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Cake\Routing\Router;
 
 /**
  * Topics Model
@@ -190,14 +189,10 @@ class TopicsTable extends Table
      */
     public function getTopicsList($coachId)
     {
-        $topics = $this->find('publicTopicsByCoach', [
+        return $this->find('publicTopicsByCoach', [
             'coachId' => $coachId
         ])
-        ->all();
-        $array = array();
-        foreach ($topics as $topic) :
-            $array[Router::url(['controller' => 'Sessions', 'action' => 'add', $coachId, $topic->id],true)] = $topic->name;
-        endforeach;
-        return $array;
+        ->find('list')
+        ->toArray();     
     }
 }

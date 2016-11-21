@@ -9,23 +9,24 @@
             <div class="row">
                 <div class="col-lg-5 col-md-5 col-sm-12">
                     <div class="ed_course_single_image">
-                        <?php echo $this->Img->displayImage($image, 'medium-wide');?>
+                        <?php echo $this->Img->displayImage($topic ? $topic->topic_image : null, 'medium-wide');?>
                     </div>
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-12">
                     <div class="ed_course_single_info">
-                        <h2><?= $session->subject ?><span><?= $this->Number->currency($price, 'USD');?></span></h2>
+                        <h2><?= $session->subject ?><span><?= $topic ? $this->Number->currency($topic->price, 'USD') : null;?></span></h2>
                         <div class="ed_abbcart">
                         </div>
                     </div>
                     <?= $this->Form->input('', [
                         'options' => $topicSelector, 
                         'class' => 'form-control', 
-                        'empty' => $topicId ? [$currentTopic => $session->subject] : __('Select...'), 
-                        'onChange' => 'window.document.location.href=this.options[this.selectedIndex].value;', 
+                        'empty' => $topic ? [$topic->id => $session->subject] : __('Select...'), 
                         'value' => 'GO',
                         'required' => true,
-                        'label' => 'Topics from this coach'
+                        'label' => __('Topics from this coach'),
+                        'id' => 'topic-selector',
+                        'coach-id' => $coachId
                     ]);?>
                 </div>
             </div>
@@ -43,7 +44,7 @@
                                     <div class="ed_course_tabconetent">       
                                         <div class="ed_contact_form ed_toppadder60">
                                             <div class="sessions form">
-                                            <?php if($topicId):?>
+                                            <?php if($topic):?>
                                                 <?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>
                                                 <?= $this->Form->create($session) ?>
                                                     <fieldset>

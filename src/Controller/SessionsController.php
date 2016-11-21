@@ -339,13 +339,11 @@ class SessionsController extends AppController
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
         }
-        $this->set('currentTopic', Router::url(['controller' => 'Sessions', 'action' => 'add', $coachId, $topicId],true));
-        $this->set('image', $topic ? $topic->topic_image: null);
-        $this->set('price', $topic ? $topic->price: null );
-        $this->set('topicId', $topicId);
+        $this->set('topic', $topic);
+        $this->set('coachId', $coachId);
         $this->set('topicSelector', $topics);
-        $this->set('session',$session);
-        $this->set('_serialize', ['session','topicSelector']);
+        $this->set('session', $session);
+        $this->set('_serialize', ['session', 'topicSelector']);
     }
 
     /**
