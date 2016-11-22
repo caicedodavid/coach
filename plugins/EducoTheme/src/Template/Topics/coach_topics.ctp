@@ -5,13 +5,13 @@
     <?= $this->element('AppUsers/sidebar', [
         'tabs' => [
             'Profile' => [
-                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
+                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'], true
             ],
             'Topics' => [
-                'active', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
+                'active', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'], true
             ],
             'My Sessions' => [
-                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
             ]
         ],
         'user' => $user

@@ -22,7 +22,7 @@ class TopicsController extends AppController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['index']);
+        $this->Auth->allow(['index','coachTopics','view']);
     }
 
     /**
@@ -145,7 +145,7 @@ class TopicsController extends AppController
             'id' => $id
         ])
         ->first();;
-
+        $this->set('isCoach', $this->isCoach($this->getUser()));
         $this->set('topic', $topic);
         $this->set('_serialize', ['topic']);
     }
