@@ -99,4 +99,11 @@
       });
 
       $('.rate-input').rating({displayOnly: true, step: 0.5});
+
+      $( "#topic-selector" ).change(function() {
+        var coachId = $(this).attr("coach-id");
+        var topicId= this.options[this.selectedIndex].value
+        var url = "/sessions/add/" + coachId + "/" + topicId;
+        window.location.replace(url);
+      });
  });

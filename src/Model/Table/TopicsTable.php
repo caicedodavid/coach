@@ -181,4 +181,18 @@ class TopicsTable extends Table
             ->find('containCoach')
             ->find('topicsImage');
     }
+
+    /**
+     * Method that returns the topics for the selection box
+     * @param $coachId
+     * @return Array
+     */
+    public function getTopicsList($coachId)
+    {
+        return $this->find('publicTopicsByCoach', [
+            'coachId' => $coachId
+        ])
+        ->find('list')
+        ->toArray();     
+    }
 }

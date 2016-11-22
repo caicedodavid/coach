@@ -132,3 +132,8 @@ span.payment-errors span {
 .ed_toppadder80 {
     padding-top: 60px;
 }
+
+.ed_course_single_item .ed_course_single_info {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
