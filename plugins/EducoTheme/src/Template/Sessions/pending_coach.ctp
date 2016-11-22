@@ -13,6 +13,9 @@
             ],
             'My Sessions' => [
                 'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+            ],
+            'Payments' => [
+                'null', ['action' => 'paidSessions', $user->id, 'controller' => 'Sessions']
             ]
         ],
         'user' => $user

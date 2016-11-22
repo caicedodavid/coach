@@ -69,7 +69,13 @@ class SessionsTable extends Table
             'conditions' => ['Payments.fk_table' => 'Sessions'],
         ];
         $this->hasMany('Payments', $assocOptions);
-        $this->hasMany('Liabilities', $assocOptions);
+
+        $assocOptions = [
+            'foreignKey' => 'fk_id',
+            'conditions' => ['Liabilities.fk_table' => 'Sessions'],
+            'joinType' => 'INNER'
+        ];
+        $this->hasOne('Liabilities', $assocOptions);
     }
 
     /**
@@ -374,6 +380,25 @@ class SessionsTable extends Table
         return $query->contain([
             'Users'
         ]); 
+    }
+
+    /**
+     * Query for finding the unpaid sessions to a coach
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findPaidCoach(Query $query, array $options)
+    {
+        $user = $options["user"];
+        $query->contain([
+            'Liabilities'
+        ])
+        ->find('containUser')
+        ->find('containTopic')
+        ->where(['Sessions.coach_id' => $user['id']])
+        ->where(['Sessions.status' => session::STATUS_PAST]); 
+        return($query);
     }
 
     /**

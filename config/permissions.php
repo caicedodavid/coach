@@ -75,6 +75,22 @@ return [
             'plugin'=> false,
             'controller' => 'Sessions',
             'action' => [
+                'paidSessions',
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
+        ],
+        [
+            'role' => ['coach'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
                 'rejectSession',
                 'approveSession',
                 'rateCoach',

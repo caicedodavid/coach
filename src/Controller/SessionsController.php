@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use App\Model\Entity\Session;
 use App\Model\Behavior\PaymentBehavior;
+use Cake\ORM\TableRegistry;
 
 /**
  * Sessions Controller
@@ -16,6 +17,7 @@ class SessionsController extends AppController
     const APPROVED_SESSIONS_FINDER = "approvedSessions";
     const PENDING_SESSIONS_FINDER = "pendingSessions";
     const HISTORIC_SESSIONS_FINDER = "historicSessions";
+    const PAID_SESSIONS_FINDER = "paidCoach";
 
     /**
      * List of Sesisons
@@ -25,8 +27,7 @@ class SessionsController extends AppController
     public function sessionList($finder, $columnOrder = 'schedule', $order = 'asc')
     {
         $user = $this->getUser();
-        $this->loadModel('AppUsers');
-        $user = $this->AppUsers->get($user['id'], [
+        $user = $this->Sessions->Users->get($user['id'], [
             'contain' => ['UserImage']
         ]);
         $this->paginate = [
@@ -277,7 +278,6 @@ class SessionsController extends AppController
     /**
      * rate method for users
      *
-     * @param string|null $id Session id.
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -447,6 +447,27 @@ class SessionsController extends AppController
         $this->Sessions->save($session);
         $appSession->write('Class.id', $id);
         $appSession->write('Class.startTime',(string) time());
+    }
+
+    /**
+     * Show unpayed sessions of a coach
+     *
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function paidSessions($id = NULL)
+    {
+        //$Liabilities = TableRegistry::get('Liabilities');
+        //$Liability = $Liabilities->newEntity();
+        //$Liability->fk_table = 'Sessions';
+        //$Liability->fk_id = 263;
+        //$Liability->amount = 7.5;
+        //$Liability->comission = 25;
+        //$Liability->type = 'transfer';
+        //$Liabilities->save($Liability); 
+
+        $this->set('statusArray',$this->getStatusArray());
+        $this->sessionList(self::PAID_SESSIONS_FINDER);
     }
 
     public function beforeRender(Event $event)
