@@ -15,6 +15,7 @@ use App\SessionAdapters\LiveSession;
 use App\Model\Entity\Session;
 use App\Model\Behavior\PaymentBehavior;
 
+
 /**
  * Sessions Model
  *
@@ -383,7 +384,36 @@ class SessionsTable extends Table
     }
 
     /**
-     * Query for finding the unpaid sessions to a coach
+     * Query for finding the user linked to a session
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainCoach(Query $query, array $options)
+    {
+        return $query->contain([
+            'Coaches'
+        ]); 
+    }
+
+
+    /**
+     * Query for finding the session with its liability
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainLiability(Query $query, array $options)
+    {
+        $finder = $options["finderName"];
+        return $query->contain([
+            'Liabilities' => [
+                'finder' => [$finder]
+            ]
+        ]);
+    }
+    /**
+     * Query for finding the paid sessions to a coach
      * @param $query query object
      * @param $role string role of user
      * @return Query
@@ -391,9 +421,7 @@ class SessionsTable extends Table
     public function findPaidCoach(Query $query, array $options)
     {
         $user = $options["user"];
-        $query->contain([
-            'Liabilities'
-        ])
+        $query->find('containLiability', ['finderName' => 'paid'])
         ->find('containUser')
         ->find('containTopic')
         ->where(['Sessions.coach_id' => $user['id']])
@@ -402,7 +430,37 @@ class SessionsTable extends Table
     }
 
     /**
+     * Query for finding the unpaid sessions to a coach
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findUnpaidCoach(Query $query, array $options)
+    {
+        $user = $options["user"];
+        $query->find('containLiability', ['finderName' => 'pending'])
+        ->find('containUser')
+        ->find('containTopic')
+        ->where(['Sessions.coach_id' => $user['id']])
+        ->where(['Sessions.status' => session::STATUS_PAST]); 
+        return($query);
+    }
+
+
+    /**
      * Query for finding the user and topic
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainUserTopicLiability(Query $query, array $options)
+    {
+        return $query->find('containUserTopic', $options)
+            ->find('containLiability', $options);
+    }
+
+    /**
+     * Query for finding the user, topic and liability
      * @param $query query object
      * @param $role string role of user
      * @return Query
@@ -412,8 +470,10 @@ class SessionsTable extends Table
         $id = $options['id'];
         return $query->where(['Sessions.id' => $id])
             ->find('containUser')
+            ->find('containCoach')
             ->find('containTopic');
     }
+
 
     /**
      * method for returning a Url if the LiveSession returnes one, if not return null
@@ -490,6 +550,9 @@ class SessionsTable extends Table
     public function refundSession($session,$isCoach)
     {
         if($isCoach){
+            $session->liability->status = $session->liability::STATUS_REFUND;
+            $session->liability->observation = 'The session was refunded to the user';
+            $this->Liabilities->save($session->liability);
             $session->user->balance += isset($session->topic->price) ? $session->topic->price : 10;
             $this->Users->save($session->user);
         }
@@ -577,6 +640,7 @@ class SessionsTable extends Table
      * sets the data that will be stored after paying for a session with
      * credit card
      * @param  $session entity
+     * @param  $amount float
      * @return response 
      */
     public function saveSessionPaymentBalance($session, $amount)
@@ -588,6 +652,24 @@ class SessionsTable extends Table
         $this->Payments->save($payment);
         $response['status'] = PaymentBehavior::SUCCESSFUL_STATUS;
         return $response;
+    }
+
+    /**
+     * create Liability
+     *
+     * creates the Liability associated with the session
+     * @param  $session entity
+     * @return void
+     */
+    public function createLiability($session)
+    {
+        $liability = $this->Liabilities->newEntity();
+        $liability->fk_table = 'Sessions';
+        $liability->fk_id = $session->id;
+        $liability->amount = $session->topic->price * 0.01 *(100 - $session->coach->commission);
+        $liability->commission = $session->coach->commission;
+        $liability->status = $liability::STATUS_PENDING;
+        $this->Liabilities->save($liability); 
     }
 
 }

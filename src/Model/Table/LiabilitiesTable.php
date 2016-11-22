@@ -75,4 +75,25 @@ class LiabilitiesTable extends Table
         return $validator;
     }
 
+    /**
+     * Query for finding the user linked to a session
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findPending(Query $query, array $options)
+    {
+        return $query->where(['Liabilities.status' => 'pending']); 
+    }
+
+    /**
+     * Query for finding the user linked to a session
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findPaid(Query $query, array $options)
+    {
+        return $query->where(['Liabilities.status' => 'paid']); 
+    }
 }

@@ -76,6 +76,7 @@ return [
             'controller' => 'Sessions',
             'action' => [
                 'paidSessions',
+                'unpaidSessions'
             ],
             'allowed' => function (array $user, $role, Request $request) {
                 $ownerUserId = Hash::get($request->params, 'pass.0');

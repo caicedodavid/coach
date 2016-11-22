@@ -1,5 +1,5 @@
 <?= $this->extend('/Element/Liabilities/liability_tabs');
-    $this->assign('typeSession', "paid");
+    $this->assign('typeSession', "unpaid");
     $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
@@ -29,7 +29,7 @@
                 <?php if (!$sessions->count()):?>
                     <div class="alert alert-info"><?= __('There are no sessions to show.')?></div>
                 <?php else: ?>
-                    <div class="row"><b>
+                <div class="row"><b>
                         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                             <?= __('Topic and user') ?>
                         </div>
@@ -48,7 +48,6 @@
                     </b></div>
                     <div id="pagination-container">
                         <?php foreach ($sessions as $session): ?>
-
                             <div class="ed_add_students">
                                 <div class="row">
                                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

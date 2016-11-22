@@ -6,6 +6,7 @@ use Cake\Event\Event;
 use App\Model\Entity\Session;
 use App\Model\Behavior\PaymentBehavior;
 use Cake\ORM\TableRegistry;
+use App\Model\Entity\Liability;
 
 /**
  * Sessions Controller
@@ -18,6 +19,7 @@ class SessionsController extends AppController
     const PENDING_SESSIONS_FINDER = "pendingSessions";
     const HISTORIC_SESSIONS_FINDER = "historicSessions";
     const PAID_SESSIONS_FINDER = "paidCoach";
+    const UNPAID_SESSIONS_FINDER = "unpaidCoach";
 
     /**
      * List of Sesisons
@@ -388,7 +390,7 @@ class SessionsController extends AppController
             $this->Sessions->sendEmail($session,'paymentErrorMail',$response['message']);
 
         } else {
-
+            $this->Sessions->createLiability($session);
             $session['status'] = Session::STATUS_APPROVED;
             $session['external_class_id'] = $this->Sessions->scheduleSession($session);
             if ($this->Sessions->save($session)) {
@@ -413,8 +415,9 @@ class SessionsController extends AppController
     public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
-        $session = $this->Sessions->find('containUserTopic', [
-            'id' => $id
+        $session = $this->Sessions->find('containUserTopicLiability', [
+            'id' => $id,
+            'finderName' => Liability::STATUS_PENDING
         ])
         ->first();
         $session['status'] = Session::STATUS_CANCELED;
@@ -450,24 +453,27 @@ class SessionsController extends AppController
     }
 
     /**
-     * Show unpayed sessions of a coach
+     * Show paid sessions of a coach
      *
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     public function paidSessions($id = NULL)
     {
-        //$Liabilities = TableRegistry::get('Liabilities');
-        //$Liability = $Liabilities->newEntity();
-        //$Liability->fk_table = 'Sessions';
-        //$Liability->fk_id = 263;
-        //$Liability->amount = 7.5;
-        //$Liability->comission = 25;
-        //$Liability->type = 'transfer';
-        //$Liabilities->save($Liability); 
-
         $this->set('statusArray',$this->getStatusArray());
         $this->sessionList(self::PAID_SESSIONS_FINDER);
+    }
+
+    /**
+     * Show unpaid sessions of a coach
+     *
+     * @return \Cake\Network\Response|null
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function unpaidSessions($id = NULL)
+    {
+        $this->set('statusArray',$this->getStatusArray());
+        $this->sessionList(self::UNPAID_SESSIONS_FINDER,null);
     }
 
     public function beforeRender(Event $event)

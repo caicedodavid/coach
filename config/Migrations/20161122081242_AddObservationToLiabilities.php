@@ -13,10 +13,17 @@ class AddObservationToLiabilities extends AbstractMigration
     public function change()
     {
         $table = $this->table('liabilities');
+        $table->removeColumn('type');
+        $table->addColumn('status','char', [
+            'limit' => 10,
+            'null' => false,
+            'default' => null,
+            'after'=> 'commission'
+        ]);
         $table->addColumn('observation', 'text', [
             'default' => null,
             'null' => true,
-            'after'=> 'type'
+            'after'=> 'status'
         ]);
         $table->update();
     }
