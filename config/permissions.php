@@ -156,18 +156,35 @@ return [
             ]
         ],
         [
-            'role' => ['coach','user'],
+            'role' => ['user'],
             'plugin'=> false,
             'controller' => 'PaymentInfos',
             'action' => [
-                'view',
                 'add',
-                'edit'
             ],
 
         ],
         [
-            'role' => ['coach','user'],
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'PaymentInfos',
+            'action' => [
+                'edit',
+                'delete'
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $sessionUserId = Hash::get($user, 'id');
+                $paymentInfosId = Hash::get($request->params, 'pass.0');
+                $ownerUserId = TableRegistry::get('PaymentInfos')->get($paymentInfosId)['user_id'];
+                if (!empty($sessionUserId) && !empty($ownerUserId)) {
+                    return $sessionUserId === $ownerUserId;
+                }
+                return false;
+            }
+
+        ],
+        [
+            'role' => ['user'],
             'plugin'=> false,
             'controller' => 'PaymentInfos',
             'action' => [

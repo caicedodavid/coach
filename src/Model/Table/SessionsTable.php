@@ -528,6 +528,12 @@ class SessionsTable extends Table
      */
     public function paySession($session)
     {
+        if(!$this->Users->hasActiveCards($session->user)) {
+            $response = ['status' => PaymentBehavior::ERROR_STATUS,
+                'message' => 'You have no registered cards'
+            ];
+            return $response;
+        }
         $price  = isset($session->topic->price) ? $session->topic->price : 10;
         $amount = $price - $session->user->balance;
         $response['status'] = PaymentBehavior::SUCCESSFUL_STATUS; 
@@ -568,11 +574,11 @@ class SessionsTable extends Table
      * @param $data data array of form
      * @return $data array of data to be patched in the entity
      */
-    public function fixData(&$session, $coachId, $userId, $topicId, array $data)
+    public function fixData(&$session, $topic, $userId, array $data)
     {
         $session['user_id'] = $userId;
-        $session['coach_id'] = $coachId;
-        $session['topic_id'] = $topicId;
+        $session['coach_id'] = $topic->coach_id;
+        $session['topic_id'] = $topic->id;
         return $this->fixSchedule($data);
     }
 
@@ -583,12 +589,9 @@ class SessionsTable extends Table
      * @param  $session entity
      * @return boolean 
      */
-    public function checkUserCard($userId)
+    public function checkUserCard($user)
     {
-        $user = $this->Users->get($userId, [
-            'contain' => ['PaymentInfos']
-        ]);
-        return $user->payment_infos;
+        return $this->Users->hasActiveCards($user);
     }
 
     /**

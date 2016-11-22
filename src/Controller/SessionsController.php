@@ -5,8 +5,8 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use App\Model\Entity\Session;
 use App\Model\Behavior\PaymentBehavior;
-use Cake\ORM\TableRegistry;
 use App\Model\Entity\Liability;
+use Cake\Routing\Router;
 
 /**
  * Sessions Controller
@@ -315,23 +315,23 @@ class SessionsController extends AppController
      * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add($coachId, $coachName, $topicId = null)
+    public function add($coachId = null, $topicId = null)
     {   
         $user = $this->getUser();
-        if(!$this->Sessions->checkUserCard($user['id'])){
+        if(!$this->Sessions->checkUserCard($user)){
             $this->Flash->error(__('Please, add your payment information first so you can purchase a session.'));
             return $this->redirect(['controller' => 'PaymentInfos','action' => 'add', 
-                serialize(['controller' => 'sessions', 'action' => 'add', $coachId, $coachName, $topicId])]);
+                serialize(['controller' => 'sessions', 'action' => 'add', $topicId])]);
         }
+        $topics = $this->Sessions->Topics->getTopicsList($coachId);
         $topic = !$topicId ? null : $this->Sessions->Topics->get($topicId, [
             'contain' => ['TopicImage']
-        ]); 
+        ]);
         $session = $this->Sessions->newEntity();
         $session->subject = $topic['name'] ? $topic['name'] : null;
         if ($this->request->is('post')) {
-            $data = $this->Sessions->fixData($session,$coachId,$user['id'],$topicId,$this->request->data);      
-            $session = $this->Sessions->patchEntity($session,$data);
-            
+            $data = $this->Sessions->fixData($session, $topic, $user['id'], $this->request->data);      
+            $session = $this->Sessions->patchEntity($session, $data);
             if ($this->Sessions->save($session)) {
                 $this->Sessions->sendRequestEmails($session);
                 $this->Flash->success(__('The session has been requested.'));
@@ -340,11 +340,11 @@ class SessionsController extends AppController
                 $this->Flash->error(__('The session could not be saved. Please, try again.'));
             }
         }
-        $this->set('image', $topic ? $topic->topic_image: null);
-        $this->set('price', $topic ? $topic->price: 10);
-        $this->set('coach', $coachName);
-        $this->set('session',$session);
-        $this->set('_serialize', ['session']);
+        $this->set('topic', $topic);
+        $this->set('coachId', $coachId);
+        $this->set('topicSelector', $topics);
+        $this->set('session', $session);
+        $this->set('_serialize', ['session', 'topicSelector']);
     }
 
     /**
@@ -386,7 +386,7 @@ class SessionsController extends AppController
         ->first();
         $response = $this->Sessions->paySession($session);
         if($response['status'] === PaymentBehavior::ERROR_STATUS){
-            $this->Flash->error(__('Payment error'));
+            $this->Flash->error(__('Payment error, we will conctact the cochee. Please try again later'));
             $this->Sessions->sendEmail($session,'paymentErrorMail',$response['message']);
 
         } else {
