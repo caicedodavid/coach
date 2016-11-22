@@ -27,7 +27,9 @@ use CakeDC\Users\Model\Entity\User;
  */
 class AppUser extends User
 {
-
+	const USER = 'user';
+    const COACH = 'coach';
+    
     protected $_virtual = ['full_name'];
 
     protected function _getFullName() {

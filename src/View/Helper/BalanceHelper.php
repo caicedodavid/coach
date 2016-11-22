@@ -3,7 +3,7 @@
 namespace App\View\Helper;
 
 use Cake\View\Helper;
-use App\Controller\AppController;
+use App\Model\Entity\AppUser;
 
 class BalanceHelper extends Helper
 {
@@ -17,7 +17,7 @@ class BalanceHelper extends Helper
      */
     public function display($user)
     {
-        if ($this->request->session()->read('Auth.User.id') === $user['id']) {
+        if (($this->request->session()->read('Auth.User.id') === $user['id']) and ($user['role'] === AppUser::USER)) {
             return $this->Html->tag('p') . $this->Html->tag('span',__('Balance :- ' . $this->Number->currency($user['balance'], 'USD')));
         }
     }
