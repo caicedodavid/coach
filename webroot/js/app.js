@@ -8,6 +8,11 @@
         maxDate: d,
         useCurrent: false
       };
+      var payDateOptions={
+        format: 'YYYY-MM-DD',
+        minDate: d,
+        useCurrent: true
+      };
       var sessionOptions={
         format: 'YYYY-MM-DD HH:mm',
         stepping: 5,
@@ -15,6 +20,7 @@
         disabledDates: [d],
         sideBySide:true
       };
+      $('#payment-date').datetimepicker(payDateOptions);
       $('#date').datetimepicker(birthdateOptions);
       $('#date1').datetimepicker(sessionOptions);
  
@@ -105,5 +111,21 @@
         var topicId= this.options[this.selectedIndex].value
         var url = "/sessions/add/" + coachId + "/" + topicId;
         window.location.replace(url);
+      });
+
+      $('#pay-button').click(function() {      
+        var $inputs = $('#payment-form :input:checked');
+        var value = 0;
+        $inputs.each(function() {
+          if((this.getAttribute("price")) && (this.getAttribute("placeholder") !== null)){
+            value += Number(this.getAttribute("price"))
+          }
+        });
+        var list = document.getElementById("price-text");
+        var newItem = document.createElement("h3");
+        newItem.setAttribute('id', 'price-text');
+        var textnode = document.createTextNode("You are going to pay to this coach " + value.toString() + "$");
+        newItem.appendChild(textnode);
+        $("#price-text").replaceWith(newItem);
       });
  });
