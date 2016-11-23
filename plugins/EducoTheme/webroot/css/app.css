@@ -137,3 +137,6 @@ span.payment-errors span {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+#image-lable {
+    font-family: 'Roboto Slab', serif;
+}
