@@ -5,11 +5,6 @@
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user))?>
 <?php $this->end('tabs') ?>
-
-
-<?php //$this->start('banner') ?>
-<?php //echo $this->element('banner', ['title' => __('Edit Profile')]); ?>
-<?php //$this->end() ?>
 <div class="tab-content">
     <div class="users form">
         <div class="control-group warning">
