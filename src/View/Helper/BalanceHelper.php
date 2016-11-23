@@ -17,7 +17,7 @@ class BalanceHelper extends Helper
      */
     public function display($user)
     {
-        if (($this->request->session()->read('Auth.User.id') === $user['id']) and ($user['role'] === AppUser::USER)) {
+        if (($this->request->session()->read('Auth.User.id') === $user['id']) and ($user['role'] === ROLE_USER)) {
             return $this->Html->tag('p') . $this->Html->tag('span',__('Balance :- ' . $this->Number->currency($user['balance'], 'USD')));
         }
     }
