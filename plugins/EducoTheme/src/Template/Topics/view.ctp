@@ -36,7 +36,7 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="description">
                             <div class="ed_course_tabconetent">
-                                <?= $this->Text->autoParagraph(h($topic->description)); ?>
+                                <?= $topic->description; ?>
                             </div>
                         </div>
                         <div role="tabpanel" class="tab-pane" id="students">
@@ -58,7 +58,7 @@
         <div class="sidebar_wrapper_upper">
             <div class="sidebar_wrapper">
                 <aside class="widget widget_button">
-                    <?= $this->AuthLink->link(__d('Session', 'Request Session'), ['controller' => 'Sessions', 'action' => 'add', $topic->coach_id, $topic->id, 'plugin' => false, 'prefix' => false],['class' => 'ed_btn ed_green']);?>
+                    <?= !$isCoach ? $this->Html->link(__d('Session', 'Request Session'), ['controller' => 'Sessions', 'action' => 'add', $topic->coach_id, $topic->id, 'plugin' => false, 'prefix' => false],['class' => 'ed_btn ed_green']) : null;?>
                 </aside>
                 <aside class="widget widget_sharing">
                     <h4 class="widget-title">share this course</h4>

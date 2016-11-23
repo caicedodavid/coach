@@ -8,9 +8,17 @@
 		<ul class="nav nav-tabs">
 			<?php
 			 	foreach($tabs as $tabTitle => $content) {
-			 		echo "<li class=" . $content[0] . ">";
-			 		echo $this->AuthLink->link(__($tabTitle), array_merge($content[1],['data-toggle'=>"tab"]));
-			 		echo "</li>";
+			 		if ($content[2]) {
+			 			echo $this->Html->tag('li', null, ["class" => $content[0]]);
+			 			echo $this->Html->link(__($tabTitle), array_merge($content[1],['data-toggle'=>"tab"]));
+			 			echo $this->Html->tag('/li');
+			 		} else {
+			 			if ($this->AuthLink->isAuthorized($content[1])) {
+			 				echo $this->Html->tag('li', null, ["class" => $content[0]]);
+			 				echo $this->AuthLink->link(__($tabTitle), array_merge($content[1],['data-toggle'=>"tab"]));
+			 				echo $this->Html->tag('/li');
+			 			}
+			 		}
 			 	}
 			?>
 		</ul>
