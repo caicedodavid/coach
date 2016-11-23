@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use App\Model\Entity\Liability;
 
 /**
  * Liabilities Model
@@ -83,7 +84,7 @@ class LiabilitiesTable extends Table
      */
     public function findPending(Query $query, array $options)
     {
-        return $query->where(['Liabilities.status' => 'pending']); 
+        return $query->where(['Liabilities.status' => Liability::STATUS_PENDING]); 
     }
 
     /**
@@ -94,6 +95,6 @@ class LiabilitiesTable extends Table
      */
     public function findPaid(Query $query, array $options)
     {
-        return $query->where(['Liabilities.status' => 'paid']); 
+        return $query->where(['Liabilities.status' => Liability::STATUS_PENDING]); 
     }
 }

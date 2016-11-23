@@ -73,10 +73,27 @@ class SessionsTable extends Table
 
         $assocOptions = [
             'foreignKey' => 'fk_id',
-            'conditions' => ['Liabilities.fk_table' => 'Sessions'],
-            'joinType' => 'INNER'
+            'conditions' => [
+                'PendingLiabilities.fk_table' => 'Sessions',
+                'PendingLiabilities.status' => 1
+            ],
+            'joinType' => 'INNER',
+            'className' => 'Liabilities',
         ];
-        $this->hasOne('Liabilities', $assocOptions);
+
+        $this->hasOne('PendingLiabilities', $assocOptions);
+
+        $assocOptions = [
+            'foreignKey' => 'fk_id',
+            'conditions' => [
+                'PaidLiabilities.fk_table' => 'Sessions',
+                'PaidLiabilities.status' => 3
+            ],
+            'joinType' => 'INNER',
+            'className' => 'Liabilities',
+        ];
+
+        $this->hasOne('PaidLiabilities', $assocOptions);
     }
 
     /**
@@ -396,22 +413,32 @@ class SessionsTable extends Table
         ]); 
     }
 
-
     /**
-     * Query for finding the session with its liability
+     * Query for containing the pending liability of a session
      * @param $query query object
      * @param $role string role of user
      * @return Query
      */
-    public function findContainLiability(Query $query, array $options)
+    public function findContainPendingLiability(Query $query, array $options)
     {
-        $finder = $options["finderName"];
         return $query->contain([
-            'Liabilities' => [
-                'finder' => [$finder]
-            ]
+            'PendingLiabilities'
         ]);
     }
+
+    /**
+     * Query for containing the pending liability of a session
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainPaidLiability(Query $query, array $options)
+    {
+        return $query->contain([
+            'PaidLiabilities'
+        ]);
+    }
+
     /**
      * Query for finding the paid sessions to a coach
      * @param $query query object
@@ -421,7 +448,7 @@ class SessionsTable extends Table
     public function findPaidCoach(Query $query, array $options)
     {
         $user = $options["user"];
-        $query->find('containLiability', ['finderName' => 'paid'])
+        $query->find('containPaidLiability')
             ->find('containUser')
             ->find('containTopic')
             ->where(['Sessions.coach_id' => $user['id']])
@@ -438,7 +465,7 @@ class SessionsTable extends Table
     public function findUnpaidCoach(Query $query, array $options)
     {
         $user = $options["user"];
-        $query->find('containLiability', ['finderName' => 'pending'])
+        $query->find('containPendingLiability')
             ->find('containUser')
             ->find('containTopic')
             ->where(['Sessions.coach_id' => $user['id']])
@@ -454,7 +481,7 @@ class SessionsTable extends Table
      */
     public function findUnpaidCoaches(Query $query, array $options)
     {
-        return $query->find('containLiability', ['finderName' => 'pending'])
+        return $query->find('containPendingLiability')
             ->find('containCoach')
             ->where(['Sessions.status' => session::STATUS_PAST])
             ->select(['Coaches.id','Coaches.username', 'Coaches.first_name','Coaches.last_name'])
@@ -468,10 +495,10 @@ class SessionsTable extends Table
      * @param $role string role of user
      * @return Query
      */
-    public function findContainUserTopicLiability(Query $query, array $options)
+    public function findContainUserTopicPendingLiability(Query $query, array $options)
     {
         return $query->find('containUserTopic', $options)
-            ->find('containLiability', $options);
+            ->find('containPendingLiability', $options);
     }
 
     /**
@@ -684,7 +711,7 @@ class SessionsTable extends Table
         $liability = $this->Liabilities->newEntity();
         $liability->fk_table = 'Sessions';
         $liability->fk_id = $session->id;
-        $liability->amount = $session->topic->price * 0.01 *(100 - $session->coach->commission);
+        $liability->amount = $session->topic->price * (1 - $session->coach->commission);
         $liability->commission = $session->coach->commission;
         $liability->status = $liability::STATUS_PENDING;
         $this->Liabilities->save($liability); 

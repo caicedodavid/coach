@@ -63,10 +63,10 @@
                                                 <span><?= $this->Number->currency($session->topic->price, 'USD')?></span>
                                             </div>
                                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                                <span><?=$this->Number->currency($session->topic->price * 0.01 * $session->liability->commission, 'USD')?></span>
+                                                <span><?=$this->Number->currency($session->topic->price * $session->pending_liability->commission, 'USD')?></span>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <?= $session->liability->observation ?>
+                                                <?= $session->pending_liability->observation ?>
                                             </div>
                                         </div>
                                     </div>

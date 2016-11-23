@@ -415,9 +415,8 @@ class SessionsController extends AppController
     public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
-        $session = $this->Sessions->find('containUserTopicLiability', [
+        $session = $this->Sessions->find('containUserTopicPendingLiability', [
             'id' => $id,
-            'finderName' => Liability::STATUS_PENDING
         ])
         ->first();
         $session['status'] = Session::STATUS_CANCELED;

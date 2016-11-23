@@ -20,9 +20,9 @@ use Cake\ORM\Entity;
 class Liability extends Entity
 {
 
-    const STATUS_PENDING = 'pending';
-    const STATUS_PAID = 'paid';
-    const STATUS_REFUND = 'refund';
+    const STATUS_PENDING = 1;
+    const STATUS_REFUND = 2;
+    const STATUS_PAID = 3;
 
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
