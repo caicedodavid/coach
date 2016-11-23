@@ -2,18 +2,17 @@
     $this->extend('/Element/AppUsers/dashbord_sidebar');
     $this->assign('title', 'Coach');
 ?>
-
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar', [
         'tabs' => [
             'Profile' => [
-                'active', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
+                'active', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'], true
             ],
             'Topics' => [
-                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
+                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'], true
             ],
             'My Sessions' => [
-                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
             ]
         ],
         'user' => $user
@@ -61,7 +60,7 @@
                 <td><?php if($user->tw_account){echo $this->Html->link("twitter.com/".$user->tw_account,"https://www.twitter.com/".$user->tw_account, ['target' => '_blank']);}?></td>
             </tr>
         </table>
-        <?= $this->AuthLink->link(__d('Sessions', 'Request a Session'), ['plugin' => false, 'prefix' => false, 'controller' => 'Sessions', 'action' => 'add', $user->id], ['class' => 'btn ed_btn ed_orange pull-right small']);?>
+        <?= !$isCoach ? $this->Html->link(__d('Sessions', 'Request a Session'), ['plugin' => false, 'prefix' => false, 'controller' => 'Sessions', 'action' => 'add', $user->id], ['class' => 'btn ed_btn ed_orange pull-right small']) : null;?>
     </div>
     </div>
 </div>

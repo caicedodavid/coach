@@ -27,7 +27,6 @@ use CakeDC\Users\Model\Entity\User;
  */
 class AppUser extends User
 {
-
     protected $_virtual = ['full_name'];
 
     protected function _getFullName() {
