@@ -422,10 +422,10 @@ class SessionsTable extends Table
     {
         $user = $options["user"];
         $query->find('containLiability', ['finderName' => 'paid'])
-        ->find('containUser')
-        ->find('containTopic')
-        ->where(['Sessions.coach_id' => $user['id']])
-        ->where(['Sessions.status' => session::STATUS_PAST]); 
+            ->find('containUser')
+            ->find('containTopic')
+            ->where(['Sessions.coach_id' => $user['id']])
+            ->where(['Sessions.status' => session::STATUS_PAST]); 
         return($query);
     }
 
@@ -439,11 +439,26 @@ class SessionsTable extends Table
     {
         $user = $options["user"];
         $query->find('containLiability', ['finderName' => 'pending'])
-        ->find('containUser')
-        ->find('containTopic')
-        ->where(['Sessions.coach_id' => $user['id']])
-        ->where(['Sessions.status' => session::STATUS_PAST]); 
+            ->find('containUser')
+            ->find('containTopic')
+            ->where(['Sessions.coach_id' => $user['id']])
+            ->where(['Sessions.status' => session::STATUS_PAST]); 
         return($query);
+    }
+
+    /**
+     * Query for finding the unpaid coaches
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findUnpaidCoaches(Query $query, array $options)
+    {
+        return $query->find('containLiability', ['finderName' => 'pending'])
+            ->find('containCoach')
+            ->where(['Sessions.status' => session::STATUS_PAST])
+            ->select(['Coaches.id','Coaches.username', 'Coaches.first_name','Coaches.last_name'])
+            ->group('Coaches.id');       
     }
 
 
