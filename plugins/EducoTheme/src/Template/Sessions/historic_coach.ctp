@@ -6,13 +6,13 @@
     <?= $this->element('AppUsers/sidebar', [
         'tabs' => [
             'Profile' => [
-                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']
+                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'], true
             ],
             'Topics' => [
-                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics']
+                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'], true
             ],
             'My Sessions' => [
-                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions']
+                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
             ]
         ],
         'user' => $user

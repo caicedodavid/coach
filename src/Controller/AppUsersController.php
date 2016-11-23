@@ -19,6 +19,30 @@ use CakeDC\Users\Controller\UsersController;
  */
 class AppUsersController extends UsersController
 {
+    /**
+     * Initialization hook method.
+     *
+     * Use this method to add common initialization code like loading components.
+     *
+     * @return void
+     */
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['coaches','coachProfile']);
+    }
+
+    /**
+     * beforeRender, loading TinyMce editor
+     *
+     * @param Event $event
+     * @return void
+     */
+    public function beforeRender(Event $event)
+    {
+        parent::beforeRender($event);
+        $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
+    }
 
     /**
      * Index method for non-coach users
@@ -74,6 +98,7 @@ class AppUsersController extends UsersController
 
     public function coachProfile($id)
     {
+        $this->set('isCoach', $this->isCoach($this->getUser()));
         $this->view($id);    
     }
 
@@ -146,27 +171,5 @@ class AppUsersController extends UsersController
         }
         $this->set('role', $this->request->pass[0]);
         parent::register();
-    }
-    /**
-     * beforeRender, loading TinyMce editor
-     *
-     * @param Event $event
-     * @return void
-     */
-    public function beforeRender(Event $event)
-    {
-        parent::beforeRender($event);
-        $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
-    }
-    /**
-     * beforeFilter, allowing coaches view
-     *
-     * @param Event $event
-     * @return void
-     */
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-        $this->Auth->allow(['coaches']);
     }
 }
