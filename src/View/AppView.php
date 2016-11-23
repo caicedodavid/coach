@@ -41,6 +41,7 @@ class AppView extends View
         $this->loadHelper('Burzum/FileStorage.Image');
         $this->loadHelper('Img');
         $this->loadHelper('Balance');
+        $this->loadHelper('Sidebar');
         $this->loadHelper('Form', [
             'templates' => [
                 'error' => '<div class="message alert-danger" role="alert">{{content}}</div>'
