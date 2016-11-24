@@ -21,7 +21,7 @@
                     <th><?= __('Assist to session: ') ?></th>
                     <td>
                         <?php if ($url):
-                            echo $this->Html->link(__('Assist to your class'), $url, ['id' => 'start', 'name'=>$session->id]);
+                            echo $this->Html->link(__('Assist to your class'), $url, ['id' => 'start', 'name'=>$session->id, 'class' => 'btn ed_btn pull-right ed_orange pull-right small']);
                         else:
                             echo __('Your class is not available yet');
                         endif;
