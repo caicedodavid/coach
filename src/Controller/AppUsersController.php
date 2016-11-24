@@ -111,8 +111,10 @@ class AppUsersController extends UsersController
     {
         $user = $this->getUser();
         if($this->isCoach($user)) {
+            $this->set('isCoach', true);
             $this->view($user['id']);
             $this->render("coach_profile");
+
         }
         else {
             $this->userProfile($user['id']);
