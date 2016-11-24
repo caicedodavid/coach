@@ -11,6 +11,7 @@
       var payDateOptions={
         format: 'YYYY-MM-DD',
         minDate: d,
+        disabledDates: [d],
         useCurrent: true
       };
       var sessionOptions={
@@ -127,5 +128,13 @@
         var textnode = document.createTextNode("You are going to pay to this coach " + value.toString() + "$");
         newItem.appendChild(textnode);
         $("#price-text").replaceWith(newItem);
+      });
+
+      $('#payment-form').click(function() {  
+        var checkboxes = $("input[type='checkbox']"),
+            submitButt = $("#pay-button"); 
+        checkboxes.click(function() {
+          submitButt.attr("disabled", !checkboxes.is(":checked"));
+        });
       });
  });

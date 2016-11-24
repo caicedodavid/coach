@@ -1,6 +1,6 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
 <div class="users">
-<?= $this->Form->create(null, ['url' => ['action' => 'makePayments', 'controller' => 'AdminSessions'], 'id' => 'payment-form']);?>
+<?= $this->Form->create(null, ['id' => 'payment-form']);?>
     <h3><?= __('Coaches') ?></h3>
     <table cellpadding="0" cellspacing="0" class="table table-striped">
         <thead>
@@ -12,20 +12,20 @@
             </tr>
         </thead>
         <tbody>
-            <?php $id = 0?>
+            <?php $i = 0?>
             <?php foreach ($sessions as $session): ?>
             <tr>
-                <?php $price = $session->topic->price - $session->topic->price * 0.01 * $session->liability->commission?>
+                <?php $price = $session->topic->price - $session->topic->price * $session->pending_liability->commission?>
                 <td><?= $session->subject ?></td>
                 <td><?= $session->schedule ?></td>
                 <td><?= $this->Number->currency($price, 'USD')?></td>
-                <td><?= $this->Form->checkbox($id, ['value' => $session->id, 'price' => $price]);?></td>
-                <?php $id +=1; ?>
+                <td><?= $this->Form->checkbox('Sessions.' . $i . '.id', ['value' => $session->id, 'price' => $price]);?></td>
+                <?php $i +=1; ?>
             </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
-    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal" id="pay-button">Submit</button>
+    <button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal" id="pay-button" disabled>Submit</button>
     <?= $this->Html->link(__('Cancel'), ['action' => 'unpaidCoaches', 'controller' => 'AdminSessions', 'plugin' => false], ['class' => 'btn btn-default pull-right']) ?>
     <div class="paginator">
         <ul class="pagination">
@@ -60,7 +60,7 @@
                         'inputContainer' => '<div class="input text required"><div class="input-group date" id="payment-date" name ="date">{{content}}<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>'
                     ],
                 ]);?>
-                <?= $this->Form->input('comments',['class' => 'form-control', 'type' => 'textarea']);?>
+                <?= $this->Form->input('observation',['class' => 'form-control', 'type' => 'textarea']);?>
             </fieldset>
       </div>
       <div class="modal-footer">

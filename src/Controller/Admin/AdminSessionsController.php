@@ -68,12 +68,16 @@ class AdminSessionsController extends SessionsController {
                 'Coaches.username'=> 'asc'
             ]
         ];
+        if ($this->request->is('post')) {      
+            $this->makePayments();
+        }
         $sessions = $this->paginate($this->Sessions);
         $this->set(compact('sessions'));
         $this->set('_serialize', ['sessions']);
     }
+
     /**
-     * make the payments
+     * Make the payments
      *
      * Method to pay sessions to a coach
      *
@@ -82,9 +86,11 @@ class AdminSessionsController extends SessionsController {
      */
     public function makePayments()
     {
-    	debug($this->request->data);
-    	exit();
-    	$this->render('Admin/AdminSessions/unpaidCoaches');
-
+        if($this->Sessions->payCoach($this->request->data)){
+            $this->Flash->success(__('All the sessions were payed'));
+            return $this->redirect(['action' => 'unpaidCoaches']); 
+        } else {
+            $this->Flash->error(__('Some sessions could not be paid'));
+        }  	
     }
 }

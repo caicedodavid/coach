@@ -120,6 +120,7 @@
 						</div>				
 					</div>
 				</fieldset>
+			<?= $this->Html->link(__('Cancel'), ['controller' => 'PaymentInfos', 'action' => 'cards', $this->request->session()->read('Auth.User.id')],['class' => 'ed_btn ed_green btn btn-default pull-right']) ?>
 			<?= $this->Form->button(__('Submit'),['class'=>'btn ed_btn pull-right ed_orange']) ?>
 			<?= $this->Form->end() ?>
 

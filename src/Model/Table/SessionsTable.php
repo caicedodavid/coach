@@ -14,6 +14,9 @@ use Cake\Mailer\MailerAwareTrait;
 use App\SessionAdapters\LiveSession;
 use App\Model\Entity\Session;
 use App\Model\Behavior\PaymentBehavior;
+use App\Model\Entity\Liability;
+use Cake\Utility\Hash;
+
 
 
 /**
@@ -220,7 +223,6 @@ class SessionsTable extends Table
 
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($session);
-        debug($response);
         return $response["class_id"];
     }
 
@@ -498,7 +500,7 @@ class SessionsTable extends Table
     public function findContainUserTopicPendingLiability(Query $query, array $options)
     {
         return $query->find('containUserTopic', $options)
-            ->find('containPendingLiability', $options);
+            ->find('containPendingLiability');
     }
 
     /**
@@ -514,6 +516,19 @@ class SessionsTable extends Table
             ->find('containUser')
             ->find('containCoach')
             ->find('containTopic');
+    }
+
+    /**
+     * Query for finding the session with Liability
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findSessionPendingLiability(Query $query, array $options)
+    {
+        $id = $options['id'];
+        return $query->where(['Sessions.id' => $id])
+            ->find('containPendingLiability');
     }
 
 
@@ -598,13 +613,15 @@ class SessionsTable extends Table
     public function refundSession($session,$isCoach)
     {
         if($isCoach){
-            $session->liability->status = $session->liability::STATUS_REFUND;
-            $session->liability->observation = 'The session was refunded to the user';
-            $this->Liabilities->save($session->liability);
+            $session->pending_liability->status = Liability::STATUS_REFUND;
+            $session->pending_liability->observation = 'The session was refunded to the user';
+            $session->pending_liability->date = date('Y-m-d',strtotime("now"));
+            $this->PendingLiabilities->save($session->pending_liability);
             $session->user->balance += isset($session->topic->price) ? $session->topic->price : 10;
             $this->Users->save($session->user);
         }
     }
+
     /**
      * Fix Data
      *
@@ -708,13 +725,42 @@ class SessionsTable extends Table
      */
     public function createLiability($session)
     {
-        $liability = $this->Liabilities->newEntity();
+        $liability = $this->PendingLiabilities->newEntity();
         $liability->fk_table = 'Sessions';
         $liability->fk_id = $session->id;
         $liability->amount = $session->topic->price * (1 - $session->coach->commission);
         $liability->commission = $session->coach->commission;
         $liability->status = $liability::STATUS_PENDING;
-        $this->Liabilities->save($liability); 
+        $this->PendingLiabilities->save($liability); 
+    }
+
+    /**
+     * Pay a coach for sessions 
+     *
+     * creates the Liability associated with the session
+     * @param  $session entity
+     * @return void
+     */
+    public function payCoach($data)
+    {   
+        $sessions =  Hash::extract($data, 'Sessions.{n}.id');
+        foreach ($sessions as $sessionId) {
+            if (!$sessionId) {
+                continue;
+            }
+            $session = $this->find('sessionPendingLiability', [
+                'id' => $sessionId,
+            ])
+            ->first();
+            $liability = $session->pending_liability;
+            $liability->status = Liability::STATUS_PAID;
+            $liability->observation = $data['observation'];
+            $liability->date = $data['date'];
+            if (!$this->PendingLiabilities->save($liability)) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
