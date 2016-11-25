@@ -35,7 +35,10 @@ class SessionsController extends AppController
         $this->paginate = [
             'limit' => 5,
             'finder' => [
-                $finder => ['user' => $user]
+                $finder => [
+                    'userId' => $user["id"],
+                    'role' => $user["role"],
+                ]
             ],
             'order' =>[
                 'Sessions.' . $columnOrder => $order
@@ -107,7 +110,8 @@ class SessionsController extends AppController
     	$user = $this->getUser();
         $session = $this->Sessions->find('data',[
             'id' => $id,
-            'user' => $user
+            'userId' => $user["id"],
+            'role' => $user["role"]
         ])
         ->first();
         $this->set('user', $user);
@@ -145,7 +149,8 @@ class SessionsController extends AppController
         $user = $this->getUser();
         $session = $this->Sessions->find('data',[
             'id' => $id,
-            'user' => $user
+            'userId' => $user["id"],
+            'role' => $user["role"]
         ])
         ->first();
         $response = $this->Sessions->getUrl($session,$user);
@@ -165,7 +170,8 @@ class SessionsController extends AppController
         $user = $this->getUser();
         $session = $this->Sessions->find('data',[
             'id' => $id,
-            'user' => $user
+            'userId' => $user["id"],
+            'role' => $user["role"]
         ])
         ->first();
         $response = $this->Sessions->getUrl($session,$user);
