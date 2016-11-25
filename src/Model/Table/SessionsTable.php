@@ -248,14 +248,14 @@ class SessionsTable extends Table
      */
     public function findPendingSessions(Query $query, array $options)
     {
+
         if (empty($options['userId']) or empty($options['role'])) {
             throw new InvalidArgumentException(__('userId or role are not defined'));
         }
-
         $userId = $options["userId"];
         $role = $options["role"];
         return $query
-            ->where(['Sessions.' . $role . "_id" => $userId])
+            ->where([$this->aliasField($role . "_id") => $userId])
             ->find('pending')
             ->find('contain', ['role'=>$role]);
     }
@@ -275,8 +275,8 @@ class SessionsTable extends Table
         $userId = $options["userId"];
         $role = $options["role"];
         return $query
-            ->where(['Sessions.' . $role . "_id" => $userId])
-            ->find('past')
+            ->where([$this->aliasField($role . "_id") => $userId])
+            ->find('historic')
             ->find('contain', ['role'=>$role]);
     }
 
@@ -316,7 +316,7 @@ class SessionsTable extends Table
         $userId = $options["userId"];
         $role = $options["role"];
         return $query
-            ->where(['Sessions.' . $role . "_id" => $userId])
+            ->where([$this->aliasField($role . "_id") => $userId])
             ->find('approved')
             ->find('contain', ['role' => $role]);
     }
@@ -351,6 +351,23 @@ class SessionsTable extends Table
     }
 
     /**
+     * Query for finding historic sessions
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findHistoric(Query $query, array $options)
+    {
+        return  $query = $query->where([
+            'OR'=>[
+                [$this->aliasField("status") => session::STATUS_PAST],
+                [$this->aliasField("status") => session::STATUS_REJECTED],
+                [$this->aliasField("status") => session::STATUS_CANCELED]
+            ]
+        ]);
+    }
+
+    /**
      * Query for finding past sessions
      * @param $query query object
      * @param $options options array
@@ -360,9 +377,7 @@ class SessionsTable extends Table
     {
         return  $query = $query->where([
             'OR'=>[
-                ['Sessions.status' => session::STATUS_PAST],
-                ['Sessions.status' => session::STATUS_REJECTED],
-                ['Sessions.status' => session::STATUS_CANCELED]
+                [$this->aliasField("status") => session::STATUS_PAST],
             ]
         ]);
     }
@@ -491,12 +506,11 @@ class SessionsTable extends Table
         }
 
         $userId = $options["userId"];
-        $query->find('containPendingLiability')
+        return $query->find('containPendingLiability')
             ->find('containUser')
             ->find('containTopic')
             ->where(['Sessions.coach_id' => $userId])
-            ->where(['Sessions.status' => session::STATUS_PAST]); 
-        return($query);
+            ->find('past');
     }
 
     /**
@@ -509,7 +523,7 @@ class SessionsTable extends Table
     {
         return $query->find('containPendingLiability')
             ->find('containCoach')
-            ->where(['Sessions.status' => session::STATUS_PAST])
+            ->find('past')
             ->select(['Coaches.id','Coaches.username', 'Coaches.first_name','Coaches.last_name'])
             ->group('Coaches.id');       
     }
