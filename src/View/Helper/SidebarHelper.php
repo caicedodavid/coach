@@ -16,7 +16,7 @@ class SidebarHelper extends Helper
      */
     public function tabs($user, $tab =  null)
     {
-        if($user->role === ROLE_COACH) {
+        if ($user->role === ROLE_COACH) {
             return [
                 'tabs' => [
                     'profile' => [
