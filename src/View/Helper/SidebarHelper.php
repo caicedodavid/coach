@@ -14,35 +14,59 @@ class SidebarHelper extends Helper
      * @param user user entity
      * @return array
      */
-    public function tabs($user)
+    public function tabs($user, $tab =  null)
     {
-        if ($user->role === ROLE_COACH){
+        if($user['role'] === ROLE_COACH) {
             return [
                 'tabs' => [
-                    'Profile' => [
-                        'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'], true
+                    'profile' => [
+                        'isActive' => PROFILE_TABS_PROFILE === $tab,
+                        'url' => ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'],
+                        'authLink' => false,
+                        'title' => __('Profile')
                     ],
-                    'Topics' => [
-                        'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'], true
+                    'topics' => [
+                        'isActive' => PROFILE_TABS_TOPICS === $tab,
+                        'url' => ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'],
+                        'authLink' => false,
+                        'title' => __('Topics')
                     ],
-                    'My Sessions' => [
-                        'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
-                    ]
+                    'sessions' => [
+                        'isActive' => PROFILE_TABS_SESSIONS === $tab,
+                        'url' => ['action' => 'approved', $user->id, 'controller' => 'Sessions'],
+                        'authLink' => true,
+                        'title' => __('My Sessions')
+                    ],
+                    'payments' => [
+                        'isActive' => PROFILE_TABS_LIABILITIES === $tab,
+                        'url' => ['action' => 'paidSessions', $user->id, 'controller' => 'Sessions'],
+                        'authLink' => true,
+                        'title' => __('Payments')
+                    ],
                 ],
                 'user' => $user
             ];
         } else {
             return [       
                 'tabs' => [
-                    'Profile' => [
-                        'null', ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers'], true
+                    'profile' => [
+                        'isActive' => PROFILE_TABS_PROFILE === $tab,
+                        'url' => ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers'],
+                        'authLink' => false,
+                        'title' => __('Profile')
                     ],
-                    'My Sessions' => [
-                        'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
+                    'sessions' => [
+                        'isActive' => PROFILE_TABS_SESSIONS === $tab,
+                        'url' => ['action' => 'approved', $user->id, 'controller' => 'Sessions'],
+                        'authLink' => true,
+                        'title' => __('My Sessions')
                     ],
-                    'Payment Information' => [
-                        'null', ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos'], false
-                    ]
+                    'payment_infos' => [
+                        'isActive' => PROFILE_TABS_PAYMENT_INFOS === $tab,
+                        'url' => ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos'],
+                        'authLink' => true,
+                        'title' => __('Payment Information')
+                    ],
                 ],
                 'user' => $user
             ];

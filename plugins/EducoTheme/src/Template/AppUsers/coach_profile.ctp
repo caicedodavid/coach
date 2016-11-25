@@ -3,23 +3,7 @@
     $this->assign('title', 'Coach');
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar', [
-        'tabs' => [
-            'Profile' => [
-                'active', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'], true
-            ],
-            'Topics' => [
-                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'], true
-            ],
-            'My Sessions' => [
-                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
-            ],
-            'Payments' => [
-                'null', ['action' => 'paidSessions', $user->id, 'controller' => 'Sessions'], false
-            ]
-        ],
-        'user' => $user
-    ])?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, PROFILE_TABS_PROFILE))?>
 <?php $this->end('tabs') ?>
 
 <ul class="nav nav-tabs" role="tablist">

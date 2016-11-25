@@ -7,17 +7,18 @@
 	 <div class="ed_tabs_left">
 		<ul class="nav nav-tabs">
 			<?php
-			 	foreach($tabs as $tabTitle => $content) {
-			 		if ($content[2]) {
-			 			echo $this->Html->tag('li', null, ["class" => $content[0]]);
-			 			echo $this->Html->link(__($tabTitle), array_merge($content[1],['data-toggle'=>"tab"]));
-			 			echo $this->Html->tag('/li');
-			 		} else {
-			 			if ($this->AuthLink->isAuthorized($content[1])) {
-			 				echo $this->Html->tag('li', null, ["class" => $content[0]]);
-			 				echo $this->AuthLink->link(__($tabTitle), array_merge($content[1],['data-toggle'=>"tab"]));
+			 	foreach($tabs as $tab) {
+			 		if ($tab['authLink']) {
+			 			if ($this->AuthLink->isAuthorized($tab['url'])) {
+			 				echo $this->Html->tag('li', null, ["class" => $tab['isActive'] ? 'active' : null]);
+			 				echo $this->AuthLink->link(__($tab['title']), array_merge($tab['url'],['data-toggle'=>"tab"]));
 			 				echo $this->Html->tag('/li');
-			 			}
+			 			}		
+			 		} else {
+			 			echo $this->Html->tag('li', null, ["class" => $tab['isActive'] ? 'active' : null]);
+			 			echo $this->Html->link(__($tab['title']), array_merge($tab['url'],['data-toggle'=>"tab"]));
+			 			echo $this->Html->tag('/li');
+			 			
 			 		}
 			 	}
 			?>
