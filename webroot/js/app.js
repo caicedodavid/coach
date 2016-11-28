@@ -140,7 +140,6 @@
 
       $(document).on("click", ".cancel-session", function () {
         var sessionId = this.getAttribute('id');
-        console.log(sessionId);
         $("input[name=id]").val(sessionId);
         console.log($("input[name=id]"));
       });

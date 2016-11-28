@@ -1,1 +1,1 @@
-<a href="#" class="btn ed_btn ed_orange pull-right small cancel-session" data-toggle="modal" data-target="#myModal" id=<?=(string)$session->id;?>  ><?= __($button)?></a>
+<?= $this->Html->link(__($button),'#', ["class" => "btn ed_btn ed_orange pull-right small cancel-session",  "data-toggle" => "modal", "data-target" => "#myModal", "id" => $session->id]);?>
