@@ -35,3 +35,28 @@
         </div>
     </div>
 </div>
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title"><?= __('Cancel Session') ?></h4>
+            </div>
+            <div class="modal-body">
+                <?= $this->Form->create(null, ['url' => ['plugin' => false,'action' => 'cancelSession', $session->id, 'controller' => 'Sessions'], 'novalidate' => true]);?>
+                <?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>
+                <fieldset id='fields'>
+                    <?= $this->Form->input('observation',['type' => 'textarea', 'label' => __('Why do you want to cancel this session?'), 'required' => true]);?>
+                    <?= $this->Form->hidden('id', ["value" => $session->id]);?>
+                </fieldset>
+            </div>
+            <div class="modal-footer">
+                <?= $this->Form->unlockField('observation');?>
+                <?= $this->Form->unlockField('id');?>
+                <?= $this->Form->button(__('Cancel Session'), ['class' => 'ed_btn ed_orange medium btn btn-primary pull-right'])?>
+                <?= $this->Form->end() ?>
+            </div>
+        </div>
+    </div>
+</div>

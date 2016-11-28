@@ -416,14 +416,15 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->find('containUserTopicPendingLiability', [
-            'id' => $id,
+            'id' => (int) $this->request->data['id'],
         ])
         ->first();
+        $observation = $this->request->data['observation'];
         $session['status'] = Session::STATUS_CANCELED;
-        $this->Sessions->refundSession($session,$this->isCoach($this->getUser()));
+        $this->Sessions->refundSession($session, $this->isCoach($this->getUser()), $observation);
         $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
-            $this->Sessions->sendEmail($session,$this->getUser()['role'] . 'CancelMail');
+            $this->Sessions->sendEmail($session, $this->getUser()['role'] . 'CancelMail', $observation);
             $this->Flash->success(__('The session has been Canceled.'));
         } else {
             $this->Flash->error(__('The session could not be canceled. Please try again later'));

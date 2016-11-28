@@ -1,2 +1,1 @@
-<?= $this->Form->postLink(__($button),['plugin' => false,'action' => 'cancelSession',$session->id,$action, 'controller' => 'Sessions'], 
-                            ['class' => 'btn ed_btn ed_green pull-right small', 'method'=>'post','id' =>'decline','confirm' => __($message)]);?>
+<a href="#" class="btn ed_btn ed_orange pull-right small cancel-session" data-toggle="modal" data-target="#myModal" id=<?=(string)$session->id;?>  ><?= __($button)?></a>

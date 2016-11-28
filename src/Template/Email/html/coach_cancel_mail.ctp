@@ -19,6 +19,9 @@
     <?= __("Because of this, you will be added {0} to your balance", $this->Number->currency(isset($session->topic->price) ? $session->topic->price : 10, 'USD'));?>
 </p>
 <p>
+    <?= __("Coach comments: {0}", $message);?>
+</p>
+<p>
     <strong><?= __("Coach information:") ?></strong>
 </p>
 <p>

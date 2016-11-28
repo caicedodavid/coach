@@ -610,11 +610,11 @@ class SessionsTable extends Table
      * @param $session session entity
      * @return $data Array
      */
-    public function refundSession($session,$isCoach)
+    public function refundSession($session, $isCoach, $observation)
     {
         if($isCoach){
             $session->pending_liability->status = Liability::STATUS_REFUND;
-            $session->pending_liability->observation = 'The session was refunded to the user';
+            $session->pending_liability->observation = $observation;
             $session->pending_liability->date = date('Y-m-d',strtotime("now"));
             $this->PendingLiabilities->save($session->pending_liability);
             $session->user->balance += isset($session->topic->price) ? $session->topic->price : 10;
