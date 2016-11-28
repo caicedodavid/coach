@@ -3,6 +3,7 @@
 namespace App\View\Helper;
 
 use Cake\View\Helper;
+use App\Controller\AppUsersController;
 
 class SidebarHelper extends Helper
 {
@@ -20,27 +21,27 @@ class SidebarHelper extends Helper
             return [
                 'tabs' => [
                     'profile' => [
-                        'isActive' => PROFILE_TABS_PROFILE === $tab,
+                        'isActive' => AppUsersController::PROFILE_TABS_PROFILE === $tab,
                         'url' => ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'],
-                        'authLink' => false,
+                        'isAuthLink' => false,
                         'title' => __('Profile')
                     ],
                     'topics' => [
-                        'isActive' => PROFILE_TABS_TOPICS === $tab,
+                        'isActive' => AppUsersController::PROFILE_TABS_TOPICS === $tab,
                         'url' => ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'],
-                        'authLink' => false,
+                        'isAuthLink' => false,
                         'title' => __('Topics')
                     ],
                     'sessions' => [
-                        'isActive' => PROFILE_TABS_SESSIONS === $tab,
+                        'isActive' => AppUsersController::PROFILE_TABS_SESSIONS === $tab,
                         'url' => ['action' => 'approved', $user->id, 'controller' => 'Sessions'],
-                        'authLink' => true,
+                        'isAuthLink' => true,
                         'title' => __('My Sessions')
                     ],
                     'payments' => [
-                        'isActive' => PROFILE_TABS_LIABILITIES === $tab,
+                        'isActive' => AppUsersController::PROFILE_TABS_LIABILITIES === $tab,
                         'url' => ['action' => 'paidSessions', $user->id, 'controller' => 'Sessions'],
-                        'authLink' => true,
+                        'isAuthLink' => true,
                         'title' => __('Payments')
                     ],
                 ],
@@ -50,21 +51,21 @@ class SidebarHelper extends Helper
             return [       
                 'tabs' => [
                     'profile' => [
-                        'isActive' => PROFILE_TABS_PROFILE === $tab,
+                        'isActive' => AppUsersController::PROFILE_TABS_PROFILE === $tab,
                         'url' => ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers'],
-                        'authLink' => false,
+                        'isAuthLink' => false,
                         'title' => __('Profile')
                     ],
                     'sessions' => [
-                        'isActive' => PROFILE_TABS_SESSIONS === $tab,
+                        'isActive' => AppUsersController::PROFILE_TABS_SESSIONS === $tab,
                         'url' => ['action' => 'approved', $user->id, 'controller' => 'Sessions'],
-                        'authLink' => true,
+                        'isAuthLink' => true,
                         'title' => __('My Sessions')
                     ],
                     'payment_infos' => [
-                        'isActive' => PROFILE_TABS_PAYMENT_INFOS === $tab,
+                        'isActive' => AppUsersController::PROFILE_TABS_PAYMENT_INFOS === $tab,
                         'url' => ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos'],
-                        'authLink' => true,
+                        'isAuthLink' => true,
                         'title' => __('Payment Information')
                     ],
                 ],

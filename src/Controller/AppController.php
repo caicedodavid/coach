@@ -58,14 +58,6 @@ class AppController extends Controller
      */
     public function beforeRender(Event $event)
     {
-        define('PROFILE_TABS_PROFILE', '1');
-        define('PROFILE_TABS_SESSIONS', '2');
-        define('PROFILE_TABS_TOPICS', '3');
-        define('PROFILE_TABS_PAYMENT_INFOS', '4');
-        define('PROFILE_TABS_LIABILITIES', '5');
-
-        //define('PROFILE_TABS_SESSION', '1');
-
         $this->set('userAuth',$this->Auth->user());
         $this->_setTheme();
         if (!array_key_exists('_serialize', $this->viewVars) &&

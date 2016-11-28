@@ -8,7 +8,7 @@
 		<ul class="nav nav-tabs">
 			<?php
 			 	foreach($tabs as $tab) {
-			 		if ($tab['authLink']) {
+			 		if ($tab['isAuthLink']) {
 			 			if ($this->AuthLink->isAuthorized($tab['url'])) {
 			 				echo $this->Html->tag('li', null, ["class" => $tab['isActive'] ? 'active' : null]);
 			 				echo $this->AuthLink->link(__($tab['title']), array_merge($tab['url'],['data-toggle'=>"tab"]));
@@ -17,8 +17,7 @@
 			 		} else {
 			 			echo $this->Html->tag('li', null, ["class" => $tab['isActive'] ? 'active' : null]);
 			 			echo $this->Html->link(__($tab['title']), array_merge($tab['url'],['data-toggle'=>"tab"]));
-			 			echo $this->Html->tag('/li');
-			 			
+			 			echo $this->Html->tag('/li');		 			
 			 		}
 			 	}
 			?>

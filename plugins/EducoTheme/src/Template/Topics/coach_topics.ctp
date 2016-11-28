@@ -1,8 +1,10 @@
-<?= $this->extend('/Element/AppUsers/dashbord_sidebar');
+<?php 
+    use App\Controller\AppUsersController;
+    $this->extend('/Element/AppUsers/dashbord_sidebar');
     $this->assign('title', 'Coach');
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, PROFILE_TABS_TOPICS))?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_TOPICS))?>
 <?php $this->end('tabs') ?>
 
 <ul class="nav nav-tabs" role="tablist">

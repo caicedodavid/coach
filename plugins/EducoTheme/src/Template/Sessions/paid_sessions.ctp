@@ -1,9 +1,11 @@
-<?= $this->extend('/Element/Liabilities/liability_tabs');
+<?php
+    use App\Controller\AppUsersController;
+    $this->extend('/Element/Liabilities/liability_tabs');
     $this->assign('typeSession', "paid");
     $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, PROFILE_TABS_LIABILITIES))?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_LIABILITIES))?>
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">

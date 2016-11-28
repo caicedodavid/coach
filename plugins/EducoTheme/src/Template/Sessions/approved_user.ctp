@@ -1,9 +1,11 @@
-<?= $this->extend('/Element/Sessions/session_tabs');
+<?php 
+    use App\Controller\AppUsersController;
+    $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "approved");
     $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, PROFILE_TABS_SESSIONS))?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_SESSIONS))?>
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">
