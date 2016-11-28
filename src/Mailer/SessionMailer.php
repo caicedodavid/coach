@@ -109,4 +109,19 @@ class SessionMailer extends Mailer
             ->emailFormat('html')
             ->viewVars(compact('user','coach','session','message'));
     }
+
+    /**
+     * Send the coach an Email when he is payed
+     *
+     * @param User entity, coach entity, session entity
+     *
+     */ 
+    public function paymentMail($coach, $sessions, $amount, $message)
+    {
+        $this
+            ->to($coach["email"])
+            ->subject(sprintf('You have been payed'))
+            ->emailFormat('html')
+            ->viewVars(compact('coach', 'sessions', 'amount', 'message'));
+    }
 }
