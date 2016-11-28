@@ -248,10 +248,14 @@ class SessionsTable extends Table
      */
     public function findPendingSessions(Query $query, array $options)
     {
-        $user = $options["user"];
-        $role = $user["role"];
+
+        if (empty($options['userId']) or empty($options['role'])) {
+            throw new InvalidArgumentException(__('userId or role are not defined'));
+        }
+        $userId = $options["userId"];
+        $role = $options["role"];
         return $query
-            ->where(['Sessions.' . $role . "_id" => $user["id"]])
+            ->where([$this->aliasField($role . "_id") => $userId])
             ->find('pending')
             ->find('contain', ['role'=>$role]);
     }
@@ -264,11 +268,15 @@ class SessionsTable extends Table
      */
     public function findHistoricSessions(Query $query, array $options)
     {
-        $user = $options["user"];
-        $role = $user["role"];
+        if (empty($options['userId']) or empty($options['role'])) {
+            throw new InvalidArgumentException(__('userId or role are not defined'));
+        }
+
+        $userId = $options["userId"];
+        $role = $options["role"];
         return $query
-            ->where(['Sessions.' . $role . "_id" => $user["id"]])
-            ->find('past')
+            ->where([$this->aliasField($role . "_id") => $userId])
+            ->find('historic')
             ->find('contain', ['role'=>$role]);
     }
 
@@ -280,9 +288,13 @@ class SessionsTable extends Table
      */
     public function findData(Query $query, array $options)
     {
+        if (empty($options['userId']) or empty($options['role']) or empty($options['id'])) {
+            throw new InvalidArgumentException(__('userId or role or id are not defined'));
+        }
+
         $id = $options["id"];
-        $user = $options["user"];
-        $role = $user["role"];
+        $userId = $options["userId"];
+        $role = $options["role"];
         return $query
             ->where(['Sessions.id' => $id])
             ->find('contain', ['role'=>$role])
@@ -297,10 +309,14 @@ class SessionsTable extends Table
      */
     public function findApprovedSessions(Query $query, array $options)
     {
-        $user = $options["user"];
-        $role = $user["role"];
+        if (empty($options['userId']) or empty($options['role'])) {
+            throw new InvalidArgumentException(__('userId or role are not defined'));
+        }
+
+        $userId = $options["userId"];
+        $role = $options["role"];
         return $query
-            ->where(['Sessions.' . $role . "_id" => $user["id"]])
+            ->where([$this->aliasField($role . "_id") => $userId])
             ->find('approved')
             ->find('contain', ['role' => $role]);
     }
@@ -335,6 +351,23 @@ class SessionsTable extends Table
     }
 
     /**
+     * Query for finding historic sessions
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findHistoric(Query $query, array $options)
+    {
+        return  $query = $query->where([
+            'OR'=>[
+                [$this->aliasField("status") => session::STATUS_PAST],
+                [$this->aliasField("status") => session::STATUS_REJECTED],
+                [$this->aliasField("status") => session::STATUS_CANCELED]
+            ]
+        ]);
+    }
+
+    /**
      * Query for finding past sessions
      * @param $query query object
      * @param $options options array
@@ -344,9 +377,7 @@ class SessionsTable extends Table
     {
         return  $query = $query->where([
             'OR'=>[
-                ['Sessions.status' => session::STATUS_PAST],
-                ['Sessions.status' => session::STATUS_REJECTED],
-                ['Sessions.status' => session::STATUS_CANCELED]
+                [$this->aliasField("status") => session::STATUS_PAST],
             ]
         ]);
     }
@@ -449,11 +480,15 @@ class SessionsTable extends Table
      */
     public function findPaidCoach(Query $query, array $options)
     {
-        $user = $options["user"];
+        if (empty($options['userId'])) {
+            throw new InvalidArgumentException(__('userId is not defined'));
+        }
+
+        $userId = $options["userId"];
         $query->find('containPaidLiability')
             ->find('containUser')
             ->find('containTopic')
-            ->where(['Sessions.coach_id' => $user['id']])
+            ->where(['Sessions.coach_id' => $userId])
             ->where(['Sessions.status' => session::STATUS_PAST]); 
         return($query);
     }
@@ -466,13 +501,16 @@ class SessionsTable extends Table
      */
     public function findUnpaidCoach(Query $query, array $options)
     {
-        $user = $options["user"];
-        $query->find('containPendingLiability')
+        if (empty($options['userId'])) {
+            throw new InvalidArgumentException(__('userId is not defined'));
+        }
+
+        $userId = $options["userId"];
+        return $query->find('containPendingLiability')
             ->find('containUser')
             ->find('containTopic')
-            ->where(['Sessions.coach_id' => $user['id']])
-            ->where(['Sessions.status' => session::STATUS_PAST]); 
-        return($query);
+            ->where(['Sessions.coach_id' => $userId])
+            ->find('past');
     }
 
     /**
@@ -485,7 +523,7 @@ class SessionsTable extends Table
     {
         return $query->find('containPendingLiability')
             ->find('containCoach')
-            ->where(['Sessions.status' => session::STATUS_PAST])
+            ->find('past')
             ->select(['Coaches.id','Coaches.username', 'Coaches.first_name','Coaches.last_name'])
             ->group('Coaches.id');       
     }
@@ -511,6 +549,10 @@ class SessionsTable extends Table
      */
     public function findContainUserTopic(Query $query, array $options)
     {
+        if (empty($options['id'])) {
+            throw new InvalidArgumentException(__('id is not defined'));
+        }
+
         $id = $options['id'];
         return $query->where(['Sessions.id' => $id])
             ->find('containUser')
@@ -526,6 +568,10 @@ class SessionsTable extends Table
      */
     public function findSessionPendingLiability(Query $query, array $options)
     {
+        if (empty($options['id'])) {
+            throw new InvalidArgumentException(__('id is not defined'));
+        }
+        
         $id = $options['id'];
         return $query->where(['Sessions.id' => $id])
             ->find('containPendingLiability');
