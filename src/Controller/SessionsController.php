@@ -289,12 +289,11 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function rateUser()
+    public function rateUser($id = null)
     {
-
         $user =$this->getUser();
         $appSession = $this->request->session();
-        $id = $appSession->read('Class.id');
+        $id = $id ? $id: $appSession->read('Class.id');
         if (!$id) {
             $this->Flash->error(__('Invalid Action'));
             return $this->redirect(['action' => 'display','controller' => 'Pages']);
@@ -305,6 +304,7 @@ class SessionsController extends AppController
             $session = $this->Sessions->patchEntity($session,$this->request->data);
             if ($this->Sessions->save($session)) {
                 $appSession->delete('Class.id');
+                $this->Sessions->Users->updateCoachRating($session->coach_id);
                 $this->Flash->success(__('Thank you for your rating.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {

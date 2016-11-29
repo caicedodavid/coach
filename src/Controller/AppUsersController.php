@@ -99,7 +99,8 @@ class AppUsersController extends UsersController
     public function coachProfile($id)
     {
         $this->set('isCoach', $this->isCoach($this->getUser()));
-        $this->view($id);    
+        $this->view($id);
+        $this->AppUsers->updateCoachRating($id);
     }
 
     /**

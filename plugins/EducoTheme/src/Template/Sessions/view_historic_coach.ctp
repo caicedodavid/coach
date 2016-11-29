@@ -1,4 +1,4 @@
-<?php use Cake\Routing\Router ?>
+<?php use Cake\Routing\Router; ?>
 <?= $this->extend('/Element/Sessions/session_layout');?>
 <?php $this->start('banner') ?>
     <?php echo $this->element('banner', ['title' => 'Past Session']); ?>
@@ -10,8 +10,8 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">Details</a></li>
-    <li role="presentation"><a href="#rating" aria-controls="rating" role="tab" data-toggle="tab">Rating</a></li>
-    <li role="presentation"><a href="#user-comments" aria-controls="user-comments" role="tab" data-toggle="tab">Coachee</a></li>
+    <li role="presentation"><a href="#rating" aria-controls="rating" role="tab" data-toggle="tab">My Rating</a></li>
+    <li role="presentation"><a href="#user-comments" aria-controls="user-comments" role="tab" data-toggle="tab">Coachee Comments</a></li>
 </ul>
 <!-- Tab panes -->
 <div class="tab-content">
@@ -26,7 +26,7 @@
         <div class="ed_course_tabconetent">       
             <?php if(!$session->coach_rating):?>
                 <br>
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Rate this Session</button>
+                <button type="button" class="ed_btn ed_green" data-toggle="modal" data-target="#myModal">Rate this Session</button>
             <?php else:
                 echo '<input id="rate-input" value="' . (string)$session->coach_rating . '" class="rating rate-input" data-size="xs">';
                 echo "<br>";
@@ -66,6 +66,5 @@
         <?= $this->Form->end() ?>
       </div>
     </div>
-
   </div>
 </div>
