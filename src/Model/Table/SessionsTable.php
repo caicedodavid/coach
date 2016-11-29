@@ -16,6 +16,7 @@ use App\Model\Entity\Session;
 use App\Model\Behavior\PaymentBehavior;
 use App\Model\Entity\Liability;
 use Cake\Utility\Hash;
+use Cake\Core\Configure;
 
 
 
@@ -250,7 +251,7 @@ class SessionsTable extends Table
     {
 
         if (empty($options['userId']) or empty($options['role'])) {
-            throw new InvalidArgumentException(__('userId or role are not defined'));
+            throw new \InvalidArgumentException(__('userId or role are not defined'));
         }
         $userId = $options["userId"];
         $role = $options["role"];
@@ -269,7 +270,7 @@ class SessionsTable extends Table
     public function findHistoricSessions(Query $query, array $options)
     {
         if (empty($options['userId']) or empty($options['role'])) {
-            throw new InvalidArgumentException(__('userId or role are not defined'));
+            throw new \InvalidArgumentException(__('userId or role are not defined'));
         }
 
         $userId = $options["userId"];
@@ -289,7 +290,7 @@ class SessionsTable extends Table
     public function findData(Query $query, array $options)
     {
         if (empty($options['userId']) or empty($options['role']) or empty($options['id'])) {
-            throw new InvalidArgumentException(__('userId or role or id are not defined'));
+            throw new \InvalidArgumentException(__('userId or role or id are not defined'));
         }
 
         $id = $options["id"];
@@ -310,7 +311,7 @@ class SessionsTable extends Table
     public function findApprovedSessions(Query $query, array $options)
     {
         if (empty($options['userId']) or empty($options['role'])) {
-            throw new InvalidArgumentException(__('userId or role are not defined'));
+            throw new \InvalidArgumentException(__('userId or role are not defined'));
         }
 
         $userId = $options["userId"];
@@ -481,7 +482,7 @@ class SessionsTable extends Table
     public function findPaidCoach(Query $query, array $options)
     {
         if (empty($options['userId'])) {
-            throw new InvalidArgumentException(__('userId is not defined'));
+            throw new \InvalidArgumentException(__('userId is not defined'));
         }
 
         $userId = $options["userId"];
@@ -502,7 +503,7 @@ class SessionsTable extends Table
     public function findUnpaidCoach(Query $query, array $options)
     {
         if (empty($options['userId'])) {
-            throw new InvalidArgumentException(__('userId is not defined'));
+            throw new \InvalidArgumentException(__('userId is not defined'));
         }
 
         $userId = $options["userId"];
@@ -550,7 +551,7 @@ class SessionsTable extends Table
     public function findContainUserTopic(Query $query, array $options)
     {
         if (empty($options['id'])) {
-            throw new InvalidArgumentException(__('id is not defined'));
+            throw new \InvalidArgumentException(__('id is not defined'));
         }
 
         $id = $options['id'];
@@ -569,12 +570,13 @@ class SessionsTable extends Table
     public function findSessionPendingLiability(Query $query, array $options)
     {
         if (empty($options['id'])) {
-            throw new InvalidArgumentException(__('id is not defined'));
+            throw new \InvalidArgumentException(__('id is not defined'));
         }
         
         $id = $options['id'];
         return $query->where(['Sessions.id' => $id])
-            ->find('containPendingLiability');
+            ->find('containPendingLiability')
+            ->find('containUser');
     }
 
 
@@ -775,7 +777,7 @@ class SessionsTable extends Table
         $liability->fk_table = 'Sessions';
         $liability->fk_id = $session->id;
         $liability->amount = $session->topic->price * (1 - $session->coach->commission);
-        $liability->commission = $session->coach->commission;
+        $liability->commission = $session->coach->commission ? $session->coach->commission : Configure::read('Coach.defaultCommission');
         $liability->status = $liability::STATUS_PENDING;
         $this->PendingLiabilities->save($liability); 
     }
@@ -787,10 +789,11 @@ class SessionsTable extends Table
      * @param  $session entity
      * @return void
      */
-    public function payCoach($data)
+    public function payCoach($data, $coach)
     {   
-        $sessions =  Hash::extract($data, 'Sessions.{n}.id');
-        foreach ($sessions as $sessionId) {
+        $sessionsId =  Hash::extract($data, 'Sessions.{n}.id');
+        $sessions = [];
+        foreach ($sessionsId as $sessionId) {
             if (!$sessionId) {
                 continue;
             }
@@ -798,6 +801,7 @@ class SessionsTable extends Table
                 'id' => $sessionId,
             ])
             ->first();
+            $sessions[] = $session; 
             $liability = $session->pending_liability;
             $liability->status = Liability::STATUS_PAID;
             $liability->observation = $data['observation'];
@@ -805,7 +809,9 @@ class SessionsTable extends Table
             if (!$this->PendingLiabilities->save($liability)) {
                 return false;
             }
+
         }
+        $this->getMailer('Session')->send('paymentMail', [$coach, $sessions, $data['total'], $data['observation']]);
         return true;
     }
 

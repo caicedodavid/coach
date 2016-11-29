@@ -128,6 +128,7 @@
         var textnode = document.createTextNode("You are going to pay to this coach " + value.toString() + "$");
         newItem.appendChild(textnode);
         $("#price-text").replaceWith(newItem);
+        $("input[name='total']").val(value);
       });
 
       $('#payment-form').click(function() {  

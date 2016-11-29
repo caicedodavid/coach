@@ -1,7 +1,7 @@
 <nav class="large-3 medium-4 columns" id="actions-sidebar">
 <div class="users">
 <?= $this->Form->create(null, ['id' => 'payment-form']);?>
-    <h3><?= __('Coaches') ?></h3>
+    <h3><?= $coach?></h3>
     <table cellpadding="0" cellspacing="0" class="table table-striped">
         <thead>
             <tr>
@@ -61,6 +61,8 @@
                     ],
                 ]);?>
                 <?= $this->Form->input('observation',['class' => 'form-control', 'type' => 'textarea']);?>
+                <?= $this->Form->hidden('total');?>
+                <?= $this->Form->unlockField('total');?>
             </fieldset>
       </div>
       <div class="modal-footer">
