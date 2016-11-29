@@ -77,7 +77,7 @@ class SessionMailer extends Mailer
             ->to($user["email"])
             ->subject(sprintf('The coach %s canceled a session with you', $coach["full_name"]))
             ->emailFormat('html')
-            ->viewVars(compact('user','coach','session'));
+            ->viewVars(compact('user','coach','session','message'));
     }
 
     /**

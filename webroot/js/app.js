@@ -137,4 +137,10 @@
           submitButt.attr("disabled", !checkboxes.is(":checked"));
         });
       });
+
+      $(document).on("click", ".cancel-session", function () {
+        var sessionId = this.getAttribute('id');
+        $("input[name=id]").val(sessionId);
+        console.log($("input[name=id]"));
+      });
  });
