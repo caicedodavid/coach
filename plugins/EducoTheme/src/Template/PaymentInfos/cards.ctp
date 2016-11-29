@@ -1,22 +1,10 @@
 <?php
+    use App\Controller\AppUsersController;
     $this->extend('/Element/AppUsers/dashbord_sidebar');
     $this->assign('title', 'Coachee');
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar', [
-        'tabs' => [
-            'Profile' => [
-                'null', ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers'], true
-            ],
-            'My Sessions' => [
-                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
-            ],
-            'Payment Information' => [
-                'active', ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos'], false
-            ]
-        ],
-        'user' => $user
-    ])?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_PAYMENT_INFOS))?>
 <?php $this->end('tabs') ?>
 
 <ul class="nav nav-tabs" role="tablist">

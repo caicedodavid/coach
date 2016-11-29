@@ -1,25 +1,11 @@
-<?= $this->extend('/Element/Liabilities/liability_tabs');
+<?php 
+    use App\Controller\AppUsersController;
+    $this->extend('/Element/Liabilities/liability_tabs');
     $this->assign('typeSession', "unpaid");
     $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar', [
-        'tabs' => [
-            'Profile' => [
-                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'], true
-            ],
-            'Topics' => [
-                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'], true
-            ],
-            'My Sessions' => [
-                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
-            ],
-            'Payments' => [
-                'active', ['action' => 'paidSessions', $user->id, 'controller' => 'Sessions'], false
-            ]
-        ],
-        'user' => $user
-    ])?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_LIABILITIES))?>
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">

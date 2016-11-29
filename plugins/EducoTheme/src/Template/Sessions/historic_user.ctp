@@ -1,22 +1,11 @@
-<?= $this->extend('/Element/Sessions/session_tabs');
+<?php 
+    use App\Controller\AppUsersController;
+    $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "historic");
     $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar', [
-        'tabs' => [
-            'Profile' => [
-                'null', ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers'], true
-            ],
-            'My Sessions' => [
-                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
-            ],
-            'Payment Information' => [
-                'null', ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos'], false
-            ]
-        ],
-        'user' => $user
-    ])?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_SESSIONS))?>
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">
