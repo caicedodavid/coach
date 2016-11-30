@@ -140,3 +140,6 @@ span.payment-errors span {
 #image-lable {
     font-family: 'Roboto Slab', serif;
 }
+#topic-pagination{
+    padding-left: 20px
+}
