@@ -100,7 +100,6 @@ class AppUsersController extends UsersController
     {
         $this->set('isCoach', $this->isCoach($this->getUser()));
         $this->view($id);
-        $this->AppUsers->updateCoachRating($id);
     }
 
     /**

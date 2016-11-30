@@ -222,7 +222,7 @@ class AppUsersTable extends UsersTable
 
         $ratings = Hash::extract($user->coach_sessions,'{n}.user_rating');
         $user->rating = array_sum($ratings) / count($ratings); 
-        return($this->save($user)); 
+        return $this->save($user); 
     }
     
     
