@@ -330,12 +330,14 @@ class SessionsTable extends Table
      */
     public function findApproved(Query $query, array $options)
     {
-        return  $query = $query->where([
-            'OR'=>[
-                ['Sessions.status' => session::STATUS_APPROVED],
-                ['Sessions.status' => session::STATUS_RUNNING]
-            ]
-        ]);
+        return  $query = $query
+            ->where([
+                'OR'=>[
+                    ['Sessions.status' => session::STATUS_APPROVED],
+                    ['Sessions.status' => session::STATUS_RUNNING]
+                ]
+            ])
+            ->where(['Sessions.schedule >=' => date('Y-m-d H:i',strtotime("+1 hour"))]);
     }
 
     /**
