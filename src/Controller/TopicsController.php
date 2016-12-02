@@ -66,8 +66,8 @@ class TopicsController extends AppController
     public function coachTopics($id = null)
     {
         $user = $this->getUser();
-        $id  = $id? $id: $user['id'];
-        if($this->isCoach($user)) {
+
+        if ($id === $user['id']) {
             $this->profileTopics($id);
         }
         else{
@@ -202,7 +202,7 @@ class TopicsController extends AppController
             if ($this->Topics->save($topic)) {
                 $this->Flash->success(__('The topic has been saved.'));
 
-                return $this->redirect(['action' => 'coachTopics']);
+                return $this->redirect(['action' => 'view', $id]);
             } else {
                 $this->Flash->error(__('The topic could not be saved. Please, try again.'));
             }

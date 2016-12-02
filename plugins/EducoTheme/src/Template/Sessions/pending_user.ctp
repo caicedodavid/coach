@@ -26,7 +26,7 @@
                                         <span><?= $this->Html->link(__($session->coach['full_name']), ['action' => 'coachProfile', $session->coach['id'], 'controller' => 'AppUsers']) ?></span>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewPendingUser', $session->id]);?>
+                                                <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                 <?= $session->schedule ?>

@@ -44,7 +44,7 @@ class AppUsersTable extends UsersTable
             'foreignKey' => 'user_id',
             'className' => 'Sessions',
         ]);
-        $this->hasMany('Coaches', [
+        $this->hasMany('CoachSessions', [
             'foreignKey' => 'coach_id',
             'className' => 'Sessions',
         ]);
@@ -155,6 +155,37 @@ class AppUsersTable extends UsersTable
             ])
             ->contain('UserImage');
     }
+
+    /**
+     * Finder method for finding the rated sessions of a coach
+     *
+     * @return Query
+     */
+    public function findRatedByCoach(Query $query, array $options)
+    {
+        if (empty($options['userId'])) {
+            throw new \InvalidArgumentException(__('userId is not defined'));
+        }
+        $userId = $options["userId"];
+        return $query->where([
+                $this->aliasField("id") => $userId
+            ])
+            ->find('containCoachesRated');
+    }
+
+    /**
+     * Finder method for finding the rated sessions of a coach
+     *
+     * @return Query
+     */
+    public function findContainCoachesRated(Query $query, array $options)
+    {
+        return $query->contain(['CoachSessions' => function (Query $query) {
+            return $query->select(['user_rating', 'coach_id'])
+                ->where(['CoachSessions.user_rating IS NOT' => null]);
+        }]);
+    }
+
     /**
      * Validator function to check if user is out of age
      *
@@ -177,6 +208,21 @@ class AppUsersTable extends UsersTable
     {
         return $this->PaymentInfos->find('userCards',['user' => $user])
             ->count() > 0;
+    }
+
+    /**
+     * Update the rating of a coach
+     *
+     * @return boolean
+     */
+    public function updateCoachRating($userId)
+    {
+        $user = $this->find('ratedByCoach', ['userId' => $userId])
+            ->first();
+
+        $ratings = Hash::extract($user->coach_sessions,'{n}.user_rating');
+        $user->rating = array_sum($ratings) / count($ratings); 
+        return $this->save($user); 
     }
     
     

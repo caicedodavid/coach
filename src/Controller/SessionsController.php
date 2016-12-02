@@ -121,109 +121,69 @@ class SessionsController extends AppController
         if (($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED)){
             $this->set('statusArray',$this->getStatusArray());
             $this->render("view_canceled_rejected");
+        } else {
+            if ($this->isCoach($user)){
+                $this->renderCoachView($session, $user);
+            } else {
+                $this->renderUserView($session, $user);
+            }
         }
     }
 
     /**
-     * View a past, rejected or canceled session
+     * Render the appropriate template for viewing the session for coach
      *
-     * @param string|null $id Session id.
+     * @param int $status session status
      * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function viewHistoric($id = null)
+    public function renderCoachView($session, $user)
     {
-        $this->view($id);
+        switch ($session->status) {
+            case Session::STATUS_PENDING:
+                $this->render("view_pending_coach");
+                break;
+            case Session::STATUS_APPROVED:
+                $response = $this->Sessions->getUrl($session,$user);
+                $this->set('url',$response);
+                $this->render("view_approved_coach");
+                break;
+            case Session::STATUS_RUNNING:
+                $response = $this->Sessions->getUrl($session,$user);
+                $this->set('url',$response);
+                $this->render("view_approved_coach");
+                break;
+            case Session::STATUS_PAST:
+                $this->render("view_historic_coach");
+                break;
+        }
     }
 
     /**
-     * View a session approved by user
+     * Render the appropriate template for viewing the session for user
      *
-     * @param string|null $id Session id.
+     * @param int $status session status
      * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function viewApprovedUser($id = null)
+    public function renderUserView($session, $user)
     {
-        $this->view($id);
-        $user = $this->getUser();
-        $session = $this->Sessions->find('data',[
-            'id' => $id,
-            'userId' => $user["id"],
-            'role' => $user["role"]
-        ])
-        ->first();
-        $response = $this->Sessions->getUrl($session,$user);
-        $this->set('url',$response);
-    }
-
-    /**
-     * View a session approved by Coach
-     *
-     * @param string|null $id Session id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function viewApprovedCoach($id = null)
-    {
-        $this->view($id);
-        $user = $this->getUser();
-        $session = $this->Sessions->find('data',[
-            'id' => $id,
-            'userId' => $user["id"],
-            'role' => $user["role"]
-        ])
-        ->first();
-        $response = $this->Sessions->getUrl($session,$user);
-        $this->set('url',$response);
-    }
-
-    /**
-     * View pending sessions method for users
-     *
-     * @param string|null $id Session id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function viewPendingUser($id = null)
-    {
-        $this->view($id); 
-    }
-
-    /**
-     * View pending sessions method for Coaches
-     *
-     * @param string|null $id Session id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function viewPendingCoach($id = null)
-    {
-        $this->view($id); 
-    }
-
-    /**
-     * View historic session method for Coaches
-     *
-     * @param string|null $id Session id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function viewHistoricCoach($id = null)
-    {
-        $this->view($id); 
-    }
-
-    /**
-     * View pending session method for Users
-     *
-     * @param string|null $id Session id.
-     * @return \Cake\Network\Response|null
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function viewHistoricUser($id = null)
-    {
-        $this->view($id); 
+        switch ($session->status) {
+            case Session::STATUS_PENDING:
+                $this->render("view_pending_user");
+                break;
+            case Session::STATUS_APPROVED:
+                $response = $this->Sessions->getUrl($session,$user);
+                $this->set('url',$response);
+                $this->render("view_approved_user");
+                break;
+            case Session::STATUS_RUNNING:
+                $response = $this->Sessions->getUrl($session,$user);
+                $this->set('url',$response);
+                $this->render("view_approved_user");
+                break;
+            case Session::STATUS_PAST:
+                $this->render("view_historic_user");
+                break;
+        }
     }
 
     /**
@@ -246,6 +206,7 @@ class SessionsController extends AppController
             ]);
         }
     }
+    
     /**
      * rate method for coaches
      *
@@ -289,12 +250,11 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function rateUser()
+    public function rateUser($id = null)
     {
-
         $user =$this->getUser();
         $appSession = $this->request->session();
-        $id = $appSession->read('Class.id');
+        $id = $id ? $id: $appSession->read('Class.id');
         if (!$id) {
             $this->Flash->error(__('Invalid Action'));
             return $this->redirect(['action' => 'display','controller' => 'Pages']);
@@ -305,6 +265,7 @@ class SessionsController extends AppController
             $session = $this->Sessions->patchEntity($session,$this->request->data);
             if ($this->Sessions->save($session)) {
                 $appSession->delete('Class.id');
+                $this->Sessions->Users->updateCoachRating($session->coach_id);
                 $this->Flash->success(__('Thank you for your rating.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
@@ -386,7 +347,7 @@ class SessionsController extends AppController
      */
     public function approveSession($id)
     {
-        $session = $this->Sessions->find('containUserTopic', [
+        $session = $this->Sessions->find('containUserCoach', [
             'id' => $id
         ])
         ->first();
@@ -421,7 +382,7 @@ class SessionsController extends AppController
     public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
-        $session = $this->Sessions->find('containUserTopicPendingLiability', [
+        $session = $this->Sessions->find('containUserPendingLiability', [
             'id' => (int) $this->request->data['id'],
         ])
         ->first();
