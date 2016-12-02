@@ -15,11 +15,10 @@
             <?php $i = 0?>
             <?php foreach ($sessions as $session): ?>
             <tr>
-                <?php $price = $session->topic->price - $session->topic->price * $session->pending_liability->commission?>
                 <td><?= $session->subject ?></td>
                 <td><?= $session->schedule ?></td>
-                <td><?= $this->Number->currency($price, 'USD')?></td>
-                <td><?= $this->Form->checkbox('Sessions.' . $i . '.id', ['value' => $session->id, 'price' => $price]);?></td>
+                <td><?= $this->Number->currency($session->pending_liability->amount, 'USD')?></td>
+                <td><?= $this->Form->checkbox('Sessions.' . $i . '.id', ['value' => $session->id, 'price' => $session->pending_liability->amount]);?></td>
                 <?php $i +=1; ?>
             </tr>
             <?php endforeach; ?>

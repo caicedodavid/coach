@@ -386,7 +386,7 @@ class SessionsController extends AppController
      */
     public function approveSession($id)
     {
-        $session = $this->Sessions->find('containUserTopic', [
+        $session = $this->Sessions->find('containUserCoach', [
             'id' => $id
         ])
         ->first();
@@ -421,7 +421,7 @@ class SessionsController extends AppController
     public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
-        $session = $this->Sessions->find('containUserTopicPendingLiability', [
+        $session = $this->Sessions->find('containUserPendingLiability', [
             'id' => (int) $this->request->data['id'],
         ])
         ->first();
