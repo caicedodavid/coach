@@ -5,9 +5,6 @@ use Cake\Event\Event;
 use Cake\Utility\Hash;
 use CakeDC\Users\Controller\Component\UsersAuthComponent;
 use CakeDC\Users\Controller\UsersController;
-//use App\Controller\UsersController as User;
-//use Cake\ORM\TableRegistry;
-//use Cake\ORM\Query;
 
 
 /**
@@ -19,6 +16,12 @@ use CakeDC\Users\Controller\UsersController;
  */
 class AppUsersController extends UsersController
 {
+    const PROFILE_TABS_PROFILE = 1;
+    const PROFILE_TABS_SESSIONS = 2;
+    const PROFILE_TABS_TOPICS = 3;
+    const PROFILE_TABS_PAYMENT_INFOS = 4;
+    const PROFILE_TABS_LIABILITIES = 5;
+
     /**
      * Initialization hook method.
      *
@@ -99,7 +102,7 @@ class AppUsersController extends UsersController
     public function coachProfile($id)
     {
         $this->set('isCoach', $this->isCoach($this->getUser()));
-        $this->view($id);    
+        $this->view($id);
     }
 
     /**

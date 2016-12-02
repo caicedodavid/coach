@@ -3902,21 +3902,7 @@ a.ed_getinvolved:hover i{
 	resize:none;
 	box-shadow: none;
 }
-.ed_inner_dashboard_info button{
-	font-size:12px;
-	color:#ffffff;
-	text-decoration:none;
-	text-transform:capitalize;
-	padding:13px 33px;
-	margin-bottom:10px;
-	background-color:#167ac6;
-	border:1px solid #167ac6;
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	-ms-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
-}
+
 .ed_inner_dashboard_info button:hover{
 	color:#ffffff;
 	background-color:#167ac6;

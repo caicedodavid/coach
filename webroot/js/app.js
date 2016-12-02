@@ -128,6 +128,7 @@
         var textnode = document.createTextNode("You are going to pay to this coach " + value.toString() + "$");
         newItem.appendChild(textnode);
         $("#price-text").replaceWith(newItem);
+        $("input[name='total']").val(value);
       });
 
       $('#payment-form').click(function() {  
@@ -136,5 +137,11 @@
         checkboxes.click(function() {
           submitButt.attr("disabled", !checkboxes.is(":checked"));
         });
+      });
+
+      $(document).on("click", ".cancel-session", function () {
+        var sessionId = this.getAttribute('id');
+        $("input[name=id]").val(sessionId);
+        console.log($("input[name=id]"));
       });
  });

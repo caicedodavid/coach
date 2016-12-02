@@ -198,6 +198,7 @@ Configure::write('Session.provider', [
     'name' => 'Braincert',
     'key' => 'cVipWgpoGG4yOOAREmpB',
 ]);
+Configure::write('Coach.defaultCommission', 0.25);
 Configure::write('Omnipay.Stripe',[
     'testSecretKey' => 'sk_test_2p4TkYVbTy2SaMngqCLvOHsx',
     'testPublishableKey' => 'pk_test_6vZZTdRK1MJDCYXl4KwgMmI8',

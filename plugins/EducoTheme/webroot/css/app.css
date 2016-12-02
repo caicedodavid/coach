@@ -141,5 +141,9 @@ span.payment-errors span {
     font-family: 'Roboto Slab', serif;
 }
 #topic-pagination{
-    padding-left: 20px
+    padding-left: 20px;
+}
+.alert-success {
+    margin: 1px;
+    margin-top: 130px;
 }

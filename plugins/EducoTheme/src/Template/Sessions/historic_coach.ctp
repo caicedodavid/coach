@@ -1,25 +1,11 @@
-<?= $this->extend('/Element/Sessions/session_tabs');
+<?php 
+    use App\Controller\AppUsersController;
+    $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "historic");
     $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar', [
-        'tabs' => [
-            'Profile' => [
-                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'], true
-            ],
-            'Topics' => [
-                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'], true
-            ],
-            'My Sessions' => [
-                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
-            ],
-            'Payments' => [
-                'null', ['action' => 'paidSessions', $user->id, 'controller' => 'Sessions'], false
-            ]
-        ],
-        'user' => $user
-    ])?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_SESSIONS))?>
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">
@@ -40,7 +26,7 @@
                                         <span><?= $this->Html->link(__($session->user['full_name']), ['action' => 'userProfile', $session->user['id'], 'controller' => 'AppUsers']) ?></span>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewHistoricCoach', $session->id]);?>
+                                                <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <?= $session->schedule ?>

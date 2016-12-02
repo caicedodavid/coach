@@ -77,7 +77,7 @@ class SessionMailer extends Mailer
             ->to($user["email"])
             ->subject(sprintf('The coach %s canceled a session with you', $coach["full_name"]))
             ->emailFormat('html')
-            ->viewVars(compact('user','coach','session'));
+            ->viewVars(compact('user','coach','session','message'));
     }
 
     /**
@@ -108,5 +108,20 @@ class SessionMailer extends Mailer
             ->subject(sprintf('The Session could not be scheduled'))
             ->emailFormat('html')
             ->viewVars(compact('user','coach','session','message'));
+    }
+
+    /**
+     * Send the coach an Email when he is payed
+     *
+     * @param User entity, coach entity, session entity
+     *
+     */ 
+    public function paymentMail($coach, $sessions, $amount, $message)
+    {
+        $this
+            ->to($coach["email"])
+            ->subject(sprintf('You have been payed'))
+            ->emailFormat('html')
+            ->viewVars(compact('coach', 'sessions', 'amount', 'message'));
     }
 }

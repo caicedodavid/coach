@@ -32,3 +32,8 @@
 </p>
 <p>
     <?= __("Comments: {0}",h($session->comments)) ?>
+</p>
+<p>
+    <?php echo __("View your Session");
+     echo $this->Html->link(__d('AppUsers','My Session'), Router::url(['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id, 'prefix' => false],true), ['escape' => true]);?>
+</p>

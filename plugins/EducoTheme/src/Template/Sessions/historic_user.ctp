@@ -1,22 +1,11 @@
-<?= $this->extend('/Element/Sessions/session_tabs');
+<?php 
+    use App\Controller\AppUsersController;
+    $this->extend('/Element/Sessions/session_tabs');
     $this->assign('typeSession', "historic");
     $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar', [
-        'tabs' => [
-            'Profile' => [
-                'null', ['action' => 'userProfile', $user->id, 'controller' => 'AppUsers'], true
-            ],
-            'My Sessions' => [
-                'active', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
-            ],
-            'Payment Information' => [
-                'null', ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos'], false
-            ]
-        ],
-        'user' => $user
-    ])?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_SESSIONS))?>
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">
@@ -37,7 +26,7 @@
                                         <span><?= $this->Html->link(__($session->coach['full_name']), ['action' => 'coachProfile', $session->coach['id'], 'controller' => 'AppUsers']) ?></span>
                                         <div class="row">
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewHistoricUser', $session->id]);?>
+                                                <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
                                                 <?= $session->schedule ?>

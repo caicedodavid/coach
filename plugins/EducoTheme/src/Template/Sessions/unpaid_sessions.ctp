@@ -1,25 +1,11 @@
-<?= $this->extend('/Element/Liabilities/liability_tabs');
+<?php 
+    use App\Controller\AppUsersController;
+    $this->extend('/Element/Liabilities/liability_tabs');
     $this->assign('typeSession', "unpaid");
     $this->assign('userId', $user['id']);
 ?>
 <?php $this->start('tabs') ?>
-    <?= $this->element('AppUsers/sidebar', [
-        'tabs' => [
-            'Profile' => [
-                'null', ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers'], true
-            ],
-            'Topics' => [
-                'null', ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'], true
-            ],
-            'My Sessions' => [
-                'null', ['action' => 'approved', $user->id, 'controller' => 'Sessions'], false
-            ],
-            'Payments' => [
-                'active', ['action' => 'paidSessions', $user->id, 'controller' => 'Sessions'], false
-            ]
-        ],
-        'user' => $user
-    ])?>
+    <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_LIABILITIES))?>
 <?php $this->end('tabs') ?>
 
 <div class="tab-content">
@@ -57,10 +43,10 @@
                                                 <?= $session->schedule ?>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                <span><?= $this->Number->currency($session->topic->price, 'USD')?></span>
+                                                <?= $this->Number->currency($session->topic->price, 'USD')?>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
-                                                <span><?=$this->Number->currency($session->topic->price * $session->pending_liability->commission, 'USD')?></span>
+                                                <?=$this->Number->currency($session->topic->price * $session->pending_liability->commission, 'USD')?>
                                             </div>
                                         </div>
                                     </div>

@@ -62,17 +62,18 @@ class AdminSessionsController extends SessionsController {
         $this->paginate = [
             'limit' => 15,
             'finder' => [
-                self::UNPAID_SESSIONS_FINDER => ['user' => $user]
+                self::UNPAID_SESSIONS_FINDER => ['userId' => $user['id']]
             ],
             'order' =>[
                 'Coaches.username'=> 'asc'
             ]
         ];
         if ($this->request->is('post')) {      
-            $this->makePayments();
+            $this->makePayments($user);
         }
         $sessions = $this->paginate($this->Sessions);
         $this->set(compact('sessions'));
+        $this->set('coach', $user->full_name);
         $this->set('_serialize', ['sessions']);
     }
 
@@ -84,9 +85,9 @@ class AdminSessionsController extends SessionsController {
      * @return \Cake\Network\Response|null
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function makePayments()
+    public function makePayments($user)
     {
-        if($this->Sessions->payCoach($this->request->data)){
+        if($this->Sessions->payCoach($this->request->data, $user)){
             $this->Flash->success(__('All the sessions were payed'));
             return $this->redirect(['action' => 'unpaidCoaches']); 
         } else {

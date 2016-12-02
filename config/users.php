@@ -134,6 +134,7 @@ $config = [
             'CakeDC/Users.Superuser',
             'CakeDC/Users.SimpleRbac',
         ],
+        'authError' => __('Please, login into the platform. Thanks.'),
     ],
     'OAuth' => [
         'path' => ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'socialLogin', 'prefix' => false],
