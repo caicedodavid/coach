@@ -16,6 +16,7 @@ $activationUrl = [
     'action' => 'validateEmail',
     isset($token) ? $token : ''
 ];
+use Cake\Routing\Router;
 ?>
 <p>
 <?= __d('CakeDC/Users', "Hi {0}", isset($first_name)? $first_name : '') ?>,
