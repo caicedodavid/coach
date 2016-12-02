@@ -1,4 +1,4 @@
-<?php use Cake\Routing\Router ?>
+<?php use Cake\Routing\Router; ?>
 <?= $this->extend('/Element/Sessions/session_layout');?>
 <?php $this->start('banner') ?>
     <?php echo $this->element('banner', ['title' => 'Past Session']); ?>
@@ -9,9 +9,9 @@
 <?php $this->end() ?>
 
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">Details</a></li>
-    <li role="presentation"><a href="#rating" aria-controls="rating" role="tab" data-toggle="tab">Rating</a></li>
-    <li role="presentation"><a href="#user-comments" aria-controls="user-comments" role="tab" data-toggle="tab">Coachee</a></li>
+    <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab"><?=__("Details")?></a></li>
+    <li role="presentation"><a href="#rating" aria-controls="rating" role="tab" data-toggle="tab"><?=__("My Rating")?></a></li>
+    <li role="presentation"><a href="#user-comments" aria-controls="user-comments" role="tab" data-toggle="tab"><?=__("Coachee Comments")?></a></li>
 </ul>
 <!-- Tab panes -->
 <div class="tab-content">
@@ -25,13 +25,13 @@
     <div role="tabpanel" class="tab-pane" id="rating">
         <div class="ed_course_tabconetent">       
             <?php if(!$session->coach_rating):?>
-                <br>
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Rate this Session</button>
-            <?php else:
-                echo '<input id="rate-input" value="' . (string)$session->coach_rating . '" class="rating rate-input" data-size="xs">';
-                echo "<br>";
-                echo $session->coach_comments;
-            endif;?>
+                <?= $this->Html->tag('br');?>
+                <?= $this->Html->link(__('Rate this Session'), '#', ["class" => "ed_btn ed_green",  "data-toggle" => "modal", "data-target" => "#myModal"]);?>
+            <?php else:?>
+                <?= $this->Form->input('rate-input', ['id' => 'rate-input', 'value' => $session->coach_rating, 'class' => 'rating rate-input', 'data-size' => 'xs']);?>
+                <?= $this->Html->tag('br');?>
+                <?= $session->user_comments;?>
+            <?php endif;?>
         </div>
     </div>
     <div role="tabpanel" class="tab-pane" id="user-comments">
@@ -50,8 +50,7 @@
         <h4 class="modal-title"><?= __('Rate your session') ?></h4>
       </div>
       <div class="modal-body">
-            <?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>
-            
+            <?= $this->TinyMCE->editor(['theme' => 'modern', 'selector' => 'textarea']);?>    
             <fieldset>
                 <?php
                     echo $this->Form->label('Session.coach_rating','Rate the class ',['class'=>'control-label']);
@@ -66,6 +65,5 @@
         <?= $this->Form->end() ?>
       </div>
     </div>
-
   </div>
 </div>
