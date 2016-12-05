@@ -26,6 +26,10 @@ class CreateCategories extends AbstractMigration
             'default' => null,
             'null' => false,
         ]);
+        $table->addColumn('topic_count', 'integer', [
+            'default' => 0,
+            'null' => false,
+        ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,
             'null' => false,
