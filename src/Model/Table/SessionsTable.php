@@ -38,6 +38,10 @@ use Cake\Core\Configure;
  */
 class SessionsTable extends Table
 {
+    const MISSED_SESSION_TIME = "+1 hour";
+
+    const VALID_SESSION_SCHEDULE = "+1 day";
+
     use MailerAwareTrait;
     /**
      * Initialize method
@@ -166,7 +170,7 @@ class SessionsTable extends Table
      */
     public function validSchedule($check, array $context)
     {   
-        return (date('Y-m-d H:i',strtotime($check)) > date('Y-m-d H:i',strtotime("+1 day")));
+        return (date('Y-m-d H:i',strtotime($check)) > date('Y-m-d H:i',strtotime(self::VALID_SESSION_SCHEDULE)));
     }
 
     /**
@@ -337,7 +341,7 @@ class SessionsTable extends Table
                     ['Sessions.status' => session::STATUS_RUNNING]
                 ]
             ])
-            ->where(['Sessions.schedule >=' => date('Y-m-d H:i',strtotime("+1 hour"))]);
+            ->where(['Sessions.schedule >=' => date('Y-m-d H:i',strtotime(self::MISSED_SESSION_TIME))]);
     }
 
     /**
