@@ -144,4 +144,16 @@
         $("input[name=id]").val(sessionId);
         console.log($("input[name=id]"));
       });
+
+      $('#categories-select').multipleSelect({
+        filter: true
+      });
+
+      function checkSelected(select) {
+        var selected = JSON.parse(select.attr("ids"));
+        select.multipleSelect("setSelects", selected);
+      }
+      checkSelected($('#categories-select'));
+      
+      $("div.educo-theme").attr("style", "width:100%");
  });

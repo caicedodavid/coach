@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\ORM\TableRegistry;
 
 /**
  * Topics Model
@@ -54,7 +55,8 @@ class TopicsTable extends Table
         $this->belongsToMany('Categories', [
             'foreignKey' => 'topic_id',
             'targetForeignKey' => 'category_id',
-            'joinTable' => 'topics_categories'
+            'joinTable' => 'topics_categories',
+            'through' => 'TopicsCategories'
         ]);
 
     }
@@ -188,6 +190,39 @@ class TopicsTable extends Table
     }
 
     /**
+     * Query for Conataining the categories of a topic
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findContainCategories(Query $query, array $options)
+    {
+        return $query
+            ->contain(['Categories' => function (Query $query) {
+                return $query->where(['active' => true])
+                    ->select(['id']);
+            }]);
+    }
+
+    /**
+     * Query for Conataining the categories and image of a topic
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findContainImageCategories(Query $query, array $options)
+    {
+        if (empty($options['topicId'])) {
+            throw new \InvalidArgumentException(__('userId or role are not defined'));
+        }
+        $topicId = $options["topicId"];
+        return $query
+            ->find('containCategories', $options)
+            ->find('topicsImage')
+            ->where([$this->aliasField('id') =>  $topicId]);
+    }
+
+    /**
      * Method that returns the topics for the selection box
      * @param $coachId
      * @return Array
@@ -200,4 +235,5 @@ class TopicsTable extends Table
         ->find('list')
         ->toArray();     
     }
+
 }
