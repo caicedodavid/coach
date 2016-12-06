@@ -51,6 +51,11 @@ class TopicsTable extends Table
             'joinType' => 'INNER',
             'className' => 'AppUsers',
         ]);
+        $this->belongsToMany('Categories', [
+            'foreignKey' => 'topic_id',
+            'targetForeignKey' => 'category_id',
+            'joinTable' => 'topics_categories'
+        ]);
 
     }
 
