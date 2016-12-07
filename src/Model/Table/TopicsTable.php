@@ -39,6 +39,8 @@ class TopicsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Burzum/Imagine.Imagine');
+        $this->addBehavior('PlumSearch.Filterable');
+        $this->addFilter('category_id', ['className' => 'Value']);
 
         $this->hasOne('TopicImage', [
             'className' => 'TopicImage',
@@ -184,9 +186,10 @@ class TopicsTable extends Table
      */
     public function findIndexTopics(Query $query, array $options)
     {
-        return  $query->find('publicTopics')
+        return $query->find('publicTopics')
             ->find('containCoach')
-            ->find('topicsImage');
+            ->find('topicsImage')
+            ->find('containCategories');
     }
 
     /**

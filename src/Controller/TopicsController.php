@@ -19,10 +19,21 @@ class TopicsController extends AppController
      *
      * @return void
      */
+    public $helpers = ['PlumSearch.Search'];
+
     public function initialize()
     {
         parent::initialize();
         $this->Auth->allow(['index','coachTopics','view']);
+        $this->loadComponent('PlumSearch.Filter', [
+            'parameters' => [
+                [
+                    'name' => 'category_id',
+                    'className' => 'Select',
+                    'finder' => $this->Topics->Categories->find('list'),
+                ]
+            ]
+        ]);
     }
 
     /**
@@ -49,7 +60,7 @@ class TopicsController extends AppController
             'limit' => 6,
             'finder' => 'indexTopics'
         ];
-        $topics = $this->paginate($this->Topics);
+        $topics = $this->paginate($this->Filter->prg($this->Topics));
         $this->set(compact('topics'));
         $this->set('_serialize', ['topics']);
         if ($this->request->is('ajax')) {

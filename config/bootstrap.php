@@ -208,6 +208,7 @@ Configure::write('Omnipay.Stripe',[
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Migrations');
 Plugin::load('AssetCompress', ['bootstrap' => true]);
+Plugin::load('PlumSearch');
 //Plugin::load('Burzum/Imagine');
 include('file_storage.php');
 //include 'file_storage.php';

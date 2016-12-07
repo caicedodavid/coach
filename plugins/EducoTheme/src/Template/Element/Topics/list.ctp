@@ -31,3 +31,4 @@
 <div>
     <center><?php echo $this->element('endless_pagination'); ?></center>
 </div>
+<?= $this->element('PlumSearch.search'); ?>
