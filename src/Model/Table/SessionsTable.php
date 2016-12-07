@@ -343,7 +343,7 @@ class SessionsTable extends Table
                     ['Sessions.status' => session::STATUS_RUNNING]
                 ]
             ])
-            ->where([$query->newExpr()->gte("date_add(Sessions.schedule,interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]);
+            ->where([$query->newExpr()->gte("date_add(Sessions.schedule, interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]);
               
     }
 
@@ -381,8 +381,8 @@ class SessionsTable extends Table
                     [$this->aliasField("status") => session::STATUS_RUNNING],
                     [$this->aliasField("status") => session::STATUS_APPROVED],
                 ],
-                'AND'=> [
-                    [$query->newExpr()->lt("date_add(Sessions.schedule,interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]
+                'AND' => [
+                    [$query->newExpr()->lt("date_add(Sessions.schedule, interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]
                 ]
             ]);
     }
@@ -544,7 +544,7 @@ class SessionsTable extends Table
         return $query->find('containPendingLiability')
             ->find('containCoach')
             ->find('past')
-            ->select(['Coaches.id','Coaches.username', 'Coaches.first_name','Coaches.last_name'])
+            ->select(['Coaches.id', 'Coaches.username', 'Coaches.first_name', 'Coaches.last_name'])
             ->group('Coaches.id');       
     }
 
