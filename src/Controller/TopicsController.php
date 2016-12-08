@@ -61,7 +61,8 @@ class TopicsController extends AppController
             'finder' => 'indexTopics'
         ];
         $topics = $this->paginate($this->Filter->prg($this->Topics));
-        $this->set(compact('topics'));
+        $categories = $this->Topics->Categories->find('visibleCategories');
+        $this->set(compact('topics','categories'));
         $this->set('_serialize', ['topics']);
         if ($this->request->is('ajax')) {
             $this->render('list');

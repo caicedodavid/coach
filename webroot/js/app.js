@@ -150,10 +150,26 @@
       });
 
       function checkSelected(select) {
+        var ids = select.attr("ids");
+        if (ids == null){
+          return;
+        }
         var selected = JSON.parse(select.attr("ids"));
         select.multipleSelect("setSelects", selected);
       }
+
       checkSelected($('#categories-select'));
       
       $("div.educo-theme").attr("style", "width:100%");
+
+      $('a.select-category').click(function() {
+        var categoryId = this.getAttribute('category-id');
+        console.log(categoryId);  
+        $("#category-id").children().each(function () {
+          if (this.value == categoryId){
+            this.setAttribute('selected', true);
+          }
+        });
+        $("#search-form").submit();
+      });
  });
