@@ -137,7 +137,7 @@ $config = [
         'authError' => __('Please, login into the platform. Thanks.'),
     ],
     'OAuth' => [
-        'path' => ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'socialLogin', 'prefix' => false],
+        'path' => ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'socialLogin', 'prefix' => null],
         'providers' => [
             'facebook' => [
                 'className' => 'League\OAuth2\Client\Provider\Facebook',

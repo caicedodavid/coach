@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "2315d4ddbbc907cf55f18352786ae08c",
-    "content-hash": "9d8d2fe36b5eee8424bfc75ff012723c",
+    "hash": "79b1ecbc6467293d950af19040378ecd",
+    "content-hash": "426755e5d3ee1453ed524489ed389a51",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -287,16 +287,16 @@
         },
         {
             "name": "cakedc/users",
-            "version": "3.2.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/CakeDC/users.git",
-                "reference": "2b20c8db0a8dde4523fada2b253cf3746a3cf21a"
+                "reference": "c7681631db1eb0d522a0a8fecc5fbccb5b95fd6b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/CakeDC/users/zipball/2b20c8db0a8dde4523fada2b253cf3746a3cf21a",
-                "reference": "2b20c8db0a8dde4523fada2b253cf3746a3cf21a",
+                "url": "https://api.github.com/repos/CakeDC/users/zipball/c7681631db1eb0d522a0a8fecc5fbccb5b95fd6b",
+                "reference": "c7681631db1eb0d522a0a8fecc5fbccb5b95fd6b",
                 "shasum": ""
             },
             "require": {
@@ -304,11 +304,12 @@
             },
             "require-dev": {
                 "cakephp/cakephp-codesniffer": "^2.0",
+                "google/recaptcha": "@stable",
                 "league/oauth2-facebook": "@stable",
                 "league/oauth2-google": "@stable",
                 "league/oauth2-instagram": "@stable",
                 "league/oauth2-linkedin": "@stable",
-                "phpunit/phpunit": "*"
+                "phpunit/phpunit": "@stable"
             },
             "suggest": {
                 "google/recaptcha": "Provides reCAPTCHA validation for registration form",
@@ -339,7 +340,7 @@
                     "homepage": "https://github.com/CakeDC/users/graphs/contributors"
                 }
             ],
-            "description": "Users Plugin for CakePHP 3",
+            "description": "Users Plugin for CakePHP",
             "homepage": "https://github.com/CakeDC/users",
             "keywords": [
                 "Authentication",
@@ -348,7 +349,7 @@
                 "cakephp",
                 "oauth2"
             ],
-            "time": "2016-08-05 10:07:12"
+            "time": "2016-12-07 15:14:55"
         },
         {
             "name": "cakephp/cakephp",
@@ -1350,62 +1351,6 @@
             "time": "2016-10-21 00:54:37"
         },
         {
-            "name": "league/oauth2-linkedin",
-            "version": "0.4.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/oauth2-linkedin.git",
-                "reference": "a55463659dd97a7051b10fd654f96dc3b66b1fb4"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/oauth2-linkedin/zipball/a55463659dd97a7051b10fd654f96dc3b66b1fb4",
-                "reference": "a55463659dd97a7051b10fd654f96dc3b66b1fb4",
-                "shasum": ""
-            },
-            "require": {
-                "league/oauth2-client": "~1.0",
-                "php": ">=5.5.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9",
-                "phpunit/phpunit": "~4.0",
-                "squizlabs/php_codesniffer": "~2.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "1.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "League\\OAuth2\\Client\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Steven Maguire",
-                    "email": "stevenmaguire@gmail.com",
-                    "homepage": "https://github.com/stevenmaguire"
-                }
-            ],
-            "description": "LinkedIn OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
-            "keywords": [
-                "authorisation",
-                "authorization",
-                "client",
-                "linkedin",
-                "oauth",
-                "oauth2"
-            ],
-            "time": "2016-11-09 17:01:43"
-        },
-        {
             "name": "markstory/asset_compress",
             "version": "3.1.0",
             "source": {
@@ -1933,6 +1878,56 @@
                 "prompt"
             ],
             "time": "2016-04-18 09:31:41"
+        },
+        {
+            "name": "skie/cakephp-search",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/skie/plum_search.git",
+                "reference": "dee94b3cc9307b21237f595a7764e7177d1f3d40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/skie/plum_search/zipball/dee94b3cc9307b21237f595a7764e7177d1f3d40",
+                "reference": "dee94b3cc9307b21237f595a7764e7177d1f3d40",
+                "shasum": ""
+            },
+            "require": {
+                "cakephp/cakephp": "3.*",
+                "cakephp/plugin-installer": "*"
+            },
+            "require-dev": {
+                "cakephp/cakephp-codesniffer": "dev-master",
+                "phpunit/phpunit": "3.7.33"
+            },
+            "type": "cakephp-plugin",
+            "autoload": {
+                "psr-4": {
+                    "PlumSearch\\": "src",
+                    "PlumSearch\\Test\\Fixture\\": "tests\\Fixture"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Evgeny Tomenko",
+                    "homepage": "https://github.com/skie",
+                    "role": "Author"
+                }
+            ],
+            "description": "CakePHP Plum Search plugin",
+            "homepage": "https://github.com/skie/plum-search",
+            "keywords": [
+                "cake",
+                "cakephp",
+                "filter",
+                "search"
+            ],
+            "time": "2016-08-17 09:07:46"
         },
         {
             "name": "symfony/config",
@@ -2903,11 +2898,13 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "cakedc/users": 20,
         "cakedc/tiny-mce": 20,
         "kartik-v/bootstrap-star-rating": 20,
         "omnipay/stripe": 20,
         "league/oauth2-facebook": 0,
         "league/oauth1-client": 0,
+        "skie/cakephp-search": 20,
         "psy/psysh": 0
     },
     "prefer-stable": true,

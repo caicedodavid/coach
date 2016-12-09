@@ -213,8 +213,8 @@ include('file_storage.php');
 //include 'file_storage.php';
 //Social accounts
 Configure::write('Users.Social.login', true);
-Configure::write('OAuth.providers.facebook.options.clientId', '1607632349543396');
-Configure::write('OAuth.providers.facebook.options.clientSecret', 'a491d95e49b15f634aac72e03654f33b');
+Configure::write('OAuth.providers.facebook.options.clientId', '226090621149892');
+Configure::write('OAuth.providers.facebook.options.clientSecret', '45ebb665ba42588782a771d5174ac3bd');
 
 Configure::write('OAuth.providers.twitter.options.clientId', 'z44HI73TY9jAInH6cetgEG6KP');
 Configure::write('OAuth.providers.twitter.options.clientSecret', 'Zq18qLNm6ydnO3uXNVYIoNIkOVP6OKVc3slAqK48w5Wm2mJt4g');
