@@ -1,3 +1,4 @@
+<?php use App\Model\Entity\Session; ?>
 <?= $this->extend('/Element/Sessions/session_layout');
 ?>
 <?php $this->start('banner') ?>
@@ -25,7 +26,13 @@ $this->end() ?>
             </table>
             <br>
             <br>
-            <?= "This session was " . $statusArray[$session->status]?>
+            <?= __('This session was {0}', $this->Html->tag('b', $statusArray[$session->status]));?>
+            <br>
+            <br>
+            <?php if($session->status === Session::STATUS_CANCELED):?>
+                <b><?= __('Coach comments :')?></b>
+                <?= $session->coach_comments?>
+            <?php endif;?>
         </div>
     </div>
 </div>
