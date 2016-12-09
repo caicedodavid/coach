@@ -38,8 +38,6 @@ use Cake\Core\Configure;
  */
 class SessionsTable extends Table
 {
-    const MISSED_SESSION_TIME = "+1 hour";
-
     const VALID_SESSION_SCHEDULE = "+1 day";
 
     use MailerAwareTrait;
