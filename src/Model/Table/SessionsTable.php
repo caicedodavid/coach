@@ -79,7 +79,7 @@ class SessionsTable extends Table
             'foreignKey' => 'fk_id',
             'conditions' => [
                 'PendingLiabilities.fk_table' => 'Sessions',
-                'PendingLiabilities.status' => 1
+                'PendingLiabilities.status' => Liability::STATUS_PENDING
             ],
             'joinType' => 'INNER',
             'className' => 'Liabilities',
@@ -91,7 +91,7 @@ class SessionsTable extends Table
             'foreignKey' => 'fk_id',
             'conditions' => [
                 'PaidLiabilities.fk_table' => 'Sessions',
-                'PaidLiabilities.status' => 3
+                'PaidLiabilities.status' => Liability::STATUS_PAID
             ],
             'joinType' => 'INNER',
             'className' => 'Liabilities',
@@ -675,11 +675,10 @@ class SessionsTable extends Table
      * @param $session session entity
      * @return $data Array
      */
-    public function refundSession($session, $isCoach, $observation)
+    public function refundSession($session, $isCoach)
     {
         if($isCoach){
             $session->pending_liability->status = Liability::STATUS_REFUND;
-            $session->pending_liability->observation = $observation;
             $session->pending_liability->date = date('Y-m-d',strtotime("now"));
             $this->PendingLiabilities->save($session->pending_liability);
             $session->user->balance += $session->price;
