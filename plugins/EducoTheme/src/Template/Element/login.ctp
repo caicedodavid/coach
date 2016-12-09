@@ -25,6 +25,8 @@
                             <?= $this->Form->button(__d('CakeDC/Users', 'Login')); ?>
                             <?= $this->Html->link(__d('Users', 'Register'), ['plugin' =>false,'controller'=>'Pages','action' => 'display','type_user','ext'=>'ctp'])?>
                             <?= $this->Form->end() ?>
+                            <br>
+                            <center><?= implode('<br>', $this->User->socialLoginList()); ?></center>
                         </div>
                     <?php else:?>
                         <?= $this->Html->link(__('Logout'), '/logout')?>

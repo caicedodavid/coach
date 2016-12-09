@@ -151,25 +151,6 @@ $config = [
                     'redirectUri' => Router::fullBaseUrl() . '/auth/twitter',
                 ]
             ],
-            'linkedIn' => [
-                'className' => 'League\OAuth2\Client\Provider\LinkedIn',
-                'options' => [
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/linkedIn',
-                ]
-            ],
-            'instagram' => [
-                'className' => 'League\OAuth2\Client\Provider\Instagram',
-                'options' => [
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/instagram',
-                ]
-            ],
-            'google' => [
-                'className' => 'League\OAuth2\Client\Provider\Google',
-                'options' => [
-                    'userFields' => ['url', 'aboutMe'],
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/google',
-                ]
-            ],
         ],
     ]
 ];
