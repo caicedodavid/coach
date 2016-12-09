@@ -83,5 +83,4 @@ class CategoriesTable extends Table
 
         return $validator;
     }
-
 }

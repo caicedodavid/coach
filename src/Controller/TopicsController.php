@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use App\Controller\AppController;
 use Cake\Event\Event;
+use Cake\Utility\Hash;
 
 /**
  * Topics Controller
@@ -10,8 +11,7 @@ use Cake\Event\Event;
  * @property \App\Model\Table\TopicsTable $Topics
  */
 class TopicsController extends AppController
-{
-    
+{   
     /**
      * Initialization hook method.
      *
@@ -166,16 +166,18 @@ class TopicsController extends AppController
                 unset($data["topic_image"]);
             }
             $topic = $this->Topics->patchEntity($topic, $data);
+            $topic->dirty('categories', true);
             if ($this->Topics->save($topic)) {
                 $this->Flash->success(__('The topic has been saved.'));
 
-                return $this->redirect(['action' => 'coachTopics']);
+                return $this->redirect(['action' => 'coachTopics', $userId]);
             } else {
                 $this->Flash->error(__('The topic could not be saved. Please, try again.'));
             }
         }
+        $categories = $this->Topics->Categories->find('list');
         $this->set('times',$this->getDurationArray());
-        $this->set(compact('topic'));
+        $this->set(compact('topic', 'categories'));
         $this->set('_serialize', ['topic']);
     }
 
@@ -188,17 +190,16 @@ class TopicsController extends AppController
      */
     public function edit($id = null)
     {
-        $topic = $this->Topics->get($id, [
-            'contain' => ['TopicImage']
-        ]);
+        $topic = $this->Topics->find('containImageCategories', ['topicId' => $id])
+            ->first();
+        $topicCategories = Hash::extract($topic->categories, '{n}.id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
-            //$data['duration'] = (int)$data['duration'];
-            debug($data['duration']);
             if(!$data["topic_image"]["file"]["size"]){
                 unset($data["topic_image"]);
             }
             $topic = $this->Topics->patchEntity($topic, $data);
+            $topic->dirty('categories', true);
             if ($this->Topics->save($topic)) {
                 $this->Flash->success(__('The topic has been saved.'));
 
@@ -207,8 +208,9 @@ class TopicsController extends AppController
                 $this->Flash->error(__('The topic could not be saved. Please, try again.'));
             }
         }
+        $categories = $this->Topics->Categories->find('list');
         $this->set('times',$this->getDurationArray());
-        $this->set(compact('topic'));
+        $this->set(compact('topic', 'categories', 'topicCategories'));
         $this->set('_serialize', ['topic']);
     }
 

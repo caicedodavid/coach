@@ -18,6 +18,16 @@
                     'label' => 'Price (USD)']);
                 echo $this->Form->input('active');
                 echo $this->Form->input('duration', ['options' => $times, 'class' => 'form-control', 'empty' => __('Select...')]);
+                echo $this->Form->input('categories._ids', [
+                    'options' => $categories, 
+                    'multiple' => 'multiple',
+                    'id' => 'categories-select',
+                    'templates' => [
+                        'formGroup' => '{{label}}<br>{{input}}'
+                    ],
+                    'class' => 'educo-theme',
+                    'ids' => json_encode($topicCategories)
+                ]);
             ?>
         </fieldset>
         <?= $this->Form->button(__('Submit'), ['class' => 'ed_btn ed_orange medium btn btn-primary pull-right']) ?>
