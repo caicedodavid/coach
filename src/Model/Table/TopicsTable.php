@@ -227,7 +227,7 @@ class TopicsTable extends Table
     public function findContainImageCategories(Query $query, array $options)
     {
         if (empty($options['topicId'])) {
-            throw new \InvalidArgumentException(__('userId or role are not defined'));
+            throw new \InvalidArgumentException(__('topicId is not defined'));
         }
         $topicId = $options["topicId"];
         return $query

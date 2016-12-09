@@ -147,16 +147,19 @@ span.payment-errors span {
     margin: 1px;
     margin-top: 130px;
 }
+
 .alert-danger {
     margin: 1px;
     margin-top: 130px;
 }
+
 button.ms-choice {
     border-radius: 0px;
     border: 1px solid #ccc;
     height: 34px;
     width: 100%;
 }
+
 .educo-theme .ms-choice>span {
     padding-left: 12px;
     padding-top: 3px;
@@ -164,6 +167,7 @@ button.ms-choice {
     color: #555;
     font-size: 14px;
 }
+
 button.ms-choice:focus {
     border-color: rgba(82, 168, 236, 0.8);
     outline: 0;
@@ -176,10 +180,29 @@ button.ms-choice:focus {
 .educo-theme .ms-choice>div {
     margin-top: 4px;
 }
+
 .educo-theme .form-control label, .input label{
     font-family: 'Roboto', sans-serif;
     color: #555;
 }
+
 .educo-theme element.style{
     width: 100%;
+}
+
+.ed_login_form a.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: rgba(0,0,0,.2);
+    padding-left: 60px;
+    width:100%;
+}
+.ed_login_form a.btn-twitter {
+    color: #fff;
+    background-color: #55acee;
+    border-color: rgba(0,0,0,.2);
+    padding-left: 67px;
+    margin-top:10px;
+    padding-right:0px;
+    width:100%;
 }

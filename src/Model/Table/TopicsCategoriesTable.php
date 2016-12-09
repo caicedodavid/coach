@@ -49,7 +49,11 @@ class TopicsCategoriesTable extends Table
             'joinType' => 'INNER'
         ]);
         $this->addBehavior('CounterCache', [
-            'Categories' => ['topic_count']
+            'Categories' => [
+                'topic_count' => [
+                    'finder' => 'countTopics' 
+                ]
+            ]
         ]);
     }
 
@@ -66,5 +70,18 @@ class TopicsCategoriesTable extends Table
         $rules->add($rules->existsIn(['category_id'], 'Categories'));
 
         return $rules;
+    }
+
+    /**
+     * Returns the number of topics for a category
+     *
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findCountTopics(Query $query, array $options) {
+        return $query
+            ->contain(['Topics'])
+            ->where(['Topics.active' => true]);
     }
 }
