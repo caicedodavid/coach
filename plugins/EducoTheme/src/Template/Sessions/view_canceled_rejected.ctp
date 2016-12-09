@@ -26,12 +26,11 @@ $this->end() ?>
             </table>
             <br>
             <br>
-            <?= __('This session was ');?>
-            <b><?= $statusArray[$session->status]?></b>
+            <?= __('This session was {0}', $this->Html->tag('b', $statusArray[$session->status]));?>
             <br>
             <br>
             <?php if($session->status === Session::STATUS_CANCELED):?>
-                <b><?= __('Coach comments : ')?></b>
+                <b><?= __('Coach comments :')?></b>
                 <?= $session->coach_comments?>
             <?php endif;?>
         </div>
