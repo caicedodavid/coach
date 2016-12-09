@@ -58,9 +58,9 @@ class TopicsController extends AppController
     {
         $this->paginate = [
             'limit' => 6,
-            'finder' => 'indexTopics'
         ];
-        $topics = $this->paginate($this->Filter->prg($this->Topics));
+        $query = $this->Topics->find('indexTopics');
+        $topics = $this->paginate($this->Filter->prg($query));
         $categories = $this->Topics->Categories->find('visibleCategories');
         $this->set(compact('topics','categories'));
         $this->set('_serialize', ['topics']);

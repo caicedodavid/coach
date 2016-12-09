@@ -40,7 +40,12 @@ class TopicsTable extends Table
         $this->addBehavior('Timestamp');
         $this->addBehavior('Burzum/Imagine.Imagine');
         $this->addBehavior('PlumSearch.Filterable');
-        $this->addFilter('category_id', ['className' => 'Value']);
+        $this->addFilter('category_id', [
+            'className' => 'Custom',
+            'method' => function ($q, $field, $value) {
+                return $q->where(['Categories.id' => $value]);
+            }
+        ]);
 
         $this->hasOne('TopicImage', [
             'className' => 'TopicImage',
@@ -189,7 +194,13 @@ class TopicsTable extends Table
         return $query->find('publicTopics')
             ->find('containCoach')
             ->find('topicsImage')
-            ->find('containCategories');
+            ->innerJoinWith(
+                'TopicsCategories.Categories', function ($q) {
+                    return $q->where(['Categories.active' => true])
+                        ->where(['Categories.topic_count >' => 0]);
+                }
+            )
+            ->group([$this->aliasField('id'),'UserImage.id','TopicImage.id']);
     }
 
     /**
