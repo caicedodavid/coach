@@ -98,6 +98,13 @@ class TopicsTable extends Table
             ->requirePresence('duration', 'create')
             ->notEmpty('duration');
 
+        $validator->add('categories', 'custom', [
+            'rule' => function($value, $context) {
+                return ($value['_ids'] != '');
+            },
+            'message' => 'Please choose at least one Category'
+        ]);
+
         return $validator;
     }
 
