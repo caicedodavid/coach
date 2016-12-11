@@ -130,6 +130,18 @@ class TopicsTable extends Table
     }
 
     /**
+     * Query for finding the public topics
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findPublicTopicsImage(Query $query, array $options)
+    {
+        return  $query->find('publicTopics')
+            ->find('topicsImage');
+    }
+
+    /**
      * Query for finding the public topics by coach
      * @param $query query object
      * @param $options options array

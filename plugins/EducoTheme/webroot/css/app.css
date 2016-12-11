@@ -137,15 +137,22 @@ span.payment-errors span {
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
 #image-lable {
     font-family: 'Roboto Slab', serif;
 }
+
 #topic-pagination{
     padding-left: 20px;
 }
+
 .alert-success {
     margin: 1px;
     margin-top: 130px;
+}
+
+.home {
+    min-height: 410px;
 }
 
 .alert-danger {
