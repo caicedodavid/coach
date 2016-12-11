@@ -4,3 +4,4 @@
 /logs/*
 /files/*
 .idea/
+tests/*

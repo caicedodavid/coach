@@ -152,7 +152,7 @@ Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
 Configure::write('Imagine.salt', 'H5JFLL0yhZobrIqNfMkFdG6RQLZsDiMadmFPXwe5');
-date_default_timezone_set('America/New_York');
+date_default_timezone_set('America/Curacao');
 
 /**
  * The default crypto extension in 3.0 is OpenSSL.
@@ -208,6 +208,7 @@ Configure::write('Omnipay.Stripe',[
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Migrations');
 Plugin::load('AssetCompress', ['bootstrap' => true]);
+Plugin::load('PlumSearch');
 //Plugin::load('Burzum/Imagine');
 include('file_storage.php');
 //include 'file_storage.php';

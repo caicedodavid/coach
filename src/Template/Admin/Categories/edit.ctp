@@ -17,9 +17,9 @@
     <fieldset>
         <legend><?= __('Edit Category') ?></legend>
         <?php
-            echo $this->Form->input('name', ['class' =>'form-control', 'readonly'=>'readonly']);
+            echo $this->Form->input('name', ['class' =>'form-control']);
             echo $this->Form->input('description');
-            if(!$category->active):
+            if(!$category->topic_count):
                 $this->Form->input('active');
             else:
                 echo $this->Html->tag('div', null, ['class' => 'input checkbox']);

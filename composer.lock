@@ -4,8 +4,13 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+<<<<<<< HEAD
     "hash": "79b1ecbc6467293d950af19040378ecd",
     "content-hash": "426755e5d3ee1453ed524489ed389a51",
+=======
+    "hash": "3f2d4997b27aafacf0cd46c6559b3176",
+    "content-hash": "b31169e0b81707ccdd573003e4f50ccf",
+>>>>>>> develop
     "packages": [
         {
             "name": "aura/installer-default",
@@ -2902,6 +2907,7 @@
         "cakedc/tiny-mce": 20,
         "kartik-v/bootstrap-star-rating": 20,
         "omnipay/stripe": 20,
+        "skie/cakephp-search": 20,
         "league/oauth2-facebook": 0,
         "league/oauth1-client": 0,
         "skie/cakephp-search": 20,
