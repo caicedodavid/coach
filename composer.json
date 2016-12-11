@@ -19,6 +19,7 @@
         "omnipay/stripe": "dev-master",
         "opauth/opauth":"1.0.x-dev",
         "opauth/facebook":"1.0.x-dev",
+        "opauth/twitter":"1.0.x-dev",
         "league/oauth1-client":"@stable",
         "skie/cakephp-search": "dev-master"
     },
