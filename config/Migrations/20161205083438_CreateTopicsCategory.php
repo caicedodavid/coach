@@ -10,6 +10,8 @@ class CreateTopicsCategory extends AbstractMigration
      * http://docs.phinx.org/en/latest/migrations.html#the-change-method
      * @return void
      */
+    public $autoId = false;
+    
     public function change()
     {
         $table = $this->table('topics_categories');
@@ -28,6 +30,10 @@ class CreateTopicsCategory extends AbstractMigration
         $table->addColumn('modified', 'datetime', [
             'default' => null,
             'null' => false,
+        ]);
+        $table->addPrimaryKey([
+            'topic_id',
+            'category_id'
         ]);
         $table->create();
     }

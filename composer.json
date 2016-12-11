@@ -16,7 +16,10 @@
         "burzum/cakephp-imagine-plugin": "2.*",
         "cakedc/tiny-mce": "3.x-dev",
         "kartik-v/bootstrap-star-rating": "@dev",
-        "omnipay/stripe": "dev-master"
+        "omnipay/stripe": "dev-master",
+        "skie/cakephp-search": "dev-master",
+        "league/oauth2-facebook": "@stable",
+        "league/oauth1-client": "@stable"
     },
     "require-dev": {
         "psy/psysh": "@stable",

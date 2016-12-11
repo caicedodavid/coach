@@ -84,4 +84,40 @@ class CategoriesTable extends Table
         return $validator;
     }
 
+    /**
+     * Query for finding the visible categories
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findVisibleCategories(Query $query, array $options)
+    {
+        return $query
+            ->find('activeCategories')
+            ->find('categoriesWithTopics');
+    }
+
+    /**
+     * Query for finding the active categories
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findActiveCategories(Query $query, array $options)
+    {
+        return $query
+            ->where([$this->aliasField('active') => true]);
+    }
+
+     /**
+     * Query for finding the active categories
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findCategoriesWithTopics(Query $query, array $options)
+    {
+        return $query
+            ->where([$query->newExpr()->gt($this->aliasField('topic_count'), 0)]);
+    }       
 }

@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\ORM\TableRegistry;
 
 /**
  * Topics Model
@@ -38,6 +39,13 @@ class TopicsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Burzum/Imagine.Imagine');
+        $this->addBehavior('PlumSearch.Filterable');
+        $this->addFilter('category_id', [
+            'className' => 'Custom',
+            'method' => function ($q, $field, $value) {
+                return $q->where(['Categories.id' => $value]);
+            }
+        ]);
 
         $this->hasOne('TopicImage', [
             'className' => 'TopicImage',
@@ -54,7 +62,8 @@ class TopicsTable extends Table
         $this->belongsToMany('Categories', [
             'foreignKey' => 'topic_id',
             'targetForeignKey' => 'category_id',
-            'joinTable' => 'topics_categories'
+            'joinTable' => 'topics_categories',
+            'through' => 'TopicsCategories'
         ]);
 
     }
@@ -194,9 +203,49 @@ class TopicsTable extends Table
      */
     public function findIndexTopics(Query $query, array $options)
     {
-        return  $query->find('publicTopics')
+        return $query->find('publicTopics')
             ->find('containCoach')
-            ->find('topicsImage');
+            ->find('topicsImage')
+            ->innerJoinWith(
+                'TopicsCategories.Categories', function ($q) {
+                    return $q->where(['Categories.active' => true])
+                        ->where(['Categories.topic_count >' => 0]);
+                }
+            )
+            ->group([$this->aliasField('id'),'UserImage.id','TopicImage.id']);
+    }
+
+    /**
+     * Query for Conataining the categories of a topic
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findContainCategories(Query $query, array $options)
+    {
+        return $query
+            ->contain(['Categories' => function (Query $query) {
+                return $query->where(['active' => true])
+                    ->select(['id']);
+            }]);
+    }
+
+    /**
+     * Query for Conataining the categories and image of a topic
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findContainImageCategories(Query $query, array $options)
+    {
+        if (empty($options['topicId'])) {
+            throw new \InvalidArgumentException(__('topicId is not defined'));
+        }
+        $topicId = $options["topicId"];
+        return $query
+            ->find('containCategories', $options)
+            ->find('topicsImage')
+            ->where([$this->aliasField('id') =>  $topicId]);
     }
 
     /**
@@ -212,4 +261,5 @@ class TopicsTable extends Table
         ->find('list')
         ->toArray();     
     }
+
 }
