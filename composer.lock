@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "3f2d4997b27aafacf0cd46c6559b3176",
-    "content-hash": "b31169e0b81707ccdd573003e4f50ccf",
+    "hash": "79b1ecbc6467293d950af19040378ecd",
+    "content-hash": "426755e5d3ee1453ed524489ed389a51",
     "packages": [
         {
             "name": "aura/installer-default",
@@ -426,16 +426,16 @@
         },
         {
             "name": "cakephp/chronos",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/chronos.git",
-                "reference": "ea73846325017e03ea796ad96e2c529d35e936b6"
+                "reference": "e08b87dba94a4a8d46cda6529806674ec55c9e6c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/chronos/zipball/ea73846325017e03ea796ad96e2c529d35e936b6",
-                "reference": "ea73846325017e03ea796ad96e2c529d35e936b6",
+                "url": "https://api.github.com/repos/cakephp/chronos/zipball/e08b87dba94a4a8d46cda6529806674ec55c9e6c",
+                "reference": "e08b87dba94a4a8d46cda6529806674ec55c9e6c",
                 "shasum": ""
             },
             "require": {
@@ -477,7 +477,7 @@
                 "datetime",
                 "time"
             ],
-            "time": "2016-11-15 14:52:59"
+            "time": "2016-12-09 06:28:06"
         },
         {
             "name": "cakephp/migrations",
@@ -2482,16 +2482,16 @@
         },
         {
             "name": "cakephp/debug_kit",
-            "version": "3.4.1",
+            "version": "3.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cakephp/debug_kit.git",
-                "reference": "9207cc8e3db2c1e8ba13076b00c4ce56ed89d951"
+                "reference": "e8a64c5c1488958f09fc75a40bff0d2aa9b799f4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/9207cc8e3db2c1e8ba13076b00c4ce56ed89d951",
-                "reference": "9207cc8e3db2c1e8ba13076b00c4ce56ed89d951",
+                "url": "https://api.github.com/repos/cakephp/debug_kit/zipball/e8a64c5c1488958f09fc75a40bff0d2aa9b799f4",
+                "reference": "e8a64c5c1488958f09fc75a40bff0d2aa9b799f4",
                 "shasum": ""
             },
             "require": {
@@ -2535,7 +2535,7 @@
                 "debug",
                 "kit"
             ],
-            "time": "2016-11-12 15:25:35"
+            "time": "2016-12-10 03:19:30"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -2902,7 +2902,6 @@
         "cakedc/tiny-mce": 20,
         "kartik-v/bootstrap-star-rating": 20,
         "omnipay/stripe": 20,
-        "skie/cakephp-search": 20,
         "league/oauth2-facebook": 0,
         "league/oauth1-client": 0,
         "skie/cakephp-search": 20,
