@@ -147,5 +147,6 @@ span.payment-errors span {
     margin: 1px;
     margin-top: 130px;
 }
-.ed_slider_form_section {
+.home {
+    min-height: 410px;
 }

@@ -4,7 +4,6 @@
 	<section class="ed_mainslider">
 		<article class="content">
 			<div class="rev_slider_wrapper">	
-				<div class="forcefullwidth_wrapper_tp_banner" style="position:relative;width:100%;height:auto;margin-top:0px;margin-bottom:0px">		
 				<div id="rev_slider_20_1_wrapper" class="rev_slider_wrapper fullwidthbanner-container" data-alias="image-hero20" style="margin:0px auto;background-color:transparent;padding:0px;margin-top:0px;margin-bottom:0px;">
 				<!-- START REVOLUTION SLIDER 5.0.7 fullwidth mode -->
 					<div id="rev_slider_20_1" class="rev_slider fullwidthabanner" style="display:none;" data-version="5.0.7">
@@ -134,11 +133,11 @@
 						<div class="tp-bannertimer tp-bottom" style="visibility: hidden !important;"></div>	
 					</div>
 				</div><!-- END REVOLUTION SLIDER -->
-				<div class="tp-fullwidth-forcer" style="width: 100%; height: 596px;"></div>
-				</div>
 			</div><!-- END REVOLUTION SLIDER WRAPPER -->	
 		</article>
 	</section>
 <!--Slider end-->
 </div>
-
+<?php $this->start('bottomScript'); ?>
+	<?= $this->Html->script('custom2');?>
+<?php $this->end('bottomScript'); ?>
