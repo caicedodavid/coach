@@ -54,6 +54,10 @@
         {
             "type": "vcs",
             "url": "git@github.com:caicedodavid/omnipay-stripe.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/CakeDC/facebook.git"
         }
     ]
 }
