@@ -17,9 +17,6 @@
         "cakedc/tiny-mce": "3.x-dev",
         "kartik-v/bootstrap-star-rating": "@dev",
         "omnipay/stripe": "dev-master",
-        "opauth/opauth":"1.0.x-dev",
-        "opauth/facebook":"1.0.x-dev",
-        "opauth/twitter":"1.0.x-dev",
         "league/oauth2-facebook":"@stable",
         "league/oauth1-client":"@stable",
         "skie/cakephp-search": "dev-master"
