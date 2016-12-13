@@ -20,7 +20,7 @@
             echo $this->Form->input('name', ['class' =>'form-control']);
             echo $this->Form->input('description');
             if(!$category->topic_count):
-                $this->Form->input('active');
+                echo $this->Form->input('active');
             else:
                 echo $this->Html->tag('div', null, ['class' => 'input checkbox']);
                 // Not allowed change - submit value..
