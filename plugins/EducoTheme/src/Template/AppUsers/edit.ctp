@@ -22,9 +22,9 @@
                     echo $this->Form->input('birthdate',[
                         'error'=> false,
                         'id' => 'birthdate',
+                        'defaultDate' => $defaultDate,
                         'class' => 'form-control',
                         'type'=>'text',
-                        'placeholder'=>'YYYY-MM-DD',
                         'label' => false,
                         'templates' => [
                             'inputContainer' => '<div class="input text required"><div class="input-group date" id="date" name ="date">{{content}}<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>'

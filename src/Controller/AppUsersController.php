@@ -5,6 +5,7 @@ use Cake\Event\Event;
 use Cake\Utility\Hash;
 use CakeDC\Users\Controller\Component\UsersAuthComponent;
 use CakeDC\Users\Controller\UsersController;
+use Cake\I18n\Time;
 
 
 /**
@@ -153,6 +154,10 @@ class AppUsersController extends UsersController
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
+
+        //Hving trouble setting the defaultdate with datetimepicker
+        $this->set('defaultDate', $user->birthdate? $user->birthdate->timeAgoInWords(['format'=>'Y-MM-dd', 'absoluteString' =>'%s' ]) : null);
+        $user->birthdate = null;
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }

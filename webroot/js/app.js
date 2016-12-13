@@ -6,7 +6,8 @@
         format: 'YYYY-MM-DD',
         viewMode: 'years',
         maxDate: d,
-        useCurrent: false
+        useCurrent : false,
+        defaultDate : $('#birthdate').attr("defaultDate")
       };
       var payDateOptions={
         format: 'YYYY-MM-DD',
@@ -21,7 +22,7 @@
         disabledDates: [d],
         sideBySide:true
       };
-      $('#payment-date').datetimepicker(payDateOptions);
+      $('#payment-date').datetimepicker(payDateOptions['defaultDate'] = $('#birthdate').attr("defaultDate"));
       $('#date').datetimepicker(birthdateOptions);
       $('#date1').datetimepicker(sessionOptions);
  
@@ -162,8 +163,7 @@
       $("div.educo-theme").attr("style", "width:100%");
 
       $('a.select-category').click(function() {
-        var categoryId = this.getAttribute('category-id');
-        console.log(categoryId);  
+        var categoryId = this.getAttribute('category-id'); 
         $("#category-id").children().each(function () {
           if (this.value == categoryId){
             this.setAttribute('selected', true);
