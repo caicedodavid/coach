@@ -149,7 +149,7 @@ class AppUsersController extends UsersController
             if ($this->AppUsers->save($user)) {
 
                 $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'display','controller' => 'Pages']);
+                return $this->redirect(['action' => 'myProfile', 'controller' => 'AppUsers']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
