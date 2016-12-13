@@ -88,8 +88,11 @@ class SessionsController extends AppController
      */ 
     public function historic($id = null)
     {   
-        $this->set('statusArray',$this->getStatusArray());
-        $this->sessionList(self::HISTORIC_SESSIONS_FINDER,'modified','desc');
+        $statusArray = $this->getStatusArray();
+        $statusArray[Session::STATUS_APPROVED] = 'Not performed';
+        $statusArray[Session::STATUS_RUNNING] = 'Not performed';
+        $this->set('statusArray', $statusArray);
+        $this->sessionList(self::HISTORIC_SESSIONS_FINDER, 'modified', 'desc');
         if ($this->isCoach($this->getUser())) {
             $this->render("historic_coach");
         }
