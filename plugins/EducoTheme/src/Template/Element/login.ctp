@@ -7,9 +7,7 @@
                         <li><?= empty($userAuth) ? __('welcome guest') : $userAuth['first_name'] . ' :'?></li>
                     <?php if ($userAuth):?>
                         <li><?= $this->AuthLink->link(__('My Profile'),['action' => 'myProfile', 'controller' => 'AppUsers'])?> |</li>
-                        <li><?= $this->AuthLink->link(__d('AppUsers', 'Edit Profile'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?>
-                            <?= $this->AuthLink->link(__d('Users', '| Admin'), ['controller' => 'AppUsers', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false]);?>
-                        </li>
+                        <li><?= $this->AuthLink->link(__d('Users', '| Admin'), ['controller' => 'AppUsers', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false]);?></li>
                     <?php endif;?>
                     </ul>
                 </div>
