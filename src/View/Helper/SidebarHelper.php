@@ -68,6 +68,12 @@ class SidebarHelper extends Helper
                         'isAuthLink' => true,
                         'title' => __('Payment Information')
                     ],
+                    'purchases' => [
+                        'isActive' => AppUsersController::PROFILE_TABS_PURCHASES === $tab,
+                        'url' => ['action' => 'purchases', $user->id, 'controller' => 'Payments'],
+                        'isAuthLink' => true,
+                        'title' => __('My Purchases')
+                    ],
                 ],
                 'user' => $user
             ];

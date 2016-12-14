@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use App\Model\Entity\Payment;
 
 /**
  * Payments Model
@@ -45,6 +46,15 @@ class PaymentsTable extends Table
             'foreignKey' => 'payment_infos_id',
             'joinType' => 'INNER'
         ]);
+        $assocOptions = [
+            'foreignKey' => 'fk_id',
+            'conditions' => [
+                'fk_table' => 'Sessions',
+            ],
+            'joinType' => 'INNER',
+            'className' => 'Sessions',
+        ];
+        $this->belongsTo('Sessions', $assocOptions);
     }
 
     /**
@@ -83,5 +93,45 @@ class PaymentsTable extends Table
         $rules->add($rules->existsIn(['payment_infos_id'], 'PaymentInfos'));
 
         return $rules;
+    }
+
+    /**
+     * Finder method for finding the payments Infos
+     *
+     * @return Query
+     */
+    public function findContainPaymentInfosUser(Query $query, array $options)
+    {
+        if (empty($options['userId'])) {
+            throw new \InvalidArgumentException(__('userId is not defined'));
+        }
+        $userId = $options['userId'];
+        return $query->contain([
+            'PaymentInfos' => function ($q) use ($userId) {
+                return $q->where(['PaymentInfos.user_id' => $userId]);
+            }
+        ]);
+    }
+
+    /**
+     * Finder method for finding the information of a payed session
+     *
+     * @return Query
+     */
+    public function findContainSessions(Query $query, array $options)
+    {
+        return $query->contain(['Sessions']);
+    }
+
+    /**
+     * Finder method for finding the purchases of a user
+     *
+     * @return Query
+     */
+    public function findPurchases(Query $query, array $options)
+    {
+        return $query->find('containSessions')
+            ->find('containPaymentInfosUser', $options)
+            ->where([$this->aliasfield('payment_type') =>  Payment::PAYMENT_TYPE_CREDIT]);
     }
 }
