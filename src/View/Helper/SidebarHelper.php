@@ -30,7 +30,7 @@ class SidebarHelper extends Helper
                         'isActive' => AppUsersController::PROFILE_TABS_TOPICS === $tab,
                         'url' => ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'],
                         'isAuthLink' => false,
-                        'title' => __('Topics')
+                        'title' => __('My Topics')
                     ],
                     'sessions' => [
                         'isActive' => AppUsersController::PROFILE_TABS_SESSIONS === $tab,

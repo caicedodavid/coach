@@ -24,7 +24,6 @@ return [
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
-                'edit',
                 'view',
                 'MyProfile',
                 'coachProfile',
@@ -32,12 +31,20 @@ return [
             ]
         ],
         [
-            'role' => ['user'],
+            'role' => ['user','coach'],
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
-                'coaches',
-            ]
+                'edit',
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
         ],
         [
             'role' => ['user','coach'],
