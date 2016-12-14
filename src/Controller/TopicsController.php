@@ -235,15 +235,15 @@ class TopicsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $topic = $this->Topics->get($id);
-        if ($this->Topics->delete($topic)) {
+        $topic = $this->Topics->find('containSession', ['id' => $id])
+            ->first();
+        if (!$topic->sessions and $this->Topics->delete($topic)) {
             $this->Flash->success(__('The topic has been deleted.'));
+            return $this->redirect(['action' => 'coachTopics', $this->getUser()['id'], 'controller' => 'Topics']);
         } else {
-            $this->Flash->error(__('The topic could not be deleted. Please, try again.'));
+            $this->Flash->error(__('The topic could not be deleted because it has related sessions.'));
+            return $this->redirect(['action' => 'view', $topic->id]);
         }
-
-        return $this->redirect(['action' => 'index']);
     }
 
 

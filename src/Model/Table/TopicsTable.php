@@ -65,6 +65,9 @@ class TopicsTable extends Table
             'joinTable' => 'topics_categories',
             'through' => 'TopicsCategories'
         ]);
+        $this->hasMany('Sessions', [
+            'foreignKey' => 'topic_id',
+        ]);
 
     }
 
@@ -200,6 +203,19 @@ class TopicsTable extends Table
                 'UserImage'
             ]
         ]);
+    }
+
+    /**
+     * Query for containing a topic with the related sessions
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findContainSession(Query $query, array $options)
+    {
+        $id = $options['id'];
+        return  $query->contain('Sessions')
+            ->where([$this->aliasField('id') => $id]);
     }
 
     /**
