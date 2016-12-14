@@ -264,6 +264,24 @@ class SessionsTable extends Table
     }
 
     /**
+     * Query for finding session by topicId
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findByTopic(Query $query, array $options)
+    {
+        if (empty($options['topicId'])) {
+            throw new \InvalidArgumentException(__('topicId is not defined'));
+        }
+
+        $topicId = $options["topicId"];
+        return $query
+            ->where([$this->aliasField("topic_id") => $topicId]);
+    }
+
+
+    /**
      * Query for finding the historical of sessions linked to a user
      * @param $query query object
      * @param $options options array

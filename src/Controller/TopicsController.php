@@ -235,9 +235,8 @@ class TopicsController extends AppController
      */
     public function delete($id = null)
     {
-        $topic = $this->Topics->find('containSession', ['id' => $id])
-            ->first();
-        if (!$topic->sessions and $this->Topics->delete($topic)) {
+        $topic = $this->Topics->get($id);
+        if ($this->Topics->delete($topic)) {
             $this->Flash->success(__('The topic has been deleted.'));
             return $this->redirect(['action' => 'coachTopics', $this->getUser()['id'], 'controller' => 'Topics']);
         } else {

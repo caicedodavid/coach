@@ -6,6 +6,8 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
+use Cake\Event\Event;
+use Cake\Datasource\EntityInterface;
 
 /**
  * Topics Model
@@ -283,6 +285,18 @@ class TopicsTable extends Table
         ])
         ->find('list')
         ->toArray();     
+    }
+
+    /**
+     * Method to be called before the deleting a topic
+     * @param $coachId
+     * @return Array
+     */
+    public function beforeDelete(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        if ($this->Sessions->find('byTopic', ['topicId' => $entity->id])->count()) {
+            $event->stopPropagation();
+        }     
     }
 
 }
