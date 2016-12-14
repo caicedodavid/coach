@@ -46,6 +46,10 @@ class PaymentInfosTable extends Table
             'foreignKey' => 'user_id',
             'joinType' => 'INNER'
         ]);
+        $this->hasMany('Payments', [
+            'foreignKey' => 'payment_infos_id',
+            'joinType' => 'INNER'
+        ]);
     }
 
     /**
