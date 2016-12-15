@@ -26,7 +26,6 @@ return [
             'action' => [
                 'edit',
                 'view',
-                'MyProfile',
                 'coachProfile',
                 'userProfile',
             ]

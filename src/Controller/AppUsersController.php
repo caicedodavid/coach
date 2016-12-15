@@ -33,7 +33,7 @@ class AppUsersController extends UsersController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['coaches','coachProfile']);
+        $this->Auth->allow(['coaches','coachProfile', 'myProfile']);
     }
 
     /**
@@ -114,11 +114,16 @@ class AppUsersController extends UsersController
     public function myProfile()
     {
         $user = $this->getUser();
+        if(!$user) {
+             return $this->redirect(['controller' => 'Pages', 'action' => 'display', 'home']);
+        }
+        if($user['role'] === ROLE_ADMIN) {
+            return $this->redirect(['controller' => 'AppUsers', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false]);
+        }
         if($this->isCoach($user)) {
             $this->set('isCoach', true);
             $this->view($user['id']);
             $this->render("coach_profile");
-
         }
         else {
             $this->userProfile($user['id']);
