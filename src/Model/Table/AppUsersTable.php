@@ -167,7 +167,12 @@ class AppUsersTable extends UsersTable
             throw new \InvalidArgumentException(__('username is not defined'));
         }
         $username = $options['username'];
-        return $query->where([$this->aliasField('username') => $username]);
+        return $query->where([
+            'OR' => [
+                [$this->aliasField('username') => $username],
+                [$this->aliasField('email') => $username]
+            ]
+       ]);
     }
 
     /**
