@@ -8,6 +8,7 @@ use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 use Cake\Datasource\EntityInterface;
+use App\Error\AssociatedTopicException;
 
 /**
  * Topics Model
@@ -295,6 +296,7 @@ class TopicsTable extends Table
     public function beforeDelete(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         if ($this->Sessions->find('byTopic', ['topicId' => $entity->id])->count()) {
+            throw new AssociatedTopicException(__('This topic cannot be deleted because it has asociated sessions.'), 501);
             $event->stopPropagation();
         }     
     }

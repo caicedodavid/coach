@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use App\Error\AssociatedTopicException;
 
 /**
  * Topics Controller
@@ -235,15 +236,21 @@ class TopicsController extends AppController
      */
     public function delete($id = null)
     {
-        $topic = $this->Topics->get($id);
-        if ($this->Topics->delete($topic)) {
-            $this->Flash->success(__('The topic has been deleted.'));
-            return $this->redirect(['action' => 'coachTopics', $this->getUser()['id'], 'controller' => 'Topics']);
-        } else {
-            $this->Flash->error(__('The topic could not be deleted because it has related sessions.'));
+        try {
+            $topic = $this->Topics->get($id);
+            if ($this->Topics->delete($topic)) {
+                $this->Flash->success(__('The topic has been deleted.'));
+                return $this->redirect(['action' => 'coachTopics', $this->getUser()['id'], 'controller' => 'Topics']);
+            } else {
+                
+            }
+        } catch (AssociatedTopicException $e) {
+            $this->Flash->error($e->getMessage());
             return $this->redirect(['action' => 'view', $topic->id]);
         }
     }
+        
+        
 
 
     /**
