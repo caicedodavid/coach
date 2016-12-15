@@ -24,19 +24,26 @@ return [
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
-                'edit',
                 'view',
                 'coachProfile',
                 'userProfile',
             ]
         ],
         [
-            'role' => ['user'],
+            'role' => ['user','coach'],
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
-                'coaches',
-            ]
+                'edit',
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
         ],
         [
             'role' => ['user','coach'],
@@ -213,6 +220,22 @@ return [
                 'requestResetPassword',
                 'resendTokenValidation',
             ]
-        ]
+        ],
+        [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'Payments',
+            'action' => [
+                'purchases',
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
+        ],
     ]
 ];

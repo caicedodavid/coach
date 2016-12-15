@@ -22,6 +22,7 @@ class AppUsersController extends UsersController
     const PROFILE_TABS_TOPICS = 3;
     const PROFILE_TABS_PAYMENT_INFOS = 4;
     const PROFILE_TABS_LIABILITIES = 5;
+    const PROFILE_TABS_PURCHASES = 6;
 
     /**
      * Initialization hook method.
@@ -187,4 +188,5 @@ class AppUsersController extends UsersController
         $this->set('role', $this->request->pass[0]);
         parent::register();
     }
+
 }

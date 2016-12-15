@@ -30,7 +30,7 @@ class SidebarHelper extends Helper
                         'isActive' => AppUsersController::PROFILE_TABS_TOPICS === $tab,
                         'url' => ['action' => 'coachTopics', $user->id, 'controller' => 'Topics'],
                         'isAuthLink' => false,
-                        'title' => __('Topics')
+                        'title' => __('My Topics')
                     ],
                     'sessions' => [
                         'isActive' => AppUsersController::PROFILE_TABS_SESSIONS === $tab,
@@ -67,6 +67,12 @@ class SidebarHelper extends Helper
                         'url' => ['action' => 'cards', $user->id, 'controller' => 'PaymentInfos'],
                         'isAuthLink' => true,
                         'title' => __('Payment Information')
+                    ],
+                    'purchases' => [
+                        'isActive' => AppUsersController::PROFILE_TABS_PURCHASES === $tab,
+                        'url' => ['action' => 'purchases', $user->id, 'controller' => 'Payments'],
+                        'isAuthLink' => true,
+                        'title' => __('My Purchases')
                     ],
                 ],
                 'user' => $user
