@@ -25,7 +25,6 @@ return [
             'controller' => 'AppUsers',
             'action' => [
                 'view',
-                'MyProfile',
                 'coachProfile',
                 'userProfile',
             ]
