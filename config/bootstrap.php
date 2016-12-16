@@ -249,3 +249,7 @@ Type::build('datetime')
     ->useImmutable();
 
 Plugin::load('EducoTheme', ['bootstrap' => false, 'routes' => true]);
+Plugin::load('DebugKit');
+
+require_once("Events.php");
+\Cake\Event\EventManager::instance()->on(new Events());

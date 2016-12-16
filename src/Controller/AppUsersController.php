@@ -189,4 +189,17 @@ class AppUsersController extends UsersController
         parent::register();
     }
 
+
+    /**
+     * login
+     *
+     * @throws NotFoundException
+     * @return type
+     */
+    public function login(){
+        $this->Flash->error(__('Please, activate your account first.'));
+        return $this->redirect(['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'login']);
+    }
+
+
 }
