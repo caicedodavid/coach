@@ -160,18 +160,6 @@
 					$('.ed_header_bottom').removeClass('menu_fixed animated fadeInDown');
 				}
 		});
-	
-	//show hide login form js
-		$('#login_button').on("click", function(e) {
-			$('#login_one').slideToggle(1000);
-			e.stopPropagation(); 
-		});
-	
-	$(document).click(function(e){
-		if(!(e.target.closest('#login_one'))){	
-			$("#login_one").slideUp("slow");    		
-		}
-   });
 		
 	//show hide share button
 		$('#ed_share_wrapper').on("click", function() {
