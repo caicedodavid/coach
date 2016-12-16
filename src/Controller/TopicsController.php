@@ -242,7 +242,7 @@ class TopicsController extends AppController
                 $this->Flash->success(__('The topic has been deleted.'));
                 return $this->redirect(['action' => 'coachTopics', $this->getUser()['id'], 'controller' => 'Topics']);
             } else {
-                
+                 $this->Flash->error(__('The topic could not be deleted. Please, try again.'));          
             }
         } catch (AssociatedTopicException $e) {
             $this->Flash->error($e->getMessage());
