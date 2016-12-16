@@ -157,6 +157,25 @@ class AppUsersTable extends UsersTable
     }
 
     /**
+     * Finder a user by its username
+     *
+     * @return Query
+     */
+    public function findByUsername(Query $query, array $options)
+    {
+        if (empty($options['username'])) {
+            throw new \InvalidArgumentException(__('username is not defined'));
+        }
+        $username = $options['username'];
+        return $query->where([
+            'OR' => [
+                [$this->aliasField('username') => $username],
+                [$this->aliasField('email') => $username]
+            ]
+       ]);
+    }
+
+    /**
      * Finder method for finding the rated sessions of a coach
      *
      * @return Query
