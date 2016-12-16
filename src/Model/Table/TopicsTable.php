@@ -6,6 +6,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
+use Cake\Utility\Hash;
 
 /**
  * Topics Model
@@ -64,6 +65,10 @@ class TopicsTable extends Table
             'targetForeignKey' => 'category_id',
             'joinTable' => 'topics_categories',
             'through' => 'TopicsCategories'
+        ]);
+        $this->hasMany('Sessions', [
+            'foreignKey' => 'topic_id',
+            'joinType' => 'INNER',
         ]);
 
     }
@@ -146,6 +151,21 @@ class TopicsTable extends Table
     {
         return  $query->find('publicTopics')
             ->find('topicsImage');
+    }
+
+    /**
+     * Query for finding the top rated topics
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findTopRated(Query $query, array $options)
+    {
+        return  $query->find('publicTopics')
+            ->find('topicsImage')
+            ->order(['rating' => 'DESC'])
+            ->limit(10)
+            ->cache('top_topics');
     }
 
     /**
@@ -256,6 +276,36 @@ class TopicsTable extends Table
     }
 
     /**
+     * Finder method for finding the rated sessions of a topic
+     *
+     * @return Query
+     */
+    public function findRatedByTopic(Query $query, array $options)
+    {
+        if (empty($options['topicId'])) {
+            throw new \InvalidArgumentException(__('topicId is not defined'));
+        }
+        $topicId = $options["topicId"];
+        return $query->where([
+                $this->aliasField("id") => $topicId
+            ])
+            ->find('containSessionsRated');
+    }
+
+    /**
+     * Finder method for finding the rated sessions
+     *
+     * @return Query
+     */
+    public function findContainSessionsRated(Query $query, array $options)
+    {
+        return $query->contain(['Sessions' => function (Query $query) {
+            return $query->select(['user_rating', 'topic_id'])
+                ->where(['Sessions.user_rating IS NOT' => null]);
+        }]);
+    }
+
+    /**
      * Method that returns the topics for the selection box
      * @param $coachId
      * @return Array
@@ -267,6 +317,21 @@ class TopicsTable extends Table
         ])
         ->find('list')
         ->toArray();     
+    }
+
+    /**
+     * Update the rating of a topic
+     *
+     * @return boolean
+     */
+    public function updateTopicRating($topicId)
+    {
+        $topic = $this->find('ratedByTopic', ['topicId' => $topicId])
+            ->first();
+
+        $ratings = Hash::extract($topic->sessions,'{n}.user_rating');
+        $topic->rating = array_sum($ratings) / count($ratings); 
+        return $this->save($topic); 
     }
 
 }

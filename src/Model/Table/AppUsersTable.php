@@ -174,7 +174,7 @@ class AppUsersTable extends UsersTable
     }
 
     /**
-     * Finder method for finding the rated sessions of a coach
+     * Finder method for finding the rated sessions
      *
      * @return Query
      */

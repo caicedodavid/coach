@@ -269,6 +269,7 @@ class SessionsController extends AppController
             if ($this->Sessions->save($session)) {
                 $appSession->delete('Class.id');
                 $this->Sessions->Users->updateCoachRating($session->coach_id);
+                $this->Sessions->Topics->updateTopicRating($session->topic_id);
                 $this->Flash->success(__('Thank you for your rating.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {
