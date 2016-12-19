@@ -1,6 +1,6 @@
  <div class="ed_sidebar_wrapper">
 	<div class="ed_profile_img">
-		<?php echo $this->Img->display($user['user_image'], 'medium');?>
+		<?php echo $this->Img->display($user['user_image'][0], 'medium');?>
 	</div>
 	<h3><?= $user['full_name'];?></h3>
 	<?= $this->Balance->display($user);?>

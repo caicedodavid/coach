@@ -148,9 +148,8 @@ class AppUsersController extends UsersController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
             $data["birthdate"] = date('Y-m-d',strtotime($data["birthdate"]));
-            if(!$data["user_image"]["file"]["size"]){
-                unset($data["user_image"]);
-            }
+            $this->AppUsers->saveImage($data["user_image"], $user->id);
+            unset($data["user_image"]);
             $user = $this->AppUsers->patchEntity($user, $data);
             if ($this->AppUsers->save($user)) {
 
