@@ -258,7 +258,7 @@ class TopicsTable extends Table
                         ->where(['Categories.topic_count >' => 0]);
                 }
             )
-            ->group([$this->aliasField('id'),'UserImage.id','TopicImage.id']);
+            ->group([$this->aliasField('id')]);
     }
 
     /**
