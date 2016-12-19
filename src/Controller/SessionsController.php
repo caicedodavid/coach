@@ -88,10 +88,7 @@ class SessionsController extends AppController
      */ 
     public function historic($id = null)
     {   
-        $statusArray = $this->getStatusArray();
-        $statusArray[Session::STATUS_APPROVED] = __('Not performed');
-        $statusArray[Session::STATUS_RUNNING] = __('Not performed');
-        $this->set('statusArray', $statusArray);
+        $this->set('statusArray', $this->getStatusArrayHistoric());
         $this->sessionList(self::HISTORIC_SESSIONS_FINDER, 'modified', 'desc');
         if ($this->isCoach($this->getUser())) {
             $this->render("historic_coach");
@@ -121,8 +118,8 @@ class SessionsController extends AppController
         $this->set('session', $session);
         $this->set('isCoach', $this->isCoach($user));
         $this->set('_serialize', ['session']);
-        if (($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED)){
-            $this->set('statusArray',$this->getStatusArray());
+        if (($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED) or $this->Sessions->isNotPerformed($session)){
+            $this->set('statusArray', $this->getStatusArrayHistoric());
             $this->render("view_canceled_rejected");
         } else {
             if ($this->isCoach($user)){
@@ -464,8 +461,8 @@ class SessionsController extends AppController
      *
      * @return Array
      */
-    public function getStatusArray() {
-
+    public function getStatusArray() 
+    {
         return [
             Session::STATUS_PENDING => 'Pending',
             Session::STATUS_APPROVED => 'Approved',
@@ -474,5 +471,18 @@ class SessionsController extends AppController
             Session::STATUS_CANCELED => 'Canceled',
             Session::STATUS_PAST => 'Past'
         ];
+    }
+
+    /**
+     * Returns Array with Key/Value StatusValue/StatusString for historic view
+     *
+     * @return Array
+     */
+    public function getStatusArrayHistoric() 
+    {
+        $statusArray = $this->getStatusArray();
+        $statusArray[Session::STATUS_APPROVED] = __('Not performed');
+        $statusArray[Session::STATUS_RUNNING] = __('Not performed');
+        return $statusArray;
     }
 }

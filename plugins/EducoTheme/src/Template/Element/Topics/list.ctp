@@ -19,7 +19,7 @@
                                     </h4>
                                     <div class="course_detail">
                                         <div class="course_faculty">
-                                            <?php echo $this->Img->display($topic->coach['user_image'][0], 'extra-small',['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $topic->coach['id']]]);?><?= $this->Html->link(__($topic->coach['full_name']), ['action' => 'coachProfile', $topic->coach['id'], 'controller' => 'AppUsers']) ?>
+                                            <?php echo $this->Img->display($topic->coach['user_image'], 'extra-small',['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $topic->coach['id']]]);?><?= $this->Html->link(__($topic->coach['full_name']), ['action' => 'coachProfile', $topic->coach['id'], 'controller' => 'AppUsers']) ?>
                                         </div>
                                         <p><?= substr($topic->description,0,100) . ((strlen($topic->description) > 100) ? '...  ':'  ')?><?= $this->Html->link(__('See More'), ['controller' => 'Topics', 'plugin' => false, 'action' => 'view', $topic->id])?></p>
                                     </div>

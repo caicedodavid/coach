@@ -7,7 +7,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12">
                     <div class="ed_team_member">
                         <div class="ed_team_member_img">
-                            <?php echo $this->Img->display($user['user_image'][0], 'medium', ['url' => ['action' => 'coachProfile', $user->id]]);?>
+                            <?php echo $this->Img->display($user['user_image'], 'medium', ['url' => ['action' => 'coachProfile', $user->id]]);?>
                         </div>
                         <div class="ed_team_member_description">
                             <h4><?= $this->Html->link(__($user->full_name), ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']) ?></h4>

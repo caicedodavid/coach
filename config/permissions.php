@@ -140,7 +140,8 @@ return [
             'plugin'=> false,
             'controller' => 'Topics',
             'action' => [
-                'edit'
+                'edit',
+                'delete'
             ],
             'allowed' => function (array $user, $role, Request $request) {
                 $sessionUserId = Hash::get($user, 'id');

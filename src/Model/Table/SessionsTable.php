@@ -265,6 +265,24 @@ class SessionsTable extends Table
     }
 
     /**
+     * Query for finding session by topicId
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findByTopic(Query $query, array $options)
+    {
+        if (empty($options['topicId'])) {
+            throw new \InvalidArgumentException(__('topicId is not defined'));
+        }
+
+        $topicId = $options["topicId"];
+        return $query
+            ->where([$this->aliasField("topic_id") => $topicId]);
+    }
+
+
+    /**
      * Query for finding the historical of sessions linked to a user
      * @param $query query object
      * @param $options options array
@@ -855,7 +873,7 @@ class SessionsTable extends Table
      *
      * @param $session session entity
      * @param $appSession the application session
-     * @return boolean
+     * @return null
      */
     public function afterUserRate($session, $appSession)
     {
@@ -863,6 +881,18 @@ class SessionsTable extends Table
         $this->Users->updateCoachRating($session->coach_id);
         $this->Topics->updateTopicRating($session->topic_id);
         Cache::delete('top_topics');
+    }
+
+    /**
+     * After user rate
+     *
+     * @param $session session entity
+     * @return boolean
+     */
+    public function isNotPerformed($session)
+    {
+        return (($session->status === Session::STATUS_APPROVED) or ($session->status === Session::STATUS_RUNNING)) and
+            (date('Y-m-d H:i',strtotime('+' . $session->topic->duration . ' minutes', strtotime($session->schedule))) < date('Y-m-d H:i',strtotime('now')));
     }
 
 }

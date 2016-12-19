@@ -76,7 +76,7 @@ StorageManager::config('Local', [
 Configure::write('FileStorage', [
         // Configure image versions on a per model base
         'imageSizes' => [
-            'file_storage' => [
+            'Topics' => [
                 'big' => [
                     'thumbnail' => [
                         'mode' => 'inbound',
@@ -105,18 +105,20 @@ Configure::write('FileStorage', [
                         'height' => 152
                     ]
                 ],
-                'medium' => [
-                    'thumbnail' => [
-                        'mode' => 'inbound',
-                        'width' => 263,
-                        'height' => 263
-                    ]
-                ],
                 'medium-small' => [
                     'thumbnail' => [
                         'mode' => 'inbound',
                         'width' => 248,
                         'height' => 156
+                    ]
+                ],
+            ],
+        'AppUsers' => [
+                'medium' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 263,
+                        'height' => 263
                     ]
                 ],
                 'small' => [

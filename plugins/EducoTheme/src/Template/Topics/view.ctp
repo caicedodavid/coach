@@ -14,7 +14,7 @@
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                         <div class="course_detail">
                             <div class="course_faculty">
-                                <?php echo $this->Img->display($topic->coach['user_image'][0], 'extra-small', ['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $topic->coach['id']]]);?><?= $this->Html->link(__($topic->coach['full_name']), ['action' => 'coachProfile', $topic->coach['id'], 'controller' => 'AppUsers']) ?>
+                                <?php echo $this->Img->display($topic->coach['user_image'], 'extra-small', ['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $topic->coach['id']]]);?><?= $this->Html->link(__($topic->coach['full_name']), ['action' => 'coachProfile', $topic->coach['id'], 'controller' => 'AppUsers']) ?>
                             </div>
                         </div>
                     </div>
@@ -50,7 +50,8 @@
                     </div>
                 </div>
             </div><!--tab End-->
-            <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small', 'id'=>'topic-button']);?> 
+            <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small topic-button']);?>
+            <?= $this->AuthLink->link(__d('Topics', 'Delete topic'), ['plugin' => false, 'controller' => 'Topics', 'action' => 'delete', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_green pull-right small topic-button', 'confirm' => __('Are you sure you want to delete this topic?')]);?> 
         </div>
     </div>
 <!--Sidebar Start-->

@@ -249,7 +249,7 @@ class AppUsersTable extends UsersTable
     }
 
     /**
-     * patch user image 
+     * save user image 
      *
      * @param Array post data 
      * @return Array

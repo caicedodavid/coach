@@ -119,7 +119,7 @@ span.payment-errors, span.payment-errors span {
 span.payment-errors span {
 }
 
-#topic-button {
+.topic-button {
     margin-top:5px;
 }
 .form-control{

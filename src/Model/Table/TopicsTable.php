@@ -7,6 +7,9 @@ use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Hash;
+use Cake\Event\Event;
+use Cake\Datasource\EntityInterface;
+use App\Error\AssociatedTopicException;
 
 /**
  * Topics Model
@@ -48,11 +51,14 @@ class TopicsTable extends Table
             }
         ]);
 
-        $this->hasOne('TopicImage', [
+        $this->hasMany('TopicImage', [
             'className' => 'TopicImage',
             'foreignKey' => 'foreign_key',
             'conditions' => [
-                'TopicImage.model' => 'file_storage'
+                'TopicImage.model' => 'Topics'
+            ],
+            'sort' => [
+                'TopicImage.created' => 'desc',
             ]
         ]);
         $this->belongsTo('Coach', [
@@ -223,6 +229,19 @@ class TopicsTable extends Table
     }
 
     /**
+     * Query for containing a topic with the related sessions
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findContainSession(Query $query, array $options)
+    {
+        $id = $options['id'];
+        return  $query->contain('Sessions')
+            ->where([$this->aliasField('id') => $id]);
+    }
+
+    /**
      * Query for containing a topic with the coach info
      * @param $query query object
      * @param $options options array
@@ -333,5 +352,34 @@ class TopicsTable extends Table
         $topic->rating = array_sum($ratings) / count($ratings); 
         return $this->save($topic); 
     }
+    
+    /*
+     * Method to be called before the deleting a topic
+     * @param $coachId
+     * @return Array
+     */
+    public function beforeDelete(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        if ($this->Sessions->find('byTopic', ['topicId' => $entity->id])->count()) {
+            throw new AssociatedTopicException(__('This topic cannot be deleted because it has asociated sessions.'), 501);
+            $event->stopPropagation();
+        }     
+    }
+
+    /**
+     * save topic image 
+     *
+     * @param Array post data 
+     * @return Array
+     */
+    public function saveImage($data, $topicId)
+    {
+        if(!$data['file']['size']) {
+            return;
+        }
+        $entity = $this->TopicImage->newEntity();
+        $entity = $this->TopicImage->patchEntity($entity, $data);
+        return $this->TopicImage->uploadImage($topicId, $entity);
+    } 
 
 }

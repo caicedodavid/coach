@@ -4,6 +4,7 @@ namespace App\Controller;
 use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
+use App\Error\AssociatedTopicException;
 
 /**
  * Topics Controller
@@ -174,12 +175,13 @@ class TopicsController extends AppController
 
             $data = $this->request->data;
             $topic["coach_id"] = $userId;
-            if(!$data["topic_image"]["file"]["size"]){
-                unset($data["topic_image"]);
-            }
+            $image = $data["topic_image"];
+            unset($data["topic_image"]);
             $topic = $this->Topics->patchEntity($topic, $data);
             $topic->dirty('categories', true);
             if ($this->Topics->save($topic)) {
+                $this->Topics->saveImage($image, $topic->id);
+                unset($data["topic_image"]);
                 $this->Flash->success(__('The topic has been saved.'));
 
                 return $this->redirect(['action' => 'coachTopics', $userId]);
@@ -207,9 +209,8 @@ class TopicsController extends AppController
         $topicCategories = Hash::extract($topic->categories, '{n}.id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
-            if(!$data["topic_image"]["file"]["size"]){
-                unset($data["topic_image"]);
-            }
+            $this->Topics->saveImage($data["topic_image"], $topic->id);
+            unset($data["topic_image"]);
             $topic = $this->Topics->patchEntity($topic, $data);
             $topic->dirty('categories', true);
             if ($this->Topics->save($topic)) {
@@ -235,16 +236,21 @@ class TopicsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $topic = $this->Topics->get($id);
-        if ($this->Topics->delete($topic)) {
-            $this->Flash->success(__('The topic has been deleted.'));
-        } else {
-            $this->Flash->error(__('The topic could not be deleted. Please, try again.'));
+        try {
+            $topic = $this->Topics->get($id);
+            if ($this->Topics->delete($topic)) {
+                $this->Flash->success(__('The topic has been deleted.'));
+                return $this->redirect(['action' => 'coachTopics', $this->getUser()['id'], 'controller' => 'Topics']);
+            } else {
+                 $this->Flash->error(__('The topic could not be deleted. Please, try again.'));          
+            }
+        } catch (AssociatedTopicException $e) {
+            $this->Flash->error($e->getMessage());
+            return $this->redirect(['action' => 'view', $topic->id]);
         }
-
-        return $this->redirect(['action' => 'index']);
     }
+        
+        
 
 
     /**

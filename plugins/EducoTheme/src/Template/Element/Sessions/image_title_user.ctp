@@ -15,7 +15,7 @@
         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <div class="course_detail">
                 <div class="course_faculty">
-                    <?php echo $this->Img->display($session->coach['user_image'][0], 'extra-small',['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $session->coach['id']]]);?><?= $this->Html->link(__($session->coach['full_name']), ['action' => 'coachProfile', $session->coach['id'], 'controller' => 'AppUsers']) ?>
+                    <?php echo $this->Img->display($session->coach['user_image'], 'extra-small',['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $session->coach['id']]]);?><?= $this->Html->link(__($session->coach['full_name']), ['action' => 'coachProfile', $session->coach['id'], 'controller' => 'AppUsers']) ?>
                 </div>
             </div>
         </div>
