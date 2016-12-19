@@ -172,22 +172,21 @@ class TopicsController extends AppController
     {
         $topic = $this->Topics->newEntity();
         if ($this->request->is('post')) {
-
             $data = $this->request->data;
-            $topic["coach_id"] = $userId;
-            $image = $data["topic_image"];
-            unset($data["topic_image"]);
-            $topic = $this->Topics->patchEntity($topic, $data);
-            $topic->dirty('categories', true);
-            if ($this->Topics->save($topic)) {
-                $this->Topics->saveImage($image, $topic->id);
-                unset($data["topic_image"]);
-                $this->Flash->success(__('The topic has been saved.'));
-
-                return $this->redirect(['action' => 'coachTopics', $userId]);
+            if(!$data['categories']['_ids']) {
+                $this->Flash->error(__('You must select at least one category.'));
             } else {
-                $this->Flash->error(__('The topic could not be saved. Please, try again.'));
-            }
+                $topic = $this->Topics->patchTopic($userId, $topic, $data, $image);
+                if ($this->Topics->save($topic)) {
+                    $this->Topics->saveImage($image,$topic->id);
+                    unset($data["topic_image"]);
+                    $this->Flash->success(__('The topic has been saved.'));
+    
+                    return $this->redirect(['action' => 'coachTopics', $userId]);
+                } else {
+                    $this->Flash->error(__('The topic could not be saved. Please, try again.'));
+                }
+            } 
         }
         $categories = $this->Topics->Categories->find('list');
         $this->set('times',$this->getDurationArray());
@@ -209,16 +208,20 @@ class TopicsController extends AppController
         $topicCategories = Hash::extract($topic->categories, '{n}.id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
-            $this->Topics->saveImage($data["topic_image"], $topic->id);
-            unset($data["topic_image"]);
-            $topic = $this->Topics->patchEntity($topic, $data);
-            $topic->dirty('categories', true);
-            if ($this->Topics->save($topic)) {
-                $this->Flash->success(__('The topic has been saved.'));
-
-                return $this->redirect(['action' => 'view', $id]);
+            if(!$data['categories']['_ids']) {
+                $this->Flash->error(__('You must select at least one category'));
             } else {
-                $this->Flash->error(__('The topic could not be saved. Please, try again.'));
+                $this->Topics->saveImage($data["topic_image"], $topic->id);
+                unset($data["topic_image"]);
+                $topic = $this->Topics->patchEntity($topic, $data);
+                $topic->dirty('categories', true);
+                if ($this->Topics->save($topic)) {
+                    $this->Flash->success(__('The topic has been saved.'));
+    
+                    return $this->redirect(['action' => 'view', $id]);
+                } else {
+                    $this->Flash->error(__('The topic could not be saved. Please, try again.'));
+                }
             }
         }
         $categories = $this->Topics->Categories->find('list');

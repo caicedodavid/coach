@@ -380,6 +380,24 @@ class TopicsTable extends Table
         $entity = $this->TopicImage->newEntity();
         $entity = $this->TopicImage->patchEntity($entity, $data);
         return $this->TopicImage->uploadImage($topicId, $entity);
-    } 
+    }
 
+    /**
+     * save topic image 
+     *
+     * @param userId
+     * @param data Array
+     * @param image topic image
+     * @return Array
+     */
+    public function patchTopic($userId, $topic, &$data, &$image)
+    {
+        $topic["coach_id"] = $userId;
+        $image = $data["topic_image"];
+        unset($data["topic_image"]);
+        $topic = $this->patchEntity($topic, $data);
+        $topic->dirty('categories', true);
+        return $topic;
+    } 
+              
 }
