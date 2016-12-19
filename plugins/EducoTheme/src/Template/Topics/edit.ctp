@@ -18,10 +18,23 @@
                     'label' => 'Price (USD)']);
                 echo $this->Form->input('active');
                 echo $this->Form->input('duration', ['options' => $times, 'class' => 'form-control', 'empty' => __('Select...')]);
+                echo $this->Form->input('categories._ids', [
+                    'options' => $categories, 
+                    'multiple' => 'multiple',
+                    'id' => 'categories-select',
+                    'templates' => [
+                        'formGroup' => '{{label}}<br>{{input}}'
+                    ],
+                    'class' => 'educo-theme',
+                    'ids' => json_encode($topicCategories)
+                ]);
             ?>
+            <?php if ($this->Form->isFieldError('categories')): ?>
+                <?php echo $this->Form->error('categories'); ?>
+            <?php endif; ?>
         </fieldset>
         <?= $this->Form->button(__('Submit'), ['class' => 'ed_btn ed_orange medium btn btn-primary pull-right']) ?>
-        <?= $this->Html->link(__('Cancel'), ['controller' => 'Topics', 'action' => 'view', $topic->id],['class' => 'ed_btn ed_green medium btn btn-default pull-right']) ?>
+        <?= $this->Html->link(__('Cancel'), ['controller' => 'Topics', 'action' => 'view', $topic->id], ['class' => 'ed_btn ed_green medium btn btn-default pull-right']) ?>
         <?= $this->Form->end() ?>
     </div>
 </div>

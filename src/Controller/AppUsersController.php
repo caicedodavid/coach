@@ -5,6 +5,7 @@ use Cake\Event\Event;
 use Cake\Utility\Hash;
 use CakeDC\Users\Controller\Component\UsersAuthComponent;
 use CakeDC\Users\Controller\UsersController;
+use Cake\I18n\Time;
 
 
 /**
@@ -21,6 +22,7 @@ class AppUsersController extends UsersController
     const PROFILE_TABS_TOPICS = 3;
     const PROFILE_TABS_PAYMENT_INFOS = 4;
     const PROFILE_TABS_LIABILITIES = 5;
+    const PROFILE_TABS_PURCHASES = 6;
 
     /**
      * Initialization hook method.
@@ -32,7 +34,7 @@ class AppUsersController extends UsersController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['coaches','coachProfile']);
+        $this->Auth->allow(['coaches','coachProfile', 'myProfile']);
     }
 
     /**
@@ -102,7 +104,7 @@ class AppUsersController extends UsersController
     public function coachProfile($id)
     {
         $this->set('isCoach', $this->isCoach($this->getUser()));
-        $this->view($id);    
+        $this->view($id);
     }
 
     /**
@@ -113,11 +115,16 @@ class AppUsersController extends UsersController
     public function myProfile()
     {
         $user = $this->getUser();
+        if(!$user) {
+             return $this->redirect(['controller' => 'Pages', 'action' => 'display', 'home']);
+        }
+        if($user['role'] === ROLE_ADMIN) {
+            return $this->redirect(['controller' => 'AppUsers', 'action' => 'index', 'prefix'=>'admin', 'plugin' => false]);
+        }
         if($this->isCoach($user)) {
             $this->set('isCoach', true);
             $this->view($user['id']);
             $this->render("coach_profile");
-
         }
         else {
             $this->userProfile($user['id']);
@@ -141,18 +148,21 @@ class AppUsersController extends UsersController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
             $data["birthdate"] = date('Y-m-d',strtotime($data["birthdate"]));
-            if(!$data["user_image"]["file"]["size"]){
-                unset($data["user_image"]);
-            }
+            $this->AppUsers->saveImage($data["user_image"], $user->id);
+            unset($data["user_image"]);
             $user = $this->AppUsers->patchEntity($user, $data);
             if ($this->AppUsers->save($user)) {
 
                 $this->Flash->success(__('The user has been saved.'));
-                return $this->redirect(['action' => 'display','controller' => 'Pages']);
+                return $this->redirect(['action' => 'myProfile', 'controller' => 'AppUsers']);
             } else {
                 $this->Flash->error(__('The user could not be saved. Please, try again.'));
             }
         }
+
+        //Hving trouble setting the defaultdate with datetimepicker
+        $this->set('defaultDate', $user->birthdate? $user->birthdate->timeAgoInWords(['format'=>'Y-MM-dd', 'absoluteString' =>'%s' ]) : null);
+        $user->birthdate = null;
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);
     }
@@ -177,4 +187,18 @@ class AppUsersController extends UsersController
         $this->set('role', $this->request->pass[0]);
         parent::register();
     }
+
+
+    /**
+     * login
+     *
+     * @throws NotFoundException
+     * @return type
+     */
+    public function login(){
+        $this->Flash->error(__('Please, activate your account first.'));
+        return $this->redirect(['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'login']);
+    }
+
+
 }

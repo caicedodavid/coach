@@ -42,5 +42,5 @@ use Cake\Routing\Router;
 </p>
 <p>
 	<?php echo __("View your Session");
-	 echo $this->Html->link(__d('AppUsers','My Session'), Router::url(['controller' => 'Sessions', 'plugin' => false, 'action' => 'viewApprovedUser', $session->id, 'prefix' => false],true), ['escape' => true]);?>
+	 echo $this->Html->link(__d('AppUsers','My Session'), Router::url(['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id, 'prefix' => false],true), ['escape' => true]);?>
 </p>

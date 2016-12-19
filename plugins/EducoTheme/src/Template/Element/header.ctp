@@ -1,7 +1,7 @@
 <?php
     $menu = [
         [
-             'url' => ['controller' => 'Pages', 'action' => 'display', 'home'],
+             'url' => '/',
              'title' => __('Home')          
         ],
         [

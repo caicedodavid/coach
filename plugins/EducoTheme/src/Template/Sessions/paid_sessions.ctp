@@ -50,10 +50,10 @@
                                                 <?= $session->schedule ?>
                                             </div>
                                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                                <span><?= $this->Number->currency($session->topic->price, 'USD')?></span>
+                                                <?= $this->Number->currency($session->topic->price, 'USD')?>
                                             </div>
                                             <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1">
-                                                <span><?=$this->Number->currency($session->topic->price * $session->paid_liability->commission, 'USD')?></span>
+                                                <?=$this->Number->currency($session->topic->price * $session->paid_liability->commission, 'USD')?>
                                             </div>
                                             <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
                                                 <?= $session->paid_liability->date ?>

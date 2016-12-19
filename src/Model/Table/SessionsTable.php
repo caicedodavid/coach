@@ -17,6 +17,7 @@ use App\Model\Behavior\PaymentBehavior;
 use App\Model\Entity\Liability;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
+use Cake\Cache\Cache;
 
 
 
@@ -38,6 +39,8 @@ use Cake\Core\Configure;
  */
 class SessionsTable extends Table
 {
+    const VALID_SESSION_SCHEDULE = "+1 day";
+
     use MailerAwareTrait;
     /**
      * Initialize method
@@ -79,7 +82,7 @@ class SessionsTable extends Table
             'foreignKey' => 'fk_id',
             'conditions' => [
                 'PendingLiabilities.fk_table' => 'Sessions',
-                'PendingLiabilities.status' => 1
+                'PendingLiabilities.status' => Liability::STATUS_PENDING
             ],
             'joinType' => 'INNER',
             'className' => 'Liabilities',
@@ -91,7 +94,7 @@ class SessionsTable extends Table
             'foreignKey' => 'fk_id',
             'conditions' => [
                 'PaidLiabilities.fk_table' => 'Sessions',
-                'PaidLiabilities.status' => 3
+                'PaidLiabilities.status' => Liability::STATUS_PAID
             ],
             'joinType' => 'INNER',
             'className' => 'Liabilities',
@@ -166,7 +169,7 @@ class SessionsTable extends Table
      */
     public function validSchedule($check, array $context)
     {   
-        return (date('Y-m-d H:i',strtotime($check)) > date('Y-m-d H:i',strtotime("+1 day")));
+        return (date('Y-m-d H:i',strtotime($check)) > date('Y-m-d H:i',strtotime(self::VALID_SESSION_SCHEDULE)));
     }
 
     /**
@@ -262,6 +265,24 @@ class SessionsTable extends Table
     }
 
     /**
+     * Query for finding session by topicId
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findByTopic(Query $query, array $options)
+    {
+        if (empty($options['topicId'])) {
+            throw new \InvalidArgumentException(__('topicId is not defined'));
+        }
+
+        $topicId = $options["topicId"];
+        return $query
+            ->where([$this->aliasField("topic_id") => $topicId]);
+    }
+
+
+    /**
      * Query for finding the historical of sessions linked to a user
      * @param $query query object
      * @param $options options array
@@ -276,9 +297,10 @@ class SessionsTable extends Table
         $userId = $options["userId"];
         $role = $options["role"];
         return $query
-            ->where([$this->aliasField($role . "_id") => $userId])
             ->find('historic')
-            ->find('contain', ['role'=>$role]);
+            ->where([$this->aliasField($role . "_id") => $userId])
+            ->find('contain', ['role'=>$role])
+            ->find('containTopic');
     }
 
     /**
@@ -319,7 +341,8 @@ class SessionsTable extends Table
         return $query
             ->where([$this->aliasField($role . "_id") => $userId])
             ->find('approved')
-            ->find('contain', ['role' => $role]);
+            ->find('contain', ['role' => $role])
+            ->find('containTopic');
     }
 
     /**
@@ -330,12 +353,15 @@ class SessionsTable extends Table
      */
     public function findApproved(Query $query, array $options)
     {
-        return  $query = $query->where([
-            'OR'=>[
-                ['Sessions.status' => session::STATUS_APPROVED],
-                ['Sessions.status' => session::STATUS_RUNNING]
-            ]
-        ]);
+        return $query = $query
+            ->where([
+                'OR' => [
+                    ['Sessions.status' => session::STATUS_APPROVED],
+                    ['Sessions.status' => session::STATUS_RUNNING]
+                ]
+            ])
+            ->where([$query->newExpr()->gte("date_add(Sessions.schedule, interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]);
+              
     }
 
     /**
@@ -359,13 +385,23 @@ class SessionsTable extends Table
      */
     public function findHistoric(Query $query, array $options)
     {
-        return  $query = $query->where([
-            'OR'=>[
-                [$this->aliasField("status") => session::STATUS_PAST],
-                [$this->aliasField("status") => session::STATUS_REJECTED],
-                [$this->aliasField("status") => session::STATUS_CANCELED]
-            ]
-        ]);
+        return $query = $query
+            ->where([
+                'OR' => [
+                    [$this->aliasField("status") => session::STATUS_PAST],
+                    [$this->aliasField("status") => session::STATUS_REJECTED],
+                    [$this->aliasField("status") => session::STATUS_CANCELED],
+                ]
+            ])
+            ->orWhere([
+                'OR' => [
+                    [$this->aliasField("status") => session::STATUS_RUNNING],
+                    [$this->aliasField("status") => session::STATUS_APPROVED],
+                ],
+                'AND' => [
+                    [$query->newExpr()->lt("date_add(Sessions.schedule, interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]
+                ]
+            ]);
     }
 
     /**
@@ -525,25 +561,25 @@ class SessionsTable extends Table
         return $query->find('containPendingLiability')
             ->find('containCoach')
             ->find('past')
-            ->select(['Coaches.id','Coaches.username', 'Coaches.first_name','Coaches.last_name'])
+            ->select(['Coaches.id', 'Coaches.username', 'Coaches.first_name', 'Coaches.last_name'])
             ->group('Coaches.id');       
     }
 
 
     /**
-     * Query for finding the user and topic
+     * Query for finding the user, topic and liability
      * @param $query query object
      * @param $role string role of user
      * @return Query
      */
-    public function findContainUserTopicPendingLiability(Query $query, array $options)
+    public function findContainUserPendingLiability(Query $query, array $options)
     {
-        return $query->find('containUserTopic', $options)
+        return $query->find('containUserCoach', $options)
             ->find('containPendingLiability');
     }
 
     /**
-     * Query for finding the user, topic and liability
+     * Query for finding the user, topic 
      * @param $query query object
      * @param $role string role of user
      * @return Query
@@ -556,9 +592,26 @@ class SessionsTable extends Table
 
         $id = $options['id'];
         return $query->where(['Sessions.id' => $id])
-            ->find('containUser')
-            ->find('containCoach')
+            ->find('containUserCoach', $options)
             ->find('containTopic');
+    }
+
+    /**
+     * Query for finding the user, topic and liability
+     * @param $query query object
+     * @param $role string role of user
+     * @return Query
+     */
+    public function findContainUserCoach(Query $query, array $options)
+    {
+        if (empty($options['id'])) {
+            throw new \InvalidArgumentException(__('id is not defined'));
+        }
+
+        $id = $options['id'];
+        return $query->where(['Sessions.id' => $id])
+            ->find('containUser')
+            ->find('containCoach');
     }
 
     /**
@@ -639,7 +692,7 @@ class SessionsTable extends Table
             ];
             return $response;
         }
-        $price  = isset($session->topic->price) ? $session->topic->price : 10;
+        $price  = $session->price;
         $amount = $price - $session->user->balance;
         $response['status'] = PaymentBehavior::SUCCESSFUL_STATUS; 
         if ($amount > 0) {
@@ -658,14 +711,13 @@ class SessionsTable extends Table
      * @param $session session entity
      * @return $data Array
      */
-    public function refundSession($session, $isCoach, $observation)
+    public function refundSession($session, $isCoach)
     {
         if($isCoach){
             $session->pending_liability->status = Liability::STATUS_REFUND;
-            $session->pending_liability->observation = $observation;
             $session->pending_liability->date = date('Y-m-d',strtotime("now"));
             $this->PendingLiabilities->save($session->pending_liability);
-            $session->user->balance += isset($session->topic->price) ? $session->topic->price : 10;
+            $session->user->balance += $session->price;
             $this->Users->save($session->user);
         }
     }
@@ -683,9 +735,10 @@ class SessionsTable extends Table
      */
     public function fixData(&$session, $topic, $userId, array $data)
     {
-        $session['user_id'] = $userId;
-        $session['coach_id'] = $topic->coach_id;
-        $session['topic_id'] = $topic->id;
+        $session->user_id = $userId;
+        $session->coach_id = $topic->coach_id;
+        $session->topic_id = $topic->id;
+        $session->price = $topic->price;
         return $this->fixSchedule($data);
     }
 
@@ -776,7 +829,7 @@ class SessionsTable extends Table
         $liability = $this->PendingLiabilities->newEntity();
         $liability->fk_table = 'Sessions';
         $liability->fk_id = $session->id;
-        $liability->amount = $session->topic->price * (1 - $session->coach->commission);
+        $liability->amount = $session->price * (1 - $session->coach->commission);
         $liability->commission = $session->coach->commission ? $session->coach->commission : Configure::read('Coach.defaultCommission');
         $liability->status = $liability::STATUS_PENDING;
         $this->PendingLiabilities->save($liability); 
@@ -813,6 +866,33 @@ class SessionsTable extends Table
         }
         $this->getMailer('Session')->send('paymentMail', [$coach, $sessions, $data['total'], $data['observation']]);
         return true;
+    }
+
+    /**
+     * After user rate
+     *
+     * @param $session session entity
+     * @param $appSession the application session
+     * @return null
+     */
+    public function afterUserRate($session, $appSession)
+    {
+        $appSession->delete('Class.id');
+        $this->Users->updateCoachRating($session->coach_id);
+        $this->Topics->updateTopicRating($session->topic_id);
+        Cache::delete('top_topics');
+    }
+
+    /**
+     * After user rate
+     *
+     * @param $session session entity
+     * @return boolean
+     */
+    public function isNotPerformed($session)
+    {
+        return (($session->status === Session::STATUS_APPROVED) or ($session->status === Session::STATUS_RUNNING)) and
+            (date('Y-m-d H:i',strtotime('+' . $session->topic->duration . ' minutes', strtotime($session->schedule))) < date('Y-m-d H:i',strtotime('now')));
     }
 
 }

@@ -6,7 +6,8 @@
         format: 'YYYY-MM-DD',
         viewMode: 'years',
         maxDate: d,
-        useCurrent: false
+        useCurrent : false,
+        defaultDate : $('#birthdate').attr("defaultDate")
       };
       var payDateOptions={
         format: 'YYYY-MM-DD',
@@ -21,7 +22,7 @@
         disabledDates: [d],
         sideBySide:true
       };
-      $('#payment-date').datetimepicker(payDateOptions);
+      $('#payment-date').datetimepicker(payDateOptions['defaultDate'] = $('#birthdate').attr("defaultDate"));
       $('#date').datetimepicker(birthdateOptions);
       $('#date1').datetimepicker(sessionOptions);
  
@@ -142,6 +143,32 @@
       $(document).on("click", ".cancel-session", function () {
         var sessionId = this.getAttribute('id');
         $("input[name=id]").val(sessionId);
-        console.log($("input[name=id]"));
+      });
+
+      $('#categories-select').multipleSelect({
+        filter: true
+      });
+
+      function checkSelected(select) {
+        var ids = select.attr("ids");
+        if (ids == null){
+          return;
+        }
+        var selected = JSON.parse(select.attr("ids"));
+        select.multipleSelect("setSelects", selected);
+      }
+
+      checkSelected($('#categories-select'));
+      
+      $("div.educo-theme").attr("style", "width:100%");
+
+      $('a.select-category').click(function() {
+        var categoryId = this.getAttribute('category-id'); 
+        $("#category-id").children().each(function () {
+          if (this.value == categoryId){
+            this.setAttribute('selected', true);
+          }
+        });
+        $("#search-form").submit();
       });
  });

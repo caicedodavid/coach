@@ -50,7 +50,8 @@
                     </div>
                 </div>
             </div><!--tab End-->
-            <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small', 'id'=>'topic-button']);?> 
+            <?= $this->AuthLink->link(__d('Topics', 'Edit topic'), ['plugin' => false,'controller' => 'Topics', 'action' => 'edit', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_orange pull-right small topic-button']);?>
+            <?= $this->AuthLink->link(__d('Topics', 'Delete topic'), ['plugin' => false, 'controller' => 'Topics', 'action' => 'delete', $topic->id, 'prefix' => false], ['class' => 'btn ed_btn pull-right ed_green pull-right small topic-button', 'confirm' => __('Are you sure you want to delete this topic?')]);?> 
         </div>
     </div>
 <!--Sidebar Start-->

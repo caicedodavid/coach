@@ -14,10 +14,10 @@ class ImgHelper extends Helper
      * @param size string
      * @return the Users image or blank image
      */
-    public function display($image,$size,array $options=[])
+    public function display($image, $size, array $options=[])
     {
-    	if($image){
-    		return $this->Image->display($image, $size,$options);
+    	if(isset($image[0])){
+    		return $this->Image->display($image[0], $size,$options);
     	}
         $options['alt'] = 'CakePHP';
     	return $this->Html->image("blank_" . $size . ".jpg",$options);     
@@ -29,10 +29,10 @@ class ImgHelper extends Helper
      * @param size string
      * @return the Users image or blank image
      */
-    public function displayImage($image,$size,array $options=[])
+    public function displayImage($image, $size, array $options=[])
     {
-        if($image){
-            return $this->Image->display($image, $size,$options);
+        if(isset($image[0])){
+            return $this->Image->display($image[0], $size, $options);
         }
         $options['alt'] = 'CakePHP';
         return $this->Html->image("blank2_" . $size . ".jpg",$options);     

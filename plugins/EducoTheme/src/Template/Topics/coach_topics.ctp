@@ -33,7 +33,7 @@
                                 </div>
                             </div>
                         <?php endforeach; ?>
-                         <div class="paginator ed_blog_bottom_pagination">
+                         <div class="paginator ed_blog_bottom_pagination" id="topic-pagination">
                             <nav>
                                 <?php echo $this->element('classic_pagination'); ?>
                             </nav>
