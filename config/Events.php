@@ -18,7 +18,7 @@ class Events implements EventListenerInterface
     {
         if ($event->subject()->request->data) {
             $user = TableRegistry::get('Users')->find('byUsername', ['username' => $event->subject()->request->data['username']])->first();
-            if (!$user->active) {
+            if (!is_null($user) and !$user->active) {
                 $event->result = Router::url(['controller' => 'AppUsers', 'action' => 'login', 'prefix' => false, 'plugin' => false],true);
                 $event->stopPropagation();
             }
