@@ -11,8 +11,8 @@ class UserImageTable extends ImageStorageTable
 
         $entity = $this->patchEntity($entity, [
             'adapter' => 'Local',
-            'model' => 'Users',
-            'user_id' => $userId
+            'model' => 'AppUsers',
+            'foreign_key' => $userId
         ]);
         return $this->save($entity);
     }

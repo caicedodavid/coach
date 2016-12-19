@@ -196,7 +196,7 @@ Request::addDetector('tablet', function ($request) {
 Configure::write('Users.config', ['users']);
 Configure::write('Session.provider', [
     'name' => 'Braincert',
-    'key' => 'Dh9rNgeRZCBPWFgFRhqU',
+    'key' => 'BlC4OXwwFORw4UlwQioR',
 ]);
 Configure::write('Coach.defaultCommission', 0.25);
 Configure::write('Omnipay.Stripe',[
@@ -249,5 +249,7 @@ Type::build('datetime')
     ->useImmutable();
 
 Plugin::load('EducoTheme', ['bootstrap' => false, 'routes' => true]);
+Plugin::load('DebugKit');
+
 require_once("Events.php");
 \Cake\Event\EventManager::instance()->on(new Events());

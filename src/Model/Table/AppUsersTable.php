@@ -8,6 +8,7 @@ use Cake\Validation\Validator;
 use Cake\Core\Configure;
 use CakeDC\Users\Model\Table\UsersTable;
 use Cake\Utility\Hash;
+use Burzum\FileStorage\Storage\StorageManager;
 
 /**
  * Users Model
@@ -32,11 +33,14 @@ class AppUsersTable extends UsersTable
         parent::initialize($config);
         $this->addBehavior('Burzum/Imagine.Imagine');
 
-        $this->hasOne('UserImage', [
+        $this->hasMany('UserImage', [
             'className' => 'UserImage',
-            'foreignKey' => 'user_id',
+            'foreignKey' => 'foreign_key',
             'conditions' => [
-                'UserImage.model' => 'file_storage'
+                'UserImage.model' => 'AppUsers'
+            ],
+            'sort' => [
+                'UserImage.created' => 'desc',
             ]
         ]);
 
@@ -193,7 +197,7 @@ class AppUsersTable extends UsersTable
     }
 
     /**
-     * Finder method for finding the rated sessions of a coach
+     * Finder method for finding the rated sessions
      *
      * @return Query
      */
@@ -243,6 +247,21 @@ class AppUsersTable extends UsersTable
         $user->rating = array_sum($ratings) / count($ratings); 
         return $this->save($user); 
     }
-    
+
+    /**
+     * patch user image 
+     *
+     * @param Array post data 
+     * @return Array
+     */
+    public function saveImage($data, $userId)
+    {
+        if(!$data['file']['size']) {
+            return;
+        }
+        $entity = $this->UserImage->newEntity();
+        $entity = $this->UserImage->patchEntity($entity, $data);
+        return $this->UserImage->uploadImage($userId, $entity);
+    }    
     
 }

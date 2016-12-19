@@ -20,7 +20,7 @@
                             <div class="ed_add_students">
                                 <div class="row">
                                     <div class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
-                                        <?php echo $this->Img->display($session->coach['user_image'], 'small', ['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $session->coach['id']]]);?>
+                                        <?php echo $this->Img->display($session->coach['user_image'][0], 'small', ['url' => ['action' => 'coachProfile', 'controller' => 'AppUsers', $session->coach['id']]]);?>
                                     </div>
                                     <div class="col-lg-10 col-md-10 col-sm-9 col-xs-8">
                                         <span><?= $this->Html->link(__($session->coach['full_name']), ['action' => 'coachProfile', $session->coach['id'], 'controller' => 'AppUsers']) ?></span>
