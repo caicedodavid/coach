@@ -267,9 +267,7 @@ class SessionsController extends AppController
         if ($this->request->is('post')) {      
             $session = $this->Sessions->patchEntity($session,$this->request->data);
             if ($this->Sessions->save($session)) {
-                $appSession->delete('Class.id');
-                $this->Sessions->Users->updateCoachRating($session->coach_id);
-                $this->Sessions->Topics->updateTopicRating($session->topic_id);
+                $this->Sessions->afterUserRate($session, $appSession);
                 $this->Flash->success(__('Thank you for your rating.'));
                 return $this->redirect(['action' => 'display','controller' => 'Pages']);
             } else {

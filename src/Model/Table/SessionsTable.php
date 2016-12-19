@@ -17,6 +17,7 @@ use App\Model\Behavior\PaymentBehavior;
 use App\Model\Entity\Liability;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
+use Cake\Cache\Cache;
 
 
 
@@ -847,6 +848,21 @@ class SessionsTable extends Table
         }
         $this->getMailer('Session')->send('paymentMail', [$coach, $sessions, $data['total'], $data['observation']]);
         return true;
+    }
+
+    /**
+     * After user rate
+     *
+     * @param $session session entity
+     * @param $appSession the application session
+     * @return boolean
+     */
+    public function afterUserRate($session, $appSession)
+    {
+        $appSession->delete('Class.id');
+        $this->Users->updateCoachRating($session->coach_id);
+        $this->Topics->updateTopicRating($session->topic_id);
+        Cache::delete('top_topics');
     }
 
 }
