@@ -361,7 +361,7 @@ class TopicsTable extends Table
     public function beforeDelete(Event $event, EntityInterface $entity, \ArrayObject $options)
     {
         if ($this->Sessions->find('byTopic', ['topicId' => $entity->id])->count()) {
-            throw new AssociatedTopicException(__('This topic cannot be deleted because it has asociated sessions.'), 501);
+            throw new AssociatedTopicException(__('This topic cannot be deleted because it has associated sessions.'), 501);
             $event->stopPropagation();
         }     
     }
