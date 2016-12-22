@@ -30,6 +30,9 @@ class PaymentsController extends AppController
                 'purchases' => [
                     'userId' => $id
                 ]
+            ],
+            'order' =>[
+                $this->Payments->aliasField('created') => 'desc'
             ]
         ];
         $payments = $this->paginate($this->Payments);
