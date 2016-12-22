@@ -261,7 +261,8 @@ class SessionsTable extends Table
         return $query
             ->where([$this->aliasField($role . "_id") => $userId])
             ->find('pending')
-            ->find('contain', ['role'=>$role]);
+            ->find('contain', ['role'=>$role])
+            ->find('containTopic');
     }
 
     /**
@@ -353,15 +354,15 @@ class SessionsTable extends Table
      */
     public function findApproved(Query $query, array $options)
     {
-        return $query = $query
+        return $query
             ->where([
                 'OR' => [
                     ['Sessions.status' => session::STATUS_APPROVED],
                     ['Sessions.status' => session::STATUS_RUNNING]
                 ]
             ])
-            ->where([$query->newExpr()->gte("date_add(Sessions.schedule, interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]);
-              
+            ->find('notPastSchedule');
+
     }
 
     /**
@@ -372,10 +373,24 @@ class SessionsTable extends Table
      */
     public function findPending(Query $query, array $options)
     {
-        return  $query = $query->where([
-                'Sessions.status' => session::STATUS_PENDING
-        ]);
+        return $query
+            ->where(['Sessions.status' => session::STATUS_PENDING])
+            ->find('notPastSchedule');
     }
+
+    /**
+     * Query for finding the sessions with non-past schedule
+     * @param $query query object
+     * @param $options options array
+     * @return Query
+     */
+    public function findNotPastSchedule(Query $query, array $options)
+    {
+        return $query
+            ->where([$query->newExpr()->gte("date_add(Sessions.schedule, interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]);        
+    }
+
+    
 
     /**
      * Query for finding historic sessions
@@ -385,7 +400,7 @@ class SessionsTable extends Table
      */
     public function findHistoric(Query $query, array $options)
     {
-        return $query = $query
+        return $query
             ->where([
                 'OR' => [
                     [$this->aliasField("status") => session::STATUS_PAST],
@@ -397,6 +412,7 @@ class SessionsTable extends Table
                 'OR' => [
                     [$this->aliasField("status") => session::STATUS_RUNNING],
                     [$this->aliasField("status") => session::STATUS_APPROVED],
+                    [$this->aliasField("status") => session::STATUS_PENDING],
                 ],
                 'AND' => [
                     [$query->newExpr()->lt("date_add(Sessions.schedule, interval Topics.duration minute)", date('Y-m-d H:i',strtotime('now')))]
@@ -412,11 +428,12 @@ class SessionsTable extends Table
      */
     public function findPast(Query $query, array $options)
     {
-        return  $query = $query->where([
-            'OR'=>[
-                [$this->aliasField("status") => session::STATUS_PAST],
-            ]
-        ]);
+        return  $query
+            ->where([
+                'OR'=>[
+                    [$this->aliasField("status") => session::STATUS_PAST],
+                ]
+            ]);
     }
 
     /**
@@ -428,18 +445,20 @@ class SessionsTable extends Table
     public function findContain(Query $query, array $options)
     {
         $role = $options["role"];
-        if ($role === 'coach') {
-            return $query->contain([
-                'Users'=> [
+        if ($role === ROLE_COACH) {
+            return $query
+                ->contain([
+                    'Users'=> [
+                        'UserImage'
+                    ]
+                ]);
+        }
+        return $query
+            ->contain([
+                'Coaches'=> [
                     'UserImage'
                 ]
-            ]);
-        }
-        return $query->contain([
-            'Coaches'=> [
-                'UserImage'
-            ]
-        ]); 
+            ]); 
     }
 
     /**
@@ -450,11 +469,12 @@ class SessionsTable extends Table
      */
     public function findContainTopic(Query $query, array $options)
     {
-        return $query->contain([
-            'Topics' => [
-                'TopicImage'
-            ]
-        ]); 
+        return $query
+            ->contain([
+                'Topics' => [
+                    'TopicImage'
+                ]
+            ]);
     }
 
     /**
@@ -465,9 +485,8 @@ class SessionsTable extends Table
      */
     public function findContainUser(Query $query, array $options)
     {
-        return $query->contain([
-            'Users'
-        ]); 
+        return $query
+            ->contain(['Users']); 
     }
 
     /**
@@ -478,9 +497,8 @@ class SessionsTable extends Table
      */
     public function findContainCoach(Query $query, array $options)
     {
-        return $query->contain([
-            'Coaches'
-        ]); 
+        return $query
+            ->contain(['Coaches']); 
     }
 
     /**
@@ -491,9 +509,8 @@ class SessionsTable extends Table
      */
     public function findContainPendingLiability(Query $query, array $options)
     {
-        return $query->contain([
-            'PendingLiabilities'
-        ]);
+        return $query
+            ->contain(['PendingLiabilities']);
     }
 
     /**
@@ -504,9 +521,8 @@ class SessionsTable extends Table
      */
     public function findContainPaidLiability(Query $query, array $options)
     {
-        return $query->contain([
-            'PaidLiabilities'
-        ]);
+        return $query
+            ->contain(['PaidLiabilities']);
     }
 
     /**
@@ -522,12 +538,12 @@ class SessionsTable extends Table
         }
 
         $userId = $options["userId"];
-        $query->find('containPaidLiability')
+        return $query
+            ->find('containPaidLiability')
             ->find('containUser')
             ->find('containTopic')
             ->where(['Sessions.coach_id' => $userId])
             ->where(['Sessions.status' => session::STATUS_PAST]); 
-        return($query);
     }
 
     /**
@@ -543,7 +559,8 @@ class SessionsTable extends Table
         }
 
         $userId = $options["userId"];
-        return $query->find('containPendingLiability')
+        return $query
+            ->find('containPendingLiability')
             ->find('containUser')
             ->find('containTopic')
             ->where(['Sessions.coach_id' => $userId])
@@ -558,7 +575,8 @@ class SessionsTable extends Table
      */
     public function findUnpaidCoaches(Query $query, array $options)
     {
-        return $query->find('containPendingLiability')
+        return $query
+            ->find('containPendingLiability')
             ->find('containCoach')
             ->find('past')
             ->select(['Coaches.id', 'Coaches.username', 'Coaches.first_name', 'Coaches.last_name'])
@@ -574,7 +592,8 @@ class SessionsTable extends Table
      */
     public function findContainUserPendingLiability(Query $query, array $options)
     {
-        return $query->find('containUserCoach', $options)
+        return $query
+            ->find('containUserCoach', $options)
             ->find('containPendingLiability');
     }
 
@@ -591,7 +610,8 @@ class SessionsTable extends Table
         }
 
         $id = $options['id'];
-        return $query->where(['Sessions.id' => $id])
+        return $query
+            ->where(['Sessions.id' => $id])
             ->find('containUserCoach', $options)
             ->find('containTopic');
     }
@@ -609,7 +629,8 @@ class SessionsTable extends Table
         }
 
         $id = $options['id'];
-        return $query->where(['Sessions.id' => $id])
+        return $query
+            ->where(['Sessions.id' => $id])
             ->find('containUser')
             ->find('containCoach');
     }
@@ -627,7 +648,8 @@ class SessionsTable extends Table
         }
         
         $id = $options['id'];
-        return $query->where(['Sessions.id' => $id])
+        return $query
+            ->where(['Sessions.id' => $id])
             ->find('containPendingLiability')
             ->find('containUser');
     }
@@ -891,7 +913,7 @@ class SessionsTable extends Table
      */
     public function isNotPerformed($session)
     {
-        return (($session->status === Session::STATUS_APPROVED) or ($session->status === Session::STATUS_RUNNING)) and
+        return (($session->status === Session::STATUS_APPROVED) or ($session->status === Session::STATUS_RUNNING) or ($session->status === Session::STATUS_PENDING)) and
             (date('Y-m-d H:i',strtotime('+' . $session->topic->duration . ' minutes', strtotime($session->schedule))) < date('Y-m-d H:i',strtotime('now')));
     }
 
