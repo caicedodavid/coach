@@ -387,7 +387,6 @@ class SessionsController extends AppController
         ->first();
         $session->coach_comments = $this->request->data['observation'];
         $session->status = Session::STATUS_CANCELED;
-        $this->Sessions->refundSession($session, $this->isCoach($this->getUser()));
         $this->Sessions->removeClass($session);
         if ($this->Sessions->save($session)) {
             $this->Sessions->sendEmail($session, $this->getUser()['role'] . 'CancelMail', $session->coach_comments);
@@ -397,6 +396,29 @@ class SessionsController extends AppController
         }
         return $this->redirect(
             ['action' => $action, $this->getUser()['id']]
+        );
+        
+    }
+
+    /**
+     * cancel a approved session method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null Refresh page.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function cancelRequest($id)
+    {
+        $this->request->allowMethod(['post','get']);
+        $session = $this->Sessions->get($id);
+        $session->status = Session::STATUS_CANCELED;
+        if ($this->Sessions->save($session)) {
+            $this->Flash->success(__('The request has been Canceled.'));
+        } else {
+            $this->Flash->error(__('The request could not be canceled. Please try again later'));
+        }
+        return $this->redirect(
+            ['action' => 'pending', $this->getUser()['id']]
         );
         
     }

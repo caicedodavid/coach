@@ -32,7 +32,7 @@
                                                 <?= $session->schedule ?>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'action' => 'pending', 'button' => 'Cancel', 'message' => 'Are you sure you want to cancel this requested session?']);?>
+                                                <?= $this->element('Sessions/cancel_request_button', ['id' => $session->id]);?>
                                             </div>
                                         </div>
                                     </div>

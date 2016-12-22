@@ -116,7 +116,8 @@ return [
                 'viewPendingUser',
                 'add',
                 'viewApprovedUser',
-                'viewHistoricUser'
+                'viewHistoricUser',
+                'cancelRequest'
             ]
         ],
         [
