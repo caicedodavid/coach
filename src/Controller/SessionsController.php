@@ -505,6 +505,7 @@ class SessionsController extends AppController
         $statusArray = $this->getStatusArray();
         $statusArray[Session::STATUS_APPROVED] = __('Not performed');
         $statusArray[Session::STATUS_RUNNING] = __('Not performed');
+        $statusArray[Session::STATUS_PENDING] = __('Not responded');
         return $statusArray;
     }
 }
