@@ -18,7 +18,7 @@
             <table class="vertical-table">
                 <?= $this->element('Sessions/general_view', ["session" => $session]);?>
             </table>
-               <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel Request', 'action' => 'pending','message' => 'Are you sure you want to cancel this requested session?']);?>
+               <?= $this->element('Sessions/cancel_request_button', ['id' => $session->id]);?>
         </div>
     </div>
 </div>
