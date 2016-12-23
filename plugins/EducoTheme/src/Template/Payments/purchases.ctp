@@ -9,7 +9,7 @@
 
 <ul class="nav nav-tabs" role="tablist">
     <?= $this->Html->tag('li', null, ['role' => 'presentation', 'class' => 'active'])?>
-    <?= $this->AuthLink->link(__('Received Payments'), ['action' => 'purchases', $user->id, 'controller' => 'Payments', 'data-toggle' => 'tab', 'aria-controls' => 'approved', 'role' => 'tab']);?>
+    <?= $this->AuthLink->link(__('Credit card'), ['action' => 'purchases', $user->id, 'controller' => 'Payments', 'data-toggle' => 'tab', 'aria-controls' => 'approved', 'role' => 'tab']);?>
     <?= $this->Html->tag('/li')?>
 </ul>
 <div class="tab-content">
