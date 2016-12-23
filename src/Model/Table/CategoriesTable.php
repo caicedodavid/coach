@@ -5,6 +5,9 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\Datasource\EntityInterface;
+use Cake\Event\Event;
+use App\Error\AssociatedCategoryException;
 
 /**
  * Categories Model
@@ -119,5 +122,18 @@ class CategoriesTable extends Table
     {
         return $query
             ->where([$query->newExpr()->gt($this->aliasField('topic_count'), 0)]);
-    }       
+    }
+
+    /**
+     * Method to be called before the deleting a category
+     * @param $coachId
+     * @return Array
+     */
+    public function beforeDelete(Event $event, EntityInterface $entity, \ArrayObject $options)
+    {
+        if ($entity->topic_count) {
+            throw new AssociatedCategoryException(__('This category cannot be deleted because it has associated topics.'), 501);
+            $event->stopPropagation();
+        }     
+    }      
 }
