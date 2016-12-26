@@ -98,5 +98,28 @@ class AppController extends Controller
         $this->viewBuilder()->theme('EducoTheme');
     }
 
+    /**
+     * before filter event
+     *
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+    
+        $lang = $this->Cookie->read('lang');
+    
+        if (empty($lang)) {
+            return;
+        }
+    
+        I18n::locale($lang);
+    }
+
+    public function changeLang($lang = 'en_US')
+    {
+        $this->Cookie->write('lang', $lang);
+        return $this->redirect($this->request->referer());
+    }
 
 }
