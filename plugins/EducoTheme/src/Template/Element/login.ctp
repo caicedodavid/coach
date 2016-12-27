@@ -25,6 +25,13 @@
                     <?php else:?>
                         <?= $this->Html->link(__('Logout'), '/logout')?>
                     <?php endif;?>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id ="languague-button">Language <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <?= $this->Html->link(__('English'), ['controller'=>'App', 'action' => 'changeLang', 'en_US'])?>
+                                <?= $this->Html->link(__('Español'), ['controller'=>'App', 'action' => 'changeLang', 'es'])?>
+                            </li>
+                        </ul>
                 </div>
             </div>
         </div>

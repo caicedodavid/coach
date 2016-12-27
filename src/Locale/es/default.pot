@@ -474,8 +474,8 @@ msgid "Add Topic"
 msgstr "Agrega un Tópico"
 
 #: /src/Template/Topics/coach_topicsctp:20
-msgid "No hay tópicos"
-msgstr ""
+msgid "There are no topics"
+msgstr "No hay tópicos"
 
 #: /src/Template/Topics/editctp:2
 msgid "Edit Topic"
