@@ -219,6 +219,7 @@ Configure::write('OAuth.providers.facebook.options.clientSecret', '306c10458f710
 
 Configure::write('OAuth.providers.twitter.options.clientId', 'z44HI73TY9jAInH6cetgEG6KP');
 Configure::write('OAuth.providers.twitter.options.clientSecret', 'Zq18qLNm6ydnO3uXNVYIoNIkOVP6OKVc3slAqK48w5Wm2mJt4g');
+Configure::write('OAuth.providers.facebook.options.graphApiVersion', 'v2.8');
 
 // Only try to load DebugKit in development mode
 // Debug Kit should not be installed on a production system
