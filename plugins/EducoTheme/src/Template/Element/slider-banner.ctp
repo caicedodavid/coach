@@ -10,7 +10,7 @@
 						<ul>	<!-- SLIDE  -->
 							<li data-index="rs-68" data-transition="zoomout" data-slotamount="default"  data-easein="Power4.easeInOut" data-easeout="Power4.easeInOut" data-masterspeed="3000"  data-thumb="images/slider/notgenericherobg-100x50.jpg"  data-rotate="0"  data-saveperformance="off"  data-title="Intro" data-description="">
 								<!-- MAIN IMAGE -->
-								<img src="http://placehold.it/1400X960"  alt=""  data-bgposition="center center" data-bgfit="cover" data-bgrepeat="no-repeat" data-bgparallax="10" class="rev-slidebg" data-no-retina>
+								<?= $this->Html->image('home_image.jpg', ['alt' => '', 'pathPrefix' => 'images/', 'data-bgposition' => 'center center', 'data-bgfit' => 'cover', 'data-bgrepeat' => 'no-repeat', 'data-bgparallax' => '10', 'class' => 'rev-slidebg', 'data-no-retina'=> true])?>
 								<!-- LAYERS -->
 
 								<!-- LAYER NR. 1 -->
