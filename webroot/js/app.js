@@ -1,33 +1,30 @@
  $(document).ready(function(){
+      var d = new Date();
+      d.setDate(d.getDate() - 1);
+
       var birthdateOptions={
-        format: 'yyyy-mm-dd',
-        container: '#date',
-        todayHighlight: true,
-        autoclose: true,
-        startView: 2,
+        format: 'YYYY-MM-DD',
+        viewMode: 'years',
+        maxDate: d,
+        useCurrent : false,
+        defaultDate : $('#birthdate').attr("defaultDate")
+      };
+      var payDateOptions={
+        format: 'YYYY-MM-DD',
+        minDate: d,
+        disabledDates: [d],
+        useCurrent: true
       };
       var sessionOptions={
-        format: 'yyyy-mm-dd',
-        container: '#date1',
-        todayHighlight: true,
-        startDate: new Date(), 
-        autoclose: true,
+        format: 'YYYY-MM-DD HH:mm',
+        stepping: 5,
+        minDate: d,
+        disabledDates: [d],
+        sideBySide:true
       };
-      $('#date').datepicker(birthdateOptions);
-      $('#date1').datepicker(sessionOptions);
-
-      $('.timepicker').timepicker({
-          timeFormat: 'HH:mm',
-          interval: 30,
-          minTime: '00',
-          maxTime: '23:30',
-          defaultTime: '12',
-          startTime: '00',
-          dynamic: false,
-          dropdown: true,
-          scrollbar: true
-      });
- 
+      $('#payment-date').datetimepicker(payDateOptions['defaultDate'] = $('#birthdate').attr("defaultDate"));
+      $('#date').datetimepicker(birthdateOptions);
+      $('#date1').datetimepicker(sessionOptions);
  
       $(document).on('click', '#pagination-button a', function () {
           var thisHref = $(this).attr('href');
@@ -71,16 +68,6 @@
           $('span.stars').stars();
       });
 
-      $( function() {
-       $( "#tabs" ).tabs({
-         beforeLoad: function( event, ui ) {
-           ui.jqXHR.fail(function() {
-             ui.panel.html("Couldn't load this tab. We'll try to fix this as soon as possible. " );
-           });
-         }
-       });
-      });
-
       $(document).on('click', '.paging a', function () {
         var thisHref = $(this).attr('href');
         if (!thisHref) {
@@ -120,4 +107,68 @@
       });
 
       $('.rate-input').rating({displayOnly: true, step: 0.5});
+
+      $( "#topic-selector" ).change(function() {
+        var coachId = $(this).attr("coach-id");
+        var topicId= this.options[this.selectedIndex].value
+        var url = "/sessions/add/" + coachId + "/" + topicId;
+        window.location.replace(url);
+      });
+
+      $('#pay-button').click(function() {      
+        var $inputs = $('#payment-form :input:checked');
+        var value = 0;
+        $inputs.each(function() {
+          if((this.getAttribute("price")) && (this.getAttribute("placeholder") !== null)){
+            value += Number(this.getAttribute("price"))
+          }
+        });
+        var list = document.getElementById("price-text");
+        var newItem = document.createElement("h3");
+        newItem.setAttribute('id', 'price-text');
+        var textnode = document.createTextNode("You are going to pay to this coach " + value.toString() + "$");
+        newItem.appendChild(textnode);
+        $("#price-text").replaceWith(newItem);
+        $("input[name='total']").val(value);
+      });
+
+      $('#payment-form').click(function() {  
+        var checkboxes = $("input[type='checkbox']"),
+            submitButt = $("#pay-button"); 
+        checkboxes.click(function() {
+          submitButt.attr("disabled", !checkboxes.is(":checked"));
+        });
+      });
+
+      $(document).on("click", ".cancel-session", function () {
+        var sessionId = this.getAttribute('id');
+        $("input[name=id]").val(sessionId);
+      });
+
+      $('#categories-select').multipleSelect({
+        filter: true
+      });
+
+      function checkSelected(select) {
+        var ids = select.attr("ids");
+        if (ids == null){
+          return;
+        }
+        var selected = JSON.parse(select.attr("ids"));
+        select.multipleSelect("setSelects", selected);
+      }
+
+      checkSelected($('#categories-select'));
+      
+      $("div.educo-theme").attr("style", "width:100%");
+
+      $('a.select-category').click(function() {
+        var categoryId = this.getAttribute('category-id'); 
+        $("#category-id").children().each(function () {
+          if (this.value == categoryId){
+            this.setAttribute('selected', true);
+          }
+        });
+        $("#search-form").submit();
+      });
  });

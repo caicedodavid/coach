@@ -46,9 +46,12 @@ use Cake\Core\Configure;
                 }
                 ?>
             </fieldset>
-            <?= implode(' ', $this->User->socialLoginList()); ?>
             <?= $this->Form->button(__d('CakeDC/Users', 'Login'), ['class' => 'btn ed_btn pull-right ed_orange pull-right']); ?>
             <?= $this->Form->end() ?>
         </div>
+        <br>
+        <br>
+        <br>
+        <center><?= implode(' ', $this->User->socialLoginList()); ?></center>
     </div>
 </div>

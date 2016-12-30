@@ -21,6 +21,8 @@
 use Cake\Core\Plugin;
 use Cake\Routing\RouteBuilder;
 use Cake\Routing\Router;
+use Cake\Core\Configure;
+use Cake\Network\Session;
 
 /**
  * The default class to use for all routes
@@ -48,7 +50,8 @@ Router::scope('/', function (RouteBuilder $routes) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
-    $routes->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
+    
+    $routes->connect('/', ['action' => 'myProfile', 'controller' => 'AppUsers']);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.

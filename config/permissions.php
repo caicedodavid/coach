@@ -1,13 +1,14 @@
 <?php
     use Cake\ORM\TableRegistry;
     use Cake\Utility\Hash;
+    use Cake\Network\Request;
 
 return [
     'Users.SimpleRbac.permissions' => [
         [
-            'role' => 'user',
-            'controller' => 'Posts',
-            'action' => ['view'],
+            'role' => 'coach',
+            'controller' => 'Pqges',
+            'action' => ['display'],
         ],
         [
             'role' => ['user','coach'],
@@ -18,23 +19,43 @@ return [
                 'resendTokenValidation'
             ]
         ],
-
         [
-            'role' => ['user'],
+            'role' => ['user','coach'],
+            'plugin'=> false,
+            'controller' => 'AppUsers',
+            'action' => [
+                'view',
+                'coachProfile',
+                'userProfile',
+            ]
+        ],
+        [
+            'role' => ['user','coach'],
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
                 'edit',
-                'coaches',
-                'view'
-            ]
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
         ],
         [
-            'role' => ['coach'],
+            'role' => ['user','coach'],
             'plugin'=> false,
-            'controller' => 'AppUsers',
+            'controller' => 'Sessions',
             'action' => [
-                'edit'
+                'viewPending',
+                'view',
+                'cancel',
+                'rate',
+                'updateStartTime',
+                'cancelSession'
             ]
         ],
         [
@@ -43,15 +64,34 @@ return [
             'controller' => 'Sessions',
             'action' => [
                 'pending',
-                'viewPending',
-                'historic',
                 'approved',
-                'view',
-                'cancel',
-                'rate',
-                'updateStartTime',
-                'cancelSession'
-            ]
+                'historic',
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
+        ],
+        [
+            'role' => ['coach'],
+            'plugin'=> false,
+            'controller' => 'Sessions',
+            'action' => [
+                'paidSessions',
+                'unpaidSessions'
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
         ],
         [
             'role' => ['coach'],
@@ -62,7 +102,9 @@ return [
                 'approveSession',
                 'rateCoach',
                 'viewHistoric',
-                'viewPendingCoach'
+                'viewPendingCoach',
+                'viewApprovedCoach',
+                'viewHistoricCoach'
             ]
         ],
         [
@@ -73,6 +115,9 @@ return [
                 'rateUser',
                 'viewPendingUser',
                 'add',
+                'viewApprovedUser',
+                'viewHistoricUser',
+                'cancelRequest'
             ]
         ],
         [
@@ -80,26 +125,87 @@ return [
             'plugin'=> false,
             'controller' => 'Topics',
             'action' => [
-                'coachTopics',
                 'add',
-                'edit'
-            ]
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
         ],
         [
-            'role' => ['user'],
+            'role' => ['coach'],
             'plugin'=> false,
             'controller' => 'Topics',
             'action' => [
-                'publicTopicsByCoach',
-            ]
+                'edit',
+                'delete'
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $sessionUserId = Hash::get($user, 'id');
+                $topictId = Hash::get($request->params, 'pass.0');
+                $ownerUserId = TableRegistry::get('Topics')->get($topictId)['coach_id']; 
+                if (!empty($sessionUserId) && !empty($ownerUserId)) {
+                    return $sessionUserId === $ownerUserId;
+                }
+                return false;
+            }
         ],
         [
             'role' => ['coach','user'],
             'plugin'=> false,
             'controller' => 'Topics',
             'action' => [
-                'view',
+                'coachTopics',
+                'view'
             ]
+        ],
+        [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'PaymentInfos',
+            'action' => [
+                'add',
+            ],
+
+        ],
+        [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'PaymentInfos',
+            'action' => [
+                'edit',
+                'delete'
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $sessionUserId = Hash::get($user, 'id');
+                $paymentInfosId = Hash::get($request->params, 'pass.0');
+                $ownerUserId = TableRegistry::get('PaymentInfos')->get($paymentInfosId)['user_id'];
+                if (!empty($sessionUserId) && !empty($ownerUserId)) {
+                    return $sessionUserId === $ownerUserId;
+                }
+                return false;
+            }
+
+        ],
+        [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'PaymentInfos',
+            'action' => [
+                'cards'
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($sessionUserId) && !empty($ownerUserId)) {
+                    return $sessionUserId === $ownerUserId;
+                }
+                return false;
+            }
         ],
         [
             'role' => 'admin',
@@ -116,6 +222,22 @@ return [
                 'requestResetPassword',
                 'resendTokenValidation',
             ]
-        ]
+        ],
+        [
+            'role' => ['user'],
+            'plugin'=> false,
+            'controller' => 'Payments',
+            'action' => [
+                'purchases',
+            ],
+            'allowed' => function (array $user, $role, Request $request) {
+                $ownerUserId = Hash::get($request->params, 'pass.0');
+                $sessionUserId = Hash::get($user, 'id');
+                if (!empty($ownerUserId) && !empty($sessionUserId)) {
+                    return $ownerUserId === $sessionUserId;
+                }
+                return false;
+            }
+        ],
     ]
 ];

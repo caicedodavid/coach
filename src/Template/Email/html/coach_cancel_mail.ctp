@@ -8,31 +8,42 @@
  * @copyright Copyright 2010 - 2015, Cake Development Corporation (http://cakedc.com)
  * @license MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+use Cake\Routing\Router;
 ?>
 <p>
-	<?= __d('Sessions', "Hi {0}", $user->first_name) ?>,
+	<?= __("Hi {0}", $user->first_name) ?>,
 </p>
 <p>
-    <?= __d('Sessions', "The coach {0} has CANCELED a session with you", $coach->full_name) ?>
+    <?= __("The coach {0} has CANCELED a session with you", $coach->full_name) ?>
 </p>
 <p>
-    <strong><?= __d('Sessions', "Coach information:") ?></strong>
+    <?= __("Because of this, you will be added {0} to your balance", $this->Number->currency($session->price));?>
 </p>
 <p>
-    <?= __d('Sessions', "Username:{0}",$coach->username) ?>
+    <?= __("Coach comments: {0}", $message);?>
 </p>
 <p>
-    <?= __d('Sessions', "Email: {0}", $coach->email) ?>
+    <strong><?= __("Coach information:") ?></strong>
 </p>
 <p>
-    <strong><?= __d('Sessions', "Session details:") ?></strong>
+    <?= __("Username:{0}",$coach->username) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Subject: {0}",h($session->subject)) ?>
+    <?= __("Email: {0}", $coach->email) ?>
 </p>
 <p>
-    <?= __d('Sessions', "Date: {0}",h($session->schedule)) ?>
+    <strong><?= __("Session details:") ?></strong>
 </p>
 <p>
-    <?= __d('Sessions', "Comments: {0}",h($session->comments)) ?>
+    <?= __("Subject: {0}",h($session->subject)) ?>
+</p>
+<p>
+    <?= __("Date: {0}",h($session->schedule)) ?>
+</p>
+<p>
+    <?= __("Comments: {0}",h($session->comments)) ?>
+</p>
+<p>
+    <?php echo __("View your Session");
+     echo $this->Html->link(__d('AppUsers','My Session'), Router::url(['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id, 'prefix' => false],true), ['escape' => true]);?>
 </p>

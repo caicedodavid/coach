@@ -76,7 +76,14 @@ StorageManager::config('Local', [
 Configure::write('FileStorage', [
         // Configure image versions on a per model base
         'imageSizes' => [
-            'file_storage' => [
+            'Topics' => [
+                'big' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 806,
+                        'height' => 387
+                    ]
+                ],
                 'large' => [
                     'thumbnail' => [
                         'mode' => 'inbound',
@@ -84,11 +91,48 @@ Configure::write('FileStorage', [
                         'height' => 400
                     ]
                 ],
+                'medium-large' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 360,
+                        'height' => 227
+                    ]
+                ],
+                'medium-wide' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 317,
+                        'height' => 152
+                    ]
+                ],
+                'medium-small' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 248,
+                        'height' => 156
+                    ]
+                ],
+            ],
+        'AppUsers' => [
+                'medium' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 263,
+                        'height' => 263
+                    ]
+                ],
                 'small' => [
                     'thumbnail' => [
                         'mode' => 'inbound',
-                        'width' => 60,
-                        'height' => 60
+                        'width' => 50,
+                        'height' => 58
+                    ]
+                ],
+                'extra-small' => [
+                    'thumbnail' => [
+                        'mode' => 'inbound',
+                        'width' => 32,
+                        'height' => 32
                     ]
                 ],
             ],

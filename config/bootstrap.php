@@ -152,7 +152,7 @@ Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
 Configure::write('Imagine.salt', 'H5JFLL0yhZobrIqNfMkFdG6RQLZsDiMadmFPXwe5');
-date_default_timezone_set('America/New_York');
+date_default_timezone_set('America/Curacao');
 
 /**
  * The default crypto extension in 3.0 is OpenSSL.
@@ -195,15 +195,30 @@ Request::addDetector('tablet', function ($request) {
  */
 Configure::write('Users.config', ['users']);
 Configure::write('Session.provider', [
-    'name' => 'LearnCube',
-    'key' => '34914R77YE4GA',
+    'name' => 'Braincert',
+    'key' => 'Wn3EW2viQkanYPwUU2Dc',
+]);
+Configure::write('Coach.defaultCommission', 0.25);
+Configure::write('Omnipay.Stripe',[
+    'testSecretKey' => 'sk_test_2p4TkYVbTy2SaMngqCLvOHsx',
+    'testPublishableKey' => 'pk_test_6vZZTdRK1MJDCYXl4KwgMmI8',
+    'liveSecretKey' => 'sk_live_ehCM9jmYCyAMU87lEh0sBzAD',
+    'livePublishableKey' => 'pk_live_j9knkLmLpMh3xfwQ6YYh44c7'
 ]);
 Plugin::load('CakeDC/Users', ['routes' => true, 'bootstrap' => true]);
 Plugin::load('Migrations');
 Plugin::load('AssetCompress', ['bootstrap' => true]);
+Plugin::load('PlumSearch');
 //Plugin::load('Burzum/Imagine');
 include('file_storage.php');
 //include 'file_storage.php';
+//Social accounts
+Configure::write('Users.Social.login', true);
+Configure::write('OAuth.providers.facebook.options.clientId', '1792672084332309');
+Configure::write('OAuth.providers.facebook.options.clientSecret', '306c10458f7101d9a4cfd0b11bdc4289');
+
+Configure::write('OAuth.providers.twitter.options.clientId', 'z44HI73TY9jAInH6cetgEG6KP');
+Configure::write('OAuth.providers.twitter.options.clientSecret', 'Zq18qLNm6ydnO3uXNVYIoNIkOVP6OKVc3slAqK48w5Wm2mJt4g');
 
 // Only try to load DebugKit in development mode
 // Debug Kit should not be installed on a production system
@@ -234,3 +249,7 @@ Type::build('datetime')
     ->useImmutable();
 
 Plugin::load('EducoTheme', ['bootstrap' => false, 'routes' => true]);
+Plugin::load('DebugKit');
+
+require_once("Events.php");
+\Cake\Event\EventManager::instance()->on(new Events());

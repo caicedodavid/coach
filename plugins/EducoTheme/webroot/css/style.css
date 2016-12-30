@@ -1963,20 +1963,6 @@ a.ed_getinvolved:hover i{
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
 }
-.ed_team_member:hover .ed_team_member_img:after{
-	content:"";
-    position: absolute;
-    top: 0%;
-    left: 0%;
-    right: 0%;
-    bottom: 0%;
-    background-color: rgba(22, 122, 198, 0.6);
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	-ms-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
-}
 .ed_team_member_img{
     float: left;
     width: 100%;
@@ -3916,21 +3902,7 @@ a.ed_getinvolved:hover i{
 	resize:none;
 	box-shadow: none;
 }
-.ed_inner_dashboard_info button{
-	font-size:12px;
-	color:#ffffff;
-	text-decoration:none;
-	text-transform:capitalize;
-	padding:13px 33px;
-	margin-bottom:10px;
-	background-color:#167ac6;
-	border:1px solid #167ac6;
-	-webkit-transition: all 0.3s;
-	-moz-transition: all 0.3s;
-	-ms-transition: all 0.3s;
-	-o-transition: all 0.3s;
-	transition: all 0.3s;
-}
+
 .ed_inner_dashboard_info button:hover{
 	color:#ffffff;
 	background-color:#167ac6;
@@ -4282,9 +4254,6 @@ a.ed_getinvolved:hover i{
 }
 .course_single_tab{
 	padding-top:40px;
-}
-.ed_purchase_course .sidebar_wrapper_upper{
-	padding:40px 10px 0px 10px;
 }
 .ed_purchase_course .ed_btn {
     padding: 9px 15px;

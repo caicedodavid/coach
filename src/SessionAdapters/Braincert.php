@@ -3,7 +3,7 @@ namespace App\SessionAdapters;
 
 use App\SessionAdapters\SessionAdapter;
 use Cake\Network\Http\Client;
-use Cake\Network\Exception\NotImplementedException
+use Cake\Network\Exception\NotImplementedException;
 /*
  * Implementation of the Live Session with Braincert
  *
@@ -11,7 +11,7 @@ use Cake\Network\Exception\NotImplementedException
 class Braincert implements SessionAdapter
 {
 	const API_END_POINT = "https://api.braincert.com/v2/";
-    const OK_STATUS = "ok"
+    const OK_STATUS = "ok";
     const BRAINCERT_SANTIAGO_TIMEZONE = 57;
     public $apiKey = NULL;
 
@@ -66,7 +66,7 @@ class Braincert implements SessionAdapter
     		'courseName' => $session["subject"]
     	);
         $response = $this->postRequest($fields,'getclasslaunch');
-    	return (response['status'] === self::OK_STATUS) ? $response : ['encryptedlaunchurl'=>null]; 
+    	return ($response['status'] === self::OK_STATUS) ? $response : ['encryptedlaunchurl'=>null]; 
     }
 
     /**

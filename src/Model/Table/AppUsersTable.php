@@ -8,6 +8,7 @@ use Cake\Validation\Validator;
 use Cake\Core\Configure;
 use CakeDC\Users\Model\Table\UsersTable;
 use Cake\Utility\Hash;
+use Burzum\FileStorage\Storage\StorageManager;
 
 /**
  * Users Model
@@ -32,11 +33,14 @@ class AppUsersTable extends UsersTable
         parent::initialize($config);
         $this->addBehavior('Burzum/Imagine.Imagine');
 
-        $this->hasOne('UserImage', [
+        $this->hasMany('UserImage', [
             'className' => 'UserImage',
-            'foreignKey' => 'user_id',
+            'foreignKey' => 'foreign_key',
             'conditions' => [
-                'UserImage.model' => 'file_storage'
+                'UserImage.model' => 'AppUsers'
+            ],
+            'sort' => [
+                'UserImage.created' => 'desc',
             ]
         ]);
 
@@ -44,13 +48,16 @@ class AppUsersTable extends UsersTable
             'foreignKey' => 'user_id',
             'className' => 'Sessions',
         ]);
-        $this->hasMany('Coaches', [
+        $this->hasMany('CoachSessions', [
             'foreignKey' => 'coach_id',
             'className' => 'Sessions',
         ]);
         $this->hasMany('Coach', [
             'foreignKey' => 'coach_id',
             'className' => 'Topics',
+        ]);
+        $this->hasMany('PaymentInfos', [
+            'foreignKey' => 'user_id',
         ]);
     }
 
@@ -152,6 +159,56 @@ class AppUsersTable extends UsersTable
             ])
             ->contain('UserImage');
     }
+
+    /**
+     * Finder a user by its username
+     *
+     * @return Query
+     */
+    public function findByUsername(Query $query, array $options)
+    {
+        if (empty($options['username'])) {
+            throw new \InvalidArgumentException(__('username is not defined'));
+        }
+        $username = $options['username'];
+        return $query->where([
+            'OR' => [
+                [$this->aliasField('username') => $username],
+                [$this->aliasField('email') => $username]
+            ]
+       ]);
+    }
+
+    /**
+     * Finder method for finding the rated sessions of a coach
+     *
+     * @return Query
+     */
+    public function findRatedByCoach(Query $query, array $options)
+    {
+        if (empty($options['userId'])) {
+            throw new \InvalidArgumentException(__('userId is not defined'));
+        }
+        $userId = $options["userId"];
+        return $query->where([
+                $this->aliasField("id") => $userId
+            ])
+            ->find('containCoachesRated');
+    }
+
+    /**
+     * Finder method for finding the rated sessions
+     *
+     * @return Query
+     */
+    public function findContainCoachesRated(Query $query, array $options)
+    {
+        return $query->contain(['CoachSessions' => function (Query $query) {
+            return $query->select(['user_rating', 'coach_id'])
+                ->where(['CoachSessions.user_rating IS NOT' => null]);
+        }]);
+    }
+
     /**
      * Validator function to check if user is out of age
      *
@@ -164,5 +221,47 @@ class AppUsersTable extends UsersTable
         }
         return true;
     }
+
+    /**
+     * Check if user has active cards
+     *
+     * @return boolean
+     */
+    public function hasActiveCards($user)
+    {
+        return $this->PaymentInfos->find('userCards',['user' => $user])
+            ->count() > 0;
+    }
+
+    /**
+     * Update the rating of a coach
+     *
+     * @return boolean
+     */
+    public function updateCoachRating($userId)
+    {
+        $user = $this->find('ratedByCoach', ['userId' => $userId])
+            ->first();
+
+        $ratings = Hash::extract($user->coach_sessions,'{n}.user_rating');
+        $user->rating = array_sum($ratings) / count($ratings); 
+        return $this->save($user); 
+    }
+
+    /**
+     * save user image 
+     *
+     * @param Array post data 
+     * @return Array
+     */
+    public function saveImage($data, $userId)
+    {
+        if(!$data['file']['size']) {
+            return;
+        }
+        $entity = $this->UserImage->newEntity();
+        $entity = $this->UserImage->patchEntity($entity, $data);
+        return $this->UserImage->uploadImage($userId, $entity);
+    }    
     
 }

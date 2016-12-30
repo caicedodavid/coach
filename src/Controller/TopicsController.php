@@ -2,6 +2,9 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
+use Cake\Event\Event;
+use Cake\Utility\Hash;
+use App\Error\AssociatedTopicException;
 
 /**
  * Topics Controller
@@ -9,32 +12,83 @@ use App\Controller\AppController;
  * @property \App\Model\Table\TopicsTable $Topics
  */
 class TopicsController extends AppController
-{
+{   
+    /**
+     * Initialization hook method.
+     *
+     * Use this method to add common initialization code like loading components.
+     *
+     * @return void
+     */
+    public $helpers = ['PlumSearch.Search'];
+
+    public function initialize()
+    {
+        parent::initialize();
+        $this->Auth->allow(['index','coachTopics','view']);
+        $this->loadComponent('PlumSearch.Filter', [
+            'parameters' => [
+                [
+                    'name' => 'category_id',
+                    'className' => 'Select',
+                    'finder' => $this->Topics->Categories->find('list'),
+                ]
+            ]
+        ]);
+    }
+
+    /**
+     * Before render method
+     *
+     * @param $event Event object 
+     * @return void
+     */
+    public function beforeRender(Event $event)
+    {
+        parent::beforeRender($event);
+        $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
+
+    }
+
+    /**
+     * List all of the public topics
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function index()
+    {
+        $this->paginate = [
+            'limit' => 6,
+        ];
+        $query = $this->Topics->find('indexTopics');
+        $topics = $this->paginate($this->Filter->prg($query));
+        $categories = $this->Topics->Categories->find('visibleCategories');
+        $this->set(compact('topics','categories'));
+        $this->set('_serialize', ['topics']);
+        if ($this->request->is('ajax')) {
+            $this->render('list');
+        }
+    }
+
 
     /**
      * List all of the coach topics
      *
      * @return \Cake\Network\Response|null
      */
-    public function coachTopics()
+    public function coachTopics($id = null)
     {
-        $this->paginate = [
-            'limit' => 2,
-            'finder' => [
-                'topicsByCoach' => ['coachId' => $this->getUser()['id']]
-            ],
-            'order' => [
-                'Topics.name' => 'asc'
-            ]
-        ];
-        $topics = $this->paginate($this->Topics);
+        $user = $this->getUser();
 
-        $this->set(compact('topics'));
-        $this->set('_serialize', ['topics']);
-
-        if ($this->request->is('ajax')) {
-            $this->render('list');
+        if ($id === $user['id']) {
+            $this->profileTopics($id);
         }
+        else{
+            $this->publicTopicsByCoach($id);
+        }
+        $user = $this->AppUsers->get($id, [
+            'contain' => ['UserImage']
+        ]);
     }
 
     /**
@@ -42,10 +96,14 @@ class TopicsController extends AppController
      *
      * @return \Cake\Network\Response|null
      */
-    public function publicTopicsByCoach($id = null)
+    public function publicTopicsByCoach($id)
     {
+        $this->loadModel('AppUsers');
+        $user = $this->AppUsers->get($id, [
+            'contain' => ['UserImage']
+        ]);
         $this->paginate = [
-            'limit' => 2,
+            'limit' => 6,
             'finder' => [
                 'publicTopicsByCoach' => ['coachId' => $id]
             ],
@@ -55,12 +113,36 @@ class TopicsController extends AppController
         ];
         $topics = $this->paginate($this->Topics);
 
+        $this->set('user', $user);
         $this->set(compact('topics'));
-        $this->set('_serialize', ['topics']);
+        $this->set('_serialize', ['topics','user']);
 
-        if ($this->request->is('ajax')) {
-            $this->render('list');
-        }
+    }
+
+    /**
+     * user view of all of the coach topics 
+     *
+     * @return \Cake\Network\Response|null
+     */
+    public function profileTopics($id)
+    {
+        $this->loadModel('AppUsers');
+        $user = $this->AppUsers->get($id, [
+            'contain' => ['UserImage']
+        ]);
+        $this->paginate = [
+            'limit' => 6,
+            'finder' => [
+                'topicsByCoach' => ['coachId' => $id]
+            ],
+            'order' => [
+                'Topics.name' => 'asc'
+            ]
+        ];
+        $topics = $this->paginate($this->Topics);
+        $this->set('user', $user);
+        $this->set(compact('topics'));
+        $this->set('_serialize', ['topics','user']);
     }
 
     /**
@@ -72,10 +154,11 @@ class TopicsController extends AppController
      */
     public function view($id = null)
     {
-        $topic = $this->Topics->get($id, [
-            'contain' => ['TopicImage','Coach']
-        ]);
-
+        $topic = $this->Topics->find('topicCoach', [
+            'id' => $id
+        ])
+        ->first();;
+        $this->set('isCoach', $this->isCoach($this->getUser()));
         $this->set('topic', $topic);
         $this->set('_serialize', ['topic']);
     }
@@ -85,26 +168,29 @@ class TopicsController extends AppController
      *
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-    public function add()
+    public function add($userId = null)
     {
         $topic = $this->Topics->newEntity();
         if ($this->request->is('post')) {
-
             $data = $this->request->data;
-            $topic["coach_id"] = $this->getUser()["id"];
-            if(!$data["topic_image"]["file"]["size"]){
-                unset($data["topic_image"]);
-            }
-            $topic = $this->Topics->patchEntity($topic, $data);
-            if ($this->Topics->save($topic)) {
-                $this->Flash->success(__('The topic has been saved.'));
-
-                return $this->redirect(['action' => 'coachTopics']);
+            if(!$data['categories']['_ids']) {
+                $this->Flash->error(__('You must select at least one category.'));
             } else {
-                $this->Flash->error(__('The topic could not be saved. Please, try again.'));
-            }
+                $topic = $this->Topics->patchTopic($userId, $topic, $data, $image);
+                if ($this->Topics->save($topic)) {
+                    $this->Topics->saveImage($image,$topic->id);
+                    unset($data["topic_image"]);
+                    $this->Flash->success(__('The topic has been saved.'));
+    
+                    return $this->redirect(['action' => 'coachTopics', $userId]);
+                } else {
+                    $this->Flash->error(__('The topic could not be saved. Please, try again.'));
+                }
+            } 
         }
-        $this->set(compact('topic'));
+        $categories = $this->Topics->Categories->find('list');
+        $this->set('times',$this->getDurationArray());
+        $this->set(compact('topic', 'categories'));
         $this->set('_serialize', ['topic']);
     }
 
@@ -117,24 +203,30 @@ class TopicsController extends AppController
      */
     public function edit($id = null)
     {
-        $topic = $this->Topics->get($id, [
-            'contain' => ['TopicImage']
-        ]);
+        $topic = $this->Topics->find('containImageCategories', ['topicId' => $id])
+            ->first();
+        $topicCategories = Hash::extract($topic->categories, '{n}.id');
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
-            if(!$data["topic_image"]["file"]["size"]){
-                unset($data["topic_image"]);
-            }
-            $topic = $this->Topics->patchEntity($topic, $data);
-            if ($this->Topics->save($topic)) {
-                $this->Flash->success(__('The topic has been saved.'));
-
-                return $this->redirect(['action' => 'coachTopics']);
+            if(!$data['categories']['_ids']) {
+                $this->Flash->error(__('You must select at least one category'));
             } else {
-                $this->Flash->error(__('The topic could not be saved. Please, try again.'));
+                $this->Topics->saveImage($data["topic_image"], $topic->id);
+                unset($data["topic_image"]);
+                $topic = $this->Topics->patchEntity($topic, $data);
+                $topic->dirty('categories', true);
+                if ($this->Topics->save($topic)) {
+                    $this->Flash->success(__('The topic has been saved.'));
+    
+                    return $this->redirect(['action' => 'view', $id]);
+                } else {
+                    $this->Flash->error(__('The topic could not be saved. Please, try again.'));
+                }
             }
         }
-        $this->set(compact('topic'));
+        $categories = $this->Topics->Categories->find('list');
+        $this->set('times',$this->getDurationArray());
+        $this->set(compact('topic', 'categories', 'topicCategories'));
         $this->set('_serialize', ['topic']);
     }
 
@@ -147,14 +239,35 @@ class TopicsController extends AppController
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
-        $topic = $this->Topics->get($id);
-        if ($this->Topics->delete($topic)) {
-            $this->Flash->success(__('The topic has been deleted.'));
-        } else {
-            $this->Flash->error(__('The topic could not be deleted. Please, try again.'));
+        try {
+            $topic = $this->Topics->get($id);
+            if ($this->Topics->delete($topic)) {
+                $this->Flash->success(__('The topic has been deleted.'));
+                return $this->redirect(['action' => 'coachTopics', $this->getUser()['id'], 'controller' => 'Topics']);
+            } else {
+                 $this->Flash->error(__('The topic could not be deleted. Please, try again.'));          
+            }
+        } catch (AssociatedTopicException $e) {
+            $this->Flash->error($e->getMessage());
+            return $this->redirect(['action' => 'view', $topic->id]);
         }
-
-        return $this->redirect(['action' => 'index']);
     }
+        
+        
+
+
+    /**
+     * Making an arary for selection the duration of a cless when adding a topic
+     *
+     * @return Array
+     */
+    public function getDurationArray()
+    {
+        $array = array();
+        for ($i = 1; $i <= 6; $i++) {
+            $array[$i*10] = ((string)$i*10) . ' min';
+        }
+        return $array;
+    }
+
 }

@@ -25,10 +25,6 @@ fieldset {
     min-width: 10px;
 }
 
-.ed_footer_top {
-    margin-top: 20px;
-}
-
 .form-control label, .input label {
     color: #272727;
     font-family: 'Roboto Slab', serif;
@@ -75,4 +71,149 @@ h3.heading:after {
 
 .content.main {
     min-height: 300px;
+}
+.ed_inner_dashboard_info .ed_mostrecomeded_course_slider .ed_item_description {
+    min-height: 150px;
+}
+.ed_inner_dashboard_info .ed_add_students span {
+    float: left;
+}
+.sidebar_wrapper {
+    margin-bottom: 0px;
+}
+.ed_toppadder60 {
+    padding-top: 20px;
+}
+.ed_course_single_item .ed_course_single_info {
+    padding-top: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+.ed_courses .ed_mostrecomeded_course{
+    min-height: 450px;
+}
+.ed_team_member{
+    min-height: 450px;
+    background-color: white;
+}
+
+span.stars, span.stars span {
+    display: block;
+    background: url(../img/stars.png) 0 -16px repeat-x;
+    width: 80px;
+    height: 16px;
+}
+
+span.stars span {
+    background-position: 0 0;
+}
+
+span.payment-errors, span.payment-errors span {
+    font-family: 'sans-serif', serif;
+    font-size: 14px;
+    background-color: #F2DEDE;
+    color: #A94442;
+    text-transform: none;
+}
+
+span.payment-errors span {
+}
+
+.topic-button {
+    margin-top:5px;
+}
+.form-control{
+    border-radius: 0px;
+}
+.ed_bottompadder80 {
+    padding-bottom: 60px;
+}
+
+.ed_toppadder80 {
+    padding-top: 60px;
+}
+
+.ed_course_single_item .ed_course_single_info {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#image-lable {
+    font-family: 'Roboto Slab', serif;
+}
+
+#topic-pagination{
+    padding-left: 20px;
+}
+
+.alert-success {
+    margin: 1px;
+    margin-top: 130px;
+}
+
+.home {
+    min-height: 410px;
+}
+
+.alert-danger {
+    margin: 1px;
+    margin-top: 130px;
+}
+
+button.ms-choice {
+    border-radius: 0px;
+    border: 1px solid #ccc;
+    height: 34px;
+    width: 100%;
+}
+
+.educo-theme .ms-choice>span {
+    padding-left: 12px;
+    padding-top: 3px;
+    font-family: 'Roboto', sans-serif;
+    color: #555;
+    font-size: 14px;
+}
+
+button.ms-choice:focus {
+    border-color: rgba(82, 168, 236, 0.8);
+    outline: 0;
+    outline: thin dotted \9;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),0 0 8px rgba(82, 168, 236, 0.6);
+    -moz-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075),0 0 8px rgba(82,168,236,0.6);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075),0 0 8px rgba(82, 168, 236, 0.6);
+}
+
+.educo-theme .ms-choice>div {
+    margin-top: 4px;
+}
+
+.educo-theme .form-control label, .input label{
+    font-family: 'Roboto', sans-serif;
+    color: #555;
+}
+
+.educo-theme element.style{
+    width: 100%;
+}
+
+.ed_login_form a.btn-facebook {
+    color: #fff;
+    background-color: #3b5998;
+    border-color: rgba(0,0,0,.2);
+    padding-left: 60px;
+    width:100%;
+}
+.ed_login_form a.btn-twitter {
+    color: #fff;
+    background-color: #55acee;
+    border-color: rgba(0,0,0,.2);
+    padding-left: 67px;
+    margin-top:10px;
+    padding-right:0px;
+    width:100%;
+}
+#edit-profile {
+    margin-top: 5px;
+    margin-right: 5px; 
 }

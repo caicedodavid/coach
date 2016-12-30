@@ -27,11 +27,9 @@ use CakeDC\Users\Model\Entity\User;
  */
 class AppUser extends User
 {
-
     protected $_virtual = ['full_name'];
 
     protected function _getFullName() {
         return $this->_properties['first_name'] . ' ' . $this->_properties['last_name'];
     }
-
 }

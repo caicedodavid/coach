@@ -1,15 +1,15 @@
 <?php
     $menu = [
         [
-            'url' => '/',
-            'title' => __('Home')
+             'url' => '/',
+             'title' => __('Home')          
         ],
         [
             'url' => ['plugin' => false, 'controller' => 'AppUsers', 'action' => 'coaches'],
             'title' => __('Coaches')
         ],
         [
-            'url' => ['plugin' => false, 'controller' => 'Topics', 'action' => 'list'],
+            'url' => ['plugin' => false, 'controller' => 'Topics', 'action' => 'index'],
             'title' => __('Topics')
         ]
     ]

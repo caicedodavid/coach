@@ -18,6 +18,7 @@ use Cake\Core\Configure;
 use Cake\Network\Exception\NotFoundException;
 use Cake\View\Exception\MissingTemplateException;
 use Cake\Event\Event;
+use Cake\ORM\TableRegistry;
 
 /**
  * Static content controller
@@ -38,7 +39,8 @@ class PagesController extends AppController
     public function display()
     {
         $path = func_get_args();
-
+        $topics = TableRegistry::get('Topics')->find('topRated');
+        $this->set(compact('topics'));
         $count = count($path);
         if (!$count) {
             return $this->redirect('/');

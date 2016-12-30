@@ -10,12 +10,16 @@
         "mobiledetect/mobiledetectlib": "2.*",
         "cakephp/migrations": "~1.0",
         "cakephp/plugin-installer": "*",
-        "cakedc/users": "3.2.2",
+        "cakedc/users": "dev-master",
         "markstory/asset_compress": "^3.0",
         "burzum/cakephp-file-storage": "1.1.*",
         "burzum/cakephp-imagine-plugin": "2.*",
         "cakedc/tiny-mce": "3.x-dev",
-        "kartik-v/bootstrap-star-rating": "@dev"
+        "kartik-v/bootstrap-star-rating": "@dev",
+        "omnipay/stripe": "dev-master",
+        "league/oauth2-facebook":"@stable",
+        "league/oauth1-client":"@stable",
+        "skie/cakephp-search": "dev-master"
     },
     "require-dev": {
         "psy/psysh": "@stable",
@@ -45,5 +49,15 @@
         "post-autoload-dump": "Cake\\Composer\\Installer\\PluginInstaller::postAutoloadDump"
     },
     "minimum-stability": "stable",
-    "prefer-stable": true
+    "prefer-stable": true,
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:caicedodavid/omnipay-stripe.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/CakeDC/facebook.git"
+        }
+    ]
 }

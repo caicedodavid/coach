@@ -11,7 +11,7 @@ class SessionMailer extends Mailer
      * @param User entity, coach entity, session entity
      *
      */  
-    public function userMail($user,$coach,$session)
+    public function userMail($user, $coach, $session)
     {
         $this
             ->to($user["email"])
@@ -25,7 +25,7 @@ class SessionMailer extends Mailer
      * @param User entity, coach entity, session entity
      *
      */ 
-    public function coachMail($user,$coach,$session)
+    public function coachMail($user, $coach, $session)
     {
         $this
             ->to($coach["email"])
@@ -40,7 +40,7 @@ class SessionMailer extends Mailer
      *
      */ 
 
-    public function approveMail($user,$coach,$session)
+    public function approveMail($user, $coach, $session, $message = null)
     {
         $this
             ->to($user["email"])
@@ -56,7 +56,7 @@ class SessionMailer extends Mailer
      *
      */ 
 
-    public function rejectMail($user,$coach,$session)
+    public function rejectMail($user, $coach, $session, $message = null)
     {
         $this
             ->to($user["email"])
@@ -71,22 +71,22 @@ class SessionMailer extends Mailer
      * @param User entity, coach entity, session entity
      *
      */ 
-    public function coachCancelMail($user,$coach,$session)
+    public function coachCancelMail($user, $coach, $session, $message = null)
     {
         $this
             ->to($user["email"])
             ->subject(sprintf('The coach %s canceled a session with you', $coach["full_name"]))
             ->emailFormat('html')
-            ->viewVars(compact('user','coach','session'));
+            ->viewVars(compact('user','coach','session','message'));
     }
 
     /**
-     * Send the user an Email when the user cancels a requested session
+     * Send the coach an Email when the user cancels a requested session
      *
      * @param User entity, coach entity, session entity
      *
      */ 
-    public function userCancelMail($user,$coach,$session)
+    public function userCancelMail($user, $coach, $session, $message = null)
     {
         $this
             ->to($coach["email"])
@@ -95,5 +95,33 @@ class SessionMailer extends Mailer
             ->viewVars(compact('user','coach','session'));
     }
 
+    /**
+     * Send the user an Email when there was a payment error
+     *
+     * @param User entity, coach entity, session entity
+     *
+     */ 
+    public function paymentErrorMail($user, $coach, $session, $message)
+    {
+        $this
+            ->to($user["email"])
+            ->subject(sprintf('The Session could not be scheduled'))
+            ->emailFormat('html')
+            ->viewVars(compact('user','coach','session','message'));
+    }
 
+    /**
+     * Send the coach an Email when he is payed
+     *
+     * @param User entity, coach entity, session entity
+     *
+     */ 
+    public function paymentMail($coach, $sessions, $amount, $message)
+    {
+        $this
+            ->to($coach["email"])
+            ->subject(sprintf('You have been payed'))
+            ->emailFormat('html')
+            ->viewVars(compact('coach', 'sessions', 'amount', 'message'));
+    }
 }

@@ -38,17 +38,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
             <div class="content main">
                 <?= $this->Flash->render() ?>
                 <?= $this->Flash->render('Auth') ?>
-                <div class="container clearfix">
-
-                    <?= $this->fetch('content') ?>
-                </div>
+                <?= $this->fetch('banner') ?>
+                <?= $this->Html->tag('div', null, ['class' => "ed_graysection ed_toppadder80 ed_bottompadder80 " . $this->fetch('customBackgroundClass')])?>
+                    <div class="container clearfix">
+                        <?= $this->fetch('content') ?>
+                    </div class='bla'>
+                <?= $this->Html->tag('/div', null)?>
             </div>
             <footer>
                 <?= $this->element('footer')?>
             </footer>
             <?= $this->Html->script('EducoTheme.jquery-1.12.2'); ?>
             <?= $this->AssetCompress->script('EducoTheme.bottom');?>
-            <?php echo $this->AssetCompress->script('bottom');?>
+            <?= $this->fetch('bottomScript')?>
         </div>
     </body>
 </html>

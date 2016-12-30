@@ -12,9 +12,9 @@
 use Cake\Core\Configure;
 use Cake\Routing\Router;
 
-define("ROLE_ADMIN","admin");
-define("ROLE_USER","user");
-define("ROLE_COACH","coach");
+define("ROLE_ADMIN", "admin");
+define("ROLE_USER", "user");
+define("ROLE_COACH", "coach");
 
 
 $config = [
@@ -134,9 +134,10 @@ $config = [
             'CakeDC/Users.Superuser',
             'CakeDC/Users.SimpleRbac',
         ],
+        'authError' => __('Please, login into the platform. Thanks.'),
     ],
     'OAuth' => [
-        'path' => ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'socialLogin', 'prefix' => false],
+        'path' => ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'socialLogin', 'prefix' => null],
         'providers' => [
             'facebook' => [
                 'className' => 'League\OAuth2\Client\Provider\Facebook',
@@ -148,25 +149,6 @@ $config = [
             'twitter' => [
                 'options' => [
                     'redirectUri' => Router::fullBaseUrl() . '/auth/twitter',
-                ]
-            ],
-            'linkedIn' => [
-                'className' => 'League\OAuth2\Client\Provider\LinkedIn',
-                'options' => [
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/linkedIn',
-                ]
-            ],
-            'instagram' => [
-                'className' => 'League\OAuth2\Client\Provider\Instagram',
-                'options' => [
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/instagram',
-                ]
-            ],
-            'google' => [
-                'className' => 'League\OAuth2\Client\Provider\Google',
-                'options' => [
-                    'userFields' => ['url', 'aboutMe'],
-                    'redirectUri' => Router::fullBaseUrl() . '/auth/google',
                 ]
             ],
         ],

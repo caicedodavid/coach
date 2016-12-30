@@ -4,11 +4,7 @@
             <div class="col-lg-12 col-md-12 col-sm-12">
                 <div class="user-menu pull-left">
                     <ul class="single-line" style="list-style: none;">
-                        <li><?= empty($userAuth) ? __('welcome guest') : $userAuth['first_name'] . ' :'?></li>
-                    <?php if ($userAuth):?>
-                        <li><?= $this->Html->link(__d('AppUsers','Edit Profile'), ['plugin' => false,'controller' => 'AppUsers', 'action' => 'edit', 'prefix' => false]);?> |</li>
-                        <li><?= $this->Html->link(__d('AppUsers','My Sessions'), ['plugin' => false,'controller' => 'Sessions', 'action' => 'approved', 'prefix' => false]);?></li>
-                    <?php endif;?>
+                        <li><?= empty($userAuth) ? __('welcome guest') : $userAuth['first_name']?></li>
                     </ul>
                 </div>
                 <div class="ed_info_wrapper pull-right">
@@ -23,6 +19,8 @@
                             <?= $this->Form->button(__d('CakeDC/Users', 'Login')); ?>
                             <?= $this->Html->link(__d('Users', 'Register'), ['plugin' =>false,'controller'=>'Pages','action' => 'display','type_user','ext'=>'ctp'])?>
                             <?= $this->Form->end() ?>
+                            <br>
+                            <center><?= implode('<br>', $this->User->socialLoginList()); ?></center>
                         </div>
                     <?php else:?>
                         <?= $this->Html->link(__('Logout'), '/logout')?>
