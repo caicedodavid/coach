@@ -114,291 +114,291 @@ msgstr ""
 
 #: Template/Element/Liabilities/liability_tabs.ctp:11
 msgid "Received Payments"
-msgstr ""
+msgstr "Pagos recibidos"
 
 #: Template/Element/Liabilities/liability_tabs.ctp:14
 msgid "Pending Payments"
-msgstr ""
+msgstr "Pagos pendientes"
 
 #: Template/Element/Sessions/accept_decline_buttons.ctp:3
 msgid "Decline"
-msgstr ""
+msgstr "Declinar"
 
 #: Template/Element/Sessions/accept_decline_buttons.ctp:4
 msgid "Are you sure you want to reject this requested session?"
-msgstr ""
+msgstr "¿Estás seguro que deseas rechazar la sesión solicitada?"
 
 #: Template/Element/Sessions/cancel_request_button.ctp:1
 msgid "cancel"
-msgstr ""
+msgstr "cancelar"
 
 #: Template/Element/Sessions/cancel_request_button.ctp:2
 msgid "Are you sure you want to cancel this request?"
-msgstr ""
+msgstr "¿Estás seguro que deseas cancelar esta solicitud?"
 
 #: Template/Element/Sessions/session_tabs.ctp:13
 msgid "Upcomming"
-msgstr ""
+msgstr "Venidera"
 
 #: Template/Element/Sessions/session_tabs.ctp:16
 msgid "Pending"
-msgstr ""
+msgstr "Pendiente"
 
 #: Template/Element/Sessions/session_tabs.ctp:19
 msgid "Historic"
-msgstr ""
+msgstr "Histórico"
 
 #: Template/Element/Topics/list.ctp:6
 msgid "You have no topics"
-msgstr ""
+msgstr "No posees tópicos"
 
 #: Template/Element/Topics/list.ctp:24
 #: Template/Pages/home.ctp:44
 msgid "See More"
-msgstr ""
+msgstr "Ver más"
 
 #: Template/Element/Topics/list.ctp:54
 msgid "({0})"
-msgstr ""
+msgstr "({0})"
 
 #: Template/PaymentInfos/cards.ctp:17
 msgid "Payment Information"
-msgstr ""
+msgstr "Información de pago"
 
 #: Template/PaymentInfos/cards.ctp:19
 msgid "You have no registerd cards."
-msgstr ""
+msgstr "No tienes tarjetas registradas."
 
 #: Template/PaymentInfos/cards.ctp:25
 msgid "Cardholder"
-msgstr ""
+msgstr "Tarjetahabiente"
 
 #: Template/PaymentInfos/cards.ctp:26
 msgid "Card"
-msgstr ""
+msgstr "Tarjeta"
 
 #: Template/PaymentInfos/cards.ctp:27
 msgid "Default"
-msgstr ""
+msgstr "Predefinida"
 
 #: Template/PaymentInfos/cards.ctp:28
 msgid "Actions"
-msgstr ""
+msgstr "Acciones"
 
 #: Template/PaymentInfos/cards.ctp:38
 msgid "Edit"
-msgstr ""
+msgstr "Editar"
 
 #: Template/PaymentInfos/cards.ctp:39
 msgid "Delete"
-msgstr ""
+msgstr "Eliminar"
 
 #: Template/PaymentInfos/cards.ctp:39
 msgid "Are you sure you want to delete this card?"
-msgstr ""
+msgstr "¿Estás seguro que deseas eliminar esta tarjeta?"
 
 #: Template/PaymentInfos/cards.ctp:54
 msgid "Add Card"
-msgstr ""
+msgstr "Agregar Tarjeta"
 
 #: Template/Payments/purchases.ctp:12
 msgid "Credit card"
-msgstr ""
+msgstr "Tarjeta de crédito"
 
 #: Template/Payments/purchases.ctp:20
 msgid "There are no purchases to show."
-msgstr ""
+msgstr "No hay compras para mostrar."
 
 #: Template/Payments/purchases.ctp:24
 msgid "Purchases"
-msgstr ""
+msgstr "Compras"
 
 #: Template/Payments/purchases.ctp:27
 #: Template/Sessions/paid_sessions.ctp:26
 #: Template/Sessions/unpaid_sessions.ctp:26
 msgid "Price"
-msgstr ""
+msgstr "Precio"
 
 #: Template/Payments/purchases.ctp:30
 msgid "Purchase date"
-msgstr ""
+msgstr "fecha de pago"
 
 #: Template/Sessions/add.ctp:24
 #: Template/Topics/add.ctp:20
 #: Template/Topics/edit.ctp:20
 msgid "Select..."
-msgstr ""
+msgstr "Seleccionar..."
 
 #: Template/Sessions/add.ctp:27
 msgid "Topics from this coach"
-msgstr ""
+msgstr "Tópicos de este coach"
 
 #: Template/Sessions/approved.ctp:29
 #: Template/Sessions/approved_coach.ctp:16
 #: Template/Sessions/approved_user.ctp:16
 msgid "There are no scheduled sessions."
-msgstr ""
+msgstr "No hay sesiones agendadas"
 
 #: Template/Sessions/approved_coach.ctp:63;76
 #: Template/Sessions/view_approved_coach.ctp:44;57
 msgid "Cancel Session"
-msgstr ""
+msgstr "Cancelar sesión"
 
 #: Template/Sessions/approved_coach.ctp:69
 #: Template/Sessions/view_approved_coach.ctp:50
 msgid "Why do you want to cancel this session?"
-msgstr ""
+msgstr "¿Por qué deseas cacelar esta sesión?"
 
 #: Template/Sessions/historic_coach.ctp:16
 #: Template/Sessions/historic_user.ctp:16
 #: Template/Sessions/paid_sessions.ctp:16
 #: Template/Sessions/unpaid_sessions.ctp:16
 msgid "There are no sessions to show."
-msgstr ""
+msgstr "No hay sesiones para mostrar"
 
 #: Template/Sessions/paid_sessions.ctp:20
 #: Template/Sessions/unpaid_sessions.ctp:20
 msgid "Topic and user"
-msgstr ""
+msgstr "Tópico y usuario"
 
 #: Template/Sessions/paid_sessions.ctp:23
 #: Template/Sessions/unpaid_sessions.ctp:23
 msgid "Date and time of session"
-msgstr ""
+msgstr "Fecha y hora de la sesión"
 
 #: Template/Sessions/paid_sessions.ctp:29
 #: Template/Sessions/unpaid_sessions.ctp:29
 msgid "Charges"
-msgstr ""
+msgstr "Cargos"
 
 #: Template/Sessions/paid_sessions.ctp:32
 msgid "Payment day"
-msgstr ""
+msgstr "Día de pago"
 
 #: Template/Sessions/paid_sessions.ctp:35
 msgid "Observations"
-msgstr ""
+msgstr "Observaciones"
 
 #: Template/Sessions/pending_coach.ctp:16
 #: Template/Sessions/pending_user.ctp:16
 msgid "There are no pending sessions to confirm."
-msgstr ""
+msgstr "No hay sesiones pendientes por confirmar"
 
 #: Template/Sessions/view_approved_coach.ctp:21
 #: Template/Sessions/view_approved_user.ctp:21
 msgid "Assist to session: "
-msgstr ""
+msgstr "Asistir a la sesión"
 
 #: Template/Sessions/view_approved_coach.ctp:24
 #: Template/Sessions/view_approved_user.ctp:24
 msgid "Assist to your class"
-msgstr ""
+msgstr "Asistir a tu clase"
 
 #: Template/Sessions/view_approved_coach.ctp:26
 #: Template/Sessions/view_approved_user.ctp:26
 msgid "Your class is not available yet"
-msgstr ""
+msgstr "Tu clase no está disponible todavía"
 
 #: Template/Sessions/view_canceled_rejected.ctp:29
 msgid "This session was {0}"
-msgstr ""
+msgstr "Esta sesión fue {0}"
 
 #: Template/Sessions/view_canceled_rejected.ctp:33
 msgid "Coach comments :"
-msgstr ""
+msgstr "Comentarios del coach :"
 
 #: Template/Sessions/view_historic_coach.ctp:12
 #: Template/Sessions/view_historic_user.ctp:13
 msgid "Details"
-msgstr ""
+msgstr "Detalles"
 
 #: Template/Sessions/view_historic_coach.ctp:13
 #: Template/Sessions/view_historic_user.ctp:14
 msgid "My Rating"
-msgstr ""
+msgstr "My clasificación"
 
 #: Template/Sessions/view_historic_coach.ctp:14
 msgid "Coachee Comments"
-msgstr ""
+msgstr "comentarios del coachee"
 
 #: Template/Sessions/view_historic_coach.ctp:29
 #: Template/Sessions/view_historic_user.ctp:29
 msgid "Rate this Session"
-msgstr ""
+msgstr "clasifica esta sesión"
 
 #: Template/Sessions/view_historic_coach.ctp:50
 #: Template/Sessions/view_historic_user.ctp:45
 msgid "Rate your session"
-msgstr ""
+msgstr "Clasifica tu sesión"
 
 #: Template/Topics/add.ctp:2
 #: Template/Topics/coach_topics.ctp:45
 msgid "Add Topic"
-msgstr ""
+msgstr "Agregar tópico"
 
 #: Template/Topics/coach_topics.ctp:20
 msgid "There are no topics"
-msgstr ""
+msgstr "No hay tópicos"
 
 #: Template/Topics/edit.ctp:2
 msgid "Edit Topic"
-msgstr ""
+msgstr "Edita tópicos"
 
 #: Template/Topics/view.ctp:23
 msgid "duration: {0} minutes"
-msgstr ""
+msgstr "duración: {0} minutos"
 
 #: Template/Topics/view.ctp:54
 msgid "Are you sure you want to delete this topic?"
-msgstr ""
+msgstr "¿Estás seguro que deseas aliminar este tópico?"
 
 #: Template/AppUsers/coach_profile.ctp:9
 #: Template/AppUsers/user_profile.ctp:9
 msgid "Edit Profile"
-msgstr ""
+msgstr "Editar perfil"
 
 #: Template/Pages/type_user.ctp:4
 msgid "Register for coaches"
-msgstr ""
+msgstr "Registro para coaches"
 
 #: Template/Pages/type_user.ctp:5
 msgid "Register for coachees"
-msgstr ""
+msgstr "Registros para coachees"
 
 #: Template/AppUsers/coach_profile.ctp:51
 msgid "Request a Session"
-msgstr ""
+msgstr "Solictar una sesión"
 
 #: Template/AppUsers/register.ctp:18
 #: Template/Element/login.ctp:20
 #: Template/Plugin/CakeDC/Users/Users/login.ctp:37
 msgid "Register"
-msgstr ""
+msgstr "Registro"
 
 #: Template/AppUsers/register.ctp:28
 msgid "Accept TOS conditions?"
-msgstr ""
+msgstr "¿Acepta las condiciones de TOS?"
 
 #: Template/Element/login.ctp:19
 #: Template/Plugin/CakeDC/Users/Users/login.ctp:49
 msgid "Login"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: Template/Plugin/CakeDC/Users/Users/login.ctp:22
 msgid "Enter your username and password"
-msgstr ""
+msgstr "Introduzca su nombre de usuario y contraseña"
 
 #: Template/Plugin/CakeDC/Users/Users/login.ctp:29
 msgid "Remember me"
-msgstr ""
+msgstr "Recuérdame"
 
 #: Template/Plugin/CakeDC/Users/Users/login.ctp:43
 msgid "Reset Password"
-msgstr ""
+msgstr "Reestablecer contraseñá"
 
 #: Template/Plugin/CakeDC/Users/Users/login.ctp:45
 msgid "Resend validation email"
-msgstr ""
+msgstr "Reenviar correo de validación"
 
 #: Template/Plugin/CakeDC/Users/Users/request_reset_password.ctp:7
 msgid "Please enter your email to reset your password"
@@ -406,19 +406,19 @@ msgstr ""
 
 #: Template/Plugin/CakeDC/Users/Users/resend_token_validation.ctp:17
 msgid "Resend Validation email"
-msgstr ""
+msgstr "Reenviar correo de validación"
 
 #: Template/Plugin/CakeDC/Users/Users/resend_token_validation.ctp:19
 msgid "Email or username"
-msgstr ""
+msgstr "Correo o nombre de usuario"
 
 #: Template/Element/classic_pagination.ctp:10
 msgid "previous"
-msgstr ""
+msgstr "previo"
 
 #: Template/Element/classic_pagination.ctp:13
 msgid "next"
-msgstr ""
+msgstr "siguiente"
 
 #: Template/Element/classic_pagination.ctp:16
 msgid "Page {{page}} of {{pages}}, showing {{current}} record(s) out of {{count}} total"
@@ -426,21 +426,21 @@ msgstr ""
 
 #: Template/Element/endless_pagination.ctp:10
 msgid "Load More"
-msgstr ""
+msgstr "Cargar más"
 
 #: Template/Element/Sessions/accept_decline_buttons.ctp:1
 msgid "Accept"
-msgstr ""
+msgstr "Aceptar"
 
 #: Template/Topics/view.ctp:62
 msgid "Request Session"
-msgstr ""
+msgstr "Solicitar sesión"
 
 #: Template/Topics/view.ctp:53
 msgid "Edit topic"
-msgstr ""
+msgstr "Editar tópico"
 
 #: Template/Topics/view.ctp:54
 msgid "Delete topic"
-msgstr ""
+msgstr "Eliminar tópico"
 

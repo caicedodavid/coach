@@ -28,6 +28,11 @@ use Cake\I18n\I18n;
  */
 class AppController extends Controller
 {
+    protected $availableLanguages = [
+        'en' => 'en',
+        'es' => 'es',
+    ];
+
     public $helpers = ['AssetCompress.AssetCompress'];
 
     /**
@@ -50,7 +55,7 @@ class AppController extends Controller
         $this->loadComponent('Paginator');
         $this->loadComponent('Cookie');
 
-        $this->Auth->allow(['changeLang']);
+        $this->Auth->allow(['setLocale']);
         
     }
 
@@ -109,20 +114,25 @@ class AppController extends Controller
      */
     public function beforeFilter(Event $event)
     {
+        $this->setLocale();
         parent::beforeFilter($event);
-    
-        $lang = $this->Cookie->read('lang');
-    
-        if (empty($lang)) {
-            return;
-        }
-        I18n::locale($lang);
     }
 
-    public function changeLang($lang = 'en')
+    /**
+     * Sets the current locale based on url param and available languages
+     *
+     * @return void
+     */
+    protected function setLocale()
     {
-        $this->Cookie->write('lang', $lang);
-        return $this->redirect($this->request->referer());
+        $selectedLanguage = 'en';
+        $lang = $this->request->query('language') ? $this->request->query('language') : $this->request->param('language');
+        if ($lang && isset($this->availableLanguages[$lang])) {
+            I18n::locale($lang);
+            $selectedLanguage = $this->availableLanguages[$lang];
+        }
+        $this->set('selectedLanguage', $selectedLanguage);
+        $this->set('availableLanguages', $this->availableLanguages);
     }
 
 }

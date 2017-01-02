@@ -479,173 +479,173 @@ msgstr "No hay tópicos"
 
 #: /src/Template/Topics/editctp:2
 msgid "Edit Topic"
-msgstr ""
+msgstr Editar Tópico""
 
 #: /src/Template/Topics/viewctp:23
 msgid "duration: {0} minutes"
-msgstr ""
+msgstr "duración: {0} minutos"
 
 #: /src/Template/Topics/viewctp:54
 msgid "Are you sure you want to delete this topic?"
-msgstr ""
+msgstr "¿Estás seguro que quieres eliminar este tópico?"
 
 #: Controller/AppUsersControllerphp:156
 #: Controller/Admin/AppUsersControllerphp:67;100
 msgid "The user has been saved."
-msgstr ""
+msgstr "El usuario a sido guardado"
 
 #: Controller/AppUsersControllerphp:159
 #: Controller/Admin/AppUsersControllerphp:71;104
 msgid "The user could not be saved. Please, try again."
-msgstr ""
+msgstr "El usuario no pudo ser guardado. Por favor, intente de nuevo"
 
 #: Controller/AppUsersControllerphp:199
 msgid "Please, activate your account first."
-msgstr ""
+msgstr "Por favor, active su cuenta primero"
 
 #: Controller/PaymentInfosControllerphp:81;132;172
 msgid "The payment info has been saved."
-msgstr ""
+msgstr "La información de pago ha sido guardada"
 
 #: Controller/PaymentInfosControllerphp:84;135;178
 msgid "The payment info could not be saved. Please, try again."
-msgstr ""
+msgstr "La información de pago no pudo ser guardada. Por favor, intente de nuevo."
 
 #: Controller/PaymentInfosControllerphp:197
 msgid "The payment info has been deleted."
-msgstr ""
+msgstr "La información de pago ha sido eliminada"
 
 #: Controller/PaymentInfosControllerphp:199
 msgid "The payment info could not be deleted. Please, try again."
-msgstr ""
+msgstr "La información de pago no pudo ser eliminada. Por favor, intente de nuevo."
 
 #: Controller/SessionsControllerphp:226;259
 msgid "Invalid Action"
-msgstr ""
+msgstr "Acción inválida"
 
 #: Controller/SessionsControllerphp:237;268
 msgid "Thank you for your rating."
-msgstr ""
+msgstr "Gracias por su evaluación"
 
 #: Controller/SessionsControllerphp:240;271
 msgid "Your rating could not be saved. Please, try again."
-msgstr ""
+msgstr "Su evaluación no pudo ser guardada. Por favor, intente de nuevo."
 
 #: Controller/SessionsControllerphp:288
 msgid "Please, add your payment information first so you can purchase a session."
-msgstr ""
+msgstr "Por favor, agregue su información de pago primero para que pueda coprar una sesión"
 
 #: Controller/SessionsControllerphp:303
 msgid "The session has been requested."
-msgstr ""
+msgstr "La sesión ha sido solicitada."
 
 #: Controller/SessionsControllerphp:306
 msgid "The session could not be saved. Please, try again."
-msgstr ""
+msgstr "La sesión no pudo ser guardad. Por favor, intente de nuevo."
 
 #: Controller/SessionsControllerphp:330
 msgid "The session has been rejected."
-msgstr ""
+msgstr "La sesión fue rechazada"
 
 #: Controller/SessionsControllerphp:332
 msgid "The session could not be rejected. Please try again later"
-msgstr ""
+msgstr "La sesión no pudo ser rechazada. Por favor, intente de nuevo."
 
 #: Controller/SessionsControllerphp:355
 msgid "Payment error, we will conctact the cochee. Please try again later"
-msgstr ""
+msgstr "Error de pago, contactaremos al coachee. Por favor, intente más tarde"
 
 #: Controller/SessionsControllerphp:364
 msgid "The session has been confirmed."
-msgstr ""
+msgstr "La sesión ha sido confirmada."
 
 #: Controller/SessionsControllerphp:366
 msgid "The session could not be confirmed. Please try again later"
-msgstr ""
+msgstr "La sesión no pudo ser confirmada. Por favor intente más tarde"
 
 #: Controller/SessionsControllerphp:393
 msgid "The session has been Canceled."
-msgstr ""
+msgstr "La sesión fue cancelada"
 
 #: Controller/SessionsControllerphp:395
 msgid "The session could not be canceled. Please try again later"
-msgstr ""
+msgstr "La sesión no pudo ser cancelada. Por favor intente más tarde"
 
 #: Controller/SessionsControllerphp:416
 msgid "The request has been Canceled."
-msgstr ""
+msgstr "La solicitud fue cacelada."
 
 #: Controller/SessionsControllerphp:418
 msgid "The request could not be canceled. Please try again later"
-msgstr ""
+msgstr "La solicitud no pudo ser cancelada. Por favor, intente más tarde."
 
 #: Controller/SessionsControllerphp:506;507
 msgid "Not performed"
-msgstr ""
+msgstr "No realizada"
 
 #: Controller/SessionsControllerphp:508
 msgid "Not responded"
-msgstr ""
+msgstr "No respondida"
 
 #: Controller/TopicsControllerphp:177
 msgid "You must select at least one category."
-msgstr ""
+msgstr "Debes seleccionar al menos una categoría"
 
 #: Controller/TopicsControllerphp:183;219
 msgid "The topic has been saved."
-msgstr ""
+msgstr "El tópico ha sido guardado"
 
 #: Controller/TopicsControllerphp:187;223
 msgid "The topic could not be saved. Please, try again."
-msgstr ""
+msgstr "El tópico no ha sido guardado. Por favor, intente de nuevo"
 
 #: Controller/TopicsControllerphp:212
 msgid "You must select at least one category"
-msgstr ""
+msgstr "Debe seleccionar al menos una categoría"
 
 #: Controller/TopicsControllerphp:245
 msgid "The topic has been deleted."
-msgstr ""
+msgstr "El tópico ha sido eliminado"
 
 #: Controller/TopicsControllerphp:248
 msgid "The topic could not be deleted. Please, try again."
-msgstr ""
+msgstr "El tópico no pudo ser eliminado"
 
 #: Controller/Admin/AdminSessionsControllerphp:91
 msgid "All the sessions were payed"
-msgstr ""
+msgstr "Todas las sesiones fueron pagadas"
 
 #: Controller/Admin/AdminSessionsControllerphp:94
 msgid "Some sessions could not be paid"
-msgstr ""
+msgstr "Algunas sesiones no fueron pagadas"
 
 #: Controller/Admin/AppUsersControllerphp:124
 msgid "The user has been deleted."
-msgstr ""
+msgstr "El usuario ha sido eliminado"
 
 #: Controller/Admin/AppUsersControllerphp:126
 msgid "The user could not be deleted. Please, try again."
-msgstr ""
+msgstr "El usuario no pudo ser eliminado. Por favor, intente de nuevo."
 
 #: Controller/Admin/CategoriesControllerphp:77;101
 msgid "The category has been saved."
-msgstr ""
+msgstr "La categoría ha sido guardada."
 
 #: Controller/Admin/CategoriesControllerphp:81;105
 msgid "The category could not be saved. Please, try again."
-msgstr ""
+msgstr "La categoría no pudo ser guardada. Por favor, intente de nuevo."
 
 #: Controller/Admin/CategoriesControllerphp:125
 msgid "The category has been deleted."
-msgstr ""
+msgstr "La categoría ha sido eliminada."
 
 #: Controller/Admin/CategoriesControllerphp:127
 msgid "The category could not be deleted. Please, try again."
-msgstr ""
+msgstr "La categoría no pudo ser borrada. Por favor. intente de nuevo."
 
 #: Model/Table/AppUsersTablephp:171
 msgid "username is not defined"
-msgstr ""
+msgstr "nombre de usuario no está definido."
 
 #: Model/Table/AppUsersTablephp:190
 #: Model/Table/PaymentsTablephp:106
@@ -655,7 +655,7 @@ msgstr ""
 
 #: Model/Table/CategoriesTablephp:135
 msgid "This category cannot be deleted because it has associated topics."
-msgstr ""
+msgstr "Esta categoría no pudo ser eliminada porque tiene tópicos asociados"
 
 #: Model/Table/SessionsTablephp:257;295;337
 msgid "userId or role are not defined"
@@ -676,19 +676,19 @@ msgstr ""
 
 #: Model/Table/TopicsTablephp:364
 msgid "This topic cannot be deleted because it has associated sessions."
-msgstr ""
+msgstr "Este tópico no puede ser eliminado porque tiene sesiones asociadas."
 
 #: Template/Admin/AdminSessions/pay_coachctp:8
 msgid "Topic"
-msgstr ""
+msgstr "Tópico"
 
 #: Template/Admin/AdminSessions/pay_coachctp:10
 msgid "Debt"
-msgstr ""
+msgstr "Deuda"
 
 #: Template/Admin/AdminSessions/pay_coachctp:11
 msgid "Select"
-msgstr ""
+msgstr "Seleccionar"
 
 #: Template/Admin/AdminSessions/pay_coachctp:31
 #: Template/Admin/AdminSessions/unpaid_coachesctp:29
@@ -701,7 +701,7 @@ msgstr ""
 #: /src/Template/Element/classic_paginationctp:10
 #: Template/Element/classic_paginationctp:10
 msgid "previous"
-msgstr ""
+msgstr "previo"
 
 #: Template/Admin/AdminSessions/pay_coachctp:33
 #: Template/Admin/AdminSessions/unpaid_coachesctp:31
@@ -714,23 +714,23 @@ msgstr ""
 #: /src/Template/Element/classic_paginationctp:13
 #: Template/Element/classic_paginationctp:13
 msgid "next"
-msgstr ""
+msgstr "siguiente"
 
 #: Template/Admin/AdminSessions/pay_coachctp:44
 msgid "Pay Coach"
-msgstr ""
+msgstr "Pagar al coach"
 
 #: Template/Admin/AdminSessions/unpaid_coachesctp:3
 msgid "Pending for payment"
-msgstr ""
+msgstr "pendiente de pago"
 
 #: Template/Admin/AdminSessions/unpaid_coachesctp:5
 msgid "There are no coaches to be paid"
-msgstr ""
+msgstr "No hay coaches pendientes de pago"
 
 #: Template/Admin/AdminSessions/unpaid_coachesctp:21
 msgid "Pay"
-msgstr ""
+msgstr "Pagar"
 
 #: Template/Admin/AppUsers/addctp:4
 #: Template/Admin/AppUsers/editctp:10
@@ -744,13 +744,13 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/editctp:26
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:19
 msgid "List Users"
-msgstr ""
+msgstr "Listar usuarios"
 
 #: Template/Admin/AppUsers/addctp:10
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/addctp:21
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/registerctp:16
 msgid "Add User"
-msgstr ""
+msgstr "Agregar usuario"
 
 #: Template/Admin/AppUsers/editctp:7
 #: Template/Admin/AppUsers/indexctp:31
@@ -770,7 +770,7 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/indexctp:40
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:18
 msgid "Are you sure you want to delete # {0}?"
-msgstr ""
+msgstr "Estás seguro que deseas eliminar a # {0}"
 
 #: Template/Admin/AppUsers/editctp:16
 #: Template/Admin/AppUsers/viewctp:4
@@ -779,7 +779,7 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/editctp:32
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:17
 msgid "Edit User"
-msgstr ""
+msgstr "Editar Usuario"
 
 #: Template/Admin/AppUsers/indexctp:4
 #: Template/Admin/AppUsers/viewctp:7
@@ -789,21 +789,21 @@ msgstr ""
 #: Template/PaymentInfos/viewctp:9
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:20
 msgid "New User"
-msgstr ""
+msgstr "Nuevo usuario"
 
 #: Template/Admin/AppUsers/indexctp:5
 msgid "Pay coaches"
-msgstr ""
+msgstr "Pagar a coaches"
 
 #: Template/Admin/AppUsers/indexctp:6
 #: Template/Admin/Categories/indexctp:8
 msgid "Categories"
-msgstr ""
+msgstr "Categorías"
 
 #: Template/Admin/AppUsers/indexctp:10
 #: Template/Element/headerctp:35
 msgid "Users"
-msgstr ""
+msgstr "Usuarios"
 
 #: Template/Admin/AppUsers/indexctp:29
 #: Template/Admin/Categories/indexctp:25
@@ -815,19 +815,19 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakephp/bake/src/Template/Bake/Template/viewctp:161
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/indexctp:37
 msgid "View"
-msgstr ""
+msgstr "Ver"
 
 #: Template/Admin/AppUsers/viewctp:5
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:18
 msgid "Delete User"
-msgstr ""
+msgstr "Eliminar usuario"
 
 #: Template/Admin/AppUsers/viewctp:14
 #: Template/Admin/Categories/viewctp:20;45
 #: Template/PaymentInfos/viewctp:52
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:27
 msgid "Id"
-msgstr ""
+msgstr "Id"
 
 #: Template/Admin/AppUsers/viewctp:18
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/addctp:23
@@ -837,7 +837,7 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/registerctp:18
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:29
 msgid "Username"
-msgstr ""
+msgstr "Nombre de usuario"
 
 #: Template/Admin/AppUsers/viewctp:22
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/addctp:24
@@ -847,37 +847,37 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/registerctp:19
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:31
 msgid "Email"
-msgstr ""
+msgstr "Correo electrónico"
 
 #: Template/Admin/AppUsers/viewctp:26
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/registerctp:20
 msgid "Password"
-msgstr ""
+msgstr "Contraseña"
 
 #: Template/Admin/AppUsers/viewctp:30
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:33
 msgid "First Name"
-msgstr ""
+msgstr "Nombre"
 
 #: Template/Admin/AppUsers/viewctp:34
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:35
 msgid "Last Name"
-msgstr ""
+msgstr "Apellido"
 
 #: Template/Admin/AppUsers/viewctp:38
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/editctp:38
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:37
 msgid "Token"
-msgstr ""
+msgstr "Token"
 
 #: Template/Admin/AppUsers/viewctp:42
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:39
 msgid "Api Token"
-msgstr ""
+msgstr "Api Token"
 
 #: Template/Admin/AppUsers/viewctp:46
 msgid "Role"
-msgstr ""
+msgstr "Rol"
 
 #: Template/Admin/AppUsers/viewctp:50
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:47
@@ -939,95 +939,95 @@ msgstr ""
 #: Template/Admin/Categories/editctp:12
 #: Template/Admin/Categories/viewctp:6
 msgid "List Categories"
-msgstr ""
+msgstr "Listar Categorías"
 
 #: Template/Admin/Categories/addctp:11
 msgid "Add Category"
-msgstr ""
+msgstr "Agregar categorías
 
 #: Template/Admin/Categories/editctp:18
 #: Template/Admin/Categories/viewctp:4
 msgid "Edit Category"
-msgstr ""
+msgstr "Editar categorías"
 
 #: Template/Admin/Categories/indexctp:4
 #: Template/Admin/Categories/viewctp:7
 msgid "New Category"
-msgstr ""
+msgstr "Nueva categoría"
 
 #: Template/Admin/Categories/viewctp:5
 msgid "Delete Category"
-msgstr ""
+msgstr "Eliminar categoría"
 
 #: Template/Admin/Categories/viewctp:8
 msgid "List Topics"
-msgstr ""
+msgstr "Listar Tópicos"
 
 #: Template/Admin/Categories/viewctp:9
 #: Template/Topics/indexctp:4
 msgid "New Topic"
-msgstr ""
+msgstr "Nuevo tópico"
 
 #: Template/Admin/Categories/viewctp:16;46
 #: Template/PaymentInfos/viewctp:20
 #: Template/Topics/viewctp:8
 msgid "Name"
-msgstr ""
+msgstr "Nombre"
 
 #: Template/Admin/Categories/viewctp:37;47
 #: Template/Topics/viewctp:21
 msgid "Description"
-msgstr ""
+msgstr "Descripción"
 
 #: Template/Admin/Categories/viewctp:41
 msgid "Related Topics"
-msgstr ""
+msgstr "Tópicos relacionados"
 
 #: Template/Admin/Categories/viewctp:49
 #: Template/Topics/viewctp:12
 msgid "Duration"
-msgstr ""
+msgstr "Duración"
 
 #: Template/Admin/Categories/viewctp:50
 msgid "Coach Id"
-msgstr ""
+msgstr "Id del Coach"
 
 #: Template/AppUsers/viewctp:40
 msgid "Request a Session: "
-msgstr ""
+msgstr "Solicitar una sesión: "
 
 #: Template/AppUsers/viewctp:44
 msgid "View my topics: "
-msgstr ""
+msgstr "ver mis tópicos"
 
 #: Template/Element/headerctp:32
 msgid "Admin"
-msgstr ""
+msgstr "Admin"
 
 #: Template/Element/Sessions/general_viewctp:2
 #: Template/Sessions/view_historicctp:6
 msgid "Subject: "
-msgstr ""
+msgstr "Asunto"
 
 #: Template/Element/Sessions/general_viewctp:6
 #: Template/Sessions/view_historicctp:11
 msgid "Date and time: "
-msgstr ""
+msgstr "Fecha y hora"
 
 #: Template/Element/Sessions/general_viewctp:10
 #: Template/Sessions/view_historicctp:16
 msgid "Comments: "
-msgstr ""
+msgstr "Comentarios"
 
 #: Template/Element/Sessions/session_tabsctp:8
 msgid "Your Sessions"
-msgstr ""
+msgstr "Mis sesiones"
 
 #: Template/Element/Topics/listctp:4
 #: View/Helper/SidebarHelperphp:33
 #: Template/Element/headerctp:22
 msgid "My Topics"
-msgstr ""
+msgstr "Mis Tópicos"
 
 #: Template/Email/html/approve_mailctp:14
 #: Template/Email/html/coach_cancel_mailctp:14
@@ -1052,22 +1052,22 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/text/social_account_validationctp:22
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/text/validationctp:20
 msgid "Hi {0}"
-msgstr ""
+msgstr "Hola {0}"
 
 #: Template/Email/html/approve_mailctp:17
 msgid "The coach {0} has ACCEPTED a session with you"
-msgstr ""
+msgstr "El coach {0} ha aceptado una sesión contigo"
 
 #: Template/Email/html/approve_mailctp:20
 msgid "Because of this, you will be charged {0}."
-msgstr ""
+msgstr "Por esto, se te cargará {0}."
 
 #: Template/Email/html/approve_mailctp:23
 #: Template/Email/html/coach_cancel_mailctp:26
 #: Template/Email/html/payment_error_mailctp:23
 #: Template/Email/html/user_mailctp:20
 msgid "Coach information:"
-msgstr ""
+msgstr "Información del coach"
 
 #: Template/Email/html/approve_mailctp:26
 #: Template/Email/html/coach_cancel_mailctp:29
@@ -1077,7 +1077,7 @@ msgstr ""
 #: Template/Email/html/user_cancel_mailctp:23
 #: Template/Email/html/user_mailctp:23
 msgid "Username:{0}"
-msgstr ""
+msgstr "Nombre de usuario:{0}"
 
 #: Template/Email/html/approve_mailctp:29
 #: Template/Email/html/coach_cancel_mailctp:32
@@ -1089,7 +1089,7 @@ msgstr ""
 #: Template/Email/html/user_mailctp:26
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Shell/UsersShellphp:100;128
 msgid "Email: {0}"
-msgstr ""
+msgstr "Email: {0}"
 
 #: Template/Email/html/approve_mailctp:32
 #: Template/Email/html/coach_cancel_mailctp:35
@@ -1101,7 +1101,7 @@ msgstr ""
 #: Template/Email/html/user_cancel_mailctp:29
 #: Template/Email/html/user_mailctp:29
 msgid "Session details:"
-msgstr ""
+msgstr "Detalles de la sesión:"
 
 #: Template/Email/html/approve_mailctp:35
 #: Template/Email/html/coach_cancel_mailctp:38
@@ -1113,7 +1113,7 @@ msgstr ""
 #: Template/Email/html/user_cancel_mailctp:32
 #: Template/Email/html/user_mailctp:32
 msgid "Subject: {0}"
-msgstr ""
+msgstr "Asunto: {0}"
 
 #: Template/Email/html/approve_mailctp:38
 #: Template/Email/html/coach_cancel_mailctp:41
@@ -1125,7 +1125,7 @@ msgstr ""
 #: Template/Email/html/user_cancel_mailctp:35
 #: Template/Email/html/user_mailctp:35
 msgid "Date: {0}"
-msgstr ""
+msgstr "Fecha: {0}"
 
 #: Template/Email/html/approve_mailctp:41
 #: Template/Email/html/coach_cancel_mailctp:44
@@ -1136,7 +1136,7 @@ msgstr ""
 #: Template/Email/html/user_cancel_mailctp:38
 #: Template/Email/html/user_mailctp:38
 msgid "Comments: {0}"
-msgstr ""
+msgstr "Comentarios: {0}"
 
 #: Template/Email/html/approve_mailctp:44
 #: Template/Email/html/coach_cancel_mailctp:47
@@ -1144,154 +1144,154 @@ msgstr ""
 #: Template/Email/html/user_cancel_mailctp:41
 #: Template/Email/html/user_mailctp:41
 msgid "View your Session"
-msgstr ""
+msgstr "Ver tus sesiones"
 
 #: Template/Email/html/coach_cancel_mailctp:17
 msgid "The coach {0} has CANCELED a session with you"
-msgstr ""
+msgstr "El coach {0} ha cancelado una sesión contigo."
 
 #: Template/Email/html/coach_cancel_mailctp:20
 msgid "Because of this, you will be added {0} to your balance"
-msgstr ""
+msgstr "Debido a esto, se te agregará {0} a tu balance"
 
 #: Template/Email/html/coach_cancel_mailctp:23
 msgid "Coach comments: {0}"
-msgstr ""
+msgstr "Comentarios del Coach: {0}"
 
 #: Template/Email/html/coach_mailctp:17
 #: Template/Email/html/coach_sessionctp:17
 msgid "{0} has requested a session with you"
-msgstr ""
+msgstr "{0} ha solicitado una sesión contigo"
 
 #: Template/Email/html/coach_mailctp:20
 #: Template/Email/html/user_cancel_mailctp:20
 msgid "Coachee information:"
-msgstr ""
+msgstr "Información del coachee:"
 
 #: Template/Email/html/coach_mailctp:41
 msgid "Please, answer your request: "
-msgstr ""
+msgstr "Por favor, responda la solicitud: "
 
 #: Template/Email/html/payment_error_mailctp:17
 msgid "The session could not be scheduled because there was a payment error. This was the response:"
-msgstr ""
+msgstr "La sesión no pudo ser agendada porque hubo un error de pago. Esta fue la respuesta:"
 
 #: Template/Email/html/payment_mailctp:17
 msgid "Your sessions have been paid. Yo have received {0} for the following sessions:"
-msgstr ""
+msgstr "Tus sesiones fueron pagadas. Has recibido {0} por las siguientes sesiones: "
 
 #: Template/Email/html/payment_mailctp:30
 msgid "Coachee: {0}"
-msgstr ""
+msgstr "Cochee: {0}"
 
 #: Template/Email/html/payment_mailctp:34
 msgid "Observation:"
-msgstr ""
+msgstr "Observación:"
 
 #: Template/Email/html/reject_mailctp:17
 msgid "The coach {0} has REJECTED session with you"
-msgstr ""
+msgstr "El coach ha RECHAZADO una sesión contigo"
 
 #: Template/Email/html/user_cancel_mailctp:17
 msgid "The coachee {0} has CANCELED a session with you"
-msgstr ""
+msgstr "El coachee {0} ha cancelado una sesión contigo"
 
 #: Template/Email/html/user_mailctp:17
 msgid "You have requested a session with {0}"
-msgstr ""
+msgstr "Has solicitado una sesión con {0}"
 
 #: Template/PaymentInfos/addctp:4
 #: Template/PaymentInfos/editctp:10
 #: Template/PaymentInfos/viewctp:6
 msgid "List Payment Infos"
-msgstr ""
+msgstr "Listar información de Pago"
 
 #: Template/PaymentInfos/addctp:12
 msgid "Add Payment Info"
-msgstr ""
+msgstr "Agregar información de pago"
 
 #: Template/PaymentInfos/editctp:18
 #: Template/PaymentInfos/viewctp:4
 msgid "Edit Payment Info"
-msgstr ""
+msgstr "Editar información de pago"
 
 #: Template/PaymentInfos/indexctp:4
 #: Template/PaymentInfos/viewctp:7
 msgid "New Payment Info"
-msgstr ""
+msgstr "Nueva información de pago"
 
 #: Template/PaymentInfos/indexctp:10
 msgid "Payment Infos"
-msgstr ""
+msgstr "Información de pago"
 
 #: Template/PaymentInfos/viewctp:5
 msgid "Delete Payment Info"
-msgstr ""
+msgstr "Eliminar información de pago"
 
 #: Template/PaymentInfos/viewctp:16
 msgid "User"
-msgstr ""
+msgstr "Usuario"
 
 #: Template/PaymentInfos/viewctp:24
 msgid "Address1"
-msgstr ""
+msgstr "Dirección"
 
 #: Template/PaymentInfos/viewctp:28
 msgid "Address2"
-msgstr ""
+msgstr "Dirección 2"
 
 #: Template/PaymentInfos/viewctp:32
 msgid "Country"
-msgstr ""
+msgstr "País"
 
 #: Template/PaymentInfos/viewctp:36
 msgid "State"
-msgstr ""
+msgstr "Estado"
 
 #: Template/PaymentInfos/viewctp:40
 msgid "City"
-msgstr ""
+msgstr "Ciudad"
 
 #: Template/PaymentInfos/viewctp:44
 msgid "Zipcode"
-msgstr ""
+msgstr "Código Zip"
 
 #: Template/PaymentInfos/viewctp:48
 msgid "Token Id"
-msgstr ""
+msgstr "Id token"
 
 #: Template/Sessions/addctp:5
 msgid "Request Session with {0}"
-msgstr ""
+msgstr "Solicitar una sesión con {0}"
 
 #: Template/Sessions/view_historicctp:21
 msgid "Coachee Comments: "
-msgstr ""
+msgstr "Comentarios del Coachee: "
 
 #: View/Helper/BalanceHelperphp:21
 msgid "Balance :- "
-msgstr ""
+msgstr "Balance :- "
 
 #: View/Helper/SidebarHelperphp:27;57
 msgid "Profile"
-msgstr ""
+msgstr "Perfil"
 
 #: View/Helper/SidebarHelperphp:39;63
 #: Template/Element/headerctp:21
 msgid "My Sessions"
-msgstr ""
+msgstr "Mis sesiones"
 
 #: View/Helper/SidebarHelperphp:45
 msgid "Payments"
-msgstr ""
+msgstr "Pagos"
 
 #: View/Helper/SidebarHelperphp:75
 msgid "My Purchases"
-msgstr ""
+msgstr "Mis Pagos"
 
 #: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:280
 msgid "{0} processed"
-msgstr ""
+msgstr "{0} procesados"
 
 #: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/StorageShellphp:36
 msgid "The adapter config name to use."
@@ -1443,17 +1443,17 @@ msgstr ""
 #: /src/Template/AppUsers/user_profilectp:9
 #: Template/Element/headerctp:20
 msgid "Edit Profile"
-msgstr ""
+msgstr "Editar Perfil"
 
 #: /src/Template/Pages/type_userctp:4
 #: Template/Pages/type_userctp:3
 msgid "Register for coaches"
-msgstr ""
+msgstr "Registro para coaches"
 
 #: /src/Template/Pages/type_userctp:5
 #: Template/Pages/type_userctp:4
 msgid "Register for coachees"
-msgstr ""
+msgstr "Registro para coachees"
 
 #: Template/Email/html/approve_mailctp:45
 #: Template/Email/html/coach_cancel_mailctp:48
@@ -1461,20 +1461,20 @@ msgstr ""
 #: Template/Email/html/user_cancel_mailctp:42
 #: Template/Email/html/user_mailctp:42
 msgid "My Session"
-msgstr ""
+msgstr "Mi sesión"
 
 #: Template/Email/html/coach_mailctp:42
 msgid "Requested Session"
-msgstr ""
+msgstr "Sesión solicitada"
 
 #: /src/Template/AppUsers/coach_profilectp:51
 msgid "Request a Session"
-msgstr ""
+msgstr "Solicitar una Sesión"
 
 #: Template/AppUsers/viewctp:41
 #: Template/AppUsers/viewctp:45
 msgid "click here"
-msgstr ""
+msgstr "Haz click aquí"
 
 #: /src/Template/AppUsers/registerctp:18
 #: Template/AppUsers/registerctp:17
@@ -1483,7 +1483,7 @@ msgstr ""
 #: /src/Template/Plugin/CakeDC/Users/Users/loginctp:37
 #: Template/Plugin/CakeDC/Users/Users/loginctp:37
 msgid "Register"
-msgstr ""
+msgstr "Registro"
 
 #: /src/Template/AppUsers/registerctp:28
 #: Template/AppUsers/registerctp:27
@@ -1491,61 +1491,61 @@ msgstr ""
 #: Template/Element/AppUsers/user_registerctp:26
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/registerctp:28
 msgid "Accept TOS conditions?"
-msgstr ""
+msgstr "¿Aceptas las condiciones TOS?"
 
 #: /src/Template/Plugin/CakeDC/Users/Users/loginctp:22
 msgid "Enter your username and password"
-msgstr ""
+msgstr "Introduce tu nombre de usuario y contraseña"
 
 #: /src/Template/Plugin/CakeDC/Users/Users/loginctp:29
 #: Template/Plugin/CakeDC/Users/Users/loginctp:29
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/loginctp:29
 msgid "Remember me"
-msgstr ""
+msgstr "Recuérdame"
 
 #: /src/Template/Plugin/CakeDC/Users/Users/loginctp:43
 #: Template/Pages/dashboardctp:44
 #: Template/Plugin/CakeDC/Users/Users/loginctp:43
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/loginctp:43
 msgid "Reset Password"
-msgstr ""
+msgstr "Reestablecer contraseña"
 
 #: /src/Template/Plugin/CakeDC/Users/Users/loginctp:45
 #: Template/Plugin/CakeDC/Users/Users/loginctp:45
 msgid "Resend validation email"
-msgstr ""
+msgstr "Reenviar email de validación"
 
 #: /src/Template/Plugin/CakeDC/Users/Users/request_reset_passwordctp:7
 #: Template/Plugin/CakeDC/Users/Users/request_reset_passwordctp:5
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/request_reset_passwordctp:5
 msgid "Please enter your email to reset your password"
-msgstr ""
+msgstr "Por favor, introduce tu correo para reestablecer tu contraseña "
 
 #: /src/Template/Plugin/CakeDC/Users/Users/resend_token_validationctp:17
 #: Template/Plugin/CakeDC/Users/Users/resend_token_validationctp:15
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/resend_token_validationctp:15
 msgid "Resend Validation email"
-msgstr ""
+msgstr "Reeviar correo de validación"
 
 #: /src/Template/Plugin/CakeDC/Users/Users/resend_token_validationctp:19
 #: Template/Plugin/CakeDC/Users/Users/resend_token_validationctp:17
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/resend_token_validationctp:17
 msgid "Email or username"
-msgstr ""
+msgstr "Correo o nombre de usuario"
 
 #: Template/Element/AppUsers/coach_registerctp:16
 msgid "Register Coach"
-msgstr ""
+msgstr "Registro Coach"
 
 #: Template/Element/AppUsers/user_registerctp:16
 msgid "Register Coachee"
-msgstr ""
+msgstr "Registro Coachee"
 
 #: Template/Email/html/defaultctp:25
 #: Template/Plugin/CakeDC/Users/Email/html/validationctp:24
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/html/validationctp:24
 msgid "Activate your account here"
-msgstr ""
+msgstr "Activa tu cuenta aquí"
 
 #: Template/Email/html/defaultctp:28
 msgid "THIS IS Custom {0}"
@@ -1565,7 +1565,7 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/text/social_account_validationctp:26
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/text/validationctp:24
 msgid "Thank you"
-msgstr ""
+msgstr "Gracias"
 
 #: Template/Email/text/defaultctp:22
 #: Template/Email/text/validationctp:22
@@ -1575,27 +1575,27 @@ msgstr ""
 
 #: Template/Plugin/CakeDC/Users/Email/html/reset_passwordctp:24
 msgid "Reset your password here :)"
-msgstr ""
+msgstr "Reestablece tu contraseña aquí :)"
 
 #: Template/Plugin/CakeDC/Users/Email/html/reset_passwordctp:27
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/html/reset_passwordctp:27
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/html/social_account_validationctp:32
 msgid "If the link is not correcly displayed, please copy the following address in your web browser {0}"
-msgstr ""
+msgstr "Si el link no se ve correctamente, por favor, copia la siguiente dirección en el navegador {0}"
 
 #: Template/Plugin/CakeDC/Users/Email/html/validationctp:27
 msgid "David's message {0}"
-msgstr ""
+msgstr "Mesaje de David {0}"
 
 #: Template/Plugin/CakeDC/Users/Email/text/reset_passwordctp:22
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/text/reset_passwordctp:22
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/text/validationctp:22
 msgid "Please copy the following address in your web browser {0}"
-msgstr ""
+msgstr "Por favor, copia la siguiente dirección en tu navegador {0}"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Auth/ApiKeyAuthenticatephp:77
 msgid "Type {0} is not valid"
-msgstr ""
+msgstr "Tipo {0} no es válido"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Auth/ApiKeyAuthenticatephp:81
 msgid "Type {0} has no associated callable"
@@ -1633,39 +1633,39 @@ msgstr ""
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:52
 msgid "Account validated successfully"
-msgstr ""
+msgstr "Cuenta validada con éxito"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:54
 msgid "Account could not be validated"
-msgstr ""
+msgstr "Cuenta no pudo ser validada"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:57
 msgid "Invalid token and/or social account"
-msgstr ""
+msgstr "Token inválido y/o cuenta social"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:59;87
 msgid "Social Account already active"
-msgstr ""
+msgstr "Cuenta social ya activa"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:61
 msgid "Social Account could not be validated"
-msgstr ""
+msgstr "Ceunta social no pudo ser validada"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:80
 msgid "Email sent successfully"
-msgstr ""
+msgstr "Correo enviado satisfactoriamente."
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:82
 msgid "Email could not be sent"
-msgstr ""
+msgstr "El correo no pudo ser enviado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:85
 msgid "Invalid account"
-msgstr ""
+msgstr "Cuenta inváida"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/SocialAccountsControllerphp:89
 msgid "Email could not be resent"
-msgstr ""
+msgstr "El correo no pudo ser reenviado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Component/RememberMeComponentphp:69
 msgid "Invalid app salt, app salt must be at least 256 bits (32 bytes) long"
@@ -1682,24 +1682,24 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:102
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/social_emailctp:16
 msgid "Please enter your email"
-msgstr ""
+msgstr "Por favor, introduzca su correo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:109
 msgid "Your user has not been validated yet. Please check your inbox for instructions"
-msgstr ""
+msgstr "Tu usuario no ha sido validado aún, Por favor, revisa tu correo para más instrucciones"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:111
 msgid "Your social account has not been validated yet. Please check your inbox for instructions"
-msgstr ""
+msgstr "Tu cuenta social no ha sido validad todavía, Por favor, revisa tu correo para más instrucciones"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:163
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/RegisterTraitphp:81
 msgid "Invalid reCaptcha"
-msgstr ""
+msgstr "reCaptcha inváildo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:174
 msgid "You are already logged in"
-msgstr ""
+msgstr "Ya estás logueado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:195
 msgid "Please enable Google Authenticator first."
@@ -1707,212 +1707,212 @@ msgstr ""
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:265
 msgid "Verification code is invalid. Try again"
-msgstr ""
+msgstr "Código de verificaión es inválido"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:317
 msgid "Username or password is incorrect"
-msgstr ""
+msgstr "Nombre de usuario o contraseña inválidos"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/LoginTraitphp:338
 msgid "You've successfully logged out"
-msgstr ""
+msgstr "Has cerrado sesión satisfactoriamente"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:47;76
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/ProfileTraitphp:49
 msgid "User was not found"
-msgstr ""
+msgstr "Usuario no fue encontrado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:64;72;80
 msgid "Password could not be changed"
-msgstr ""
+msgstr "Contraseña no pudo ser cambiada"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:68
 msgid "Password has been changed successfully"
-msgstr ""
+msgstr "La contraseña ha sido cambiada con éxito"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:78
 msgid "{0}"
-msgstr ""
+msgstr "{0}"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:120
 msgid "Please check your email to continue with password reset process"
-msgstr ""
+msgstr "Por favor, revisa tu correo para continuar con el proceso de reestablecer la contraseña"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:123
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Shell/UsersShellphp:266
 msgid "The password token could not be generated. Please try again"
-msgstr ""
+msgstr "El token de la contraseña no pudo ser generado. Por favor, intente de nuevo."
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:129
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:100
 msgid "User {0} was not found"
-msgstr ""
+msgstr "Usuario {0} no pudo ser encontrado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:131
 msgid "The user is not active"
-msgstr ""
+msgstr "El usuario no está activo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/PasswordManagementTraitphp:133
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:95;104
 msgid "Token could not be reset"
-msgstr ""
+msgstr "El token no pudo ser reestablecido"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/ProfileTraitphp:53
 msgid "Not authorized, please login first"
-msgstr ""
+msgstr "No estás autorizado, por favor, inicia sesión primero."
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/RegisterTraitphp:42
 msgid "You must log out to register a new user account"
-msgstr ""
+msgstr "Debes cerrar sesión para registrar otra cuenta"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/RegisterTraitphp:88
 msgid "The user could not be saved"
-msgstr ""
+msgstr "El usuario no pudo ser guardado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/RegisterTraitphp:122
 msgid "You have registered successfully, please log in"
-msgstr ""
+msgstr "Te has registrado con éxito, por favor, inicia tu sesión"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/RegisterTraitphp:124
 msgid "Please validate your account before log in"
-msgstr ""
+msgstr "Por favor valida tu cuenta antes de iniciar sesión."
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/SimpleCrudTraitphp:76;106
 msgid "The {0} has been saved"
-msgstr ""
+msgstr "El {0} ha sido guardado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/SimpleCrudTraitphp:80;110
 msgid "The {0} could not be saved"
-msgstr ""
+msgstr "El {0} no pudo ser guardado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/SimpleCrudTraitphp:130
 msgid "The {0} has been deleted"
-msgstr ""
+msgstr "El {0} ha sido eliminado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/SimpleCrudTraitphp:132
 msgid "The {0} could not be deleted"
-msgstr ""
+msgstr "El {0} no pudo ser eliminado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/SocialTraitphp:39
 msgid "The reCaptcha could not be validated"
-msgstr ""
+msgstr "El reCaptcha no pudo ser validado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:42
 msgid "User account validated successfully"
-msgstr ""
+msgstr "Cuenta de usuario validad con éxito"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:44
 msgid "User account could not be validated"
-msgstr ""
+msgstr "Cuenta de usuario no pudo ser validada"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:47
 msgid "User already active"
-msgstr ""
+msgstr "usuario ya activo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:53
 msgid "Reset password token was validated successfully"
-msgstr ""
+msgstr "Token the reestablecimiento de contraseña validado con éxito"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:58
 msgid "Reset password token could not be validated"
-msgstr ""
+msgstr "El token the reestablecimiento de contraseña no pudo ser validado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:62
 msgid "Invalid validation type"
-msgstr ""
+msgstr "Tipo de validación inválida"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:65
 msgid "Invalid token or user account already validated"
-msgstr ""
+msgstr "Token inválido o usuario ya validado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:67
 msgid "Token already expired"
-msgstr ""
+msgstr "Token ya expiró"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:93
 msgid "Token has been reset successfully. Please check your email."
-msgstr ""
+msgstr "Token fue reestablecido con éxito. Por favor revisa tu correo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Controller/Traits/UserValidationTraitphp:102
 msgid "User {0} is already active"
-msgstr ""
+msgstr "Usuario {0} ya está activo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Email/EmailSenderphp:39
 msgid "Your account validation link"
-msgstr ""
+msgstr "Link para validar tu cuenta"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Mailer/UsersMailerphp:55
 msgid "{0}Your reset password link"
-msgstr ""
+msgstr "{0}Tu link para reestablecer tu contraseña"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Mailer/UsersMailerphp:78
 msgid "{0}Your social account validation link"
-msgstr ""
+msgstr "{0} tu link para validar tu cuenta social."
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/PasswordBehaviorphp:56
 msgid "Reference cannot be null"
-msgstr ""
+msgstr "La referencia no puede ser nula"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/PasswordBehaviorphp:61
 msgid "Token expiration cannot be empty"
-msgstr ""
+msgstr "Fecha de expit=ración del token no pude ser vacía"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/PasswordBehaviorphp:67;116
 msgid "User not found"
-msgstr ""
+msgstr "Usuario no encontrado"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/PasswordBehaviorphp:71
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/RegisterBehaviorphp:111
 msgid "User account already validated"
-msgstr ""
+msgstr "Cuenta de usuario ya validada"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/PasswordBehaviorphp:78
 msgid "User not active"
-msgstr ""
+msgstr "Usuario no activo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/PasswordBehaviorphp:121
 msgid "The current password does not match"
-msgstr ""
+msgstr "La contraseña actual no coincide"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/PasswordBehaviorphp:124
 msgid "You cannot use the current password as the new one"
-msgstr ""
+msgstr "No puedes usar la misma contraseña"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/RegisterBehaviorphp:89
 msgid "User not found for the given token and email."
-msgstr ""
+msgstr "Usuario no encontrado dado el token y correo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/RegisterBehaviorphp:92
 msgid "Token has already expired user with no token"
-msgstr ""
+msgstr "El token ya expiró usuario sin token"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/SocialAccountBehaviorphp:102;129
 msgid "Account already validated"
-msgstr ""
+msgstr "Cuenta ya validad"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/SocialAccountBehaviorphp:105;132
 msgid "Account not found for the given token and email."
-msgstr ""
+msgstr "Cuenta no encontrada dado el token y correo"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/SocialBehaviorphp:56
 msgid "Unable to login user with reference {0}"
-msgstr ""
+msgstr "No se pudo loguear al usuario usando la referencia {0}"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/SocialBehaviorphp:98
 msgid "Email not present"
-msgstr ""
+msgstr "Correo no presente"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Table/UsersTablephp:82
 msgid "Your password does not match your confirm password. Please try again"
-msgstr ""
+msgstr "las contraseñas no coinciden. Por favor, intente de nuevo."
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Table/UsersTablephp:175
 msgid "Username already exists"
-msgstr ""
+msgstr "Nombre de usuario ya existe"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Table/UsersTablephp:181
 msgid "Email already exists"
-msgstr ""
+msgstr "Correo ya existe"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Table/UsersTablephp:214
 msgid "Missing 'username' in options data"
@@ -2048,54 +2048,54 @@ msgstr ""
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/html/reset_passwordctp:24
 msgid "Reset your password here"
-msgstr ""
+msgstr "Reestable tu contraseña aquí"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/html/social_account_validationctp:18
 msgid "Activate your social login here"
-msgstr ""
+msgstr "Activa tu login social aquí"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/html/validationctp:27
 msgid "If the link is not correctly displayed, please copy the following address in your web browser {0}"
-msgstr ""
+msgstr "Si el link no se muestra correctamente, por favor copia la siguiente dirección en tu navegador"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Email/text/social_account_validationctp:24
 msgid "Please copy the following address in your web browser to activate your social login {0}"
-msgstr ""
+msgstr "Por favor copia la siguiente dirección en tu navegador para activar tu cuenta social {0}"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/addctp:25
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/editctp:36
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/indexctp:24
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/registerctp:25
 msgid "First name"
-msgstr ""
+msgstr "Nombre"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/addctp:26
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/editctp:37
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/indexctp:25
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/registerctp:26
 msgid "Last name"
-msgstr ""
+msgstr "Apellido"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/change_passwordctp:5
 msgid "Please enter the new password"
-msgstr ""
+msgstr "Por favor introduzca la nueva contraseña"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/change_passwordctp:10
 msgid "Current password"
-msgstr ""
+msgstr "Contraseña actual"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/change_passwordctp:16
 msgid "New password"
-msgstr ""
+msgstr "Nueva contraseña"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/change_passwordctp:21
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/registerctp:23
 msgid "Confirm password"
-msgstr ""
+msgstr "Confirma l contraseñá"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/editctp:40
 msgid "Token expires"
-msgstr ""
+msgstr "Token expira"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/editctp:43
 msgid "API token"
@@ -2111,47 +2111,47 @@ msgstr ""
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/indexctp:15
 msgid "New {0}"
-msgstr ""
+msgstr "Nurvo {0}
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/indexctp:38
 msgid "Change password"
-msgstr ""
+msgstr "Cambiar contraseña"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/profilectp:18
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/View/Helper/UserHelperphp:51
 msgid "{0} {1}"
-msgstr ""
+msgstr "{0} {1}"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/profilectp:24
 msgid "Change Password"
-msgstr ""
+msgstr "Cambiar contraseñá"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/profilectp:34
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:62
 msgid "Social Accounts"
-msgstr ""
+msgstr "Ceuntas sociales"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/profilectp:38
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:67
 msgid "Avatar"
-msgstr ""
+msgstr "Avatar"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/profilectp:39
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/viewctp:66
 msgid "Provider"
-msgstr ""
+msgstr "Proveedor"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/profilectp:40
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/profilectp:47
 msgid "Link to {0}"
-msgstr ""
+msgstr "Link a {0}"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/verifyctp:13
 msgid "Verification Code"
-msgstr ""
+msgstr "Código de verificación"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/verifyctp:15
 msgid "<span class=\"glyphicon glyphicon-log-in\" aria-hidden=\"true\"></span> Verify"
@@ -2171,7 +2171,7 @@ msgstr ""
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/View/Helper/UserHelperphp:108
 msgid "Welcome, {0}"
-msgstr ""
+msgstr "Bienvenido, {0}"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/View/Helper/UserHelperphp:131
 msgid "reCaptcha is not configured! Please configure Users.reCaptcha.key"
@@ -2180,97 +2180,42 @@ msgstr ""
 #: /src/Template/Element/endless_paginationctp:10
 #: Template/Element/endless_paginationctp:10
 msgid "Load More"
-msgstr ""
+msgstr "Cargar más"
 
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Model/Behavior/RegisterBehaviorphp:148
 #: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/Validation/Validatorphp:103
 msgid "This field is required"
-msgstr ""
+msgstr "Este capo es requerido"
 
 #: /src/Template/Element/Sessions/accept_decline_buttonsctp:1
 #: Template/Element/Sessions/accept_decline_buttonsctp:1
 msgid "Accept"
-msgstr ""
+msgstr "Aceptar"
 
 #: /src/Template/Topics/viewctp:62
 msgid "Request Session"
-msgstr ""
+msgstr "Solicitar sesión"
 
 #: Template/Topics/viewctp:26
 msgid "Request Session about this topic"
-msgstr ""
+msgstr "Solicitar sesión sobre este tópico"
 
 #: /src/Template/Topics/viewctp:53
 #: Template/Topics/viewctp:25
 msgid "Edit topic"
-msgstr ""
+msgstr "Editar tópico"
 
 #: /src/Template/Topics/viewctp:54
 msgid "Delete topic"
-msgstr ""
+msgstr "Eliminar tópico"
 
 #: Template/Topics/coach_topicsctp:3
 msgid "Add new topic"
-msgstr ""
-
-#: Template/Error/error400ctp:36
-#: Template/Error/error500ctp:41
-msgid "Error"
-msgstr ""
-
-#: Template/Error/error400ctp:38
-msgid "The requested address %s was not found on this server."
-msgstr ""
-
-#: Template/Error/error500ctp:39
-msgid "An Internal Error Has Occurred"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/Controller/Component/AuthComponentphp:461
-msgid "You are not authorized to access that location."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/Controller/Component/CsrfComponentphp:154
-msgid "Missing CSRF token cookie"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/Controller/Component/CsrfComponentphp:158
-msgid "CSRF token mismatch."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/Error/ExceptionRendererphp:251
-msgid "Not Found"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/Error/ExceptionRendererphp:253
-msgid "An Internal Error Has Occurred."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/I18n/Numberphp:90
-msgid "{0,number,#,###.##} KB"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/I18n/Numberphp:92
-msgid "{0,number,#,###.##} MB"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/I18n/Numberphp:94
-msgid "{0,number,#,###.##} GB"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/I18n/Numberphp:96
-msgid "{0,number,#,###.##} TB"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/I18n/Numberphp:88
-msgid "{0,number,integer} Byte"
-msgid_plural "{0,number,integer} Bytes"
-msgstr[0] ""
-msgstr[1] ""
+msgstr "Agregar nuevo tópico"
 
 #: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/I18n/RelativeTimeFormatterphp:80
 msgid "{0} from now"
-msgstr ""
+msgstr "{0} desde ahora"
 
 #: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/I18n/RelativeTimeFormatterphp:80
 msgid "{0} ago"
@@ -2481,434 +2426,3 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/View/Widget/DateTimeWidgetphp:550
 msgid "December"
 msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Event/ImageProcessingListenerphp:307
-msgid "No adapter config key passed!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Event/ImageProcessingListenerphp:317
-msgid "No callback image url callback implemented for adapter %s"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Model/Behavior/UploadValidatorBehaviorphp:86
-msgid "The image dimensions are to big."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Model/Behavior/UploadValidatorBehaviorphp:96
-msgid "The file is to big!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Model/Behavior/UploadValidatorBehaviorphp:106
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:238
-msgid "No file was uploaded."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Model/Behavior/UploadValidatorBehaviorphp:115
-msgid "Invalid upload!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Model/Behavior/UploadValidatorBehaviorphp:125
-msgid "The mime-type is not allowed."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Model/Behavior/UploadValidatorBehaviorphp:135
-msgid "The extension is not allowed."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Model/Behavior/UploadValidatorBehaviorphp:144
-msgid "Invalid file."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:39
-msgid "Shell command for generating and removing image versions."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:43;66;96;117
-msgid "The storage table for image processing you want to use."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:47;70;100;121
-msgid "Limits the amount of records to be processed in one batch"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:51
-msgid "<model> <version> Generate a new image version"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:55;110
-msgid "Value of the model property of the images to generate"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:59
-msgid "Image version to generate"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:74;125
-msgid "Use this switch if you do not want to overwrite existing versions."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:81
-msgid "<model> <version> Remove an new image version"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:85
-msgid "Value of the model property of the images to remove"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:89
-msgid "Image version to remove"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:106
-msgid "<model> Generates all image versions."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:150
-msgid "--limit must be an integer!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:168;195;217
-msgid "Invalid table or version."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:244
-msgid "No Images for model {0} found"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:248
-msgid "{0} image file(s) will be processed\n"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/ImageVersionShellphp:259
-msgid "Cant load adapter config {0} for record {1}"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/Task/ImageTaskphp:63
-msgid "{0} record(s) will be processed.\n"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/Task/ImageTaskphp:78
-msgid "{0} of {1} records processed."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Shell/Task/ImageTaskphp:138
-msgid "No records for identifier \"{0}\" found."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:152
-msgid "Invalid image size validation parameters!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:228
-msgid "The uploaded file exceeds limit of %s."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:231
-msgid "The uploaded file is to big, please choose a smaller file or try to compress it."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:234
-msgid "The uploaded file was only partially uploaded."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:243
-msgid "The remote server has no temporary folder for file uploads. Please contact the site admin."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:246
-msgid "Failed to write file to disk. Please contact the site admin."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:249
-msgid "File upload stopped by extension. Please contact the site admin."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-file-storage/src/Validation/UploadValidatorphp:252
-msgid "Unknown File Error. Please contact the site admin."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/Lib/ImageProcessorphp:202
-msgid "You have to pass size in the options!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/Lib/ImageProcessorphp:236;251
-msgid "You must pass a size value!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/Lib/ImageProcessorphp:265
-msgid "You have to pass a height, width or size!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/Lib/ImageProcessorphp:269
-msgid "You can only scale by width or height!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/Lib/ImageProcessorphp:326
-msgid "You must pass a factor value!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/Lib/ImageProcessorphp:351
-msgid "Invalid direction, use vertically or horizontally"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/Lib/ImageProcessorphp:385;451
-msgid "You have to pass height and width in the options!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/Model/Behavior/ImagineBehaviorphp:151
-msgid "Unsupported image operation `{0}`!"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/burzum/cakephp-imagine-plugin/src/View/Helper/ImagineHelperphp:67
-msgid "Please configure {0} using {1}"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/DebugTimerphp:135
-msgid "Core Processing (Derived from $_SERVER[\"REQUEST_TIME\"])"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Panel/TimerPanelphp:53
-msgid "Controller initialization"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Panel/TimerPanelphp:62
-msgid "Controller action start"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Panel/TimerPanelphp:63;68
-msgid "Controller action"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Panel/TimerPanelphp:73;74;94
-msgid "View Render start"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Panel/TimerPanelphp:83;88
-msgid "Render {0}"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Panel/TimerPanelphp:95
-msgid "Controller shutdown"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:45
-msgid "-> Testing :url"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:72
-msgid "Total Requests made: :requests"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:73
-msgid "Total Time elapsed: :duration (seconds)"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:77
-msgid "Requests/Second: :rps req/sec"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:81
-msgid "Average request time: :average-time seconds"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:85
-msgid "Standard deviation of average request time: :std-dev"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:89
-msgid "Longest/shortest request: :longest sec/:shortest sec"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:147
-msgid "Allows you to obtain some rough benchmarking statisticsabout a fully qualified URL."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:153
-msgid "The URL to request."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:158
-msgid "Number of iterations to perform."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:162
-msgid "Maximum total time for all iterations, in seconds.If a single iteration takes more than the timeout, only one request will be made"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/BenchmarkShellphp:168
-msgid "Example Use: `cake benchmark --n 10 --t 100 http://localhost/testsite`. <info>Note:</info> this benchmark does not include browser render times."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/cache_panelctp:21
-msgid "There were no cache operations this request."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/cache_panelctp:25
-msgid "{0} Metrics"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/cache_panelctp:31
-msgid "Metric"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/cache_panelctp:32
-msgid "Total"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/environment_panelctp:28
-msgid "Application Constants"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/environment_panelctp:49
-msgid "No application environment available."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/environment_panelctp:53
-msgid "CakePHP Constants"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/environment_panelctp:74
-msgid "CakePHP environment unavailable."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/environment_panelctp:78
-msgid "PHP Environment"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/environment_panelctp:99
-msgid "PHP environment unavailable."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/environment_panelctp:104
-msgid "Hidef Environment"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/environment_panelctp:125
-msgid "No Hidef environment available."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/history_panelctp:23
-msgid "No previous requests logged."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/history_panelctp:25
-msgid "previous requests available"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/history_panelctp:29;53
-msgid "Back to current request"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/log_panelctp:21
-msgid "There were no log entries made this request"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/log_panelctp:24
-msgid "{0} Messages"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/log_panelctp:28
-msgid "Time"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/log_panelctp:29
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:32
-msgid "Message"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/request_panelctp:31
-msgid "Headers already sent at file {0} and line {1}."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/request_panelctp:40
-msgid "No post data."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/request_panelctp:49
-msgid "No querystring data."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/request_panelctp:59
-msgid "No Cookie data."
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/routes_panelctp:11
-msgid "Route name"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/routes_panelctp:12
-msgid "URI template"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/routes_panelctp:13
-msgid "Defaults"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panelctp:58
-msgid "Total Time: {0} ms &mdash; Total Queries: {1} &mdash; Total Rows: {2}"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panelctp:71
-msgid "Query"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panelctp:72
-msgid "Rows"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panelctp:73
-msgid "Took (ms)"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/sql_log_panelctp:91
-msgid "No active database connections"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:23
-msgid "Memory"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:25
-msgid "Peak Memory Use:"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:33
-msgid "Memory Use"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:48
-msgid "Timers"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:50
-msgid "Total Request Time:"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:57
-msgid "Event"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:58
-msgid "Time in ms"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/timer_panelctp:59
-msgid "Timeline"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Template/Element/variables_panelctp:28
-msgid "Sort variables by name"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/View/Helper/SimpleGraphHelperphp:76
-msgid "Starting {0}ms into the request, taking {1}ms"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/View/Helper/TidyHelperphp:110
-msgid "No markup errors found"
-msgstr ""
-
-#: /home/david/cleteci/coach/vendor/cakephp/debug_kit/src/Shell/WhitespaceShellphp:98
-msgid "Absolute path or relative to APP."
-msgstr ""
-
