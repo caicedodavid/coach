@@ -16,6 +16,7 @@ namespace App\Controller;
 
 use Cake\Controller\Controller;
 use Cake\Event\Event;
+use Cake\I18n\I18n;
 
 /**
  * Application Controller
@@ -27,6 +28,11 @@ use Cake\Event\Event;
  */
 class AppController extends Controller
 {
+    protected $availableLanguages = [
+        'en' => 'en',
+        'es' => 'es',
+    ];
+
     public $helpers = ['AssetCompress.AssetCompress'];
 
     /**
@@ -47,6 +53,9 @@ class AppController extends Controller
         $this->loadComponent('Csrf');
         $this->loadComponent('CakeDC/Users.UsersAuth');
         $this->loadComponent('Paginator');
+        $this->loadComponent('Cookie');
+
+        $this->Auth->allow(['setLocale']);
         
     }
 
@@ -98,5 +107,32 @@ class AppController extends Controller
         $this->viewBuilder()->theme('EducoTheme');
     }
 
+    /**
+     * before filter event
+     *
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        $this->setLocale();
+        parent::beforeFilter($event);
+    }
+
+    /**
+     * Sets the current locale based on url param and available languages
+     *
+     * @return void
+     */
+    protected function setLocale()
+    {
+        $selectedLanguage = 'en';
+        $lang = $this->request->query('language') ? $this->request->query('language') : $this->request->param('language');
+        if ($lang && isset($this->availableLanguages[$lang])) {
+            I18n::locale($lang);
+            $selectedLanguage = $this->availableLanguages[$lang];
+        }
+        $this->set('selectedLanguage', $selectedLanguage);
+        $this->set('availableLanguages', $this->availableLanguages);
+    }
 
 }

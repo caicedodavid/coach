@@ -44,7 +44,14 @@ use Cake\Network\Session;
  */
 Router::defaultRouteClass('DashedRoute');
 
-Router::scope('/', function (RouteBuilder $routes) {
+Router::addUrlFilter(function ($params, $request) {
+    if (isset($request->params['language']) && !isset($params['language'])) {
+        $params['language'] = $request->params['language'];
+    }
+    return $params;
+});
+
+$basicRoutes = function (RouteBuilder $routes) {
     /**
      * Here, we are connecting '/' (base path) to a controller called 'Pages',
      * its action called 'display', and we pass a param to select the view file
@@ -79,7 +86,15 @@ Router::scope('/', function (RouteBuilder $routes) {
         $routes->connect('/', ['controller'=>'AppUsers','action'=>'index']);
         $routes->fallbacks('InflectedRoute');
     });
-});
+};
+
+$realRoutes = function ($routes) use ($basicRoutes) {
+    $routes->scope('/', $basicRoutes);
+    return $routes;
+};
+Router::scope('/es', ['language' => 'es'], $realRoutes);
+Router::scope('/', ['language' => 'en'], $realRoutes);
+Router::scope('/', $realRoutes);
 
 /**
  * Load all plugin routes.  See the Plugin documentation on

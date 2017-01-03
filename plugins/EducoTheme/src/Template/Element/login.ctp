@@ -25,6 +25,23 @@
                     <?php else:?>
                         <?= $this->Html->link(__('Logout'), '/logout')?>
                     <?php endif;?>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" id ="languague-button"><?= $selectedLanguage ?> <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <?php foreach($availableLanguages as $lang => $alias): ?>
+                                    <?php if ($alias === $selectedLanguage) continue; ?>
+                                    <?php $pass = $this->request->param('pass') ?>
+                                    <li>
+                                        <?= $this->Html->link($alias, [
+                                                'language' => $lang,
+                                                'controller' => $this->request->param('controller'),
+                                                'action' => $this->request->param('action'),
+                                                isset($pass[0]) ? $pass[0] : null
+                                            ]) ?>
+                                    </li>
+                                <?php endforeach; ?>
+                            </li>
+                        </ul>
                 </div>
             </div>
         </div>
