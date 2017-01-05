@@ -41,7 +41,8 @@
                                         <?= $this->Number->currency($payment->amount, 'USD');?>
                                     </div>
                                     <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
-                                        <?= $payment->created;?>
+                                        <?php $now = Cake\I18n\Time::parse($payment->created);
+                                         echo $now->nice();?>
                                     </div>
                                 </div>
                             </div>
