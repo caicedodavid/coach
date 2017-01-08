@@ -17,6 +17,7 @@ namespace App\Controller;
 use Cake\Controller\Controller;
 use Cake\Event\Event;
 use Cake\I18n\I18n;
+use Cake\Routing\Router;
 
 /**
  * Application Controller
@@ -52,6 +53,10 @@ class AppController extends Controller
         $this->loadComponent('Security');
         $this->loadComponent('Csrf');
         $this->loadComponent('CakeDC/Users.UsersAuth');
+
+        $url = Router::getRequest()->session()->read('Auth.redirect') ? Router::getRequest()->session()->read('Auth.redirect') : Router::getRequest()->env('HTTP_REFERER');
+        $url = strpos($url, 'login') ? ['controller' => 'AppUsers', 'action' => 'myProfile', 'plugin' => false, 'language' => $this->request->query('language')] : $url;
+        $this->Auth->config('loginRedirect', $url);
         $this->loadComponent('Paginator');
         $this->loadComponent('Cookie');
 

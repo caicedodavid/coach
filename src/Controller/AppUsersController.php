@@ -197,7 +197,8 @@ class AppUsersController extends UsersController
      */
     public function login(){
         $this->Flash->error(__('Please, activate your account first.'));
-        return $this->redirect(['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'login']);
+        $this->render("CakeDC/Users.Users/login");
+        parent::login();
     }
 
 

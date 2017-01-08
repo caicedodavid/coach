@@ -11,6 +11,7 @@ class Events implements EventListenerInterface
     {
         return [
             UsersAuthComponent::EVENT_BEFORE_LOGIN => 'checkActiveUser',
+            //UsersAuthComponent::EVENT_AFTER_LOGIN => 'loginRedirect',
         ];
     }
 
@@ -23,5 +24,9 @@ class Events implements EventListenerInterface
                 $event->stopPropagation();
             }
         }
+    }
+    public function loginRedirect($event)
+    {
+        return Router::getRequest()->env('HTTP_REFERER');
     }
 }
