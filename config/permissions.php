@@ -239,5 +239,16 @@ return [
                 return false;
             }
         ],
+        [
+            'role' => ['user','coach'],
+            'plugin'=> false,
+            'controller' => 'Calendars',
+            'action' => [
+                'listEvents',
+                'createCalendar',
+                'createEvent',
+                'getCalendar'
+            ],
+        ],
     ]
 ];
