@@ -19,8 +19,8 @@ use Cake\ORM\Entity;
  */
 class Payment extends Entity
 {
-    const PAYMENT_TYPE_CREDIT = 'credit';
-    const PAYMENT_TYPE_BALANCE = 'balance';
+    const PAYMENT_TYPE_CREDIT = 1;
+    const PAYMENT_TYPE_BALANCE = 2;
     /**
      * Fields that can be mass assigned using newEntity() or patchEntity().
      *

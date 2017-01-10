@@ -50,16 +50,16 @@ class CreatePaymentInfo extends AbstractMigration
             'limit' => 40,
             'null' => false,
         ]);
+        $table->addColumn('active', 'boolean', [
+            'default' => true,
+            'null' => false,
+        ]);
         $table->addColumn('created', 'datetime', [
             'default' => null,
             'null' => false,
         ]);
         $table->addColumn('modified', 'datetime', [
             'default' => null,
-            'null' => false,
-        ]);
-        $table->addColumn('active', 'boolean', [
-            'default' => true,
             'null' => false,
         ]);
         $table->create();

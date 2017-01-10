@@ -1,7 +1,7 @@
 <?php
 use Migrations\AbstractMigration;
 
-class AddTopicIdToSessions extends AbstractMigration
+class RemovePaymentTypeFromPayments extends AbstractMigration
 {
     /**
      * Change Method.
@@ -12,11 +12,12 @@ class AddTopicIdToSessions extends AbstractMigration
      */
     public function change()
     {
-        $table = $this->table('sessions');
-        $table->addColumn('topic_id', 'char', [
-            'default' => null,
-            'null' => true,
-            'after' => 'coach_id'
+        $table = $this->table('payments');
+        $table->removeColumn('payment_type');
+        $table->addColumn('payment_type','integer', [
+            'after' => 'amount',
+            'null' => false,
+            'default' => null
         ]);
         $table->update();
     }
