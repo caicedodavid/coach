@@ -1,7 +1,7 @@
 <?php
     $menu = [
         [
-             'url' => ['action' => 'myProfile', 'controller' => 'AppUsers'],
+             'url' => ['action' => 'myProfile', 'controller' => 'AppUsers', 'plugin' => false],
              'title' => __('Home')          
         ],
         [
@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-lg-2 col-md-2 col-sm-2">
                     <div class="educo_logo"><a href="index.html">
-                            <?= $this->Html->link($this->Html->image('header/Logo.png', ['alt' => 'Logo', 'pathPrefix' => 'images/']), ['action' => 'myProfile', 'controller' => 'AppUsers'], ['escape' => false])?>
+                            <?= $this->Html->link($this->Html->image('header/Logo.png', ['alt' => 'Logo', 'pathPrefix' => 'images/']), ['action' => 'myProfile', 'controller' => 'AppUsers', 'plugin' => false], ['escape' => false])?>
                         </a>
                     </div>
                 </div>

@@ -11,7 +11,7 @@ class Events implements EventListenerInterface
     {
         return [
             UsersAuthComponent::EVENT_BEFORE_LOGIN => 'checkActiveUser',
-            //UsersAuthComponent::EVENT_AFTER_LOGIN => 'loginRedirect',
+            UsersAuthComponent::EVENT_AFTER_LOGIN => 'loginRedirect',
         ];
     }
 
@@ -20,13 +20,15 @@ class Events implements EventListenerInterface
         if ($event->subject()->request->data) {
             $user = TableRegistry::get('Users')->find('byUsername', ['username' => $event->subject()->request->data['username']])->first();
             if (!is_null($user) and !$user->active) {
-                $event->result = Router::url(['controller' => 'AppUsers', 'action' => 'login', 'prefix' => false, 'plugin' => false],true);
+                $event->result = Router::url(['controller' => 'AppUsers', 'action' => 'loginError', 'prefix' => false, 'plugin' => false],true);
                 $event->stopPropagation();
             }
         }
     }
     public function loginRedirect($event)
     {
-        return Router::getRequest()->env('HTTP_REFERER');
+        if (!Router::getRequest()->session()->read('Auth.redirect')) {
+            return ['controller' => 'AppUsers', 'action' => 'myProfile', 'plugin' => false, 'language' => Router::getRequest()->query('language')];
+        }
     }
 }
