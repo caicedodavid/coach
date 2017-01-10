@@ -1,6 +1,7 @@
 <?php
 	if (!$events){
 		echo $this->Html->link(__('Create Calendar'), ['controller' => 'calendars', 'action' => 'createCalendar'], ['class' => 'btn btn-default']);
+		echo $this->Html->link(__('Sync Google Calenadar'), ['controller' => 'calendars', 'action' => 'getToken'], ['class' => 'btn btn-default']);
 	} else {
 		foreach($events as $event):
 			echo $event->getSummary();

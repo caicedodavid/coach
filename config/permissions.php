@@ -247,7 +247,10 @@ return [
                 'listEvents',
                 'createCalendar',
                 'createEvent',
-                'getCalendar'
+                'getCalendar',
+                'getToken',
+                'saveToken'
+
             ],
         ],
     ]

@@ -4,7 +4,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 define('APPLICATION_NAME', 'Google Calendar API PHP Quickstart');
 define('CREDENTIALS_PATH', '~/.credentials/calendar-php-quickstart.json');
-define('CLIENT_SECRET_PATH', __DIR__ . '/webroot/js/client_secret_135345448683-diubgddapsep3f5022n882mkdt1qpdmn.apps.googleusercontent.com.json');
+define('CLIENT_SECRET_PATH', __DIR__ . '/webroot/js/client_secret_229082176425-7gj807o0a2mmhde3gucfqdcdlh18nmuo.apps.googleusercontent.com.json');
 // If modifying these scopes, delete your previously saved credentials
 // at ~/.credentials/calendar-php-quickstart.json
 define('SCOPES', implode(' ', array(
