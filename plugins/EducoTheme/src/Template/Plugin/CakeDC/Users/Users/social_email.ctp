@@ -11,9 +11,11 @@
 ?>
 <div class="users form">
     <?= $this->Form->create('User') ?>
+    <br>
+    <br>
     <fieldset>
         <?= $this->Form->input('email', ['class'=>'form-control']) ?>
     </fieldset>
-    <?= $this->Form->button(__d('CakeDC/Users', 'Submit'), ['class' => 'btn ed_btn pull-right ed_orange pull-right small']); ?>
+    <?= $this->Form->button(__d('CakeDC/Users', 'Submit'), ['class' => 'btn ed_btn ed_orange small']); ?>
     <?= $this->Form->end() ?>
 </div>
