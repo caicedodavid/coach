@@ -104,10 +104,6 @@ msgstr ""
 msgid "welcome guest"
 msgstr ""
 
-#: Template/Element/login.ctp:26
-msgid "Logout"
-msgstr ""
-
 #: Template/Element/AppUsers/list.ctp:3
 msgid "There are no available coaches"
 msgstr ""
@@ -162,8 +158,6 @@ msgid "({0})"
 msgstr "({0})"
 
 #: Template/PaymentInfos/cards.ctp:17
-msgid "Payment Information"
-msgstr "Información de pago"
 
 #: Template/PaymentInfos/cards.ctp:19
 msgid "You have no registerd cards."
@@ -342,7 +336,7 @@ msgstr "No hay tópicos"
 
 #: Template/Topics/edit.ctp:2
 msgid "Edit Topic"
-msgstr "Edita tópicos"
+msgstr "Editar Tópico"
 
 #: Template/Topics/view.ctp:23
 msgid "duration: {0} minutes"
@@ -443,4 +437,7 @@ msgstr "Editar tópico"
 #: Template/Topics/view.ctp:54
 msgid "Delete topic"
 msgstr "Eliminar tópico"
+
+msgid "Sessions"
+msgstr "Sesiones"
 

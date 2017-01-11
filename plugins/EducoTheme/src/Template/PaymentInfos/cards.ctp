@@ -1,14 +1,14 @@
 <?php
     use App\Controller\AppUsersController;
     $this->extend('/Element/AppUsers/dashbord_sidebar');
-    $this->assign('title', 'Coachee');
+    $this->assign('title', 'Payment Information');
 ?>
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_PAYMENT_INFOS))?>
 <?php $this->end('tabs') ?>
 
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">User Detail</a></li>
+    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab"><?=__('Cards')?></a></li>
 </ul>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="view">

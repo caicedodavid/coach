@@ -1,5 +1,5 @@
 <?= $this->extend('/Element/AppUsers/dashbord_sidebar');
-    $this->assign('title', 'Sessions');
+    $this->assign('title', __('Sessions'));
     $type = $this->fetch('typeSession');
     $userId = $this->fetch('userId');
     $isApproved = ($type === "approved" ? "active": null);

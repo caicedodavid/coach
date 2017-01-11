@@ -8,7 +8,7 @@
 <?php $this->end('tabs') ?>
 <?= $this->AuthLink->link(__d('AppUsers', 'Edit Profile'), ['plugin' => false, 'controller' => 'AppUsers', 'action' => 'edit', $user->id, 'prefix' => false], ['class' => 'btn ed_btn ed_orange pull-right small', 'id' => 'edit-profile']);?>
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">User Detail</a></li>
+    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab"><?__('User Detail')?></a></li>
 </ul>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="view">

@@ -1,5 +1,5 @@
 <?php $this->start('banner') ?>
-    <?php echo $this->element('banner', ['title' => 'Topic']); ?>
+    <?php echo $this->element('banner', ['title' => __('Topic')]); ?>
 <?php $this->end() ?>
 <?php $this->assign('customBackgroundClass','ed_course_single')?>
 <div class="row">
@@ -29,8 +29,8 @@
                 <div role="tabpanel">
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist">
-                        <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">description</a></li>
-                        <li role="presentation"><a href="#students" aria-controls="students" role="tab" data-toggle="tab">students</a></li>
+                        <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab"><?=__('Description')?></a></li>
+                        <li role="presentation"><a href="#students" aria-controls="students" role="tab" data-toggle="tab"><?=__('Students')?></a></li>
                     </ul>
                     <!-- Tab panes -->
                     <div class="tab-content">
@@ -62,7 +62,7 @@
                     <?= !$isCoach ? $this->Html->link(__d('Session', 'Request Session'), ['controller' => 'Sessions', 'action' => 'add', $topic->coach_id, $topic->id, 'plugin' => false, 'prefix' => false],['class' => 'ed_btn ed_green']) : null;?>
                 </aside>
                 <aside class="widget widget_sharing">
-                    <h4 class="widget-title">share this course</h4>
+                    <h4 class="widget-title"><?=__('share this course')?></h4>
                     <ul>
                         <li><a href="course_single.html"><i class="fa fa-facebook"></i> facebook</a></li>
                         <li><a href="course_single.html"><i class="fa fa-linkedin"></i> linkedin</a></li>

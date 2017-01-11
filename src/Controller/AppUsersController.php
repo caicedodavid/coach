@@ -190,8 +190,6 @@ class AppUsersController extends UsersController
         parent::register();
     }
 
-
-
     /**
      * login Error
      *

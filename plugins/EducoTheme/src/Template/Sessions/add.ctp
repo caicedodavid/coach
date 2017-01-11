@@ -1,5 +1,5 @@
 <?php $this->start('banner') ?>
-    <?php echo $this->element('banner', ['title' => 'Request Session']); ?>
+    <?php echo $this->element('banner', ['title' => __('Request Session')]); ?>
 <?php $this->end() ?>
 <?php $this->assign('customBackgroundClass','ed_purchase_course course_purchase_wrapper')?>
 <?php use Cake\Routing\Router;?>
@@ -36,7 +36,7 @@
                         <div role="tabpanel">
                             <!-- Nav tabs -->
                             <ul class="nav nav-tabs" role="tablist">
-                                <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">description</a></li>
+                                <li role="presentation" class="active"><a href="#description" aria-controls="description" role="tab" data-toggle="tab"><?=__("Description")?></a></li>
                             </ul>
                             <!-- Tab panes -->
                             <div class="tab-content">
@@ -50,7 +50,7 @@
                                                     <fieldset>
                                                         <div class="form-group">
                                                             <?php
-                                                                echo "<b>Date and time of session</b>";
+                                                                echo "<b>" . __("Date and time of session") . "</b>";
                                                                 echo $this->Form->input('schedule',[
                                                                     'error'=> false,
                                                                     'id' => 'schedule',

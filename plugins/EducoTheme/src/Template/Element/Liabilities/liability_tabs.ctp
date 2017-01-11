@@ -1,5 +1,5 @@
 <?= $this->extend('/Element/AppUsers/dashbord_sidebar');
-    $this->assign('title', 'Sessions');
+    $this->assign('title', __('Payments'));
     $type = $this->fetch('typeSession');
     $userId = $this->fetch('userId');
     $isPaid = ($type === "paid" ? "active": null);

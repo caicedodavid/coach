@@ -10,11 +10,11 @@
 				<fieldset>
 					<div class="row">
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							<h3 class="checkout-heading">Billing Details</h3>
+							<h3 class="checkout-heading"><?=__('Billing Details')?></h3>
 							<div class="row">
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<div class="form-group">
-										<?= $this->Form->input('name',['class' => 'form-control', 'label' => 'Name on card']);?>
+										<?= $this->Form->input('name',['class' => 'form-control', 'label' => __('Cardholder')]);?>
 									</div>
 								</div>	    
 								<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -50,13 +50,13 @@
 							</div>
 						</div>
 						<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							<h3 class="checkout-heading">Card Details</h3>
+							<h3 class="checkout-heading"><?=__('Card Details')?></h3>
 							<div class="row">
 								<div class="col-lg-9 col-md-9 col-sm-9 col-xs-9">
 									<div class="form-group">
 										<?= $this->Form->input('card_number',[
 											'data-stripe' => 'number',
-											'label' => 'Card number',
+											'label' => __('Card number'),
 											'class' => 'form-control',
 											'type' => 'text',
 											'maxlength' => '19',
