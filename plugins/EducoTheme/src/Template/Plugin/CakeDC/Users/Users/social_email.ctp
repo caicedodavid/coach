@@ -12,7 +12,6 @@
 <div class="users form">
     <?= $this->Form->create('User') ?>
     <fieldset>
-        <legend><?= __d('CakeDC/Users', 'Please enter your email') ?></legend>
         <?= $this->Form->input('email', ['class'=>'form-control']) ?>
     </fieldset>
     <?= $this->Form->button(__d('CakeDC/Users', 'Submit'), ['class' => 'btn ed_btn pull-right ed_orange pull-right small']); ?>
