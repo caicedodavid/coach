@@ -203,10 +203,6 @@ msgstr "Tarjeta de crédito"
 msgid "There are no purchases to show."
 msgstr "No hay compras para mostrar."
 
-#: Template/Payments/purchases.ctp:24
-msgid "Purchases"
-msgstr "Compras"
-
 #: Template/Payments/purchases.ctp:27
 #: Template/Sessions/paid_sessions.ctp:26
 #: Template/Sessions/unpaid_sessions.ctp:26
