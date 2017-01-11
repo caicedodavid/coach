@@ -46,7 +46,7 @@
                     </div>
                 </aside>
                 <aside class="widget widget_categories">
-                    <h4 class="widget-title">course Categories</h4>
+                    <h4 class="widget-title"><?=__('course Categories')?></h4>
                     <ul>
                     <?php foreach ($categories as $category):?>
                         <li>

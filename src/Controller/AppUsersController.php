@@ -6,6 +6,8 @@ use Cake\Utility\Hash;
 use CakeDC\Users\Controller\Component\UsersAuthComponent;
 use CakeDC\Users\Controller\UsersController;
 use Cake\I18n\Time;
+use Cake\Routing\Router;
+use Cake\Event\EventManager;
 
 
 /**
@@ -34,7 +36,7 @@ class AppUsersController extends UsersController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['coaches','coachProfile', 'myProfile']);
+        $this->Auth->allow(['coaches','coachProfile', 'myProfile','headerLogin', 'loginError']);
     }
 
     /**
@@ -188,17 +190,16 @@ class AppUsersController extends UsersController
         parent::register();
     }
 
-
     /**
-     * login
+     * login Error
      *
+     * Displays the error when trying to login with inactive account 
      * @throws NotFoundException
      * @return type
      */
-    public function login(){
+    public function loginError(){
         $this->Flash->error(__('Please, activate your account first.'));
         return $this->redirect(['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'login']);
     }
-
 
 }

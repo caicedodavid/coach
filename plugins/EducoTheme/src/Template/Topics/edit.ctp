@@ -15,7 +15,7 @@
                 echo $this->Form->input('price',[
                     'required' => true,
                     'class' => 'form-control',
-                    'label' => 'Price (USD)']);
+                    'label' => __('Price (USD)')]);
                 echo $this->Form->input('active');
                 echo $this->Form->input('duration', ['options' => $times, 'class' => 'form-control', 'empty' => __('Select...')]);
                 echo $this->Form->input('categories._ids', [

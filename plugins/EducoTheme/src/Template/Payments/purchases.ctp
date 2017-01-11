@@ -2,6 +2,7 @@
     use App\Controller\AppUsersController;
     $this->extend('/Element/AppUsers/dashbord_sidebar');
     $this->assign('userId', $user['id']);
+    $this->assign('title', __('Purchases'));
 ?>
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_PURCHASES))?>

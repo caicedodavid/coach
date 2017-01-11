@@ -1,14 +1,14 @@
 <?php 
     use App\Controller\AppUsersController;
     $this->extend('/Element/AppUsers/dashbord_sidebar');
-    $this->assign('title', 'Coach');
+    $this->assign('title', __('Topics'));
 ?>
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_TOPICS))?>
 <?php $this->end('tabs') ?>
 
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab">Topics</a></li>
+    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab"><?=__('Topics')?></a></li>
 </ul>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="my">

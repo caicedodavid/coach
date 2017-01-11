@@ -486,12 +486,12 @@ class SessionsController extends AppController
     public function getStatusArray() 
     {
         return [
-            Session::STATUS_PENDING => 'Pending',
-            Session::STATUS_APPROVED => 'Approved',
-            Session::STATUS_RUNNING => 'Running',
-            Session::STATUS_REJECTED => 'Rejected',
-            Session::STATUS_CANCELED => 'Canceled',
-            Session::STATUS_PAST => 'Past'
+            Session::STATUS_PENDING => __('Pending'),
+            Session::STATUS_APPROVED => __('Approved'),
+            Session::STATUS_RUNNING => __('Running'),
+            Session::STATUS_REJECTED => __('Rejected'),
+            Session::STATUS_CANCELED => __('Canceled'),
+            Session::STATUS_PAST => __('Past')
         ];
     }
 

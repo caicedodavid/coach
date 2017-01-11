@@ -168,7 +168,7 @@ msgstr "Bienvenido, invitado"
 #: Template/Element/headerctp:23
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/View/Helper/UserHelperphp:91
 msgid "Logout"
-msgstr "Logout"
+msgstr "Cerrar sesión"
 
 #: /src/Template/Element/AppUsers/listctp:3
 #: Template/Element/AppUsers/listctp:6
@@ -313,7 +313,7 @@ msgstr "¿Estás seguro de que quieres eliminar esta tarjeta?"
 
 #: /src/Template/PaymentInfos/cardsctp:54
 msgid "Add Card"
-msgstr "Agrgar Tarjeta"
+msgstr "Agregar Tarjeta"
 
 #: /src/Template/Payments/purchasesctp:12
 msgid "Credit card"
@@ -1381,7 +1381,7 @@ msgstr ""
 #: Template/Plugin/CakeDC/Users/Users/loginctp:50
 #: /home/david/cleteci/coach/vendor/cakedc/users/src/Template/Users/loginctp:48
 msgid "Login"
-msgstr ""
+msgstr "Iniciar sesión"
 
 #: /home/david/cleteci/coach/vendor/cakephp/bake/src/Template/Bake/Template/viewctp:57
 msgid "Edit <%= $singularHumanName %>"
@@ -2426,3 +2426,69 @@ msgstr ""
 #: /home/david/cleteci/coach/vendor/cakephp/cakephp/src/View/Widget/DateTimeWidgetphp:550
 msgid "December"
 msgstr ""
+
+msgid "course Categories"
+msgstr "Cursos por categoría"
+
+msgid "share this course"
+msgstr "comparte este curso"
+
+msgid "Students"
+msgstr "Estudiantes"
+
+msgid "Birthdate"
+msgstr "Fecha de nacimiento"
+
+msgid "Profession"
+msgstr "Profesión"
+
+msgid "Profile Image"
+msgstr "Imagen de Perfil"
+
+msgid "Twitter Account"
+msgstr "Cuenta de Twitter"
+
+msgid "Facebook Account"
+msgstr "Cuenta de Facebook"
+
+msgid "Coach Detail"
+msgstr "Detalle del Coach"
+
+msgid "Comments"
+msgstr "Comentarios"
+
+msgid "Canceled"
+msgstr "Cancelada"
+
+msgid "Past"
+msgstr "Pasada"
+
+msgid "Rejected"
+msgstr "Rechazada"
+
+msgid "Sessions"
+msgstr "Sesiones"
+
+msgid "Purchases"
+mgstr "Compras"
+
+msgid "Cards"
+mgstr "Tarjetas"
+
+msgid "Payment Information"
+msgstr "Información de pago"
+
+msgid "Card number"
+msgstr "Número de tarjeta"
+
+msgid "Billing Details"
+msgstr "Detalles de Facturación"
+
+msgid "Card Details"
+msgstr "Detalles de la Tarjeta"
+
+msgid "Price (USD)"
+msgstr "Precio (USD)"
+
+msgid "Edit Topic"
+msgid "Editar Tópico"

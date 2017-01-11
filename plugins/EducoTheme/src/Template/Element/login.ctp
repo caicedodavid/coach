@@ -9,7 +9,7 @@
                 </div>
                 <div class="ed_info_wrapper pull-right">
                     <?php if (empty($userAuth)):?>
-                        <a href="#" id="login_button">Login</a>
+                        <a href="#" id="login_button"><?=__('Login')?></a>
                         <div id="login_one" class="ed_login_form">
                             <h3>log in</h3>
                             <?= $this->Flash->render('auth') ?>

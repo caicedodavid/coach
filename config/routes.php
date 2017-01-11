@@ -58,7 +58,7 @@ $basicRoutes = function (RouteBuilder $routes) {
      * to use (in this case, src/Template/Pages/home.ctp)...
      */
     
-    $routes->connect('/', ['action' => 'myProfile', 'controller' => 'AppUsers']);
+    $routes->connect('/', ['action' => 'myProfile', 'controller' => 'AppUsers', 'plugin' => false]);
 
     /**
      * ...and connect the rest of 'Pages' controller's URLs.
@@ -81,6 +81,9 @@ $basicRoutes = function (RouteBuilder $routes) {
      * You can remove these routes once you've connected the
      * routes you want in your application.
      */
+    $routes->connect('/login/*', ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'login']);
+    $routes->connect('/request-reset-password/*', ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'requestResetPassword']);
+    $routes->connect('/resend-token-validation/*', ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'resendTokenValidation']);
     $routes->fallbacks('DashedRoute');
     Router::prefix('admin', function($routes) {
         $routes->connect('/', ['controller'=>'AppUsers','action'=>'index']);
