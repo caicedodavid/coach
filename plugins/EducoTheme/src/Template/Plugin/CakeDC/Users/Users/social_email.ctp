@@ -10,7 +10,6 @@
  */
 ?>
 <div class="users form">
-    <?= $this->Flash->render() ?>
     <?= $this->Form->create('User') ?>
     <fieldset>
         <legend><?= __d('CakeDC/Users', 'Please enter your email') ?></legend>
