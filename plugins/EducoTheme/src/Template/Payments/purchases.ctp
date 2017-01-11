@@ -17,9 +17,9 @@
     <div role="tabpanel" class="tab-pane active" id="historic">
         <div class="ed_inner_dashboard_info">
             <div class="ed_course_single_info">
-                <?php if (!$payments):?>
+                <?php if (!$payments->count()):?>
                     <div class="alert alert-info"><?= __('There are no purchases to show.')?></div>
-                <?php else: ?>
+                <?php else: ?>       
                     <div class="row"><b>
                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
                             <?= __('Purchases') ?>
