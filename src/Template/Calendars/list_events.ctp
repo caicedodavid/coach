@@ -6,6 +6,7 @@
 		foreach($events as $event):
 			echo $event->getSummary();
 			echo ' '.$event->start->dateTime;
+			echo "<br>";
 		endforeach;
 	}
 	echo $this->Html->link(__('Create Event'), ['controller' => 'calendars', 'action' => 'createEvent'], ['class' => 'btn btn-default']);
