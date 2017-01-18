@@ -61,15 +61,7 @@
                 <aside class="widget widget_button">
                     <?= !$isCoach ? $this->Html->link(__d('Session', 'Request Session'), ['controller' => 'Sessions', 'action' => 'add', $topic->coach_id, $topic->id, 'plugin' => false, 'prefix' => false],['class' => 'ed_btn ed_green']) : null;?>
                 </aside>
-                <aside class="widget widget_sharing">
-                    <h4 class="widget-title"><?=__('share this course')?></h4>
-                    <ul>
-                        <li><a href="course_single.html"><i class="fa fa-facebook"></i> facebook</a></li>
-                        <li><a href="course_single.html"><i class="fa fa-linkedin"></i> linkedin</a></li>
-                        <li><a href="course_single.html"><i class="fa fa-twitter"></i> twitter</a></li>
-                        <li><a href="course_single.html"><i class="fa fa-google-plus"></i> google+</a></li>
-                    </ul>
-                </aside>
+                <?= $this->element('share_course'); ?>
             </div>
         </div>
     </div>

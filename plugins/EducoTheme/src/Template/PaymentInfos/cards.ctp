@@ -1,20 +1,19 @@
 <?php
     use App\Controller\AppUsersController;
     $this->extend('/Element/AppUsers/dashbord_sidebar');
-    $this->assign('title', 'Payment Information');
+    $this->assign('title', __('Payment Information'));
 ?>
 <?php $this->start('tabs') ?>
     <?= $this->element('AppUsers/sidebar',$this->Sidebar->tabs($user, AppUsersController::PROFILE_TABS_PAYMENT_INFOS))?>
 <?php $this->end('tabs') ?>
 
 <ul class="nav nav-tabs" role="tablist">
-    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab"><?=__('Cards')?></a></li>
+    <li role="presentation" class="active"><a href="#view" aria-controls="view" role="tab" data-toggle="tab"><?=__('registered cards')?></a></li>
 </ul>
 <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="view">
     <div class="ed_inner_dashboard_info">
         <div class="paymentInfos index large-9 medium-8 columns content">
-            <h3><?= __('Payment Information') ?></h3>
             <?php if (!$paymentInfos->count()):?>
                 <div class="alert alert-info"><?= __('You have no registerd cards.')?></div>
             <?php else: ?>
