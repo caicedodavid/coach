@@ -221,6 +221,9 @@ Configure::write('OAuth.providers.facebook.options.graphApiVersion', 'v2.8');
 Configure::write('OAuth.providers.twitter.options.clientId', 'cFB5ZlXyvZUySyKuX7wLP1TqJ');
 Configure::write('OAuth.providers.twitter.options.clientSecret', 'cSxke9i194OMjSOLBjplLEdNWXvBeEUd0DMZE9sh33mio1T9Gl');
 
+//Calendar cofiguration
+Configure::load('calendar');
+
 // Only try to load DebugKit in development mode
 // Debug Kit should not be installed on a production system
 if (Configure::read('debug')) {

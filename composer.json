@@ -19,7 +19,8 @@
         "omnipay/stripe": "dev-master",
         "league/oauth2-facebook":"@stable",
         "league/oauth1-client":"@stable",
-        "skie/cakephp-search": "dev-master"
+        "skie/cakephp-search": "dev-master",
+        "google/apiclient":"^2.0"
     },
     "require-dev": {
         "psy/psysh": "@stable",
