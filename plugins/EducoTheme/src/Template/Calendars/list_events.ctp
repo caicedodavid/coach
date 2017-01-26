@@ -1,3 +1,7 @@
+<?php $this->start('headCss'); ?>
+	<?php echo $this->AssetCompress->css('EducoTheme.calendar');?>
+	<?php echo $this->AssetCompress->css('EducoTheme.printCalendar', ['media' => 'print']);?>
+<?php $this->end('headCss'); ?>
 <?php
 	if (!$events){
 		echo $this->Html->link(__('Create Calendar'), ['controller' => 'calendars', 'action' => 'createCalendar'], ['class' => 'btn btn-default']);
@@ -19,6 +23,7 @@
 	
 ?>
 <?php $this->start('bottomScript'); ?>
+	<?php echo $this->AssetCompress->script('EducoTheme.calendar');?>
 	<script>
 	$(document).ready(function() {
 	    $('#calendar').fullCalendar({
