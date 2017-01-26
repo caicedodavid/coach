@@ -31,6 +31,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->fetch('script')?>
         <?php echo $this->AssetCompress->css('EducoTheme.head');?>
         <?php echo $this->AssetCompress->script('EducoTheme.head');?>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.1.0/fullcalendar.print.css" rel="stylesheet" media="print">
     </head>
     <body>
         <div id="educo_wrapper">

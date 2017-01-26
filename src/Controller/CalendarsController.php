@@ -41,9 +41,11 @@ class CalendarsController extends AppController
         define('SCOPES', implode(' ', array(
   			Google_Service_Calendar::CALENDAR)
 		));
+		$this->Security->config('unlockedActions', 'createEvent');
     }
         
-	private function getClient($userId = null) {
+	private function getClient($userId = null) 
+	{
 	  	$client = new Google_Client();
 	  	$client->setApplicationName(self::APPLICATION_NAME);
 	  	$client->setScopes(SCOPES);
@@ -73,7 +75,8 @@ class CalendarsController extends AppController
 		return $client;
 	}
 
-	public function getToken() {
+	public function getToken() 
+	{
 	  	$client = new Google_Client();
 	  	$client->setScopes(SCOPES);
 	  	$client->setAuthConfig(Configure::read('Calendar.clientSecret'));
@@ -82,7 +85,8 @@ class CalendarsController extends AppController
 	  	$this->redirect(filter_var($client->createAuthUrl(), FILTER_SANITIZE_URL));
 	}
 
-	public function saveToken() {
+	public function saveToken() 
+	{
 		$client = new Google_Client();
 		$client->setAuthConfig(Configure::read('Calendar.clientSecret'));
         $accessToken = $client->authenticate($this->request->query['code']);
@@ -99,13 +103,15 @@ class CalendarsController extends AppController
 
 	}
 
-	private function getCalendarId($userId = null) {
+	private function getCalendarId($userId = null) 
+	{
 		$userId = $userId ? $userId : $this->getUser()['id'];
 		$user = $this->AppUsers->get($userId);
 		return $user['is_primary_calendar'] ? self::PRIMARY_CALENDAR_ID : $user["external_calendar_id"];
 	}
 
-	public function createCalendar() {
+	public function createCalendar() 
+	{
 		$client = $this->getClient();
 		$service = new Google_Service_Calendar($client);
 		$calendar = new Google_Service_Calendar_Calendar();
@@ -119,24 +125,32 @@ class CalendarsController extends AppController
             $this->Flash->success(__('The calendar has been saved.'));
         
         } else {
-            $this->Flash->error(__('The calendxar could not be saved. Please, try again.'));
+            $this->Flash->error(__('The calendar could not be saved. Please, try again.'));
         }
         return $this->redirect(['action' => 'listEvents']);
 	}
 
-	public function createEvent() {
+	public function createEvent() 
+	{
+		$data = $this->request->data;
+		if(!(int)$data['isSelected']) {
+			$this->Flash->error(__('Please select the date and time for your session'));
+			return $this->redirect(['action' => 'listEvents']);
+		}
+		$startTime = substr($data['startTime'], 0, -1);
+		$endTime = date("c", strtotime("+30 minutes", strtotime($startTime)));
 		$client = $this->getClient();
 		$service = new Google_Service_Calendar($client);
 		$event = new Google_Service_Calendar_Event(array(
-  			'summary' => 'Test Event',
-  			'location' => '800 Howard St., San Francisco, CA 94103',
-  			'description' => 'Evento 1',
+  			'summary' => 'Topic',
+  			'location' => 'Calle "La Guairita"',
+  			'description' => 'Topic',
   			'start' => array(
-  			  'dateTime' => '2017-01-21T10:00:00',
+  			  'dateTime' => $startTime,
   			  'timeZone' => 'America/Caracas',
   			),
   			'end' => array(
-  			  'dateTime' => '2017-01-21T12:00:00',
+  			  'dateTime' => $endTime,
   			  'timeZone' => 'America/Caracas',
   			),
 		));
@@ -146,7 +160,8 @@ class CalendarsController extends AppController
 		return $this->redirect(['action' => 'listEvents']);
 	}
 
-	public function listEvents() {
+	public function listEvents() 
+	{
 		if (!$this->getUser()['external_calendar_id']) {
 			$this->set('events', null);
 		} else {
@@ -163,26 +178,42 @@ class CalendarsController extends AppController
 			  	'timeMin' => date('c'),
 			);
 			$results = $service->events->listEvents($calendarId, $optParams);
-			$this->set('events', $results->getItems);
-			$this->set('events', null);
+			$results = $this->calendarFormat($results->getItems());
+			$this->set('events', json_encode($results));
         	$this->set('_serialize', ['events']);
 		}
 	}
 
-	public function getCalendar($userId) {
-		$client = $this->getClient($userId);
-		$service = new Google_Service_Calendar($client);
-		$freebusy_req = new Google_Service_Calendar_FreeBusyRequest();
-		$freebusy_req->setTimeMin(date(\DateTime::ATOM, strtotime('2017-01-17')));
-		$freebusy_req->setTimeMax(date(\DateTime::ATOM, strtotime('2017-01-23')));
-		$freebusy_req->setTimeZone('America/Caracas');
-		$item = new Google_Service_Calendar_FreeBusyRequestItem();
-		$calendarId = $this->getCalendarId($userId);
-		$item->setId($calendarId);
-		$freebusy_req->setItems(array($item));
-		$query = $service->freebusy->query($freebusy_req);
-		$this->set('events', $query->getCalendars()[$calendarId]->getBusy());
-		$this->set('_serialize', ['events']);
+	private function calendarFormat($events)
+	{
+		foreach ($events as $event) {
+			$formattedEvent['title'] = $event->getSummary();
+			$formattedEvent['start'] = $event->start->dateTime;
+			$formattedEvent['end'] = $event->end->dateTime;
+			$formattedEvent['color'] = 'red';
+			$formattedEvent['editable'] = false;
+			$results[] = $formattedEvent;
+		}
+		return $results;
+	}
+
+	public function getCalendar($userId = null) 
+	{
+		if($userId){
+			$client = $this->getClient($userId);
+			$service = new Google_Service_Calendar($client);
+			$freebusy_req = new Google_Service_Calendar_FreeBusyRequest();
+			$freebusy_req->setTimeMin(date(\DateTime::ATOM, strtotime('2017-01-17')));
+			$freebusy_req->setTimeMax(date(\DateTime::ATOM, strtotime('2017-01-23')));
+			$freebusy_req->setTimeZone('America/Caracas');
+			$item = new Google_Service_Calendar_FreeBusyRequestItem();
+			$calendarId = $this->getCalendarId($userId);
+			$item->setId($calendarId);
+			$freebusy_req->setItems(array($item));
+			$query = $service->freebusy->query($freebusy_req);
+			$this->set('events', $query->getCalendars()[$calendarId]->getBusy());
+			$this->set('_serialize', ['events']);
+		}
 	}
 
 
