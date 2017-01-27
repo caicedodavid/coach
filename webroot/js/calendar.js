@@ -8,7 +8,7 @@ $(document).ready(function(){
 
 		$('#calendar').fullCalendar( 'renderEvent', {
 			id: 1,
-			title: 'All Day Event',
+			title: event[0].title,
 			start: dateObj,
 		}, true );
 	});
