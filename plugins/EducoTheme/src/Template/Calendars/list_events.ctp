@@ -23,7 +23,8 @@
 	
 ?>
 <?php $this->start('bottomScript'); ?>
-	<?php echo $this->AssetCompress->script('EducoTheme.calendar');?>
+	<?php echo $this->AssetCompress->script('EducoTheme.calendar');
+	 	  echo $this->Html->script('calendar'); ?>
 	<script>
 	$(document).ready(function() {
 	    $('#calendar').fullCalendar({
