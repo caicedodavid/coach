@@ -31,6 +31,7 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
         <?= $this->fetch('script')?>
         <?php echo $this->AssetCompress->css('EducoTheme.head');?>
         <?php echo $this->AssetCompress->script('EducoTheme.head');?>
+        <?= $this->fetch('headCss')?>
     </head>
     <body>
         <div id="educo_wrapper">
