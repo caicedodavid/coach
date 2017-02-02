@@ -14,16 +14,6 @@ interface CalendarAdapter
      */
     public function __construct($userToken, $isPrimary);
 
-	/**
-     * crear evento
-     *
-     * Método para crear un evento en el calendario
-     *
-     * @param $data Array de data a enviar para el evento.
-     * @return string POST response
-     */
-    public function createEvent($data);
-
     /**
      * generar url de autenticación
      *
@@ -35,16 +25,26 @@ interface CalendarAdapter
     public function generateAuthUrl();
 
     /**
-     * salvar Token
+     * get Token
      * 
-     * URL de callback en donde se mandará el token par utilizar la API
+     * usando el codigo devuelto por la api, solicitar el token de la api
      *
      * @return string POST response
      */
-    public function saveToken();
+    public function getToken($code);
+    
+	/**
+     * crear evento
+     *
+     * Método para crear un evento en el calendario
+     *
+     * @param $data Array de data a enviar para el evento.
+     * @return string POST response
+     */
+    public function createEvent($data);
 
     /**
-     * get eventos
+     * list eventos
      *
      * Método para obtener todos los eventos en un período de tiempo
      *
@@ -53,10 +53,10 @@ interface CalendarAdapter
      * @param $timezone timezone del período a solicitar
      * @return string POST response
      */
-    public function getEvents($startDate, $endDate, $timezone);
+    public function listEvents($startDate, $endDate, $timezone);
 
     /**
-     * get busy method
+     * list method
      * 
      * Método que retorna los bloques busy del calendario en un período de tiempo
      *
@@ -65,6 +65,16 @@ interface CalendarAdapter
      * @param $timezone timezone del período a solicitar
      * @return string POST response
      */
-    public function getBusy($startDate, $endDate, $timezone);
+    public function listBusy($startDate, $endDate, $timezone);
+
+    /**
+     * create calendar
+     * 
+     * Método que retorna un calendario secundario
+     *
+     * @param $calendarName
+     * @return calendarId
+     */
+    public function createCalendar($calendarName);
 
 }
