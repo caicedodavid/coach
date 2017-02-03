@@ -44,6 +44,12 @@ class SidebarHelper extends Helper
                         'isAuthLink' => true,
                         'title' => __('Payments')
                     ],
+                    'agenda' => [
+                        'isActive' => AppUsersController::PROFILE_TABS_AGENDA === $tab,
+                        'url' => ['action' => 'agenda', $user->id, 'controller' => 'AppUsers'],
+                        'isAuthLink' => true,
+                        'title' => __('My Agenda')
+                    ],
                 ],
                 'user' => $user
             ];
@@ -73,6 +79,12 @@ class SidebarHelper extends Helper
                         'url' => ['action' => 'purchases', $user->id, 'controller' => 'Payments'],
                         'isAuthLink' => true,
                         'title' => __('My Purchases')
+                    ],
+                    'agenda' => [
+                        'isActive' => AppUsersController::PROFILE_TABS_AGENDA === $tab,
+                        'url' => ['action' => 'agenda', $user->id, 'controller' => 'AppUsers'],
+                        'isAuthLink' => true,
+                        'title' => __('My Agenda')
                     ],
                 ],
                 'user' => $user

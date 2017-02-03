@@ -24,6 +24,8 @@ return [
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
+                'agenda',
+                'saveCalendarToken',
                 'view',
                 'coachProfile',
                 'userProfile',

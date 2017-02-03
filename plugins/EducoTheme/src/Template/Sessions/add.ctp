@@ -31,6 +31,28 @@
                 </div>
             </div>
             <div class="row">
+                <div class="col-lg-5 col-md-5 col-sm-12">
+                    <?php if(isset($listBusy)):?>
+                        <br>
+                        <b class="available-hours-label">This coach is not available in the following hours:</b>
+                        <br>
+                        <ul class="list-group calendar"> 
+                            <?php foreach ($listBusy as $busy): ?>
+                                <li class="list-group-item">
+                                    <?php 
+                                        echo date('M j',strtotime($busy['start']));
+                                        echo ' ' . __('from') . ' ';
+                                        echo date('g:i a',strtotime($busy['start']));
+                                        echo ' ' . __('to') . ' ';
+                                        echo date('g:i a',strtotime($busy['end']));
+                                    ?>
+                                </li>                        
+                            <?php endforeach ?>
+                        </ul>
+                    <?php endif;?>
+                </div>
+            </div>
+            <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="ed_course_single_tab ed_toppadder40">
                         <div role="tabpanel">

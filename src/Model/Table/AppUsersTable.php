@@ -9,6 +9,7 @@ use Cake\Core\Configure;
 use CakeDC\Users\Model\Table\UsersTable;
 use Cake\Utility\Hash;
 use Burzum\FileStorage\Storage\StorageManager;
+use App\CalendarAdapters\Calendar;
 
 /**
  * Users Model
@@ -262,6 +263,97 @@ class AppUsersTable extends UsersTable
         $entity = $this->UserImage->newEntity();
         $entity = $this->UserImage->patchEntity($entity, $data);
         return $this->UserImage->uploadImage($userId, $entity);
-    }    
+    }
+
+    /**
+     * check availability of coach 
+     *
+     * @param $coachId id fo coach
+     * @param $startTime the startTime of the session 
+     * @param $duration the duration of the sesion
+     * @return Array
+     */
+    public function checkAvailability($coachId, $selectedTime, $duration)
+    {
+        $coach = $this->get($coachId);
+        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $startTime = date('c', strtotime($selectedTime));
+        $endTime = date("c", strtotime($duration . " minutes", strtotime($startTime)));
+        return $calendar->listEvents($startTime, $endTime, 'America/Caracas');
+    } 
+
+    /**
+     * listBusy
+     *
+     * get the busy time of a coach 12 hours after and 12 hours before the
+     * proposed time of the session
+     *
+     * @param $coachId id of coach
+     * @return json string
+     */
+    public function listBusy($coachId, $selectedTime)
+    {
+        $coach = $this->get($coachId);
+        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $startTime = date("c", strtotime("-12 hours", strtotime($selectedTime)));
+        $endTime = date("c", strtotime("+12 hours", strtotime($selectedTime)));
+        return $calendar->listEvents($startTime, $endTime, 'America/Caracas');
+    }
+
+    /**
+     * scheduleEvent
+     *
+     * Schedule the session in the users calendar
+     *
+     * @param $coachId id fo coach
+     * @param $startTime the startTime of the session 
+     * @param $duration the duration of the sesion
+     * @param $topicName the name of the topic of the session
+     * @return Array
+     */
+    public function scheduleEvent($coachId, $selectedTime, $duration, $topicName)
+    {
+        $coach = $this->get($coachId);
+        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $startTime = date("c", strtotime($selectedTime));
+        $endTime = date("c", strtotime("+".$duration . " minutes", strtotime($startTime)));
+        return $calendar->createEvent($topicName, $startTime, $endTime);
+    }
+
+    /**
+     * delete Event
+     *
+     * Schedule the session in the users calendar
+     *
+     * @param $coachId id fo coach
+     * @param $startTime the startTime of the session 
+     * @param $duration the duration of the sesion
+     * @param $topicName the name of the topic of the session
+     * @return Array
+     */
+    public function deleteEvent($coachId, $eventId)
+    {
+        $coach = $this->get($coachId);
+        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $calendar->deleteEvent($eventId);
+    }
+
+    /**
+     * confirm Event
+     *
+     * Schedule the session in the users calendar
+     *
+     * @param $coachId id fo coach
+     * @param $startTime the startTime of the session 
+     * @param $duration the duration of the sesion
+     * @param $topicName the name of the topic of the session
+     * @return Array
+     */
+    public function confirmEvent($coachId, $eventId)
+    {
+        $coach = $this->get($coachId);
+        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $calendar->confirmEvent($eventId);
+    }   
     
 }

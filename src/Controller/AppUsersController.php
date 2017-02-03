@@ -8,6 +8,7 @@ use CakeDC\Users\Controller\UsersController;
 use Cake\I18n\Time;
 use Cake\Routing\Router;
 use Cake\Event\EventManager;
+use App\CalendarAdapters\Calendar;
 
 
 /**
@@ -25,6 +26,7 @@ class AppUsersController extends UsersController
     const PROFILE_TABS_PAYMENT_INFOS = 4;
     const PROFILE_TABS_LIABILITIES = 5;
     const PROFILE_TABS_PURCHASES = 6;
+    const PROFILE_TABS_AGENDA = 7;
 
     /**
      * Initialization hook method.
@@ -197,9 +199,53 @@ class AppUsersController extends UsersController
      * @throws NotFoundException
      * @return type
      */
-    public function loginError(){
+    public function loginError()
+    {
         $this->Flash->error(__('Please, activate your account first.'));
         return $this->redirect(['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'login']);
+    }
+
+    /**
+     * Agenda
+     *
+     * Displays the users agenda
+     * @param $userID the user's id
+     * @throws NotFoundException
+     * @return void
+     */
+    public function agenda($userId)
+    {
+        $user = $this->AppUsers->get($userId, [
+            'contain' => ['UserImage']
+        ]);
+        $calendar = Calendar::getInstance('GoogleCalendar');
+        $this->set('user', $user);
+        $this->set('url', Calendar::getInstance('GoogleCalendar')->generateAuthUrl());
+    }
+
+    /**
+     * SaveToken
+     *
+     * Saves the token from the calendarApi
+     * @param $userID the user's id
+     * @throws NotFoundException
+     * @return void
+     */
+    public function saveCalendarToken() 
+    {
+        $calendar = Calendar::getInstance('GoogleCalendar');
+        $token = $calendar->getToken($this->request->query['code']);
+        $user = $this->AppUsers->get($this->getUser()['id']);
+        $user->external_calendar_token = json_encode($token);
+        $user->external_calendar_id = $calendar->createCalendar('Coach Calendar');
+        if ($this->AppUsers->save($user)) {
+            $this->Flash->success(__('The calendar has been saved.'));
+        
+        } else {
+            $this->Flash->error(__('The calendar could not be saved. Please, try again.'));
+        }
+        return $this->redirect(['action' => 'agenda', $this->getUser()['id']]);
+
     }
 
 }

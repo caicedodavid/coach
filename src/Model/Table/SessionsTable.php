@@ -224,7 +224,7 @@ class SessionsTable extends Table
      */
     public function scheduleSession($session)
     {
-
+        $this->Users->confirmEvent($session->coach_id, $session->external_event_id);
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($session);
         return $response["class_id"];
@@ -915,6 +915,20 @@ class SessionsTable extends Table
     {
         return (($session->status === Session::STATUS_APPROVED) or ($session->status === Session::STATUS_RUNNING) or ($session->status === Session::STATUS_PENDING)) and
             (date('Y-m-d H:i',strtotime('+' . $session->topic->duration . ' minutes', strtotime($session->schedule))) < date('Y-m-d H:i',strtotime('now')));
+    }
+
+    /**
+     * reject Session
+     * Logic when rejecting session
+     *
+     * @param $session session entity
+     * @return $session session entity
+     */
+    public function rejectSession($session)
+    {
+        $session->status = Session::STATUS_CANCELED;
+        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+        return $session;
     }
 
 }
