@@ -1,8 +1,8 @@
 <?php
 namespace App\CalendarAdapters;
 
-use App\SessionAdapters\CalendarAdapter;
-use Cake\Network\Exception\InternalErrorException
+use App\CalendarAdapters\CalendarAdapter;
+use Cake\Network\Exception\InternalErrorException;
 use Cake\Routing\Router;
 use Cake\Core\Configure;
 use Google_Service_Calendar;
@@ -11,29 +11,28 @@ use Google_Service_Calendar_Calendar;
 use Google_Service_Calendar_Event;
 use Google_Service_Calendar_FreeBusyRequest;
 use Google_Service_Calendar_FreeBusyRequestItem;
+require ROOT . '/vendor/autoload.php';
 
 /*
  * Implementation of the Live Session with Braincert
  *
  */
-class Braincert implements SessionAdapter
+class GoogleCalendar implements CalendarAdapter
 {
 	const APPLICATION_NAME = 'Coach';
     const PRIMARY_CALENDAR_ID = 'primary';
-    require ROOT . '/vendor/autoload.php';
+    const EVENT_STATUS_CONFIRMED = "confirmed";
+    const EVENT_STATUS_TENTATIVE = "tentative";
     private $client;
     private $calendarId;
-    define('SCOPES', implode(' ', array(
-        Google_Service_Calendar::CALENDAR)
-    ));
 
     /**
      * constructor de la agenda.
      *
      * @param $userToken token del usuario.
-     * @param $isPrimary si el calendario del usuario es primario o no
+     * @param $calendarID
      */
-    public function __construct($userToken = null, $isPrimary = null, $calendarId = null);
+    public function __construct($userToken = null, $calendarId = null)
     {
         $this->client = new Google_Client();
         $this->client->setAuthConfig(Configure::read('Calendar.clientSecret'));
@@ -51,7 +50,6 @@ class Braincert implements SessionAdapter
      * Use this method to add common initialization code like loading components.
      *
      * @param $userToken user calendar token.
-     * @param $isPrimary if the calendar is primary or not.
      * @return $newToken user calendar token.
      */
     private function getClient($userToken) 
@@ -60,7 +58,7 @@ class Braincert implements SessionAdapter
         $this->client->setAccessToken($accessToken);
         // Refresh the token if it's expired.
         if ($this->client->isAccessTokenExpired()) {
-            $refreshToken = $client->getRefreshToken();
+            $refreshToken = $this->client->getRefreshToken();
             $this->client->fetchAccessTokenWithRefreshToken($refreshToken);
             $newToken = $this->client->getAccessToken();
             $newToken['refresh_token'] = $refreshToken;
@@ -79,10 +77,10 @@ class Braincert implements SessionAdapter
     public function generateAuthUrl()
     {
         $this->client->setApplicationName(self::APPLICATION_NAME);
-        $this->client->setScopes(self::SCOPES);
+        $this->client->setScopes(implode(' ', array(Google_Service_Calendar::CALENDAR)));
         $this->client->setAccessType('offline');
-        $this->client->setRedirectUri(Router::url(['controller' => 'Calendars', 'action' => 'saveToken'],true));
-        return filter_var($this->$client->createAuthUrl(), FILTER_SANITIZE_URL);
+        $this->client->setRedirectUri(Router::url(['controller' => 'AppUsers', 'action' => 'saveCalendarToken'],true));
+        return filter_var($this->client->createAuthUrl(), FILTER_SANITIZE_URL);
     }
 
     /**
@@ -94,7 +92,9 @@ class Braincert implements SessionAdapter
      */
     public function getToken($code)
     {
-        return json_encode($this->client->authenticate($code));
+        $this->client->setRedirectUri(Router::url(['controller' => 'AppUsers', 'action' => 'saveCalendarToken'],true));
+        $token = $this->client->authenticate($code);
+        return $this->getClient(json_encode($token));
     }
 
     /**
@@ -103,18 +103,60 @@ class Braincert implements SessionAdapter
      * Method to creat an event in the calendar
      *
      * @param $data data array for the event.
-     * @return string POST response
+     * @return event id
      */
-    public function createEvent($data)
+    public function createEvent($topicName, $startTime, $endTime)
     {
-        if(!$this->calendarId){
+        if (!$this->calendarId) {
             throw new NotImplementedException("No calendar defined", 501);  
         }
-
+        $data = [
+            'summary' => $topicName,
+            'description' => $topicName,
+            'start' => [
+              'dateTime' => $startTime,
+              'timeZone' => 'America/Caracas',
+            ],
+            'end' => [
+              'dateTime' => $endTime,
+              'timeZone' => 'America/Caracas',
+            ],
+            'status' => self::EVENT_STATUS_TENTATIVE
+        ];
         $service = new Google_Service_Calendar($this->client);
         $event = new Google_Service_Calendar_Event($data);
-        $event = $service->events->insert($this->calendarId, $event);
-        return $this->redirect(['action' => 'listEvents']);
+        return $service->events->insert($this->calendarId, $event)['id'];
+    }
+
+    /**
+     * confirm event
+     *
+     * Method to confirm an event from the calendar
+     *
+     * @param $eventId event id
+     * @return string POST response
+     */
+    public function confirmEvent($eventId)
+    {
+        $service = new Google_Service_Calendar($this->client);
+        $event = $service->events->get($this->calendarId, $eventId);
+        $event->setStatus(self::EVENT_STATUS_CONFIRMED);
+        $updatedEvent = $service->events->update($this->calendarId, $event->getId(), $event);
+
+    }
+
+    /**
+     * eliminar evento
+     *
+     * Method to remove an event from the calendar
+     *
+     * @param $eventId event id
+     * @return string POST response
+     */
+    public function deleteEvent($eventId)
+    {
+        $service = new Google_Service_Calendar($this->client);
+        $service->events->delete($this->calendarId, $eventId);
     }
 
     /**
@@ -129,16 +171,18 @@ class Braincert implements SessionAdapter
      */
     public function listEvents($startDate, $endDate, $timezone)
     {   
-        if(!$this->calendarId){
+        if (!$this->calendarId) {
             throw new NotImplementedException("No calendar defined", 501);  
         }
 
         $service = new Google_Service_Calendar($this->client);
-        $optParams = array(
-            'timeMax' => $startDate,
-            'timeMin' => $endDate,
+        $optParams = [
+            'timeMin' => $startDate,
+            'timeMax' => $endDate,
             'timeZone' => $timezone,
-        );
+            'orderBy' => 'startTime',
+            'singleEvents' => TRUE
+        ];
         $results = $service->events->listEvents($this->calendarId, $optParams);
         return $this->calendarFormat($results->getItems());
     }
@@ -155,15 +199,16 @@ class Braincert implements SessionAdapter
      */
     public function listBusy($startDate, $endDate, $timezone)
     {
-        if(!$this->calendarId){
+        if (!$this->calendarId) {
             throw new NotImplementedException("No calendar defined", 501);  
         }
-
+        $this->client->setScopes(implode(' ', array(Google_Service_Calendar::CALENDAR)));
         $service = new Google_Service_Calendar($this->client);
+
         $freebusy_req = new Google_Service_Calendar_FreeBusyRequest();
         $freebusy_req->setTimeMin($startDate);
         $freebusy_req->setTimeMax($endDate);
-        $freebusy_req->setTimeZone('America/Caracas');
+        $freebusy_req->setTimeZone($timezone);
         $item = new Google_Service_Calendar_FreeBusyRequestItem();
         $item->setId($this->calendarId);
         $freebusy_req->setItems(array($item));
@@ -179,9 +224,10 @@ class Braincert implements SessionAdapter
      * @param $calendarName
      * @return calendarId
      */
-    public function createCalendar($calendarName) {
-
+    public function createCalendar($calendarName) 
+    {
         $service = new Google_Service_Calendar($this->client);
+        $calendar = new Google_Service_Calendar_Calendar();
         $calendar->setSummary($calendarName);
         $calendar->setTimeZone('America/Caracas');
         $createdCalendar = $service->calendars->insert($calendar);
@@ -198,13 +244,17 @@ class Braincert implements SessionAdapter
      */
     private function calendarFormat($events)
     {
+        $results = [];
         foreach ($events as $event) {
+            if ($event->status === self::EVENT_STATUS_TENTATIVE) {
+                continue;
+            }
             $formattedEvent['title'] = $event->getSummary();
             $formattedEvent['start'] = $event->start->dateTime;
             $formattedEvent['end'] = $event->end->dateTime;
-            $formattedEvent['color'] = 'red';
-            $formattedEvent['editable'] = false;
+            $formattedEvent['status'] = $event->status;
             $results[] = $formattedEvent;
         }
         return $results;
     }
+}

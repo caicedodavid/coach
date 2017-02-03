@@ -41,7 +41,27 @@ interface CalendarAdapter
      * @param $data Array de data a enviar para el evento.
      * @return string POST response
      */
-    public function createEvent($data);
+    public function createEvent($topicName, $startTime, $endTime);
+
+    /**
+     * confirmar evento
+     *
+     * Método para confirmar un evento del calendario
+     *
+     * @param $eventId id del evento
+     * @return string POST response
+     */
+    public function confirmEvent($eventId);
+
+    /**
+     * eliminar evento
+     *
+     * Método para eliminar un evento del calendario
+     *
+     * @param $eventId id del evento
+     * @return string POST response
+     */
+    public function deleteEvent($eventId);
 
     /**
      * list eventos
