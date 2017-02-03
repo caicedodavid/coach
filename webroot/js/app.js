@@ -15,16 +15,19 @@
         disabledDates: [d],
         useCurrent: true
       };
-      var sessionOptions={
-        format: 'YYYY-MM-DD HH:mm',
-        stepping: 5,
+      var sessionDateOptions={
+        format: 'YYYY-MM-DD',
         minDate: d,
         disabledDates: [d],
-        sideBySide:true
+      };
+      var sessionTimeOptions={
+        format: 'HH:mm',
+        stepping: 30,
       };
       $('#payment-date').datetimepicker(payDateOptions['defaultDate'] = $('#birthdate').attr("defaultDate"));
       $('#date').datetimepicker(birthdateOptions);
-      $('#date1').datetimepicker(sessionOptions);
+      $('#date1').datetimepicker(sessionDateOptions);
+      $('#session-time').datetimepicker(sessionTimeOptions);
  
       $(document).on('click', '#pagination-button a', function () {
           var thisHref = $(this).attr('href');

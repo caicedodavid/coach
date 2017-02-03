@@ -49,34 +49,44 @@
                                                 <?= $this->Form->create($session) ?>
                                                     <fieldset>
                                                         <div class="form-group">
+                                                            <div class="row">
+                                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                                    <?php
+                                                                        echo "<b class='available-hours-label'>" . __("Date") . "</b>";
+                                                                        echo $this->Form->input('schedule',[
+                                                                            'error'=> false,
+                                                                            'id' => 'schedule',
+                                                                            'class' => 'form-control',
+                                                                            'type'=>'text',
+                                                                            'placeholder'=>'YYYY-MM-DD',
+                                                                            'label' => false,
+                                                                            'templates' => [
+                                                                            'inputContainer' => '<div class="input text required"><div class="input-group date" id="date1" name ="date">{{content}}<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>'
+                                                                            ],
+                                                                        ]);
+                                                                    ?>
+                                                                </div>
+                                                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                                                    <?php
+                                                                        echo "<b class='available-hours-label'>" . __("Time") . "</b>";
+                                                                        echo $this->Form->input('time',[
+                                                                            'error'=> false,
+                                                                            'class' => 'form-control',
+                                                                            'type'=>'text',
+                                                                            'placeholder'=>'HH:MM',
+                                                                            'label' => false,
+                                                                            'templates' => [
+                                                                            'inputContainer' => '<div class="input text required"><div class="input-group date" id="session-time" name ="date">{{content}}<span class="input-group-addon"><span class="glyphicon glyphicon-time"></span></span></div></div>'
+                                                                            ],
+                                                                        ]);
+                                                                    ?>
+                                                                </div>
+                                                            </div>
                                                             <?php
-                                                                echo "<b>" . __("Date and time of session") . "</b>";
-                                                                echo $this->Form->input('schedule',[
-                                                                    'error'=> false,
-                                                                    'id' => 'schedule',
-                                                                    'class' => 'form-control',
-                                                                    'type'=>'text',
-                                                                    'placeholder'=>'YYYY-MM-DD HH:mm',
-                                                                    'label' => false,
-                                                                    'templates' => [
-                                                                    'inputContainer' => '<div class="input text required"><div class="input-group date" id="date1" name ="date">{{content}}<span class="input-group-addon"><span class="glyphicon glyphicon-calendar"></span></span></div></div>'
-                                                                    ],
-                                                                ]);
                                                                 if ($this->Form->isFieldError('schedule')) {
                                                                     echo $this->Form->error('schedule');
                                                                 }
                                                             ?>
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <?php
-                                                                if ($session->subject){
-                                                                    echo $this->Form->input('subject',  ['type' => 'hidden']); 
-                                                                } else {
-                                                                    echo $this->Form->input('subject',  ['class' => 'form-control']); 
-                                                                }
-                                                            ?>
-                                                        </div>
-                                                        <div class="form-group">
                                                             <?= $this->Form->input('comments',['class' => 'form-control']);?>
                                                         </div>
                                                     </fieldset>

@@ -239,7 +239,9 @@ class SessionsTable extends Table
      */
     public function fixSchedule(array $data)
     {
-        $data["schedule"] = $data["schedule"] . ":00";
+        
+        $data["schedule"] = $data["schedule"] . " " . $data["time"] . ":00";
+        unset($data["time"]);
         return $data;
 
     }
@@ -761,6 +763,7 @@ class SessionsTable extends Table
         $session->coach_id = $topic->coach_id;
         $session->topic_id = $topic->id;
         $session->price = $topic->price;
+        $data['subject'] = $topic->name;
         return $this->fixSchedule($data);
     }
 

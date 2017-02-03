@@ -294,7 +294,6 @@ class SessionsController extends AppController
             'contain' => ['TopicImage']
         ]);
         $session = $this->Sessions->newEntity();
-        $session->subject = $topic['name'] ? $topic['name'] : null;
         if ($this->request->is('post')) {
             $data = $this->Sessions->fixData($session, $topic, $user['id'], $this->request->data);      
             $session = $this->Sessions->patchEntity($session, $data);
