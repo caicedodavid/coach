@@ -264,8 +264,8 @@ class TopicsController extends AppController
     public function getDurationArray()
     {
         $array = array();
-        for ($i = 1; $i <= 6; $i++) {
-            $array[$i*10] = ((string)$i*10) . ' min';
+        for ($i = 1; $i <= 4; $i++) {
+            $array[$i*30] = ((string)$i*30) . ' min';
         }
         return $array;
     }
