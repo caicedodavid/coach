@@ -36,6 +36,7 @@ class GoogleCalendar implements CalendarAdapter
     {
         $this->client = new Google_Client();
         $this->client->setAuthConfig(Configure::read('Calendar.clientSecret'));
+        $this->client->setRedirectUri(Router::url(['controller' => 'AppUsers', 'action' => 'saveCalendarToken'],true));
         
         if (!$userToken) {
             return null;
@@ -79,7 +80,6 @@ class GoogleCalendar implements CalendarAdapter
         $this->client->setApplicationName(self::APPLICATION_NAME);
         $this->client->setScopes(implode(' ', array(Google_Service_Calendar::CALENDAR)));
         $this->client->setAccessType('offline');
-        $this->client->setRedirectUri(Router::url(['controller' => 'AppUsers', 'action' => 'saveCalendarToken'],true));
         return filter_var($this->client->createAuthUrl(), FILTER_SANITIZE_URL);
     }
 
@@ -92,7 +92,6 @@ class GoogleCalendar implements CalendarAdapter
      */
     public function getToken($code)
     {
-        $this->client->setRedirectUri(Router::url(['controller' => 'AppUsers', 'action' => 'saveCalendarToken'],true));
         $token = $this->client->authenticate($code);
         return $this->getClient(json_encode($token));
     }
@@ -105,7 +104,7 @@ class GoogleCalendar implements CalendarAdapter
      * @param $data data array for the event.
      * @return event id
      */
-    public function createEvent($topicName, $startTime, $endTime)
+    public function createEvent($topicName, $startTime, $endTime, $timezone)
     {
         if (!$this->calendarId) {
             throw new NotImplementedException("No calendar defined", 501);  
@@ -115,11 +114,11 @@ class GoogleCalendar implements CalendarAdapter
             'description' => $topicName,
             'start' => [
               'dateTime' => $startTime,
-              'timeZone' => 'America/Caracas',
+              'timeZone' => $timezone,
             ],
             'end' => [
               'dateTime' => $endTime,
-              'timeZone' => 'America/Caracas',
+              'timeZone' => $timezone,
             ],
             'status' => self::EVENT_STATUS_TENTATIVE
         ];

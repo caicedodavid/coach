@@ -266,6 +266,17 @@ class AppUsersTable extends UsersTable
     }
 
     /**
+     * get calendar
+     *
+     * @param $coachId id fo coach
+     * @return Calendar Calendar instance
+     */
+    public function getCalendar($token = null, $calendarId = null)
+    {
+        return Calendar::getInstance('GoogleCalendar', $token, $calendarId);
+    } 
+
+    /**
      * check availability of coach 
      *
      * @param $coachId id fo coach
@@ -276,11 +287,11 @@ class AppUsersTable extends UsersTable
     public function checkAvailability($coachId, $selectedTime, $duration)
     {
         $coach = $this->get($coachId);
-        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $startTime = date('c', strtotime($selectedTime));
         $endTime = date("c", strtotime($duration . " minutes", strtotime($startTime)));
         return $calendar->listEvents($startTime, $endTime, 'America/Caracas');
-    } 
+    }
 
     /**
      * listBusy
@@ -294,7 +305,7 @@ class AppUsersTable extends UsersTable
     public function listBusy($coachId, $selectedTime)
     {
         $coach = $this->get($coachId);
-        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $startTime = date("c", strtotime("-12 hours", strtotime($selectedTime)));
         $endTime = date("c", strtotime("+12 hours", strtotime($selectedTime)));
         return $calendar->listEvents($startTime, $endTime, 'America/Caracas');
@@ -314,10 +325,10 @@ class AppUsersTable extends UsersTable
     public function scheduleEvent($coachId, $selectedTime, $duration, $topicName)
     {
         $coach = $this->get($coachId);
-        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $startTime = date("c", strtotime($selectedTime));
         $endTime = date("c", strtotime("+".$duration . " minutes", strtotime($startTime)));
-        return $calendar->createEvent($topicName, $startTime, $endTime);
+        return $calendar->createEvent($topicName, $startTime, $endTime, 'America/Caracas');
     }
 
     /**
@@ -328,13 +339,13 @@ class AppUsersTable extends UsersTable
      * @param $coachId id fo coach
      * @param $startTime the startTime of the session 
      * @param $duration the duration of the sesion
-     * @param $topicName the name of the topic of the session
+    s * @param $topicName the name of the topic of the session
      * @return Array
      */
     public function deleteEvent($coachId, $eventId)
     {
         $coach = $this->get($coachId);
-        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $calendar->deleteEvent($eventId);
     }
 
@@ -352,8 +363,29 @@ class AppUsersTable extends UsersTable
     public function confirmEvent($coachId, $eventId)
     {
         $coach = $this->get($coachId);
-        $calendar = Calendar::getInstance('GoogleCalendar', $coach->external_calendar_token, $coach->external_calendar_id);
+        $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $calendar->confirmEvent($eventId);
-    }   
+    }
+
+    /**
+     * confirm Event
+     *
+     * Schedule the session in the users calendar
+     *
+     * @param $user user interface
+     * @param $startTime the startTime of the session 
+     * @param $duration the duration of the sesion
+     * @param $topicName the name of the topic of the session
+     * @return Array
+     */
+    public function storeToken($userId, $code)
+    {
+        $calendar = $this->getCalendar();
+        $token = $calendar->getToken($code);
+        $user = $this->AppUsers->get($userId);
+        $user->external_calendar_token = json_encode($token);
+        $user->external_calendar_id = $calendar->createCalendar('Coach Calendar');
+        return $this->save($user);
+    }    
     
 }

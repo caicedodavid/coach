@@ -39,13 +39,7 @@
                         <ul class="list-group calendar"> 
                             <?php foreach ($listBusy as $busy): ?>
                                 <li class="list-group-item">
-                                    <?php 
-                                        echo date('M j',strtotime($busy['start']));
-                                        echo ' ' . __('from') . ' ';
-                                        echo date('g:i a',strtotime($busy['start']));
-                                        echo ' ' . __('to') . ' ';
-                                        echo date('g:i a',strtotime($busy['end']));
-                                    ?>
+                                    <?= __("{0} from {1} to {2}", date('M j', strtotime($busy['start'])), date('g:i a',strtotime($busy['start'])), date('g:i a',strtotime($busy['end']))) ?>
                                 </li>                        
                             <?php endforeach ?>
                         </ul>

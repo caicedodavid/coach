@@ -218,9 +218,8 @@ class AppUsersController extends UsersController
         $user = $this->AppUsers->get($userId, [
             'contain' => ['UserImage']
         ]);
-        $calendar = Calendar::getInstance('GoogleCalendar');
         $this->set('user', $user);
-        $this->set('url', Calendar::getInstance('GoogleCalendar')->generateAuthUrl());
+        $this->set('url', $this->AppUsers->getCalendar()->generateAuthUrl());
     }
 
     /**
@@ -233,18 +232,14 @@ class AppUsersController extends UsersController
      */
     public function saveCalendarToken() 
     {
-        $calendar = Calendar::getInstance('GoogleCalendar');
-        $token = $calendar->getToken($this->request->query['code']);
-        $user = $this->AppUsers->get($this->getUser()['id']);
-        $user->external_calendar_token = json_encode($token);
-        $user->external_calendar_id = $calendar->createCalendar('Coach Calendar');
-        if ($this->AppUsers->save($user)) {
+        $user = $this->getUser();
+        if ($this->AppUsers->storeToken($user['id'], $this->request->query['code'])) {
             $this->Flash->success(__('The calendar has been saved.'));
         
         } else {
             $this->Flash->error(__('The calendar could not be saved. Please, try again.'));
         }
-        return $this->redirect(['action' => 'agenda', $this->getUser()['id']]);
+        return $this->redirect(['action' => 'agenda', $user['id']]);
 
     }
 

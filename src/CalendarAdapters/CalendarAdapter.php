@@ -41,7 +41,7 @@ interface CalendarAdapter
      * @param $data Array de data a enviar para el evento.
      * @return string POST response
      */
-    public function createEvent($topicName, $startTime, $endTime);
+    public function createEvent($topicName, $startTime, $endTime, $timezone);
 
     /**
      * confirmar evento
