@@ -2,25 +2,25 @@
       var d = new Date();
       d.setDate(d.getDate() - 1);
 
-      var birthdateOptions={
+      var birthdateOptions = {
         format: 'YYYY-MM-DD',
         viewMode: 'years',
         maxDate: d,
         useCurrent : false,
         defaultDate : $('#birthdate').attr("defaultDate")
       };
-      var payDateOptions={
+      var payDateOptions = {
         format: 'YYYY-MM-DD',
         minDate: d,
         disabledDates: [d],
         useCurrent: true
       };
-      var sessionDateOptions={
+      var sessionDateOptions = {
         format: 'YYYY-MM-DD',
         minDate: d,
         disabledDates: [d],
       };
-      var sessionTimeOptions={
+      var sessionTimeOptions = {
         format: 'HH:mm',
         stepping: 30,
       };
