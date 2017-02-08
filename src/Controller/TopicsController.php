@@ -189,7 +189,7 @@ class TopicsController extends AppController
             } 
         }
         $categories = $this->Topics->Categories->find('list');
-        $this->set('times',$this->getDurationArray());
+        $this->set('times', $this->Topics->getDurationArray());
         $this->set(compact('topic', 'categories'));
         $this->set('_serialize', ['topic']);
     }
@@ -225,7 +225,7 @@ class TopicsController extends AppController
             }
         }
         $categories = $this->Topics->Categories->find('list');
-        $this->set('times',$this->getDurationArray());
+        $this->set('times', $this->Topics->getDurationArray());
         $this->set(compact('topic', 'categories', 'topicCategories'));
         $this->set('_serialize', ['topic']);
     }
@@ -251,23 +251,6 @@ class TopicsController extends AppController
             $this->Flash->error($e->getMessage());
             return $this->redirect(['action' => 'view', $topic->id]);
         }
-    }
-        
-        
-
-
-    /**
-     * Making an arary for selection the duration of a cless when adding a topic
-     *
-     * @return Array
-     */
-    public function getDurationArray()
-    {
-        $array = array();
-        for ($i = 1; $i <= 6; $i++) {
-            $array[$i*10] = ((string)$i*10) . ' min';
-        }
-        return $array;
     }
 
 }

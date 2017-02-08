@@ -398,6 +398,20 @@ class TopicsTable extends Table
         $topic = $this->patchEntity($topic, $data);
         $topic->dirty('categories', true);
         return $topic;
-    } 
+    }
+
+    /**
+     * Making an arary for selection the duration of a cless when adding a topic
+     *
+     * @return Array
+     */
+    public function getDurationArray()
+    {
+        $array = array();
+        for ($i = 1; $i <= 4; $i++) {
+            $array[$i*30] = ((string)$i*30) . ' min';
+        }
+        return $array;
+    }
               
 }
