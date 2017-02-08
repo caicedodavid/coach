@@ -181,6 +181,6 @@ $(document).ready(function(){
 		expiry.setTime(expiry.getTime()+(24*60*60*1000)); // one day
 
 		// Date()'s toGMTSting() method will format the date correctly for a cookie
-		document.cookie = "timezone=" + moment.tz.guess() + " expires=" + expiry.toGMTString();
+		document.cookie = "timezone=" + moment.tz.guess();
 	}
 });
