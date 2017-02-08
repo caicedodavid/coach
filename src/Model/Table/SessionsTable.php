@@ -218,13 +218,29 @@ class SessionsTable extends Table
      *
      * Ajusting Datetime format
      * @param  $entity Session enttity interface
+     * @param  $timezone timezone string
+     * @return Event that was confirmed
+     */
+    public function confirmEvent($session, $timezone)
+    {
+        $busyList = $this->Users->checkAvailability($session->coach_id, $session->schedule, $session->topic->duration, $timezone);
+        if ($busyList) {
+            return false;
+        }
+        return $this->Users->confirmEvent($session->coach_id, $session->external_event_id);
+    }
+
+    /**
+     * Shedule a class with the server
+     *
+     * Ajusting Datetime format
+     * @param  $entity Session enttity interface
      * @param  $data array of data to be aptched in the entity
      * @param  $options options array
      * @return Session Entity
      */
     public function scheduleSession($session)
     {
-        $this->Users->confirmEvent($session->coach_id, $session->external_event_id);
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($session);
         return $response["class_id"];
@@ -724,6 +740,9 @@ class SessionsTable extends Table
             $response = $this->saveSessionPaymentBalance($session, min($price, $session->user->balance));
             $session->user->balance = number_format(abs(min(0,$amount)), 2);
             $this->Users->save($session->user);
+        }
+        if($response['status'] === PaymentBehavior::ERROR_STATUS) {
+            return $this->Users->unconfirmEvent($session->coach_id, $session->external_event_id); 
         }
         return $response;
     }

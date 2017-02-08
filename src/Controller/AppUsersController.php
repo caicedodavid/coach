@@ -38,7 +38,7 @@ class AppUsersController extends UsersController
     public function initialize()
     {
         parent::initialize();
-        $this->Auth->allow(['coaches','coachProfile', 'myProfile','headerLogin', 'loginError']);
+        $this->Auth->allow(['coaches','coachProfile', 'myProfile', 'loginError']);
     }
 
     /**
@@ -219,7 +219,8 @@ class AppUsersController extends UsersController
             'contain' => ['UserImage']
         ]);
         $this->set('user', $user);
-        $this->set('url', $this->AppUsers->getCalendar()->generateAuthUrl());
+        $this->set('events', $this->AppUsers->getCalendar());
+        $this->set('url', $this->AppUsers->generateCalendarUrl());
     }
 
     /**

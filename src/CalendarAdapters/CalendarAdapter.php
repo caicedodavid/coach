@@ -54,6 +54,16 @@ interface CalendarAdapter
     public function confirmEvent($eventId);
 
     /**
+     * desconfirmar evento
+     *
+     * Método para desconfirmar un evento del calendario
+     *
+     * @param $eventId id del evento
+     * @return string POST response
+     */
+    public function unconfirmEvent($eventId);
+
+    /**
      * eliminar evento
      *
      * Método para eliminar un evento del calendario

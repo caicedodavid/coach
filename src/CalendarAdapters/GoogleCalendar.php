@@ -11,6 +11,7 @@ use Google_Service_Calendar_Calendar;
 use Google_Service_Calendar_Event;
 use Google_Service_Calendar_FreeBusyRequest;
 use Google_Service_Calendar_FreeBusyRequestItem;
+use Google_Service_Exception;
 require ROOT . '/vendor/autoload.php';
 
 /*
@@ -137,10 +138,37 @@ class GoogleCalendar implements CalendarAdapter
      */
     public function confirmEvent($eventId)
     {
+        return $this->changeEventStatus('7'. substr($eventId), self::EVENT_STATUS_CONFIRMED);
+
+    }
+
+    /**
+     * unconfirm event
+     *
+     * Method to unconfirm an event from the calendar
+     *
+     * @param $eventId event id
+     * @return string POST response
+     */
+    public function unconfirmEvent($eventId)
+    {
+        return $this->changeEventStatus($eventId, self::EVENT_STATUS_TENTATIVE);
+    }
+
+    /**
+     * change status
+     *
+     * Method to change status of an event from the calendar
+     *
+     * @param $eventId event id
+     * @return string POST response
+     */
+    private function changeEventStatus($eventId, $status)
+    {
         $service = new Google_Service_Calendar($this->client);
         $event = $service->events->get($this->calendarId, $eventId);
-        $event->setStatus(self::EVENT_STATUS_CONFIRMED);
-        $updatedEvent = $service->events->update($this->calendarId, $event->getId(), $event);
+        $event->setStatus($status);
+        debug($service->events->update($this->calendarId, $event->getId(), $event));
 
     }
 
@@ -155,7 +183,7 @@ class GoogleCalendar implements CalendarAdapter
     public function deleteEvent($eventId)
     {
         $service = new Google_Service_Calendar($this->client);
-        $service->events->delete($this->calendarId, $eventId);
+        return $service->events->delete($this->calendarId, $eventId);
     }
 
     /**
@@ -252,6 +280,8 @@ class GoogleCalendar implements CalendarAdapter
             $formattedEvent['start'] = $event->start->dateTime;
             $formattedEvent['end'] = $event->end->dateTime;
             $formattedEvent['status'] = $event->status;
+            $formattedEvent['color'] = $event->status === self::EVENT_STATUS_TENTATIVE ? 'red' : 'green';
+            $formattedEvent['editable'] = false;
             $results[] = $formattedEvent;
         }
         return $results;

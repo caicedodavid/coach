@@ -283,6 +283,7 @@ class SessionsController extends AppController
      */
     public function add($coachId = null, $topicId = null)
     {   
+        $timezone = $this->request->cookies['timezone'];
         $user = $this->getUser();
         if(!$this->Sessions->checkUserCard($user)){
             $this->Flash->error(__('Please, add your payment information first so you can purchase a session.'));
@@ -295,13 +296,13 @@ class SessionsController extends AppController
         $session->subject = $topic['name'] ? $topic['name'] : null;
         if ($this->request->is('post')) {
             $data = $this->Sessions->fixData($session, $topic, $user['id'], $this->request->data);
-            $busyList = $this->Sessions->Users->checkAvailability($topic->coach_id, $data['schedule'], $topic->duration);
+            $busyList = $this->Sessions->Users->checkAvailability($topic->coach_id, $data['schedule'], $topic->duration, $timezone);
             if ($busyList) {
                 $this->Flash->error(__('The coach is not available in that time. Please select another time'));
-                $this->set('listBusy', $this->Sessions->Users->listBusy($topic->coach_id, $data['schedule']));
+                $this->set('listBusy', $this->Sessions->Users->listBusy($topic->coach_id, $data['schedule']), $timezone);
             } else {
                 $session->external_event_id = $this->Sessions->Users->scheduleEvent($topic->coach_id, $data['schedule'], 
-                    $topic->duration, $topic->name);
+                    $topic->duration, $topic->name, $timezone);
                 $session = $this->Sessions->patchEntity($session, $data);
                 if ($this->Sessions->save($session)) {
                     $this->Sessions->sendRequestEmails($session);
@@ -352,25 +353,29 @@ class SessionsController extends AppController
      */
     public function approveSession($id)
     {
-        $session = $this->Sessions->find('containUserCoach', [
+        $session = $this->Sessions->find('containUserTopic', [
             'id' => $id
         ])
         ->first();
-        $response = $this->Sessions->paySession($session);
-        if($response['status'] === PaymentBehavior::ERROR_STATUS){
-            $this->Flash->error(__('Payment error, we will conctact the cochee. Please try again later'));
-            $this->Sessions->sendEmail($session,'paymentErrorMail',$response['message']);
-
+        if (!$this->Sessions->confirmEvent($session, $this->request->cookies['timezone'])) {
+            $this->Flash->error(__('The event could not be scheduled. It is possible that you have another session scheduled in that time.'));
         } else {
-            $this->Sessions->createLiability($session);
-            $session['status'] = Session::STATUS_APPROVED;
-            $session['external_class_id'] = $this->Sessions->scheduleSession($session);
-
-            if ($this->Sessions->save($session)) {
-                $this->Sessions->sendEmail($session,'approveMail');
-                $this->Flash->success(__('The session has been confirmed.'));
+            $response = $this->Sessions->paySession($session);
+            if($response['status'] === PaymentBehavior::ERROR_STATUS){
+                $this->Flash->error(__('Payment error, we will conctact the cochee. Please try again later'));
+                $this->Sessions->sendEmail($session,'paymentErrorMail',$response['message']);
+    
             } else {
-                $this->Flash->error(__('The session could not be confirmed. Please try again later'));
+                $this->Sessions->createLiability($session);
+                $session['status'] = Session::STATUS_APPROVED;
+                $session['external_class_id'] = $this->Sessions->scheduleSession($session);
+    
+                if ($this->Sessions->save($session)) {
+                    $this->Sessions->sendEmail($session,'approveMail');
+                    $this->Flash->success(__('The session has been confirmed.'));
+                } else {
+                    $this->Flash->error(__('The session could not be confirmed. Please try again later'));
+                }
             }
         }
         return $this->redirect([
