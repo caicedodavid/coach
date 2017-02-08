@@ -138,7 +138,7 @@ class GoogleCalendar implements CalendarAdapter
      */
     public function confirmEvent($eventId)
     {
-        return $this->changeEventStatus('7'. substr($eventId), self::EVENT_STATUS_CONFIRMED);
+        return $this->changeEventStatus($eventId, self::EVENT_STATUS_CONFIRMED);
 
     }
 
