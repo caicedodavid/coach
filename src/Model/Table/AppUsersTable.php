@@ -436,7 +436,7 @@ class AppUsersTable extends UsersTable
     {
         $calendar = $this->getCalendar();
         $token = $calendar->getToken($code);
-        $user = $this->AppUsers->get($userId);
+        $user = $this->get($userId);
         $user->external_calendar_token = json_encode($token);
         $user->external_calendar_id = $calendar->createCalendar('Coach Calendar');
         return $this->save($user);
