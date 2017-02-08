@@ -219,7 +219,7 @@ class SessionsTable extends Table
      * Ajusting Datetime format
      * @param  $entity Session enttity interface
      * @param  $timezone timezone string
-     * @return Event that was confirmed
+     * @return boolean if event was confirmed
      */
     public function confirmEvent($session, $timezone)
     {
@@ -227,7 +227,8 @@ class SessionsTable extends Table
         if ($busyList) {
             return false;
         }
-        return $this->Users->confirmEvent($session->coach_id, $session->external_event_id);
+        $this->Users->confirmEvent($session->coach_id, $session->external_event_id);
+        return true;
     }
 
     /**
