@@ -285,7 +285,7 @@ class AppUsersTable extends UsersTable
      * @param $coachId id of coach
      * @return json string
      */
-    public function generateCalendarUrl($coachId, $timezone)
+    public function generateCalendarUrl()
     {
         $calendar = $this->getCalendar();
         return $calendar->generateAuthUrl();
@@ -305,7 +305,7 @@ class AppUsersTable extends UsersTable
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $startTime = date('c', strtotime($selectedTime));
         $endTime = date("c", strtotime($duration . " minutes", strtotime($startTime)));
-        return $calendar->listEvents($startTime, $endTime, $timezone);
+        return $calendar->listBusy($startTime, $endTime, $timezone);
     }
 
     /**
@@ -323,7 +323,7 @@ class AppUsersTable extends UsersTable
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $startTime = date("c", strtotime("-12 hours", strtotime($selectedTime)));
         $endTime = date("c", strtotime("+12 hours", strtotime($selectedTime)));
-        return $calendar->listEvents($startTime, $endTime, $timezone);
+        return $calendar->listBusy($startTime, $endTime, $timezone);
     }
 
     /**
@@ -340,9 +340,9 @@ class AppUsersTable extends UsersTable
         $coach = $this->get($coachId);
         if (!$coach->external_calendar_id) {
             return null;
-        } 
+        }
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
-        $startTime = strtotime("c", strtotime("today"));
+        $startTime = date("c", strtotime("today"));
         $endTime = date("c", strtotime("+1 month", strtotime($startTime)));
         return $calendar->listEvents($startTime, $endTime, $timezone);
     }

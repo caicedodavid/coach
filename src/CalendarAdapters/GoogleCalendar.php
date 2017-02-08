@@ -187,7 +187,7 @@ class GoogleCalendar implements CalendarAdapter
     }
 
     /**
-     * list events
+     * get events
      *
      * Method to get the events in a time period
      *
@@ -196,7 +196,7 @@ class GoogleCalendar implements CalendarAdapter
      * @param $timezone timezone of the period to list
      * @return json response
      */
-    public function listEvents($startDate, $endDate, $timezone)
+    private function getEvents($startDate, $endDate, $timezone)
     {   
         if (!$this->calendarId) {
             throw new NotImplementedException("No calendar defined", 501);  
@@ -211,7 +211,22 @@ class GoogleCalendar implements CalendarAdapter
             'singleEvents' => TRUE
         ];
         $results = $service->events->listEvents($this->calendarId, $optParams);
-        return $this->calendarFormat($results->getItems());
+        return $results->getItems();
+    }
+
+    /**
+     * list all events
+     *
+     * Method to get all events in time period
+     *
+     * @param $startDate date and time of period
+     * @param $endDate date and time of period to end
+     * @param $timezone timezone of the period to list
+     * @return json response
+     */
+    public function listEvents($startDate, $endDate, $timezone)
+    {   
+        return $this->formatEvents($this->getEvents($startDate, $endDate, $timezone));
     }
 
     /**
@@ -226,21 +241,7 @@ class GoogleCalendar implements CalendarAdapter
      */
     public function listBusy($startDate, $endDate, $timezone)
     {
-        if (!$this->calendarId) {
-            throw new NotImplementedException("No calendar defined", 501);  
-        }
-        $this->client->setScopes(implode(' ', array(Google_Service_Calendar::CALENDAR)));
-        $service = new Google_Service_Calendar($this->client);
-
-        $freebusy_req = new Google_Service_Calendar_FreeBusyRequest();
-        $freebusy_req->setTimeMin($startDate);
-        $freebusy_req->setTimeMax($endDate);
-        $freebusy_req->setTimeZone($timezone);
-        $item = new Google_Service_Calendar_FreeBusyRequestItem();
-        $item->setId($this->calendarId);
-        $freebusy_req->setItems(array($item));
-        $query = $service->freebusy->query($freebusy_req);
-        return $query->getCalendars()[$this->calendarId]->getBusy();
+        return $this->formatBusy($this->getEvents($startDate, $endDate, $timezone));
     }
 
     /**
@@ -262,20 +263,40 @@ class GoogleCalendar implements CalendarAdapter
     }
 
     /**
-     * calendarFormat
+     * format busy
      *
      * Method to transfrom the google calendar events to the agenda format for
      * visualization
      *
-     * @return json response
+     * @return events array
      */
-    private function calendarFormat($events)
+    private function formatBusy($events)
     {
         $results = [];
         foreach ($events as $event) {
             if ($event->status === self::EVENT_STATUS_TENTATIVE) {
                 continue;
             }
+            $formattedEvent['title'] = $event->getSummary();
+            $formattedEvent['start'] = $event->start->dateTime;
+            $formattedEvent['end'] = $event->end->dateTime;
+            $results[] = $formattedEvent;
+        }
+        return $results;
+    }
+
+    /**
+     * format busy
+     *
+     * Method to transfrom the google calendar events to the agenda format for
+     * visualization
+     *
+     * @return events array
+     */
+    private function formatEvents($events)
+    {
+        $results = [];
+        foreach ($events as $event) {
             $formattedEvent['title'] = $event->getSummary();
             $formattedEvent['start'] = $event->start->dateTime;
             $formattedEvent['end'] = $event->end->dateTime;

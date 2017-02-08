@@ -241,3 +241,11 @@ ul.list-group {
     font-family: 'Roboto', sans-serif;
     color: #555;
 }
+
+.ed_dashboard_inner_tab table td {
+    padding: 0px 0px;
+}
+
+.ed_dashboard_inner_tab table {
+    margin :0px 0px;
+}

@@ -219,7 +219,7 @@ class AppUsersController extends UsersController
             'contain' => ['UserImage']
         ]);
         $this->set('user', $user);
-        $this->set('events', $this->AppUsers->getCalendar());
+        $this->set('events', json_encode($this->AppUsers->getAgenda($userId, $this->request->cookies['timezone'])));
         $this->set('url', $this->AppUsers->generateCalendarUrl());
     }
 
