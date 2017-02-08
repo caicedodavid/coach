@@ -298,7 +298,7 @@ class SessionsController extends AppController
             $busyList = $this->Sessions->Users->checkAvailability($topic->coach_id, $data['schedule'], $topic->duration, $timezone);
             if ($busyList) {
                 $this->Flash->error(__('The coach is not available in that time. Please select another time'));
-                $this->set('listBusy', $this->Sessions->Users->listBusy($topic->coach_id, $data['schedule']), $timezone);
+                $this->set('listBusy', $this->Sessions->Users->listBusy($topic->coach_id, $data['schedule'], $timezone));
             } else {
                 $session->external_event_id = $this->Sessions->Users->scheduleEvent($topic->coach_id, $data['schedule'], 
                     $topic->duration, $topic->name, $timezone);
