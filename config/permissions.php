@@ -24,7 +24,6 @@ return [
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
-                'agenda',
                 'saveCalendarToken',
                 'view',
                 'coachProfile',
@@ -37,6 +36,7 @@ return [
             'controller' => 'AppUsers',
             'action' => [
                 'edit',
+                'agenda'
             ],
             'allowed' => function (array $user, $role, Request $request) {
                 $ownerUserId = Hash::get($request->params, 'pass.0');
