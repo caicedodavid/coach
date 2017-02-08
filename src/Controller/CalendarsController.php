@@ -2,7 +2,6 @@
 namespace App\Controller;
 
 use App\Controller\AppController;
-use Cake\Utility\Hash;
 use Cake\Routing\Router;
 use Cake\Core\Configure;
 use Google_Service_Calendar;

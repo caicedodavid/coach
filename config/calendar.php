@@ -31,7 +31,7 @@ $config = [
 
                 "client_secret" => "V5hGmt9WzXViiAfnZ10JTbKm",
 
-                "redirect_uris" => ["http://localhost:8765/calendars/save-token","http://localhost:8765/calendars/saveToken"]
+                "redirect_uris" => ["http://localhost:8765/calendars/save-token", "http://localhost:8765/calendars/saveToken", "http://localhost:8765/app-users/save-calendar-token"]
             ]
         ],
 
