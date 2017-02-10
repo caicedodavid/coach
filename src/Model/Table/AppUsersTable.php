@@ -358,13 +358,13 @@ class AppUsersTable extends UsersTable
      * @param $topicName the name of the topic of the session
      * @return Array
      */
-    public function scheduleEvent($coachId, $selectedTime, $duration, $topicName, $timezone)
+    public function scheduleEvent($coachId, $sessionId, $selectedTime, $duration, $topicName, $timezone)
     {
         $coach = $this->get($coachId);
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $startTime = date("c", strtotime($selectedTime));
         $endTime = date("c", strtotime("+".$duration . " minutes", strtotime($startTime)));
-        return $calendar->createEvent($topicName, $startTime, $endTime, $timezone);
+        return $calendar->createEvent($topicName, $sessionId, $startTime, $endTime, $timezone);
     }
 
     /**

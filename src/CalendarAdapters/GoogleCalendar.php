@@ -105,7 +105,7 @@ class GoogleCalendar implements CalendarAdapter
      * @param $data data array for the event.
      * @return event id
      */
-    public function createEvent($topicName, $startTime, $endTime, $timezone)
+    public function createEvent($topicName, $sessionId, $startTime, $endTime, $timezone)
     {
         if (!$this->calendarId) {
             throw new NotImplementedException("No calendar defined", 501);  
@@ -121,7 +121,12 @@ class GoogleCalendar implements CalendarAdapter
               'dateTime' => $endTime,
               'timeZone' => $timezone,
             ],
-            'status' => self::EVENT_STATUS_TENTATIVE
+            'status' => self::EVENT_STATUS_TENTATIVE,
+            'extendedProperties' => [
+                'private' => [
+                    'sessionId' => $sessionId
+                ]
+            ]
         ];
         $service = new Google_Service_Calendar($this->client);
         $event = new Google_Service_Calendar_Event($data);
@@ -303,6 +308,7 @@ class GoogleCalendar implements CalendarAdapter
             $formattedEvent['status'] = $event->status;
             $formattedEvent['color'] = $event->status === self::EVENT_STATUS_TENTATIVE ? 'red' : 'green';
             $formattedEvent['editable'] = false;
+            $formattedEvent['sessionId'] = $event->extendedProperties->private['sessionId'];
             $results[] = $formattedEvent;
         }
         return $results;

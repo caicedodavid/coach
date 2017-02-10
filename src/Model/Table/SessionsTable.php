@@ -954,4 +954,83 @@ class SessionsTable extends Table
         return $session;
     }
 
+    /**
+     * reject Session
+     * Logic when canceling a session
+     *
+     * @param $session session entity
+     * @param $observation coach observtion for canceling
+     * @return $session session entity
+     */
+    public function cancelSession($session, $observation)
+    {
+        $session->coach_comments = $observation;
+        $session->status = Session::STATUS_CANCELED;
+        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+        $this->removeClass($session);
+        return $session;
+    }
+
+    /**
+     * reject Session
+     * Logic when canceling the request of a session
+     *
+     * @param $session session entity
+     * @return $session session entity
+     */
+    public function cancelRequestSession($session)
+    {
+        $session->status = Session::STATUS_CANCELED;
+        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+        return $session;
+    }
+
+    /**
+     * schedule and send emails
+     * schedule the session in the email calendar and send the request emails
+     *
+     * @param $session session entity,
+     * @param $session  time and date of session
+     * @param $duration session duration
+     * @param $timezone timezone of request 
+     * @return void
+     */
+    public function scheduleAndSendEmails($session, $schedule, $duration, $timezone)
+    {
+        $session->external_event_id = $this->Users->scheduleEvent($session->coach_id, $session->id, $schedule, 
+            $duration, $session->subject, $timezone);
+        $this->sendRequestEmails($session);
+        $this->save($session);
+    }
+
+    /**
+     * Returns Array with Key/Value StatusValue/StatusString
+     *
+     * @return Array
+     */
+    public function getStatusArray() 
+    {
+        return [
+            Session::STATUS_PENDING => __('Pending'),
+            Session::STATUS_APPROVED => __('Approved'),
+            Session::STATUS_RUNNING => __('Running'),
+            Session::STATUS_REJECTED => __('Rejected'),
+            Session::STATUS_CANCELED => __('Canceled'),
+            Session::STATUS_PAST => __('Past')
+        ];
+    }
+
+    /**
+     * Returns Array with Key/Value StatusValue/StatusString for historic view
+     *
+     * @return Array
+     */
+    public function getStatusArrayHistoric() 
+    {
+        $statusArray = $this->getStatusArray();
+        $statusArray[Session::STATUS_APPROVED] = __('Not performed');
+        $statusArray[Session::STATUS_RUNNING] = __('Not performed');
+        $statusArray[Session::STATUS_PENDING] = __('Not responded');
+        return $statusArray;
+    }
 }

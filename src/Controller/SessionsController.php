@@ -22,6 +22,31 @@ class SessionsController extends AppController
     const UNPAID_SESSIONS_FINDER = "unpaidCoach";
 
     /**
+     * Before render callback.
+     *
+     * @param \Cake\Event\Event $event The beforeRender event.
+     * @return void
+     */
+    public function beforeRender(Event $event)
+    {
+        parent::beforeRender($event);
+        $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
+
+    }
+    /**
+     * Before filter callback.
+     *
+     * @param \Cake\Event\Event $event The beforeRender event.
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Security->config('unlockedActions', ['updateStartTime']);
+        $this->Auth->allow('updateStartTime');
+    }
+
+    /**
      * List of Sesisons
      * @return \Cake\Network\Response|null
      * Show the sessions scheduled by a user/coach
@@ -88,7 +113,7 @@ class SessionsController extends AppController
      */ 
     public function historic($id = null)
     {   
-        $this->set('statusArray', $this->getStatusArrayHistoric());
+        $this->set('statusArray', $this->Sessions->getStatusArrayHistoric());
         $this->sessionList(self::HISTORIC_SESSIONS_FINDER, 'modified', 'desc');
         if ($this->isCoach($this->getUser())) {
             $this->render("historic_coach");
@@ -119,7 +144,7 @@ class SessionsController extends AppController
         $this->set('isCoach', $this->isCoach($user));
         $this->set('_serialize', ['session']);
         if (($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED) or $this->Sessions->isNotPerformed($session)){
-            $this->set('statusArray', $this->getStatusArrayHistoric());
+            $this->set('statusArray', $this->Sessions->getStatusArrayHistoric());
             $this->render("view_canceled_rejected");
         } else {
             if ($this->isCoach($user)){
@@ -300,11 +325,9 @@ class SessionsController extends AppController
                 $this->Flash->error(__('The coach is not available in that time. Please select another time'));
                 $this->set('listBusy', $this->Sessions->Users->listBusy($topic->coach_id, $data['schedule'], $timezone));
             } else {
-                $session->external_event_id = $this->Sessions->Users->scheduleEvent($topic->coach_id, $data['schedule'], 
-                    $topic->duration, $topic->name, $timezone);
                 $session = $this->Sessions->patchEntity($session, $data);
                 if ($this->Sessions->save($session)) {
-                    $this->Sessions->sendRequestEmails($session);
+                    $this->Sessions->scheduleAndSendEmails($session, $data['schedule'], $topic->duration, $timezone);
                     $this->Flash->success(__('The session has been requested.'));
                     return $this->redirect(['action' => 'pending', $user['id'], 'controller' => 'Sessions']);
                 } else {
@@ -326,7 +349,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function rejectSession($id = null)
+    public function rejectSession($id = null, $controller = 'Sessions', $action = 'pending')
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
@@ -339,7 +362,7 @@ class SessionsController extends AppController
         }
 
         return $this->redirect(
-            ['action' => 'pending',$this->getUser()['id']] 
+            ['controller' => $controller, 'action' => $action, $this->getUser()['id']] 
         );
     }
 
@@ -350,7 +373,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function approveSession($id)
+    public function approveSession($id = null, $controller = 'Sessions', $action = 'pending')
     {
         $session = $this->Sessions->find('containUserTopic', [
             'id' => $id
@@ -378,7 +401,7 @@ class SessionsController extends AppController
             }
         }
         return $this->redirect([
-            'action' => 'pending', $this->getUser()['id']
+            'controller' => $controller, 'action' => $action, $this->getUser()['id']
         ]);
     }
 
@@ -396,9 +419,7 @@ class SessionsController extends AppController
             'id' => (int) $this->request->data['id'],
         ])
         ->first();
-        $session->coach_comments = $this->request->data['observation'];
-        $session->status = Session::STATUS_CANCELED;
-        $this->Sessions->removeClass($session);
+        $session = $this->Sessions->cancelSession($session, $this->request->data['observation']);
         if ($this->Sessions->save($session)) {
             $this->Sessions->sendEmail($session, $this->getUser()['role'] . 'CancelMail', $session->coach_comments);
             $this->Flash->success(__('The session has been Canceled.'));
@@ -422,7 +443,7 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session->status = Session::STATUS_CANCELED;
+        $session = $this->Sessions->cancelRequestSession($session);
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The request has been Canceled.'));
         } else {
@@ -459,7 +480,7 @@ class SessionsController extends AppController
      */
     public function paidSessions($id = NULL)
     {
-        $this->set('statusArray',$this->getStatusArray());
+        $this->set('statusArray',$this->Sessions->getStatusArray());
         $this->sessionList(self::PAID_SESSIONS_FINDER);
     }
 
@@ -471,52 +492,25 @@ class SessionsController extends AppController
      */
     public function unpaidSessions($id = NULL)
     {
-        $this->set('statusArray',$this->getStatusArray());
+        $this->set('statusArray',$this->Sessions->getStatusArray());
         $this->sessionList(self::UNPAID_SESSIONS_FINDER,null);
     }
 
-    public function beforeRender(Event $event)
-    {
-        parent::beforeRender($event);
-        $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
-
-    }
-
-    public function beforeFilter(Event $event)
-    {
-        parent::beforeFilter($event);
-        $this->Security->config('unlockedActions', ['updateStartTime']);
-        $this->Auth->allow('updateStartTime');
-    }
-
     /**
-     * Returns Array with Key/Value StatusValue/StatusString
+     * reject session from calendar method
      *
-     * @return Array
+     * @return \Cake\Network\Response|null Refresh page.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    public function getStatusArray() 
+    public function calendarRequestSession()
     {
-        return [
-            Session::STATUS_PENDING => __('Pending'),
-            Session::STATUS_APPROVED => __('Approved'),
-            Session::STATUS_RUNNING => __('Running'),
-            Session::STATUS_REJECTED => __('Rejected'),
-            Session::STATUS_CANCELED => __('Canceled'),
-            Session::STATUS_PAST => __('Past')
-        ];
-    }
-
-    /**
-     * Returns Array with Key/Value StatusValue/StatusString for historic view
-     *
-     * @return Array
-     */
-    public function getStatusArrayHistoric() 
-    {
-        $statusArray = $this->getStatusArray();
-        $statusArray[Session::STATUS_APPROVED] = __('Not performed');
-        $statusArray[Session::STATUS_RUNNING] = __('Not performed');
-        $statusArray[Session::STATUS_PENDING] = __('Not responded');
-        return $statusArray;
+        $this->request->allowMethod(['post']);
+        $id = $this->request->data['id'];
+        if ($this->request->data['method'] === 'reject') {
+            $this->rejectSession($id, 'AppUsers', 'agenda');
+        } else {
+            $this->approveSession($id, 'AppUsers', 'agenda');
+        }
+        
     }
 }
