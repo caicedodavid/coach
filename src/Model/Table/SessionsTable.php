@@ -929,7 +929,8 @@ class SessionsTable extends Table
     }
 
     /**
-     * After user rate
+     * is Not performed
+     * Check if the session was not performed
      *
      * @param $session session entity
      * @return boolean
@@ -940,6 +941,18 @@ class SessionsTable extends Table
             (date('Y-m-d H:i',strtotime('+' . $session->topic->duration . ' minutes', strtotime($session->schedule))) < date('Y-m-d H:i',strtotime('now')));
     }
 
+    /**
+     * After user rate
+     *
+     * @param $session session entity
+     * @return boolean
+     */
+    public function isCanceledRejectedNotPerformed($session)
+    {
+        return ($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED) or $this->isNotPerformed($session);
+    }
+
+    
     /**
      * reject Session
      * Logic when rejecting session
@@ -964,9 +977,9 @@ class SessionsTable extends Table
      */
     public function cancelSession($session, $observation)
     {
+        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
         $session->coach_comments = $observation;
         $session->status = Session::STATUS_CANCELED;
-        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
         $this->removeClass($session);
         return $session;
     }
@@ -978,11 +991,10 @@ class SessionsTable extends Table
      * @param $session session entity
      * @return $session session entity
      */
-    public function cancelRequestSession($session)
+    public function cancelRequestSession(&$session)
     {
         $session->status = Session::STATUS_CANCELED;
-        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
-        return $session;
+        return $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
     }
 
     /**
@@ -1000,7 +1012,7 @@ class SessionsTable extends Table
         $session->external_event_id = $this->Users->scheduleEvent($session->coach_id, $session->id, $schedule, 
             $duration, $session->subject, $timezone);
         $this->sendRequestEmails($session);
-        $this->save($session);
+        return $this->save($session);
     }
 
     /**

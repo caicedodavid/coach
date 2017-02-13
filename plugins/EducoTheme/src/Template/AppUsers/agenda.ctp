@@ -27,6 +27,26 @@
 		?>
 	<script>
 	$(document).ready(function() {
+
+		function replaceTag(tag, id, text) {
+    		var newItem = document.createElement(tag);
+			newItem.setAttribute('id', id);
+			var textnode = document.createTextNode(text);
+			newItem.appendChild(textnode);
+			$('#' + id).replaceWith(newItem);
+		}
+
+		function clickEvent(calEvent) {
+    		if (calEvent.status == 'tentative') {
+    			replaceTag('h2', 'session-title', calEvent.title);
+    			var date = new Date(calEvent.start);
+    			var string = date.toDateString() + ', ' + date.getHours() + ':' + date.getMinutes();
+    			console.log(string);
+    			replaceTag('h3', 'session-schedule', string);
+				$("input[name='id']").val(calEvent.sessionId);
+				$('#myModal').modal('show');
+			}
+		}
 	    $('#calendar').fullCalendar({
 	    	header: {
 				left: 'prev,next today',
@@ -37,21 +57,7 @@
 			defaultView: 'agendaWeek',
 			editable: true,
 			eventClick: function(calEvent, jsEvent, view) {
-				if (calEvent.status == 'tentative') {
-					var newItem = document.createElement("h2");
-					newItem.setAttribute('id', 'session-title');
-					var textnode = document.createTextNode(calEvent.title);
-					newItem.appendChild(textnode);
-					$("#session-title").replaceWith(newItem);
-					var newItem = document.createElement("h3");
-					newItem.setAttribute('id', 'session-schedule');
-					var date = new Date(calEvent.start);
-					var textnode = document.createTextNode(date.toDateString() + ', ' + date.getHours() + ':' + date.getMinutes());
-					newItem.appendChild(textnode);
-					$("#session-schedule").replaceWith(newItem);
-					$("input[name='id']").val(calEvent.sessionId);
-					$('#myModal').modal('show');
-				}
+				clickEvent(calEvent);
     		},
 			height: 650,
 			slotDuration: '00:30:00',
@@ -66,31 +72,4 @@
 	});
 	</script>
 <?php $this->end('bottomScript'); ?>
-
-<div id="myModal" class="modal fade" role="dialog">
-	
-    	<div class="modal-dialog">
-    	    <div class="modal-content">
-    	        <div class="modal-header">
-    	            <button type="button" class="close" data-dismiss="modal">&times;</button>
-    	            <h1 class="modal-title"><?= __('Pending Session') ?></h1>
-    	        </div>
-    	        <div class="modal-body">
-    	        	<h2 id="session-title"></h2>
-    	        	<h3 id="session-schedule"></h3>
-    	        </div>
-    	        <div class="modal-footer">
-    	           	<?= $this->Form->create(null, ['url'=> ['controller'=>'Sessions', 'action'=>'calendarRequestSession'], 'id' => 'payment-form']);?>
-    	        		<?= $this->Form->hidden('id', ["id" => "session-id"]);?>
-    	            	<?= $this->Form->unlockField('id');?>
-    	            	<?= $this->Form->hidden('method');?>
-    	            	<?= $this->Form->unlockField('id');?>
-    	            	<?= $this->Form->unlockField('method');?>
-    	            	<?= $this->Form->button(__('Accept'), ['class' => 'btn ed_btn ed_green pull-right small', 'method' => 'post', 'id' => 'acceptButton']);?>
-    					<?= $this->Form->button(__('Decline'), ['class' => 'btn ed_btn ed_green pull-right small', 'method' => 'post', 'id' => 'rejectButton']);?>
-    				<?= $this->Form->end() ?>
-    	        </div>
-    	    </div>
-    	</div>
-    
-</div>
+<?= $this->element('AppUsers/agenda_modal')?>

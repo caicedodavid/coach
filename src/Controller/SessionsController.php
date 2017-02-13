@@ -20,6 +20,9 @@ class SessionsController extends AppController
     const HISTORIC_SESSIONS_FINDER = "historicSessions";
     const PAID_SESSIONS_FINDER = "paidCoach";
     const UNPAID_SESSIONS_FINDER = "unpaidCoach";
+    const REJECT_FROM_CALENDAR = "reject";
+    const ACCEPT_FROM_CALENDAR = "accept";
+
 
     /**
      * Before render callback.
@@ -143,7 +146,7 @@ class SessionsController extends AppController
         $this->set('session', $session);
         $this->set('isCoach', $this->isCoach($user));
         $this->set('_serialize', ['session']);
-        if (($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED) or $this->Sessions->isNotPerformed($session)){
+        if ($this->Sessions->isCanceledRejectedNotPerformed($session)){
             $this->set('statusArray', $this->Sessions->getStatusArrayHistoric());
             $this->render("view_canceled_rejected");
         } else {
@@ -327,11 +330,12 @@ class SessionsController extends AppController
             } else {
                 $session = $this->Sessions->patchEntity($session, $data);
                 if ($this->Sessions->save($session)) {
-                    $this->Sessions->scheduleAndSendEmails($session, $data['schedule'], $topic->duration, $timezone);
-                    $this->Flash->success(__('The session has been requested.'));
-                    return $this->redirect(['action' => 'pending', $user['id'], 'controller' => 'Sessions']);
-                } else {
-                    $this->Flash->error(__('The session could not be saved. Please, try again.'));
+                    if ($this->Sessions->scheduleAndSendEmails($session, $data['schedule'], $topic->duration, $timezone)) {
+                        $this->Flash->success(__('The session has been requested.'));
+                        return $this->redirect(['action' => 'pending', $user['id'], 'controller' => 'Sessions']);
+                    } else {
+                        $this->Flash->error(__('The session could not be saved. Please, try again.'));
+                    } 
                 }
             }
         }
@@ -346,6 +350,8 @@ class SessionsController extends AppController
      * reject session method
      *
      * @param string|null $id Session id.
+     * @param $controller the controller to redirect
+     * @param the action to redirect
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
@@ -443,7 +449,7 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session = $this->Sessions->cancelRequestSession($session);
+        $this->Sessions->cancelRequestSession($session);
         if ($this->Sessions->save($session)) {
             $this->Flash->success(__('The request has been Canceled.'));
         } else {
@@ -506,7 +512,7 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post']);
         $id = $this->request->data['id'];
-        if ($this->request->data['method'] === 'reject') {
+        if ($this->request->data['method'] === self::REJECT_FROM_CALENDAR) {
             $this->rejectSession($id, 'AppUsers', 'agenda');
         } else {
             $this->approveSession($id, 'AppUsers', 'agenda');
