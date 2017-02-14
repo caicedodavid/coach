@@ -102,6 +102,7 @@ return [
             'action' => [
                 'rejectSession',
                 'approveSession',
+                'calendarRequestSession',
                 'rateCoach',
                 'viewHistoric',
                 'viewPendingCoach',

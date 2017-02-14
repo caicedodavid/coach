@@ -24,9 +24,29 @@
 
 <?php $this->start('bottomScript'); ?>
 	<?php echo $this->AssetCompress->script('EducoTheme.calendar');
-	?>
+		?>
 	<script>
 	$(document).ready(function() {
+
+		function replaceTag(tag, id, text) {
+    		var newItem = document.createElement(tag);
+			newItem.setAttribute('id', id);
+			var textnode = document.createTextNode(text);
+			newItem.appendChild(textnode);
+			$('#' + id).replaceWith(newItem);
+		}
+
+		function clickEvent(calEvent) {
+    		if (calEvent.status == 'tentative') {
+    			replaceTag('h2', 'session-title', calEvent.title);
+    			var date = new Date(calEvent.start);
+    			var string = date.toDateString() + ', ' + date.getHours() + ':' + date.getMinutes();
+    			console.log(string);
+    			replaceTag('h3', 'session-schedule', string);
+				$("input[name='id']").val(calEvent.sessionId);
+				$('#myModal').modal('show');
+			}
+		}
 	    $('#calendar').fullCalendar({
 	    	header: {
 				left: 'prev,next today',
@@ -36,6 +56,9 @@
 			timezone: moment.tz.guess(),
 			defaultView: 'agendaWeek',
 			editable: true,
+			eventClick: function(calEvent, jsEvent, view) {
+				clickEvent(calEvent);
+    		},
 			height: 650,
 			slotDuration: '00:30:00',
 			slotLabelInterval: 30,
@@ -44,8 +67,9 @@
 			eventDurationEditable: false,
 			eventOverlap: false,
 			allDaySlot: false,
-			events: <?php echo $events?>
+			events: <?=$events?>
 	    })
 	});
 	</script>
 <?php $this->end('bottomScript'); ?>
+<?= $this->element('AppUsers/agenda_modal')?>

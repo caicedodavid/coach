@@ -183,10 +183,10 @@ class AppUsersController extends UsersController
         if ($this->request->is('post')) {
             $role = $this->request->data['role'];
             $this->eventManager()->on(UsersAuthComponent::EVENT_AFTER_REGISTER,[],function(Event $event) use ($role) {
-                    $user = Hash::get($event->data, 'user');
-                    $this->AppUsers->setRole($user->id, $role);
-                    $this->redirect('/');
-                });
+                $user = Hash::get($event->data, 'user');
+                $this->AppUsers->setRole($user->id, $role);
+                $this->redirect('/');
+            });
         }
         $this->set('role', $this->request->pass[0]);
         parent::register();

@@ -299,6 +299,7 @@ class AppUsersTable extends UsersTable
      * @param $duration the duration of the sesion
      * @return Array
      */
+    ##NO manejo errores aquí
     public function checkAvailability($coachId, $selectedTime, $duration, $timezone)
     {
         $coach = $this->get($coachId);
@@ -317,6 +318,7 @@ class AppUsersTable extends UsersTable
      * @param $coachId id of coach
      * @return json string
      */
+    ##No manejo errores aquí
     public function listBusy($coachId, $selectedTime, $timezone)
     {
         $coach = $this->get($coachId);
@@ -335,6 +337,7 @@ class AppUsersTable extends UsersTable
      * @param $coachId id of coach
      * @return json string
      */
+    #NO manejo errores aquí
     public function getAgenda($coachId, $timezone)
     {
         $coach = $this->get($coachId);
@@ -358,13 +361,14 @@ class AppUsersTable extends UsersTable
      * @param $topicName the name of the topic of the session
      * @return Array
      */
-    public function scheduleEvent($coachId, $selectedTime, $duration, $topicName, $timezone)
+    ##&&No manejo errores aquí
+    public function scheduleEvent($coachId, $sessionId, $selectedTime, $duration, $topicName, $timezone)
     {
         $coach = $this->get($coachId);
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
         $startTime = date("c", strtotime($selectedTime));
         $endTime = date("c", strtotime("+".$duration . " minutes", strtotime($startTime)));
-        return $calendar->createEvent($topicName, $startTime, $endTime, $timezone);
+        return $calendar->createEvent($topicName, $sessionId, $startTime, $endTime, $timezone);
     }
 
     /**
@@ -375,9 +379,10 @@ class AppUsersTable extends UsersTable
      * @param $coachId id fo coach
      * @param $startTime the startTime of the session 
      * @param $duration the duration of the sesion
-    s * @param $topicName the name of the topic of the session
+     * @param $topicName the name of the topic of the session
      * @return Array
-     */
+     */ 
+    ##&&No manejo errores aquí
     public function deleteEvent($coachId, $eventId)
     {
         $coach = $this->get($coachId);
@@ -396,6 +401,7 @@ class AppUsersTable extends UsersTable
      * @param $topicName the name of the topic of the session
      * @return Array
      */
+    ##&&No manejo errores aquí
     public function confirmEvent($coachId, $eventId)
     {
         $coach = $this->get($coachId);
@@ -414,6 +420,7 @@ class AppUsersTable extends UsersTable
      * @param $topicName the name of the topic of the session
      * @return Array
      */
+    ##&&No manejo errores aquí
     public function unconfirmEvent($coachId, $eventId)
     {
         $coach = $this->get($coachId);
@@ -432,6 +439,7 @@ class AppUsersTable extends UsersTable
      * @param $topicName the name of the topic of the session
      * @return Array
      */
+    ##&& No manejo errores aquí
     public function storeToken($userId, $code)
     {
         $calendar = $this->getCalendar();

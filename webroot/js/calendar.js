@@ -22,4 +22,6 @@ $(document).ready(function(){
 		$("input[name='startTime']").val(date2);
 		$("input[name='isSelected']").val(+ !allDay);
 	});
+
+	
 });

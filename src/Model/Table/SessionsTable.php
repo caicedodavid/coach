@@ -232,22 +232,6 @@ class SessionsTable extends Table
     }
 
     /**
-     * Shedule a class with the server
-     *
-     * Ajusting Datetime format
-     * @param  $entity Session enttity interface
-     * @param  $data array of data to be aptched in the entity
-     * @param  $options options array
-     * @return Session Entity
-     */
-    public function scheduleSession($session)
-    {
-        $liveSession = LiveSession::getInstance();
-        $response = $liveSession->scheduleSession($session);
-        return $response["class_id"];
-    }
-
-    /**
      * Fix Schedule
      *
      * Ajusting Datetime format
@@ -673,6 +657,22 @@ class SessionsTable extends Table
             ->find('containUser');
     }
 
+    /**
+     * Shedule a class with the server
+     *
+     * Ajusting Datetime format
+     * @param  $entity Session enttity interface
+     * @param  $data array of data to be aptched in the entity
+     * @param  $options options array
+     * @return Session Entity
+     */
+    ##&&NO manejo errores aquí
+    public function scheduleSession($session)
+    {
+        $liveSession = LiveSession::getInstance();
+        $response = $liveSession->scheduleSession($session);
+        return $response["class_id"];
+    }
 
     /**
      * method for returning a Url if the LiveSession returnes one, if not return null
@@ -680,6 +680,7 @@ class SessionsTable extends Table
      * @param $user user object
      * @return string url| null
      */
+    ##&&NO manejo errores aquí
     public function getUrl($session, $user)
     {
         $liveSession = LiveSession::getInstance();
@@ -693,6 +694,7 @@ class SessionsTable extends Table
      * @param $user user object
      * @return string url| null
      */
+    ##&&NO manejo errores aquí
     public function getSessionData($session)
     {
         $liveSession = LiveSession::getInstance();
@@ -703,6 +705,7 @@ class SessionsTable extends Table
      * method for removing a class from the LiveSession server database
      * @return string url| null
      */
+    ##&&NO manejo errores aquí
     public function removeClass($session)
     {
         $liveSession = LiveSession::getInstance();
@@ -929,7 +932,8 @@ class SessionsTable extends Table
     }
 
     /**
-     * After user rate
+     * is Not performed
+     * Check if the session was not performed
      *
      * @param $session session entity
      * @return boolean
@@ -940,6 +944,18 @@ class SessionsTable extends Table
             (date('Y-m-d H:i',strtotime('+' . $session->topic->duration . ' minutes', strtotime($session->schedule))) < date('Y-m-d H:i',strtotime('now')));
     }
 
+    /**
+     * After user rate
+     *
+     * @param $session session entity
+     * @return boolean
+     */
+    public function isCanceledRejectedNotPerformed($session)
+    {
+        return ($session['status'] === Session::STATUS_CANCELED) or ($session['status'] === Session::STATUS_REJECTED) or $this->isNotPerformed($session);
+    }
+
+    
     /**
      * reject Session
      * Logic when rejecting session
@@ -954,4 +970,82 @@ class SessionsTable extends Table
         return $session;
     }
 
+    /**
+     * reject Session
+     * Logic when canceling a session
+     *
+     * @param $session session entity
+     * @param $observation coach observtion for canceling
+     * @return $session session entity
+     */
+    public function cancelSession($session, $observation)
+    {
+        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+        $session->coach_comments = $observation;
+        $session->status = Session::STATUS_CANCELED;
+        $this->removeClass($session);
+        return $session;
+    }
+
+    /**
+     * reject Session
+     * Logic when canceling the request of a session
+     *
+     * @param $session session entity
+     * @return $session session entity
+     */
+    public function cancelRequestSession(&$session)
+    {
+        $session->status = Session::STATUS_CANCELED;
+        return $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+    }
+
+    /**
+     * schedule and send emails
+     * schedule the session in the email calendar and send the request emails
+     *
+     * @param $session session entity,
+     * @param $session  time and date of session
+     * @param $duration session duration
+     * @param $timezone timezone of request 
+     * @return void
+     */
+    public function scheduleAndSendEmails($session, $schedule, $duration, $timezone)
+    {
+        $session->external_event_id = $this->Users->scheduleEvent($session->coach_id, $session->id, $schedule, 
+            $duration, $session->subject, $timezone);
+        $this->sendRequestEmails($session);
+        return $this->save($session);
+    }
+
+    /**
+     * Returns Array with Key/Value StatusValue/StatusString
+     *
+     * @return Array
+     */
+    public function getStatusArray() 
+    {
+        return [
+            Session::STATUS_PENDING => __('Pending'),
+            Session::STATUS_APPROVED => __('Approved'),
+            Session::STATUS_RUNNING => __('Running'),
+            Session::STATUS_REJECTED => __('Rejected'),
+            Session::STATUS_CANCELED => __('Canceled'),
+            Session::STATUS_PAST => __('Past')
+        ];
+    }
+
+    /**
+     * Returns Array with Key/Value StatusValue/StatusString for historic view
+     *
+     * @return Array
+     */
+    public function getStatusArrayHistoric() 
+    {
+        $statusArray = $this->getStatusArray();
+        $statusArray[Session::STATUS_APPROVED] = __('Not performed');
+        $statusArray[Session::STATUS_RUNNING] = __('Not performed');
+        $statusArray[Session::STATUS_PENDING] = __('Not responded');
+        return $statusArray;
+    }
 }
