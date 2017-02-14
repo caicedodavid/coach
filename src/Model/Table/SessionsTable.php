@@ -232,22 +232,6 @@ class SessionsTable extends Table
     }
 
     /**
-     * Shedule a class with the server
-     *
-     * Ajusting Datetime format
-     * @param  $entity Session enttity interface
-     * @param  $data array of data to be aptched in the entity
-     * @param  $options options array
-     * @return Session Entity
-     */
-    public function scheduleSession($session)
-    {
-        $liveSession = LiveSession::getInstance();
-        $response = $liveSession->scheduleSession($session);
-        return $response["class_id"];
-    }
-
-    /**
      * Fix Schedule
      *
      * Ajusting Datetime format
@@ -673,6 +657,22 @@ class SessionsTable extends Table
             ->find('containUser');
     }
 
+    /**
+     * Shedule a class with the server
+     *
+     * Ajusting Datetime format
+     * @param  $entity Session enttity interface
+     * @param  $data array of data to be aptched in the entity
+     * @param  $options options array
+     * @return Session Entity
+     */
+    ##&&NO manejo errores aquí
+    public function scheduleSession($session)
+    {
+        $liveSession = LiveSession::getInstance();
+        $response = $liveSession->scheduleSession($session);
+        return $response["class_id"];
+    }
 
     /**
      * method for returning a Url if the LiveSession returnes one, if not return null
@@ -680,6 +680,7 @@ class SessionsTable extends Table
      * @param $user user object
      * @return string url| null
      */
+    ##&&NO manejo errores aquí
     public function getUrl($session, $user)
     {
         $liveSession = LiveSession::getInstance();
@@ -693,6 +694,7 @@ class SessionsTable extends Table
      * @param $user user object
      * @return string url| null
      */
+    ##&&NO manejo errores aquí
     public function getSessionData($session)
     {
         $liveSession = LiveSession::getInstance();
@@ -703,6 +705,7 @@ class SessionsTable extends Table
      * method for removing a class from the LiveSession server database
      * @return string url| null
      */
+    ##&&NO manejo errores aquí
     public function removeClass($session)
     {
         $liveSession = LiveSession::getInstance();

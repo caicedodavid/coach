@@ -309,6 +309,10 @@ class SessionsController extends AppController
      * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
+
+    ##&&me comunico con el calendario en checkAvailability, no se maneja un error de conexión
+    ##&&me comunico con el calendario en listBusy, solamente cuando checkAvailabily retorna no vacío. no se maneja un error de conexión
+    ##&&me comunico con el calendario en shceduleand send emails. debo guardar de nuevo la sesión ahí por el id. no se maneja error de conexión
     public function add($coachId = null, $topicId = null)
     {   
         $timezone = $this->request->cookies['timezone'];
@@ -355,6 +359,7 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    ##&&Mecomunico con el caledario en rejectSession para eliminar el evento. No se maneja errores
     public function rejectSession($id = null, $controller = 'Sessions', $action = 'pending')
     {
         $this->request->allowMethod(['post','get']);
@@ -379,6 +384,9 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    ##&&Me comunico con el calendario en confirmEvent. Son 2 request, uno para asegurarse que no tiene nada agendado y otro para confirmar
+    ##&&Me comunico con stripe y el calendario en paySession. manejo errores para el pago pero no para el calendario.
+    ##&&Me counico con la plataforma en scheduleSession, no manejo errores
     public function approveSession($id = null, $controller = 'Sessions', $action = 'pending')
     {
         $session = $this->Sessions->find('containUserTopic', [
@@ -418,6 +426,8 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+
+    ##&& me comunico con la plataforma y el calendario en cancelSession. No manejo los errores de ninguna
     public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
@@ -439,12 +449,13 @@ class SessionsController extends AppController
     }
 
     /**
-     * cancel a approved session method
+     * cancel a requested session method
      *
      * @param string|null $id Session id.
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
+    ##&&ME comunico con el calendario en canRequestSession. No manejo errores
     public function cancelRequest($id)
     {
         $this->request->allowMethod(['post','get']);
