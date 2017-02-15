@@ -10,6 +10,9 @@ use CakeDC\Users\Model\Table\UsersTable;
 use Cake\Utility\Hash;
 use Burzum\FileStorage\Storage\StorageManager;
 use App\CalendarAdapters\Calendar;
+use \DateTime;
+use \DateTimeZone;
+use \DateInterval;
 
 /**
  * Users Model
@@ -304,9 +307,9 @@ class AppUsersTable extends UsersTable
     {
         $coach = $this->get($coachId);
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
-        $startTime = date('c', strtotime($selectedTime));
-        $endTime = date("c", strtotime($duration . " minutes", strtotime($startTime)));
-        return $calendar->listBusy($startTime, $endTime, $timezone);
+        $startTime = new DateTime($selectedTime, new DateTimeZone($timezone));
+        $endTime = clone $startTime;
+        return $calendar->listBusy($startTime->format('c'), $endTime->add(new DateInterval('PT' . $duration . 'M'))->format('c'), $timezone);
     }
 
     /**
@@ -323,9 +326,17 @@ class AppUsersTable extends UsersTable
     {
         $coach = $this->get($coachId);
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
-        $startTime = date("c", strtotime("-12 hours", strtotime($selectedTime)));
-        $endTime = date("c", strtotime("+12 hours", strtotime($selectedTime)));
-        return $calendar->listBusy($startTime, $endTime, $timezone);
+        $startTime = new DateTime($selectedTime, new DateTimeZone($timezone));
+        $endTime = clone $startTime;
+        $listBusy = $calendar->listBusy($startTime->sub(new DateInterval('PT12H'))->format('c'), $endTime->add(new DateInterval('PT12H'))->format('c'), $timezone);
+        foreach ($listBusy as $busy) {
+            $start = DateTime::createFromFormat("Y-m-d\TH:i:sT", $busy['start']);
+            $start->setTimezone(new DateTimeZone($timezone));
+            $end = DateTime::createFromFormat("Y-m-d\TH:i:sT", $busy['end']);
+            $end->setTimezone(new DateTimeZone($timezone));
+            $results[] = __("{0}, from {1} to {2}", $start->format('M d'), $start->format('h:i a'), $end->format('h:i a'));
+        }
+        return $results;
     }
 
     /**
@@ -345,9 +356,9 @@ class AppUsersTable extends UsersTable
             return null;
         }
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
-        $startTime = date("c", strtotime("today"));
-        $endTime = date("c", strtotime("+1 month", strtotime($startTime)));
-        return $calendar->listEvents($startTime, $endTime, $timezone);
+        $startTime = new DateTime("today", new DateTimeZone($timezone));
+        $endTime = clone $startTime;
+        return $calendar->listEvents($startTime->format('c'), $endTime->add(new DateInterval('P1M'))->format('c'), $timezone);
     }
 
     /**
@@ -366,9 +377,9 @@ class AppUsersTable extends UsersTable
     {
         $coach = $this->get($coachId);
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
-        $startTime = date("c", strtotime($selectedTime));
-        $endTime = date("c", strtotime("+".$duration . " minutes", strtotime($startTime)));
-        return $calendar->createEvent($topicName, $sessionId, $startTime, $endTime, $timezone);
+        $startTime = new DateTime($selectedTime, new DateTimeZone($timezone));
+        $endTime = clone $startTime;
+        return $calendar->createEvent($topicName, $sessionId, $startTime->format('c'), $endTime->add(new DateInterval('PT' . $duration . 'M'))->format('c'), $timezone);
     }
 
     /**
@@ -448,6 +459,6 @@ class AppUsersTable extends UsersTable
         $user->external_calendar_token = json_encode($token);
         $user->external_calendar_id = $calendar->createCalendar('Coach Calendar');
         return $this->save($user);
-    }    
-    
+    }
+
 }

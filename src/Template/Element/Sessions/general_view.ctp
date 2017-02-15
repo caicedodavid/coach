@@ -4,7 +4,7 @@
 </tr>
 <tr>
     <th><?= __('Date and time: ') ?></th>
-    <td><?= h($session->schedule) ?></td>
+    <td><?= h($session->schedule->nice($timezone)) ?></td>
 </tr>
 <tr>
     <th><?= __('Comments: ') ?></th>

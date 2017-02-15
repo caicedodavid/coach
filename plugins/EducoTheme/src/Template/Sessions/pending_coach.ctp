@@ -29,7 +29,7 @@
                                                 <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-                                                <?= $session->schedule ?>
+                                                <?= $session->schedule->nice($timezone)?>
                                             </div>
                                             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
                                                 <?= $this->element('Sessions/accept_decline_buttons', ['session' => $session]);?>

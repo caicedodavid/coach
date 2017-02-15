@@ -12,7 +12,8 @@ class Braincert implements SessionAdapter
 {
 	const API_END_POINT = "https://api.braincert.com/v2/";
     const OK_STATUS = "ok";
-    const BRAINCERT_SANTIAGO_TIMEZONE = 57;
+    const BRAINCERT_TIMEZONE = 28;
+
     public $apiKey = NULL;
 
     /**
@@ -40,7 +41,7 @@ class Braincert implements SessionAdapter
     	$endTime = date('h:ia',$endTimeValue);
     	$fields= array(
     		'title' => $session["subject"],
-    		'timezone' => self::BRAINCERT_SANTIAGO_TIMEZONE,
+    		'timezone' => self::BRAINCERT_TIMEZONE,
     		'start_time' => $startTime,
     		'end_time' => $endTime,
     		'date' => $date

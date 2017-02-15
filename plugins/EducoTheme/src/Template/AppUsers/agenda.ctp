@@ -40,7 +40,7 @@
     		if (calEvent.status == 'tentative') {
     			replaceTag('h2', 'session-title', calEvent.title);
     			var date = new Date(calEvent.start);
-    			var string = date.toDateString() + ', ' + date.getHours() + ':' + date.getMinutes();
+    			var string = date.toDateString() + ', ' + date.getHours() + ':' + (date.getMinutes()<10?'0':'') + date.getMinutes();
     			console.log(string);
     			replaceTag('h3', 'session-schedule', string);
 				$("input[name='id']").val(calEvent.sessionId);
@@ -53,7 +53,7 @@
 				center: 'title',
 				right:''
 			},
-			timezone: moment.tz.guess(),
+			timezone:  <?="'" . $timezone . "'"?>,
 			defaultView: 'agendaWeek',
 			editable: true,
 			eventClick: function(calEvent, jsEvent, view) {

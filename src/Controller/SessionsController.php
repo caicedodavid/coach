@@ -74,6 +74,7 @@ class SessionsController extends AppController
         ];
         $sessions = $this->paginate($this->Sessions);
         $this->set('user', $user);
+        $this->set('timezone', $this->request->cookies['timezone']);
         $this->set(compact('sessions'));
         $this->set('_serialize', ['sessions','users']);
     }
@@ -142,6 +143,7 @@ class SessionsController extends AppController
             'role' => $user["role"]
         ])
         ->first();
+        $this->set('timezone', $this->request->cookies['timezone']);
         $this->set('user', $user);
         $this->set('session', $session);
         $this->set('isCoach', $this->isCoach($user));

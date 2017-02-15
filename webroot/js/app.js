@@ -183,7 +183,7 @@ $(document).ready(function(){
 		// Date()'s toGMTSting() method will format the date correctly for a cookie
 		document.cookie = "timezone=" + moment.tz.guess();
 	}
-
+	
 	$('#rejectButton').click(function(){
 		$("input[name='method']").val('reject');
 	});

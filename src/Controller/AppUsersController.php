@@ -215,11 +215,13 @@ class AppUsersController extends UsersController
      */
     public function agenda($userId)
     {
+        $timezone = $this->request->cookies['timezone'];
         $user = $this->AppUsers->get($userId, [
             'contain' => ['UserImage']
         ]);
         $this->set('user', $user);
-        $this->set('events', json_encode($this->AppUsers->getAgenda($userId, $this->request->cookies['timezone'])));
+        $this->set('events', json_encode($this->AppUsers->getAgenda($userId, $timezone)));
+        $this->set('timezone', $timezone);
         $this->set('url', $this->AppUsers->generateCalendarUrl());
     }
 

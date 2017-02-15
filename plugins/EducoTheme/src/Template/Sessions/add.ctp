@@ -14,7 +14,9 @@
                 </div>
                 <div class="col-lg-7 col-md-7 col-sm-12">
                     <div class="ed_course_single_info">
-                        <h2><?= $topic->name ?><span><?= $topic ? $this->Number->currency($topic->price, 'USD') : null;?></span></h2>
+                        <?php if (isset($topic)) :?> 
+                            <h2><?= $topic->name ?><span><?= $topic ? $this->Number->currency($topic->price, 'USD') : null;?></span></h2>
+                        <?php endif;?>
                         <div class="ed_abbcart">
                         </div>
                     </div>
@@ -39,7 +41,7 @@
                         <ul class="list-group calendar"> 
                             <?php foreach ($listBusy as $busy): ?>
                                 <li class="list-group-item">
-                                    <?= __("{0} from {1} to {2}", date('M j', strtotime($busy['start'])), date('g:i a',strtotime($busy['start'])), date('g:i a',strtotime($busy['end']))) ?>
+                                    <?=$busy?>
                                 </li>                        
                             <?php endforeach ?>
                         </ul>

@@ -29,7 +29,7 @@
                                                 <?= $this->Html->link(__($session->subject), ['controller' => 'Sessions', 'plugin' => false, 'action' => 'view', $session->id]);?>
                                             </div>
                                             <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
-                                                <?= $session->schedule ?>
+                                                <?= $session->schedule->nice($timezone)?>
                                             </div>
                                             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
                                                 <?= $this->element('Sessions/cancel_session_button', ['session' => $session, 'button' => 'Cancel', 'action' => 'approved', 'message' => 'Are you sure you want to cancel this session?']);?>

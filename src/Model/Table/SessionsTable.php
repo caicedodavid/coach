@@ -18,6 +18,8 @@ use App\Model\Entity\Liability;
 use Cake\Utility\Hash;
 use Cake\Core\Configure;
 use Cake\Cache\Cache;
+use \DateTime;
+use \DateTimeZone;
 
 
 
@@ -223,7 +225,7 @@ class SessionsTable extends Table
      */
     public function confirmEvent($session, $timezone)
     {
-        $busyList = $this->Users->checkAvailability($session->coach_id, $session->schedule, $session->topic->duration, $timezone);
+        $busyList = $this->Users->checkAvailability($session->coach_id, $session->schedule, $session->topic->duration, UTC_TIMEZONE);
         if ($busyList) {
             return false;
         }
@@ -240,7 +242,6 @@ class SessionsTable extends Table
      */
     public function fixSchedule(array $data)
     {
-        
         $data["schedule"] = $data["schedule"] . " " . $data["time"] . ":00";
         unset($data["time"]);
         return $data;
@@ -387,6 +388,7 @@ class SessionsTable extends Table
      * @param $options options array
      * @return Query
      */
+    #date check this later
     public function findNotPastSchedule(Query $query, array $options)
     {
         return $query
@@ -401,6 +403,7 @@ class SessionsTable extends Table
      * @param $options options array
      * @return Query
      */
+    #date check this later
     public function findHistoric(Query $query, array $options)
     {
         return $query
@@ -671,7 +674,7 @@ class SessionsTable extends Table
     {
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($session);
-        return $response["class_id"];
+        return '1';
     }
 
     /**
@@ -938,6 +941,7 @@ class SessionsTable extends Table
      * @param $session session entity
      * @return boolean
      */
+    #check
     public function isNotPerformed($session)
     {
         return (($session->status === Session::STATUS_APPROVED) or ($session->status === Session::STATUS_RUNNING) or ($session->status === Session::STATUS_PENDING)) and
@@ -1014,6 +1018,7 @@ class SessionsTable extends Table
     {
         $session->external_event_id = $this->Users->scheduleEvent($session->coach_id, $session->id, $schedule, 
             $duration, $session->subject, $timezone);
+        $session->schedule = $this->setToUTC($schedule, $timezone);
         $this->sendRequestEmails($session);
         return $this->save($session);
     }
@@ -1047,5 +1052,16 @@ class SessionsTable extends Table
         $statusArray[Session::STATUS_RUNNING] = __('Not performed');
         $statusArray[Session::STATUS_PENDING] = __('Not responded');
         return $statusArray;
+    }
+
+    /**
+     * Returns Array with Key/Value StatusValue/StatusString for historic view
+     *
+     * @return Array
+     */
+    public function setToUTC($schedule, $timezone) 
+    {
+        $startTime = new DateTime($schedule, new DateTimeZone($timezone));
+        return $startTime->setTimezone(new DateTimeZone(UTC_TIMEZONE))->format('Y-m-d H:i');
     }
 }

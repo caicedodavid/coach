@@ -152,7 +152,8 @@ Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
 Configure::write('Imagine.salt', 'H5JFLL0yhZobrIqNfMkFdG6RQLZsDiMadmFPXwe5');
-date_default_timezone_set('America/Curacao');
+//date_default_timezone_set('America/Curacao');
+define("UTC_TIMEZONE", "UTC");
 
 /**
  * The default crypto extension in 3.0 is OpenSSL.
@@ -196,7 +197,7 @@ Request::addDetector('tablet', function ($request) {
 Configure::write('Users.config', ['users']);
 Configure::write('Session.provider', [
     'name' => 'Braincert',
-    'key' => 'Wn3EW2viQkanYPwUU2Dc',
+    'key' => 'a5375uSFQs6B4tdKXus4',
 ]);
 Configure::write('Coach.defaultCommission', 0.25);
 Configure::write('Omnipay.Stripe',[
