@@ -674,7 +674,7 @@ class SessionsTable extends Table
     {
         $liveSession = LiveSession::getInstance();
         $response = $liveSession->scheduleSession($session);
-        return '1';
+        return $response["class_id"];
     }
 
     /**
