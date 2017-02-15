@@ -2,9 +2,11 @@
 namespace App\CalendarAdapters;
 
 use App\CalendarAdapters\CalendarAdapter;
+use App\Error\AgendaRequestException;
 use Cake\Network\Exception\InternalErrorException;
 use Cake\Routing\Router;
 use Cake\Core\Configure;
+use Cake\Network\Exception\BadRequestException;
 use Google_Service_Calendar;
 use Google_Client;
 use Google_Service_Calendar_Calendar;
@@ -108,18 +110,16 @@ class GoogleCalendar implements CalendarAdapter
     public function createEvent($topicName, $sessionId, $startTime, $endTime, $timezone)
     {
         if (!$this->calendarId) {
-            throw new NotImplementedException("No calendar defined", 501);  
+            throw new BadRequestException("No calendar defined");  
         }
         $data = [
             'summary' => $topicName,
             'description' => $topicName,
             'start' => [
               'dateTime' => $startTime,
-              'timeZone' => $timezone,
             ],
             'end' => [
               'dateTime' => $endTime,
-              'timeZone' => $timezone,
             ],
             'status' => self::EVENT_STATUS_TENTATIVE,
             'extendedProperties' => [
@@ -130,7 +130,12 @@ class GoogleCalendar implements CalendarAdapter
         ];
         $service = new Google_Service_Calendar($this->client);
         $event = new Google_Service_Calendar_Event($data);
-        return $service->events->insert($this->calendarId, $event)['id'];
+        try {
+            return $service->events->insert($this->calendarId, $event)['id'];
+        } catch (Google_Service_Exception $e) {
+            throw new AgendaRequestException($e->getMessage());
+        }
+        
     }
 
     /**
@@ -171,10 +176,13 @@ class GoogleCalendar implements CalendarAdapter
     private function changeEventStatus($eventId, $status)
     {
         $service = new Google_Service_Calendar($this->client);
-        $event = $service->events->get($this->calendarId, $eventId);
-        $event->setStatus($status);
-        debug($service->events->update($this->calendarId, $event->getId(), $event));
-
+        try {
+            $event = $service->events->get($this->calendarId, $eventId);
+            $event->setStatus($status);
+            $service->events->update($this->calendarId, $event->getId(), $event);
+        } catch (Google_Service_Exception $e) {
+            throw new AgendaRequestException($e->getMessage());
+        }
     }
 
     /**
@@ -188,7 +196,11 @@ class GoogleCalendar implements CalendarAdapter
     public function deleteEvent($eventId)
     {
         $service = new Google_Service_Calendar($this->client);
-        return $service->events->delete($this->calendarId, $eventId);
+        try {
+            return $service->events->delete($this->calendarId, $eventId);
+        } catch (Google_Service_Exception $e) {
+            throw new AgendaRequestException($e->getMessage());
+        }  
     }
 
     /**
@@ -204,9 +216,8 @@ class GoogleCalendar implements CalendarAdapter
     private function getEvents($startDate, $endDate, $timezone)
     {   
         if (!$this->calendarId) {
-            throw new NotImplementedException("No calendar defined", 501);  
+            throw new BadRequestException("No calendar defined");  
         }
-
         $service = new Google_Service_Calendar($this->client);
         $optParams = [
             'timeMin' => $startDate,
@@ -215,8 +226,12 @@ class GoogleCalendar implements CalendarAdapter
             'orderBy' => 'startTime',
             'singleEvents' => TRUE
         ];
-        $results = $service->events->listEvents($this->calendarId, $optParams);
-        return $results->getItems();
+        try {
+            $results = $service->events->listEvents($this->calendarId, $optParams);
+            return $results->getItems();
+        } catch (Google_Service_Exception $e) {
+            throw new AgendaRequestException($e->getMessage());
+        }  
     }
 
     /**
@@ -263,8 +278,13 @@ class GoogleCalendar implements CalendarAdapter
         $calendar = new Google_Service_Calendar_Calendar();
         $calendar->setSummary($calendarName);
         $calendar->setTimeZone('America/Caracas');
-        $createdCalendar = $service->calendars->insert($calendar);
-        return $createdCalendar->getId();
+        try {
+            $createdCalendar = $service->calendars->insert($calendar);
+            return $createdCalendar->getId();
+        } catch (Google_Service_Exception $e) {
+            throw new AgendaRequestException($e->getMessage());
+        }  
+        
     }
 
     /**
