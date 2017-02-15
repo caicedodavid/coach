@@ -152,7 +152,6 @@ Email::config(Configure::consume('Email'));
 Log::config(Configure::consume('Log'));
 Security::salt(Configure::consume('Security.salt'));
 Configure::write('Imagine.salt', 'H5JFLL0yhZobrIqNfMkFdG6RQLZsDiMadmFPXwe5');
-//date_default_timezone_set('America/Curacao');
 define("UTC_TIMEZONE", "UTC");
 
 /**
@@ -182,7 +181,7 @@ Request::addDetector('tablet', function ($request) {
  * Inflector::rules('plural', ['/^(inflect)or$/i' => '\1ables']);
  * Inflector::rules('irregular', ['red' => 'redlings']);
  * Inflector::rules('uninflected', ['dontinflectme']);
- * Inflector::rules('transliteration', ['/Ã¥/' => 'aa']);
+ * Inflector::rules('transliteration', ['/å/' => 'aa']);
  */
 
 /**
