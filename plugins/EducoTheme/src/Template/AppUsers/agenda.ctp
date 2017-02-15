@@ -15,10 +15,14 @@
 </ul>
 <div class="tab-content calendar">
 	<?php
-		echo $this->Html->tag('div', null, ['id' => 'calendar']);
-		echo $this->Html->tag('/div');
-		echo $this->Html->tag('br');
-    	echo $this->Html->link('click here',$url);
+		if($events) {
+			echo $this->Html->tag('div', null, ['id' => 'calendar']);
+			echo $this->Html->tag('/div');
+			echo $this->Html->tag('br');
+    		
+    	} else {
+    		echo $this->Html->link('Please, Sync you calendar here', $url, ['class' => 'btn ed_btn ed_orange pull-left big']);
+    	}
 	?>
 </div>
 
