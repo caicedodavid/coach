@@ -12,11 +12,13 @@ class TimeConversionBehavior extends Behavior
 	/**
      * Returns Array with Key/Value StatusValue/StatusString for historic view
      *
+     * @param $datetime the datetime to convert
+     * @param $timezone the datetime timezone
      * @return Array
      */
-    public function setToUTC($schedule, $timezone) 
+    public function setToUTC($datetime, $timezone) 
     {
-        $startTime = new DateTime($schedule, new DateTimeZone($timezone));
+        $startTime = new DateTime($datetime, new DateTimeZone($timezone));
         return $startTime->setTimezone(new DateTimeZone(UTC_TIMEZONE))->format('Y-m-d H:i');
     }        
       
