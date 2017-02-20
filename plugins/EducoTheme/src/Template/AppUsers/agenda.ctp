@@ -42,11 +42,17 @@
 
 		function clickEvent(calEvent) {
     		if (calEvent.status == 'tentative') {
-    			replaceTag('h2', 'session-title', calEvent.title);
+    			replaceTag('h3', 'session-user', calEvent.userFullName);
     			var date = new Date(calEvent.start);
     			var string = date.toDateString() + ', ' + date.getHours() + ':' + (date.getMinutes()<10?'0':'') + date.getMinutes();
-    			console.log(string);
     			replaceTag('h3', 'session-schedule', string);
+    			var a = document.createElement('a');
+    			a.setAttribute('id', 'session-title');
+				var linkText = document.createTextNode(calEvent.title);
+				a.appendChild(linkText);
+				a.title = calEvent.title;
+				a.href = calEvent.sessionUrl;
+				$('#session-title').replaceWith(a);
 				$("input[name='id']").val(calEvent.sessionId);
 				$('#myModal').modal('show');
 			}

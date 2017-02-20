@@ -107,24 +107,27 @@ class GoogleCalendar implements CalendarAdapter
      * @param $data data array for the event.
      * @return event id
      */
-    public function createEvent($topicName, $sessionId, $startTime, $endTime, $timezone)
+    public function createEvent($data)
     {
         if (!$this->calendarId) {
             throw new BadRequestException("No calendar defined");  
         }
         $data = [
-            'summary' => $topicName,
-            'description' => $topicName,
+            'summary' => $data['subject'],
+            'description' => $data['subject'],
             'start' => [
-              'dateTime' => $startTime,
+              'dateTime' => $data['startTime'],
             ],
             'end' => [
-              'dateTime' => $endTime,
+              'dateTime' => $data['endTime'],
             ],
             'status' => self::EVENT_STATUS_TENTATIVE,
             'extendedProperties' => [
                 'private' => [
-                    'sessionId' => $sessionId
+                    'sessionId' => $data['sessionId'],
+                    'url' => Router::url(['controller' => 'Sessions', 'action' => 'view', $data['sessionId']],true),
+                    'coachFullName' => $data['coachFullName'],
+                    'userFullName' => $data['userFullName']
                 ]
             ]
         ];
@@ -326,9 +329,14 @@ class GoogleCalendar implements CalendarAdapter
             $formattedEvent['start'] = $event->start->dateTime;
             $formattedEvent['end'] = $event->end->dateTime;
             $formattedEvent['status'] = $event->status;
-            $formattedEvent['color'] = $event->status === self::EVENT_STATUS_TENTATIVE ? 'red' : 'green';
+            $formattedEvent['color'] = $event->status === self::EVENT_STATUS_TENTATIVE ? '#fcf8e3' : '#dff0d8';
+            $formattedEvent['textColor'] = $event->status === self::EVENT_STATUS_TENTATIVE ? '#8a6d3b' : '#3c763d';
+            $formattedEvent['borderColor'] = $event->status === self::EVENT_STATUS_TENTATIVE ? '#faf2cc' : '#d0e9c6;';
             $formattedEvent['editable'] = false;
             $formattedEvent['sessionId'] = $event->extendedProperties->private['sessionId'];
+            $formattedEvent['sessionUrl'] = $event->extendedProperties->private['url'];
+            $formattedEvent['coachFullName'] = $event->extendedProperties->private['coachFullName'];
+            $formattedEvent['userFullName'] = $event->extendedProperties->private['userFullName'];
             $results[] = $formattedEvent;
         }
         return $results;
