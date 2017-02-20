@@ -41,7 +41,7 @@
                         <ul class="list-group calendar"> 
                             <?php foreach ($listBusy as $busy): ?>
                                 <li class="list-group-item">
-                                    <?=$busy?>
+                                    <b><?=$busy?></b>
                                 </li>                        
                             <?php endforeach ?>
                         </ul>
