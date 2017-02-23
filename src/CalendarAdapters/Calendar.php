@@ -1,11 +1,20 @@
 <?php
 namespace App\CalendarAdapters;
 
+use App\CalendarAdapters\GoogleCalendar;
+use Cake\Network\Exception\NotImplementedException;
+
 class Calendar
 {
-	public static function getInstance($providerName, $userToken = null, $calendarId = null)
+	const GOOGLE_CALENDAR = 1;
+	const OUTLOOK_CALENDAR = 2;
+
+	public static function getInstance($userToken = null, $calendarId = null, $provider)
 	{
-        $provider = 'App\CalendarAdapters\\' . $providerName;
-        return new $provider($userToken, $calendarId);
+		if ($provider === self::GOOGLE_CALENDAR) {
+			return new GoogleCalendar($userToken, $calendarId);
+		} else {
+			throw new NotImplementedException();
+		}
     }
 }

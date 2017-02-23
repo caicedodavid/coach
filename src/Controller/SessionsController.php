@@ -329,8 +329,11 @@ class SessionsController extends AppController
         $session = $this->Sessions->newEntity();
         if ($this->request->is('post')) {
             $data = $this->Sessions->fixData($session, $topic, $user['id'], $this->request->data);
-            $busyList = $this->Sessions->Users->checkAvailability($topic->coach_id, $data['schedule'], $topic->duration, $timezone);
-            if ($busyList) {
+            list($coachBusyList, $userBusyList) = $this->Sessions->Users->checkAvailability($topic->coach_id, $user['id'], 
+                $data['schedule'], $topic->duration, $timezone);
+            if ($userBusyList) {
+                $this->Flash->error(__('You have already scheduled or requested a session in that time. Please select another time'));
+            } elseif ($coachBusyList){
                 $this->Flash->error(__('The coach is not available in that time. Please select another time'));
                 $this->set('listBusy', $this->Sessions->Users->listBusy($topic->coach_id, $data['schedule'], $timezone));
             } else {

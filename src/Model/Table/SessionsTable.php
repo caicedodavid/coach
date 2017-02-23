@@ -217,6 +217,25 @@ class SessionsTable extends Table
     }
 
     /**
+     * schedule and send emails
+     * schedule the session in the email calendar and send the request emails
+     *
+     * @param $session session entity,
+     * @param $schedule  time and date of session
+     * @param $duration session duration
+     * @param $timezone timezone of request 
+     * @return void
+     */
+    public function scheduleAndSendEmails($session, $schedule, $duration, $timezone)
+    {
+        list($session->coach_external_event_id, $session->user_external_event_id) = $this->Users->scheduleExternalEvents(
+            $this->eventData($session, $schedule, $duration, $timezone));
+        $session->schedule = $this->setToUTC($schedule, $timezone);
+        $this->sendRequestEmails($session);
+        return $this->save($session);
+    }
+
+    /**
      * Shedule a class with the server
      *
      * Ajusting Datetime format
@@ -226,11 +245,12 @@ class SessionsTable extends Table
      */
     public function confirmEvent($session, $timezone)
     {
-        $busyList = $this->Users->checkAvailability($session->coach_id, $session->schedule, $session->topic->duration, UTC_TIMEZONE);
+        $busyList = $this->Users->checkCoachAvailability($session->coach_id, $session->schedule, $session->topic->duration, UTC_TIMEZONE);
         if ($busyList) {
             return false;
         }
-        $this->Users->confirmEvent($session->coach_id, $session->external_event_id);
+        $this->Users->confirmEvent($session->coach_id, $session->coach_external_event_id);
+        $this->Users->confirmEvent($session->user_id, $session->user_external_event_id);
         return true;
     }
 
@@ -752,7 +772,8 @@ class SessionsTable extends Table
             $this->Users->save($session->user);
         }
         if($response['status'] === PaymentBehavior::ERROR_STATUS) {
-            return $this->Users->unconfirmEvent($session->coach_id, $session->external_event_id); 
+            $this->Users->unconfirmEvent($session->coach_id, $session->coach_external_event_id);
+            $this->Users->unconfirmEvent($session->user_id, $session->coach_external_event_id); 
         }
         return $response;
     }
@@ -971,7 +992,8 @@ class SessionsTable extends Table
     public function rejectSession($session)
     {
         $session->status = Session::STATUS_CANCELED;
-        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+        $this->Users->deleteEvent($session->coach_id, $session->coach_external_event_id);
+        $this->Users->deleteEvent($session->user_id, $session->user_external_event_id);
         return $session;
     }
 
@@ -985,7 +1007,8 @@ class SessionsTable extends Table
      */
     public function cancelSession($session, $observation)
     {
-        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+        $this->Users->deleteEvent($session->coach_id, $session->coach_external_event_id);
+        $this->Users->deleteEvent($session->user_id, $session->user_external_event_id);
         $session->coach_comments = $observation;
         $session->status = Session::STATUS_CANCELED;
         $this->removeClass($session);
@@ -1002,25 +1025,8 @@ class SessionsTable extends Table
     public function cancelRequestSession(&$session)
     {
         $session->status = Session::STATUS_CANCELED;
-        return $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
-    }
-
-    /**
-     * schedule and send emails
-     * schedule the session in the email calendar and send the request emails
-     *
-     * @param $session session entity,
-     * @param $schedule  time and date of session
-     * @param $duration session duration
-     * @param $timezone timezone of request 
-     * @return void
-     */
-    public function scheduleAndSendEmails($session, $schedule, $duration, $timezone)
-    {
-        $session->external_event_id = $this->Users->scheduleEvent($this->eventData($session, $schedule, $duration, $timezone));
-        $session->schedule = $this->setToUTC($schedule, $timezone);
-        $this->sendRequestEmails($session);
-        return $this->save($session);
+        $this->Users->deleteEvent($session->user_id, $session->user_external_event_id);
+        return $this->Users->deleteEvent($session->coach_id, $session->coach_external_event_id);
     }
 
     /**

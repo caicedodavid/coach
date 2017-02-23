@@ -274,9 +274,9 @@ class AppUsersTable extends UsersTable
      * @param $coachId id fo coach
      * @return Calendar Calendar instance
      */
-    public function getCalendar($token = null, $calendarId = null)
+    public function getCalendar($token = null, $calendarId = null, $calendarProvider = Calendar::GOOGLE_CALENDAR)
     {
-        return Calendar::getInstance('GoogleCalendar', $token, $calendarId);
+        return Calendar::getInstance($token, $calendarId, $calendarProvider);
     }
 
     /**
@@ -295,7 +295,7 @@ class AppUsersTable extends UsersTable
     }
 
     /**
-     * check availability of coach 
+     * check availability of coach and user
      *
      * @param $coachId id fo coach
      * @param $startTime the startTime of the session 
@@ -303,13 +303,37 @@ class AppUsersTable extends UsersTable
      * @return Array
      */
     ##NO manejo errores aquí
-    public function checkAvailability($coachId, $selectedTime, $duration, $timezone)
+    public function checkAvailability($coachId, $userId, $selectedTime, $duration, $timezone)
     {
         $coach = $this->get($coachId);
-        $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
+        $user = $this->get($userId);
+        $coachCalendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
+        $userCalendar = $this->getCalendar($user->external_calendar_token, $user->external_calendar_id);
         $startTime = new DateTime($selectedTime, new DateTimeZone($timezone));
         $endTime = clone $startTime;
-        return $calendar->listBusy($startTime->format('c'), $endTime->add(new DateInterval('PT' . $duration . 'M'))->format('c'), $timezone);
+        $endTime->add(new DateInterval('PT' . $duration . 'M'));
+        #une uses get busy and the other uses getEvents because getBusy only gets confirmed events
+        return array($coachCalendar->listBusy($startTime->format('c'), $endTime->format('c'), $timezone),
+            $userCalendar->listEvents($startTime->format('c'), $endTime->format('c'), $timezone));
+    }
+
+    /**
+     * check availability just for the coach
+     *
+     * @param $coachId id fo coach
+     * @param $startTime the startTime of the session 
+     * @param $duration the duration of the sesion
+     * @return Array
+     */
+    ##NO manejo errores aquí
+    public function checkCoachAvailability($coachId, $selectedTime, $duration, $timezone)
+    {
+        $coach = $this->get($coachId);
+        $coachCalendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
+        $startTime = new DateTime($selectedTime, new DateTimeZone($timezone));
+        $endTime = clone $startTime;
+        $endTime->add(new DateInterval('PT' . $duration . 'M'));
+        return $coachCalendar->listBusy($startTime->format('c'), $endTime->format('c'), $timezone);
     }
 
     /**
@@ -373,19 +397,36 @@ class AppUsersTable extends UsersTable
      * @return Array
      */
     ##&&No manejo errores aquí
-    public function scheduleEvent($data)
+    public function scheduleEvent($data, $userId)
     {
-        $coach = $this->get($data['coachId']);
-        $user = $this->get($data['coachId']);
-        $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
+        $user = $this->get($userId);
+        $calendar = $this->getCalendar($user->external_calendar_token, $user->external_calendar_id);
         $startTime = new DateTime($data['schedule'], new DateTimeZone($data['timezone']));
         $endTime = clone $startTime;
         $data['startTime'] = $startTime->format('c');
         $data['endTime'] = $endTime->add(new DateInterval('PT' . $data['duration'] . 'M'))->format('c');
-        $data['coachFullName'] = $coach->full_name;
-        $data['userFullName'] = $user->full_name;
+        $data['coachFullName'] = $this->get($data['coachId'])->full_name;
+        $data['userFullName'] = $this->get($data['userId'])->full_name;
         return $calendar->createEvent($data);
     }
+
+    /**
+     * scheduleExternalEvents
+     *
+     * Schedule the session in the users calendar
+     *
+     * @param $coachId id fo coach
+     * @param $startTime the startTime of the session 
+     * @param $duration the duration of the sesion
+     * @param $topicName the name of the topic of the session
+     * @return Array
+     */
+    ##&&No manejo errores aquí
+    public function scheduleExternalEvents($data)
+    {
+        return array($this->scheduleEvent($data, $data['coachId']), $this->scheduleEvent($data, $data['userId']));
+    }
+
 
     /**
      * delete Event
@@ -463,6 +504,7 @@ class AppUsersTable extends UsersTable
         $user = $this->get($userId);
         $user->external_calendar_token = json_encode($token);
         $user->external_calendar_id = $calendar->createCalendar('Coach Calendar');
+        $user->calendar_provider = Calendar::GOOGLE_CALENDAR;
         return $this->save($user);
     }
 
