@@ -457,11 +457,13 @@ class SessionsController extends AppController
      * cancel a requested session method
      *
      * @param string|null $id Session id.
+     * @param $controller controller to redirect
+     * @param $action controller to redirect
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
     ##&&ME comunico con el calendario en canRequestSession. No manejo errores
-    public function cancelRequest($id)
+    public function cancelRequest($id, $controller = 'Sessions', $action = 'pending')
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
@@ -472,8 +474,24 @@ class SessionsController extends AppController
             $this->Flash->error(__('The request could not be canceled. Please try again later'));
         }
         return $this->redirect(
-            ['action' => 'pending', $this->getUser()['id']]
+            ['controller'=> $controller, 'action' => $action, $this->getUser()['id']]
         );
+        
+    }
+
+        /**
+     * cancel a requested session method
+     *
+     * @param string|null $id Session id.
+     * @return \Cake\Network\Response|null Refresh page.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    ##&&ME comunico con el calendario en canRequestSession. No manejo errores
+    public function cancelRequestCalendar()
+    {
+        $this->request->allowMethod(['post']);
+        $id = $this->request->data['id'];
+        $this->cancelRequest($id, 'AppUsers', 'agenda');
         
     }
 

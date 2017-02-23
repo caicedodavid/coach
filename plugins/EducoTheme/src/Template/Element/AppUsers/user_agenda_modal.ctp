@@ -7,18 +7,15 @@
             </div>
             <div class="modal-body">
             	<h2><a href="#" id="session-title"></a></h2>
-                <h3 id="session-user"></h3>
+                <div hidden><h3 id="session-user"></h3></div>
+                <h3 id="session-coach"></h3>
             	<h3 id="session-schedule"></h3>
             </div>
             <div class="modal-footer">
-               	<?= $this->Form->create(null, ['url'=> ['controller'=>'Sessions', 'action'=>'calendarRequestSession'], 'id' => 'payment-form']);?>
+               	<?= $this->Form->create(null, ['url'=> ['controller'=>'Sessions', 'action'=>'cancelRequestCalendar']]);?>
             		<?= $this->Form->hidden('id', ["id" => "session-id"]);?>
                 	<?= $this->Form->unlockField('id');?>
-                	<?= $this->Form->hidden('method');?>
-                	<?= $this->Form->unlockField('id');?>
-                	<?= $this->Form->unlockField('method');?>
-                	<?= $this->Form->button(__('Accept'), ['class' => 'btn ed_btn ed_green pull-right small', 'method' => 'post', 'id' => 'acceptButton']);?>
-    				<?= $this->Form->button(__('Decline'), ['class' => 'btn ed_btn ed_green pull-right small', 'method' => 'post', 'id' => 'rejectButton']);?>
+    				<?= $this->Form->button(__('Cancel Request'), ['class' => 'btn ed_btn ed_green pull-right small', 'method' => 'post']);?>
     			<?= $this->Form->end() ?>
             </div>
         </div>
