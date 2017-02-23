@@ -60,6 +60,7 @@ class SessionsTable extends Table
 
         $this->addBehavior('Timestamp');
         $this->addBehavior('Payment');
+        $this->addBehavior('TimeConversion');
 
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
@@ -1054,14 +1055,4 @@ class SessionsTable extends Table
         return $statusArray;
     }
 
-    /**
-     * Returns Array with Key/Value StatusValue/StatusString for historic view
-     *
-     * @return Array
-     */
-    public function setToUTC($schedule, $timezone) 
-    {
-        $startTime = new DateTime($schedule, new DateTimeZone($timezone));
-        return $startTime->setTimezone(new DateTimeZone(UTC_TIMEZONE))->format('Y-m-d H:i');
-    }
 }
