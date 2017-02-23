@@ -10,16 +10,15 @@ class TimeConversionBehavior extends Behavior
 {
 
 	/**
-     * Returns Array with Key/Value StatusValue/StatusString for historic view
+     * Returns datetime in UTC
      *
      * @param $datetime the datetime to convert
      * @param $timezone the datetime timezone
-     * @return Array
+     * @return datetime
      */
     public function setToUTC($datetime, $timezone) 
     {
         $startTime = new DateTime($datetime, new DateTimeZone($timezone));
         return $startTime->setTimezone(new DateTimeZone(UTC_TIMEZONE))->format('Y-m-d H:i');
-    }        
-      
+    }         
 }

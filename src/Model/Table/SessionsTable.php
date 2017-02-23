@@ -1010,15 +1010,14 @@ class SessionsTable extends Table
      * schedule the session in the email calendar and send the request emails
      *
      * @param $session session entity,
-     * @param $session  time and date of session
+     * @param $schedule  time and date of session
      * @param $duration session duration
      * @param $timezone timezone of request 
      * @return void
      */
     public function scheduleAndSendEmails($session, $schedule, $duration, $timezone)
     {
-        $session->external_event_id = $this->Users->scheduleEvent($session->coach_id, $session->id, $schedule, 
-            $duration, $session->subject, $timezone);
+        $session->external_event_id = $this->Users->scheduleEvent($this->eventData($session, $schedule, $duration, $timezone));
         $session->schedule = $this->setToUTC($schedule, $timezone);
         $this->sendRequestEmails($session);
         return $this->save($session);
@@ -1054,5 +1053,25 @@ class SessionsTable extends Table
         $statusArray[Session::STATUS_PENDING] = __('Not responded');
         return $statusArray;
     }
-
+    
+    /**
+     * Returns Array with Key/Value for creating an event
+     *
+     * @param $session session entity,
+     * @param $schedule  time and date of session
+     * @param $duration session duration
+     * @param $timezone timezone of request 
+     */
+    public function eventData($session, $schedule, $duration, $timezone) 
+    {
+        return array( 
+            'sessionId' => $session->id,
+            'coachId' => $session->coach_id,
+            'userId' => $session->user_id,
+            'schedule' => $schedule,
+            'duration' => $duration,
+            'subject' => $session->subject,
+            'timezone' => $timezone
+        );
+    }
 }

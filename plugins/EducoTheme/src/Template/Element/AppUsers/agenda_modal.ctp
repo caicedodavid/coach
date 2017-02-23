@@ -6,7 +6,8 @@
                 <h1 class="modal-title"><?= __('Pending Session') ?></h1>
             </div>
             <div class="modal-body">
-            	<h2 id="session-title"></h2>
+            	<h2><a href="www.google.com" id="session-title">gues</a></h2>
+                <h3 id="session-user"></h3>
             	<h3 id="session-schedule"></h3>
             </div>
             <div class="modal-footer">

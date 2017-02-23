@@ -373,13 +373,18 @@ class AppUsersTable extends UsersTable
      * @return Array
      */
     ##&&No manejo errores aquí
-    public function scheduleEvent($coachId, $sessionId, $selectedTime, $duration, $topicName, $timezone)
+    public function scheduleEvent($data)
     {
-        $coach = $this->get($coachId);
+        $coach = $this->get($data['coachId']);
+        $user = $this->get($data['coachId']);
         $calendar = $this->getCalendar($coach->external_calendar_token, $coach->external_calendar_id);
-        $startTime = new DateTime($selectedTime, new DateTimeZone($timezone));
+        $startTime = new DateTime($data['schedule'], new DateTimeZone($data['timezone']));
         $endTime = clone $startTime;
-        return $calendar->createEvent($topicName, $sessionId, $startTime->format('c'), $endTime->add(new DateInterval('PT' . $duration . 'M'))->format('c'), $timezone);
+        $data['startTime'] = $startTime->format('c');
+        $data['endTime'] = $endTime->add(new DateInterval('PT' . $data['duration'] . 'M'))->format('c');
+        $data['coachFullName'] = $coach->full_name;
+        $data['userFullName'] = $user->full_name;
+        return $calendar->createEvent($data);
     }
 
     /**
