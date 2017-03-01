@@ -1,3 +1,4 @@
+<div class="list-error">
 <ul class="list-group"> 
     <?php foreach ($errors as $error): ?>
         <li class="list-group-item">
@@ -5,3 +6,4 @@
         </li>                        
     <?php endforeach ?>
 </ul>
+</div>

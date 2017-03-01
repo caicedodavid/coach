@@ -255,3 +255,7 @@ ul.list-group {
     background-color: #f2dede;
     border-color: #ebcccc;
 }
+.list-group {
+    max-height: 800px;
+    overflow-y:scroll;
+}

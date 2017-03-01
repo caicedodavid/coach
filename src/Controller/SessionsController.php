@@ -469,7 +469,7 @@ class SessionsController extends AppController
         if ($session->status !== Session::STATUS_PENDING) {
             $this->Flash->error(__('There has been an internal error. It will be fixed shortly.'));
         } else {
-            $session = $this->Sessions->cancelRequestSession($session);
+            $session = $this->Sessions->cancelSession($session);
             if ($this->Sessions->save($session)) {
                 $this->Flash->success(__('The request has been Canceled.'));
             } else {

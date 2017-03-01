@@ -205,7 +205,6 @@ class SessionsTable extends Table
      */
     public function sendEmail($session, $action, $message = null)
     {
-
         $session = $this->get($session['id'], [
                     'contain' => ['Users', 'Coaches','Topics']
                 ]);
@@ -224,7 +223,7 @@ class SessionsTable extends Table
      *
      * @param $session session entity,
      * @param $schedule  time and date of session
-     * @param $duration session duration
+     * @param $duration session duration in minutes
      * @param $timezone timezone of request 
      * @return void
      */
@@ -1027,7 +1026,7 @@ class SessionsTable extends Table
      * @param $observation coach observtion for canceling
      * @return $session session entity
      */
-    public function cancelSession($session, $observation)
+    public function cancelSession($session, $observation = null)
     {
         try{
             $this->Users->deleteEvent($session->coach_id, $session->coach_external_event_id);
@@ -1037,25 +1036,6 @@ class SessionsTable extends Table
             Logger::apiCritical($e, ['table' => $this->alias(), 'action' => 'cancelSession', 'id' => $session->id]);
         }
         $session->coach_comments = $observation;
-        $session->status = Session::STATUS_CANCELED;
-        return $session;
-    }
-
-    /**
-     * reject Session
-     * Logic when canceling the request of a session
-     *
-     * @param $session session entity
-     * @return $session session entity
-     */
-    public function cancelRequestSession($session)
-    { 
-        try{
-            $this->Users->deleteEvent($session->coach_id, $session->coach_external_event_id);
-            $this->Users->deleteEvent($session->user_id, $session->user_external_event_id);
-        } catch(AgendaRequestException $e) {
-            Logger::apiCritical($e, ['table' => $this->alias(), 'action' => 'cancelRequestSession', 'id' => $session->id]);
-        }
         $session->status = Session::STATUS_CANCELED;
         return $session;
     }
@@ -1096,7 +1076,7 @@ class SessionsTable extends Table
      *
      * @param $session session entity,
      * @param $schedule  time and date of session
-     * @param $duration session duration
+     * @param $duration session duration in minutes
      * @param $timezone timezone of request 
      */
     public function eventData($session, $schedule, $duration, $timezone) 
