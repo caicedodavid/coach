@@ -29,6 +29,15 @@ $(document).ready(function(){
     $('#date1').datetimepicker(sessionDateOptions);
     $('#session-time').datetimepicker(sessionTimeOptions);
 
+    $('#schedule').click(function(){
+		console.log('bla');
+		$('#date1').data("DateTimePicker").toggle();
+	});
+	$('#time').click(function(){
+		console.log('bla');
+		$('#session-time').data("DateTimePicker").toggle();
+	});
+
 	$(document).on('click', '#pagination-button a', function () {
 		var thisHref = $(this).attr('href');
 		if (!thisHref) {
@@ -191,4 +200,5 @@ $(document).ready(function(){
 	$('#acceptButton').click(function(){
 		$("input[name='method']").val('accept');
 	});
+
 });
