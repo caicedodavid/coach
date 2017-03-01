@@ -13,6 +13,8 @@ use App\CalendarAdapters\Calendar;
 use \DateTime;
 use \DateTimeZone;
 use \DateInterval;
+use App\Error\AgendaRequestException;
+use App\Utils\Logger;
 
 /**
  * Users Model
@@ -313,8 +315,14 @@ class AppUsersTable extends UsersTable
         $endTime = clone $startTime;
         $endTime->add(new DateInterval('PT' . $duration . 'M'));
         #une uses get busy and the other uses getEvents because getBusy only gets confirmed events
+        try {
         return array($coachCalendar->listBusy($startTime->format('c'), $endTime->format('c'), $timezone),
             $userCalendar->listEvents($startTime->format('c'), $endTime->format('c'), $timezone));
+        }
+        catch (AgendaRequestException $e) {
+            Logger::apiWarning($e, ['table' => $this->alias(), 'action' => 'checkAvailability', 'id' => $userId]);
+            return array(null,null);
+        }
     }
 
     /**

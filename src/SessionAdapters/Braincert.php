@@ -4,6 +4,7 @@ namespace App\SessionAdapters;
 use App\SessionAdapters\SessionAdapter;
 use Cake\Network\Http\Client;
 use Cake\Network\Exception\NotImplementedException;
+use App\Error\SessionRequestException;
 /*
  * Implementation of the Live Session with Braincert
  *
@@ -12,6 +13,7 @@ class Braincert implements SessionAdapter
 {
 	const API_END_POINT = "https://api.braincert.com/v2/";
     const OK_STATUS = "ok";
+    const ERROR_STATUS = "error";
     const BRAINCERT_TIMEZONE = 28;
 
     public $apiKey = NULL;
@@ -46,7 +48,16 @@ class Braincert implements SessionAdapter
     		'end_time' => $endTime,
     		'date' => $date
     	);
-    	return ($this->postRequest($fields,'schedule'));
+
+        try{
+            $response = $this->postRequest($fields, 'schedule');
+            if (isset($response['status']) and ($response['status'] === self::ERROR_STATUS)){
+                throw new SessionRequestException($response['error']);
+            }
+            return $response;
+        } catch(Exception $e) {
+            throw new SessionRequestException("There has been an error scheduling the class");
+        }
 	}
 
     /**
@@ -58,6 +69,9 @@ class Braincert implements SessionAdapter
      */
     public function requestSession($session, $user)
     {
+        if (!$session["external_class_id"]) {
+            return array('encryptedlaunchurl' => null);
+        }
     	$fields= array(
     		'class_id' => $session["external_class_id"],
     		'userId' => $user["id"],
@@ -66,8 +80,18 @@ class Braincert implements SessionAdapter
     		'lessonName' => $session["subject"],
     		'courseName' => $session["subject"]
     	);
-        $response = $this->postRequest($fields,'getclasslaunch');
-    	return ($response['status'] === self::OK_STATUS) ? $response : ['encryptedlaunchurl'=>null]; 
+
+        try{
+            $response = $this->postRequest($fields, 'getclasslaunch');
+            if ($response['status'] === self::ERROR_STATUS){
+                throw new SessionRequestException($response['error']);
+            }
+            return $response;
+        } catch(Exception $e) {
+            throw new SessionRequestException("There has been an error requesting the class");
+        }
+
+    	//return ($response['status'] === self::OK_STATUS) ? $response : ['encryptedlaunchurl'=>null]; 
     }
 
     /**
@@ -103,7 +127,16 @@ class Braincert implements SessionAdapter
         $fields= array(
             'cid' => $session["external_class_id"],
         );
-        return $this->postRequest($fields,'removeclass');
+
+        try{
+            $response = $this->postRequest($fields, 'removeclass');
+            if ($response['status'] === self::ERROR_STATUS){
+                throw new SessionRequestException($response['error']);
+            }
+            return $response;
+        } catch(Exception $e) {
+            throw new SessionRequestException("There has been an error removing the class");
+        }
     }
     
     /**
