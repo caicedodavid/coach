@@ -24,6 +24,6 @@ class Logger
 	private function makeMessage($e, $data)
 	{
 		return __('An {0} occurred in {1} {2} for the entity {3} with the following message: {4}', get_class($e), $data['table'], 
-			$data['action'], $data['id'], trim(preg_replace('/\s\s+/', ' ', $e->getMessage())));
+			$data['action'], $data['id'], trim(preg_replace('/\s+/', ' ', $e->getMessage())));
 	}
 }

@@ -4,6 +4,7 @@
         <li><?= $this->Html->link(__('New User'), ['action' => 'add']) ?></li>
         <li><?= $this->Html->link(__('Pay coaches'), ['action' => 'unpaidCoaches', 'controller' => 'AdminSessions', 'plugin' => false]) ?></li>
         <li><?= $this->Html->link(__('Categories'), ['action' => 'index', 'controller' => 'Categories', 'plugin' => false]) ?></li>
+        <li><?= $this->Html->link(__('Api Errors'), ['action' => 'viewApisLog', 'controller' => 'AdminLog', 'plugin' => false]) ?></li>
     </ul>
 </nav>
 <div class="users">

@@ -91,5 +91,10 @@ a.buttonS:active {
     border-color: #444;
 }
 #decline {
-background-color:#DC594E;
+    background-color:#DC594E;
+}
+.list-group-item {
+    color : #a94442;
+    background-color: #f2dede;
+    border-color: #ebcccc;
 }
