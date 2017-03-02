@@ -43,6 +43,7 @@
 		function clickEvent(calEvent) {
     		if (calEvent.status == 'tentative') {
     			replaceTag('h3', 'session-user', calEvent.userFullName);
+    			replaceTag('h3', 'session-coach', calEvent.coachFullName);
     			var date = new Date(calEvent.start);
     			var string = date.toDateString() + ', ' + date.getHours() + ':' + (date.getMinutes()<10?'0':'') + date.getMinutes();
     			replaceTag('h3', 'session-schedule', string);
@@ -82,4 +83,4 @@
 	});
 	</script>
 <?php $this->end('bottomScript'); ?>
-<?= $this->element('AppUsers/agenda_modal')?>
+<?= $this->element('AppUsers/' . $user->role . '_agenda_modal')?>

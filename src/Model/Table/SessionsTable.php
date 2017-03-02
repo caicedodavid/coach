@@ -20,7 +20,9 @@ use Cake\Core\Configure;
 use Cake\Cache\Cache;
 use \DateTime;
 use \DateTimeZone;
-
+use App\Error\AgendaRequestException;
+use App\Error\SessionRequestException;
+use App\Utils\Logger;
 
 
 /**
@@ -203,7 +205,6 @@ class SessionsTable extends Table
      */
     public function sendEmail($session, $action, $message = null)
     {
-
         $session = $this->get($session['id'], [
                     'contain' => ['Users', 'Coaches','Topics']
                 ]);
@@ -217,6 +218,29 @@ class SessionsTable extends Table
     }
 
     /**
+     * schedule and send emails
+     * schedule the session in the email calendar and send the request emails
+     *
+     * @param $session session entity,
+     * @param $schedule  time and date of session
+     * @param $duration session duration in minutes
+     * @param $timezone timezone of request 
+     * @return void
+     */
+    public function scheduleAndSendEmails($session, $schedule, $duration, $timezone)
+    {
+        try {
+            list($session->coach_external_event_id, $session->user_external_event_id) = $this->Users->scheduleExternalEvents(
+                $this->eventData($session, $schedule, $duration, $timezone));
+        } catch (AgendaRequestException $e) {
+            Logger::apiCritical($e, ['table' => $this->alias(), 'action' => 'scheduleAndSendEmails', 'id' => $session->id]);
+        }
+        $session->schedule = $this->setToUTC($schedule, $timezone);
+        $this->sendRequestEmails($session);
+        return $this->save($session);
+    }
+
+    /**
      * Shedule a class with the server
      *
      * Ajusting Datetime format
@@ -226,11 +250,16 @@ class SessionsTable extends Table
      */
     public function confirmEvent($session, $timezone)
     {
-        $busyList = $this->Users->checkAvailability($session->coach_id, $session->schedule, $session->topic->duration, UTC_TIMEZONE);
-        if ($busyList) {
-            return false;
+        try{
+            $busyList = $this->Users->checkCoachAvailability($session->coach_id, $session->schedule, $session->topic->duration, UTC_TIMEZONE);
+            if ($busyList) {
+                return false;
+            }
+            $this->Users->confirmEvent($session->coach_id, $session->coach_external_event_id);
+            $this->Users->confirmEvent($session->user_id, $session->user_external_event_id);
+        } catch(AgendaRequestException $e) {
+            Logger::apiCritical($e, ['table' => $this->alias(), 'action' => 'confirmEvent', 'id' => $session->id]);
         }
-        $this->Users->confirmEvent($session->coach_id, $session->external_event_id);
         return true;
     }
 
@@ -389,7 +418,6 @@ class SessionsTable extends Table
      * @param $options options array
      * @return Query
      */
-    #date check this later
     public function findNotPastSchedule(Query $query, array $options)
     {
         return $query
@@ -404,7 +432,6 @@ class SessionsTable extends Table
      * @param $options options array
      * @return Query
      */
-    #date check this later
     public function findHistoric(Query $query, array $options)
     {
         return $query
@@ -670,12 +697,16 @@ class SessionsTable extends Table
      * @param  $options options array
      * @return Session Entity
      */
-    ##&&NO manejo errores aquí
     public function scheduleSession($session)
     {
         $liveSession = LiveSession::getInstance();
-        $response = $liveSession->scheduleSession($session);
-        return $response["class_id"];
+        try{
+            $response = $liveSession->scheduleSession($session);
+            return $response["class_id"];
+        } catch(SessionRequestException $e) {
+            Logger::apiCritical($e, ['table' => $this->alias(), 'action' => 'scheduleSession', 'id' => $session->id]);
+            return null;
+        }
     }
 
     /**
@@ -752,7 +783,14 @@ class SessionsTable extends Table
             $this->Users->save($session->user);
         }
         if($response['status'] === PaymentBehavior::ERROR_STATUS) {
-            return $this->Users->unconfirmEvent($session->coach_id, $session->external_event_id); 
+            debug($response);
+            exit();
+            try{
+                $this->Users->unconfirmEvent($session->coach_id, $session->coach_external_event_id);
+                $this->Users->unconfirmEvent($session->user_id, $session->coach_external_event_id); 
+            } catch(AgendaRequestException $e) {
+                Logger::apiCritical($e, ['table' => $this->alias(), 'action' => 'paySession', 'id' => $session->id]);
+            }
         }
         return $response;
     }
@@ -969,9 +1007,14 @@ class SessionsTable extends Table
      * @return $session session entity
      */
     public function rejectSession($session)
-    {
-        $session->status = Session::STATUS_CANCELED;
-        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+    {   
+        try{
+            $this->Users->deleteEvent($session->coach_id, $session->coach_external_event_id);
+            $this->Users->deleteEvent($session->user_id, $session->user_external_event_id);
+        } catch(AgendaRequestException $e) {
+            Logger::apiCritical($e, ['table' => $this->alias(), 'action' => 'rejectSession', 'id' => $session->id]);
+        }
+        $session->status = Session::STATUS_REJECTED;
         return $session;
     }
 
@@ -983,44 +1026,18 @@ class SessionsTable extends Table
      * @param $observation coach observtion for canceling
      * @return $session session entity
      */
-    public function cancelSession($session, $observation)
+    public function cancelSession($session, $observation = null)
     {
-        $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
+        try{
+            $this->Users->deleteEvent($session->coach_id, $session->coach_external_event_id);
+            $this->Users->deleteEvent($session->user_id, $session->user_external_event_id);
+            $this->removeClass($session);
+        } catch(\Exception $e) {
+            Logger::apiCritical($e, ['table' => $this->alias(), 'action' => 'cancelSession', 'id' => $session->id]);
+        }
         $session->coach_comments = $observation;
         $session->status = Session::STATUS_CANCELED;
-        $this->removeClass($session);
         return $session;
-    }
-
-    /**
-     * reject Session
-     * Logic when canceling the request of a session
-     *
-     * @param $session session entity
-     * @return $session session entity
-     */
-    public function cancelRequestSession(&$session)
-    {
-        $session->status = Session::STATUS_CANCELED;
-        return $this->Users->deleteEvent($session->coach_id, $session->external_event_id);
-    }
-
-    /**
-     * schedule and send emails
-     * schedule the session in the email calendar and send the request emails
-     *
-     * @param $session session entity,
-     * @param $schedule  time and date of session
-     * @param $duration session duration
-     * @param $timezone timezone of request 
-     * @return void
-     */
-    public function scheduleAndSendEmails($session, $schedule, $duration, $timezone)
-    {
-        $session->external_event_id = $this->Users->scheduleEvent($this->eventData($session, $schedule, $duration, $timezone));
-        $session->schedule = $this->setToUTC($schedule, $timezone);
-        $this->sendRequestEmails($session);
-        return $this->save($session);
     }
 
     /**
@@ -1059,7 +1076,7 @@ class SessionsTable extends Table
      *
      * @param $session session entity,
      * @param $schedule  time and date of session
-     * @param $duration session duration
+     * @param $duration session duration in minutes
      * @param $timezone timezone of request 
      */
     public function eventData($session, $schedule, $duration, $timezone) 

@@ -120,7 +120,8 @@ return [
                 'add',
                 'viewApprovedUser',
                 'viewHistoricUser',
-                'cancelRequest'
+                'cancelRequest',
+                'cancelRequestCalendar'
             ]
         ],
         [

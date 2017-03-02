@@ -135,7 +135,7 @@ class GoogleCalendar implements CalendarAdapter
         $event = new Google_Service_Calendar_Event($data);
         try {
             return $service->events->insert($this->calendarId, $event)['id'];
-        } catch (Google_Service_Exception $e) {
+        } catch (\Exception $e) {
             throw new AgendaRequestException($e->getMessage());
         }
         
@@ -183,7 +183,7 @@ class GoogleCalendar implements CalendarAdapter
             $event = $service->events->get($this->calendarId, $eventId);
             $event->setStatus($status);
             $service->events->update($this->calendarId, $event->getId(), $event);
-        } catch (Google_Service_Exception $e) {
+        } catch (\Exception $e) {
             throw new AgendaRequestException($e->getMessage());
         }
     }
@@ -201,7 +201,7 @@ class GoogleCalendar implements CalendarAdapter
         $service = new Google_Service_Calendar($this->client);
         try {
             return $service->events->delete($this->calendarId, $eventId);
-        } catch (Google_Service_Exception $e) {
+        } catch (\Exception $e) {
             throw new AgendaRequestException($e->getMessage());
         }  
     }
@@ -232,7 +232,7 @@ class GoogleCalendar implements CalendarAdapter
         try {
             $results = $service->events->listEvents($this->calendarId, $optParams);
             return $results->getItems();
-        } catch (Google_Service_Exception $e) {
+        } catch (\Exception $e) {
             throw new AgendaRequestException($e->getMessage());
         }  
     }
@@ -284,7 +284,7 @@ class GoogleCalendar implements CalendarAdapter
         try {
             $createdCalendar = $service->calendars->insert($calendar);
             return $createdCalendar->getId();
-        } catch (Google_Service_Exception $e) {
+        } catch (\Exception $e) {
             throw new AgendaRequestException($e->getMessage());
         }  
         

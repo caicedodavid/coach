@@ -311,10 +311,6 @@ class SessionsController extends AppController
      * @param string|null $id User id.
      * @return \Cake\Network\Response|void Redirects on successful add, renders view otherwise.
      */
-
-    ##&&me comunico con el calendario en checkAvailability, no se maneja un error de conexión
-    ##&&me comunico con el calendario en listBusy, solamente cuando checkAvailabily retorna no vacío. no se maneja un error de conexión
-    ##&&me comunico con el calendario en shceduleand send emails. debo guardar de nuevo la sesión ahí por el id. no se maneja error de conexión
     public function add($coachId = null, $topicId = null)
     {   
         $timezone = $this->request->cookies['timezone'];
@@ -329,8 +325,11 @@ class SessionsController extends AppController
         $session = $this->Sessions->newEntity();
         if ($this->request->is('post')) {
             $data = $this->Sessions->fixData($session, $topic, $user['id'], $this->request->data);
-            $busyList = $this->Sessions->Users->checkAvailability($topic->coach_id, $data['schedule'], $topic->duration, $timezone);
-            if ($busyList) {
+            list($coachBusyList, $userBusyList) = $this->Sessions->Users->checkAvailability($topic->coach_id, $user['id'], 
+                $data['schedule'], $topic->duration, $timezone);
+            if ($userBusyList) {
+                $this->Flash->error(__('You have already scheduled or requested a session in that time. Please select another time'));
+            } elseif ($coachBusyList){
                 $this->Flash->error(__('The coach is not available in that time. Please select another time'));
                 $this->set('listBusy', $this->Sessions->Users->listBusy($topic->coach_id, $data['schedule'], $timezone));
             } else {
@@ -366,14 +365,17 @@ class SessionsController extends AppController
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $session = $this->Sessions->rejectSession($session);
-        if ($this->Sessions->save($session)) {
-            $this->Sessions->sendEmail($session,'rejectMail');
-            $this->Flash->success(__('The session has been rejected.'));
+        if ($session->status !== Session::STATUS_PENDING) {
+            $this->Flash->error(__('There has been an internal error. It will be fixed shortly.'));
         } else {
-            $this->Flash->error(__('The session could not be rejected. Please try again later'));
+            $session = $this->Sessions->rejectSession($session);
+            if ($this->Sessions->save($session)) {
+                $this->Sessions->sendEmail($session,'rejectMail');
+                $this->Flash->success(__('The session has been rejected.'));
+            } else {
+                $this->Flash->error(__('The session could not be rejected. Please try again later'));
+            }
         }
-
         return $this->redirect(
             ['controller' => $controller, 'action' => $action, $this->getUser()['id']] 
         );
@@ -386,16 +388,15 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    ##&&Me comunico con el calendario en confirmEvent. Son 2 request, uno para asegurarse que no tiene nada agendado y otro para confirmar
-    ##&&Me comunico con stripe y el calendario en paySession. manejo errores para el pago pero no para el calendario.
-    ##&&Me counico con la plataforma en scheduleSession, no manejo errores
     public function approveSession($id = null, $controller = 'Sessions', $action = 'pending')
     {
         $session = $this->Sessions->find('containUserTopic', [
             'id' => $id
         ])
         ->first();
-        if (!$this->Sessions->confirmEvent($session, $this->request->cookies['timezone'])) {
+        if($session->status !== Session::STATUS_PENDING){
+            $this->Flash->error(__('There has been an internal error. It will be fixed shortly.'));  
+        } elseif (!$this->Sessions->confirmEvent($session, $this->request->cookies['timezone'])) {
             $this->Flash->error(__('The event could not be scheduled. It is possible that you have another session scheduled in that time.'));
         } else {
             $response = $this->Sessions->paySession($session);
@@ -428,8 +429,6 @@ class SessionsController extends AppController
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-
-    ##&& me comunico con la plataforma y el calendario en cancelSession. No manejo los errores de ninguna
     public function cancelSession($id, $action = 'approved')
     {
         $this->request->allowMethod(['post','get']);
@@ -437,12 +436,16 @@ class SessionsController extends AppController
             'id' => (int) $this->request->data['id'],
         ])
         ->first();
-        $session = $this->Sessions->cancelSession($session, $this->request->data['observation']);
-        if ($this->Sessions->save($session)) {
-            $this->Sessions->sendEmail($session, $this->getUser()['role'] . 'CancelMail', $session->coach_comments);
-            $this->Flash->success(__('The session has been Canceled.'));
+        if ($session->status !== Session::STATUS_APPROVED) {
+            $this->Flash->error(__('There has been an internal error. It will be fixed shortly.'));
         } else {
-            $this->Flash->error(__('The session could not be canceled. Please try again later'));
+            $session = $this->Sessions->cancelSession($session, $this->request->data['observation']);
+            if ($this->Sessions->save($session)) {
+                $this->Sessions->sendEmail($session, $this->getUser()['role'] . 'CancelMail', $session->coach_comments);
+                $this->Flash->success(__('The session has been Canceled.'));
+            } else {
+                $this->Flash->error(__('The session could not be canceled. Please try again later'));
+            }
         }
         return $this->redirect(
             ['action' => $action, $this->getUser()['id']]
@@ -454,23 +457,41 @@ class SessionsController extends AppController
      * cancel a requested session method
      *
      * @param string|null $id Session id.
+     * @param $controller controller to redirect
+     * @param $action controller to redirect
      * @return \Cake\Network\Response|null Refresh page.
      * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
      */
-    ##&&ME comunico con el calendario en canRequestSession. No manejo errores
-    public function cancelRequest($id)
+    public function cancelRequest($id, $controller = 'Sessions', $action = 'pending')
     {
         $this->request->allowMethod(['post','get']);
         $session = $this->Sessions->get($id);
-        $this->Sessions->cancelRequestSession($session);
-        if ($this->Sessions->save($session)) {
-            $this->Flash->success(__('The request has been Canceled.'));
+        if ($session->status !== Session::STATUS_PENDING) {
+            $this->Flash->error(__('There has been an internal error. It will be fixed shortly.'));
         } else {
-            $this->Flash->error(__('The request could not be canceled. Please try again later'));
+            $session = $this->Sessions->cancelSession($session);
+            if ($this->Sessions->save($session)) {
+                $this->Flash->success(__('The request has been Canceled.'));
+            } else {
+                $this->Flash->error(__('The request could not be canceled. Please try again later'));
+            }
         }
         return $this->redirect(
-            ['action' => 'pending', $this->getUser()['id']]
+            ['controller'=> $controller, 'action' => $action, $this->getUser()['id']]
         );
+        
+    }
+
+    /**
+     * cancel a requested session method
+     *
+     * @return \Cake\Network\Response|null Refresh page.
+     */
+    public function cancelRequestCalendar()
+    {
+        $this->request->allowMethod(['post']);
+        $id = $this->request->data['id'];
+        $this->cancelRequest($id, 'AppUsers', 'agenda');
         
     }
 

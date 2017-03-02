@@ -237,6 +237,14 @@ DispatcherFactory::add('Asset');
 DispatcherFactory::add('Routing');
 DispatcherFactory::add('ControllerFactory');
 
+Log::config('apis', [
+    'className' => 'File',
+    'path' => LOGS,
+    'levels' => [],
+    'scopes' => ['api'],
+    'file' => 'apis.log',
+]);
+
 /**
  * Enable immutable time objects in the ORM.
  *
