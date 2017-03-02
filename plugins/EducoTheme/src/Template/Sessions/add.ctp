@@ -15,7 +15,7 @@
                 <div class="col-lg-7 col-md-7 col-sm-12">
                     <div class="ed_course_single_info">
                         <?php if (isset($topic)) :?> 
-                            <h2><?= $topic->name ?><span><?= $topic ? $this->Number->currency($topic->price, 'USD') : null;?></span></h2>
+                            <h2><?= $topic->name ?><span><?= $topic ? $this->Balance->price($topic->price) : null;?></span></h2>
                         <?php endif;?>
                         <div class="ed_abbcart">
                         </div>

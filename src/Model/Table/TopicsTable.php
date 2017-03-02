@@ -413,5 +413,16 @@ class TopicsTable extends Table
         }
         return $array;
     }
+
+    /**
+     * isFree
+     * check if topic is free
+     *
+     * @return boolean
+     */
+    public function isFree($topicId)
+    {
+        return ($this->get($topicId)->price === 0);
+    }
               
 }

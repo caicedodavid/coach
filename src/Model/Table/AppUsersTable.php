@@ -499,4 +499,17 @@ class AppUsersTable extends UsersTable
         return $this->save($user);
     }
 
+    /**
+     * check calendar
+     *
+     * check if user has already synced the calendar
+     *
+     * @param $userId id of user
+     * @return calendarId
+     */
+    public function checkCalendar($userId)
+    {
+        return $this->get($userId)->external_calendar_id;
+    }
+
 }

@@ -9,7 +9,7 @@
                 <?php echo $this->Img->displayImage($topic['topic_image'], 'big');?>
             </div>
             <div class="ed_course_single_info">
-                <h2><?= h($topic->name) ?><span><?= $this->Number->currency($topic->price, 'USD');?></span></h2>
+                <h2><?= h($topic->name) ?><span><?= $this->Balance->price($topic->price);?></span></h2>
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-6">
                         <div class="course_detail">
