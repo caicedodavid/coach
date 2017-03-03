@@ -315,7 +315,11 @@ class SessionsController extends AppController
     {   
         $timezone = $this->request->cookies['timezone'];
         $user = $this->getUser();
-        if(!$this->Sessions->checkUserCard($user)){
+        if(!$this->Sessions->Users->checkCalendar($user['id'])) {
+            $this->Flash->error(__('Please, sync your calendar first.'));
+            return $this->redirect(['controller' => 'AppUsers', 'action' => 'agenda', $user['id']]);
+        }
+        if(!$this->Sessions->checkUserCard($user) and $topicId and !$this->Sessions->Topics->isFree($topicId)){
             $this->Flash->error(__('Please, add your payment information first so you can purchase a session.'));
             return $this->redirect(['controller' => 'PaymentInfos','action' => 'add', 
                 serialize(['controller' => 'sessions', 'action' => 'add', $topicId])]);

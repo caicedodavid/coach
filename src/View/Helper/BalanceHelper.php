@@ -21,4 +21,16 @@ class BalanceHelper extends Helper
             return $this->Html->tag('p') . $this->Html->tag('span',__('Balance :- ' . $this->Number->currency($user['balance'], 'USD')));
         }
     }
+
+    /**
+     * Display price
+     *
+     * @param image UserImage
+     * @param size string
+     * @return the Users image or blank image
+     */
+    public function price($price)
+    {
+        return $price !== 0 ? $this->Number->currency($price, 'USD') : __('Free');
+    }
 }
