@@ -201,4 +201,18 @@ $(document).ready(function(){
 		$("input[name='method']").val('accept');
 	});
 
+	$('#is_free').click(function() { 
+		if ($(this).is(":checked")) {
+			var price = $('#price');
+			price.val(0);
+			price.prop('readonly', true);
+			$(this).val(1);
+		} else {
+			var price = $('#price');
+			price.val('');
+			price.prop('readonly', false);
+			$(this).val(0);
+		};
+	})
+
 });
