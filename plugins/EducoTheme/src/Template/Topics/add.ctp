@@ -19,7 +19,7 @@
                             'required' => true,
                             'class' => 'form-control',
                             'min' => 1,
-                            'default' => 1,
+                            'default' => '',
                             'label' => 'Price (USD)']);
                     ?>
                 </div>

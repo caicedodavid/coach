@@ -203,14 +203,14 @@ $(document).ready(function(){
 
 	$('#is_free').click(function() { 
 		if ($(this).is(":checked")) {
-			var price = document.getElementById('price');
-			$(price).val(0);
-			price.readOnly = true;
+			var price = $('#price');
+			price.val(0);
+			price.prop('readonly', true);
 			$(this).val(1);
 		} else {
-			var price = document.getElementById('price');
-			price.readOnly = false;
-			$(price).val(1);
+			var price = $('#price');
+			price.val('');
+			price.prop('readonly', false);
 			$(this).val(0);
 		};
 	})
