@@ -265,7 +265,7 @@ class AppUsersTable extends UsersTable
     public function saveImage($data, $userId)
     {
         if(!$data['file']['size']) {
-            return;
+            return true;
         }
         
         $crop = new CropAvatar(null, $data['data'], $data['file'], Config::read('FileStorage.imageSizes.AppUsers.medium.thumbnail.width'),
@@ -508,6 +508,19 @@ class AppUsersTable extends UsersTable
         $user->external_calendar_id = $calendar->createCalendar('Coach Calendar');
         $user->calendar_provider = Calendar::GOOGLE_CALENDAR;
         return $this->save($user);
+    }
+
+    /**
+     * check calendar
+     *
+     * check if user has already synced the calendar
+     *
+     * @param $userId id of user
+     * @return calendarId
+     */
+    public function checkCalendar($userId)
+    {
+        return $this->get($userId)->external_calendar_id;
     }
 
 }

@@ -191,7 +191,6 @@ class TopicsController extends AppController
             if(!$data['categories']['_ids']) {
                 $this->Flash->error(__('You must select at least one category.'));
             } else {
-                debug($_POST['avatar_src']);
                 $topic = $this->Topics->patchTopic($userId, $topic, $data);
                 if ($this->Topics->save($topic)) { 
                     if(!$this->Topics->saveImage(array('file' => $data['avatar_file'], 'data' => $data['avatar_data']), $topic->id)) {

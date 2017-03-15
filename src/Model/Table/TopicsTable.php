@@ -377,7 +377,7 @@ class TopicsTable extends Table
     public function saveImage($data, $topicId)
     {
         if(!$data['file']['size']) {
-            return;
+            return true;
         }
         
         $crop = new CropAvatar(null, $data['data'], $data['file'], Config::read('FileStorage.imageSizes.Topics.big.thumbnail.width'),
@@ -420,6 +420,17 @@ class TopicsTable extends Table
             $array[$i*30] = ((string)$i*30) . ' min';
         }
         return $array;
+    }
+
+    /**
+     * isFree
+     * check if topic is free
+     *
+     * @return boolean
+     */
+    public function isFree($topicId)
+    {
+        return ($this->get($topicId)->price === 0);
     }
               
 }
