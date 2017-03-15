@@ -59,7 +59,7 @@
     <?= $this->Html->script('crop');?>
     <script type="text/javascript">
         $(function () {
-            return new CropAvatar($('#crop-avatar'), <?=Config::read('FileStorage.imageSizes.AppUsers.medium.thumbnail.width')/Config::read('FileStorage.imageSizes.AppUsers.medium.thumbnail.height')?>);
+            return new CropAvatar($('#crop-avatar'), <?=$ratio?>);
         });
     </script>
 <?php $this->end('bottomScript'); ?>

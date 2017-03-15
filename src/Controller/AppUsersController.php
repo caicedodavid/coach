@@ -9,6 +9,7 @@ use Cake\I18n\Time;
 use Cake\Routing\Router;
 use Cake\Event\EventManager;
 use App\CalendarAdapters\Calendar;
+use Cake\Core\Configure;
 
 
 /**
@@ -164,8 +165,10 @@ class AppUsersController extends UsersController
             }
         }
 
-        //Hving trouble setting the defaultdate with datetimepicker
+        //Having trouble setting the defaultdate with datetimepicker
         $this->set('defaultDate', $user->birthdate? $user->birthdate->timeAgoInWords(['format'=>'Y-MM-dd', 'absoluteString' =>'%s' ]) : null);
+        $this->set('ratio', Configure::read('FileStorage.imageSizes.AppUsers.medium.thumbnail.width')/
+            Configure::read('FileStorage.imageSizes.AppUsers.medium.thumbnail.height'));
         $user->birthdate = null;
         $this->set(compact('user'));
         $this->set('_serialize', ['user']);

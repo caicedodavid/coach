@@ -6,6 +6,7 @@ use Cake\Event\Event;
 use Cake\Utility\Hash;
 use App\Error\AssociatedTopicException;
 use Cake\Log\Log;
+use Cake\Core\Configure;
 
 /**
  * Topics Controller
@@ -207,6 +208,7 @@ class TopicsController extends AppController
         $this->set('times', $this->Topics->getDurationArray());
         $this->set(compact('topic', 'categories'));
         $this->set('_serialize', ['topic']);
+        $this->set('ratio', Configure::read('FileStorage.imageSizes.Topics.big.thumbnail.width')/Configure::read('FileStorage.imageSizes.Topics.big.thumbnail.height'));
     }
 
     /**
@@ -244,6 +246,8 @@ class TopicsController extends AppController
         $this->set('times', $this->Topics->getDurationArray());
         $this->set(compact('topic', 'categories', 'topicCategories'));
         $this->set('_serialize', ['topic']);
+        $this->set('ratio', Configure::read('FileStorage.imageSizes.Topics.big.thumbnail.width')/
+            Configure::read('FileStorage.imageSizes.Topics.big.thumbnail.height'));
     }
 
     /**
