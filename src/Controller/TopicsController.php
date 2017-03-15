@@ -5,6 +5,7 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
 use App\Error\AssociatedTopicException;
+use Cake\Log\Log;
 
 /**
  * Topics Controller
@@ -48,6 +49,20 @@ class TopicsController extends AppController
         parent::beforeRender($event);
         $this->viewBuilder()->helpers(['TinyMCE.TinyMCE']);
 
+    }
+
+    /**
+     * Before filter callback.
+     *
+     * @param \Cake\Event\Event $event The beforeRender event.
+     * @return void
+     */
+    public function beforeFilter(Event $event)
+    {
+        parent::beforeFilter($event);
+        $this->Security->config('updateImage', ['updateImage']);
+        $this->Auth->allow('updateImage');
+        $this->eventManager()->off($this->Csrf);
     }
 
     /**
@@ -176,12 +191,13 @@ class TopicsController extends AppController
             if(!$data['categories']['_ids']) {
                 $this->Flash->error(__('You must select at least one category.'));
             } else {
-                $topic = $this->Topics->patchTopic($userId, $topic, $data, $image);
-                if ($this->Topics->save($topic)) {
-                    $this->Topics->saveImage($image,$topic->id);
-                    unset($data["topic_image"]);
+                debug($_POST['avatar_src']);
+                $topic = $this->Topics->patchTopic($userId, $topic, $data);
+                if ($this->Topics->save($topic)) { 
+                    if(!$this->Topics->saveImage(array('file' => $data['avatar_file'], 'data' => $data['avatar_data']), $topic->id)) {
+                        $this->Flash->error(__('There was a problem saving the image.'));
+                    };     
                     $this->Flash->success(__('The topic has been saved.'));
-    
                     return $this->redirect(['action' => 'coachTopics', $userId]);
                 } else {
                     $this->Flash->error(__('The topic could not be saved. Please, try again.'));
@@ -211,11 +227,12 @@ class TopicsController extends AppController
             if(!$data['categories']['_ids']) {
                 $this->Flash->error(__('You must select at least one category'));
             } else {
-                $this->Topics->saveImage($data["topic_image"], $topic->id);
-                unset($data["topic_image"]);
                 $topic = $this->Topics->patchEntity($topic, $data);
                 $topic->dirty('categories', true);
                 if ($this->Topics->save($topic)) {
+                    if(!$this->Topics->saveImage(array('file' => $data['avatar_file'], 'data' => $data['avatar_data']), $topic->id)) {
+                        $this->Flash->error(__('There was a problem saving the image.'));
+                    };    
                     $this->Flash->success(__('The topic has been saved.'));
     
                     return $this->redirect(['action' => 'view', $id]);
@@ -251,6 +268,21 @@ class TopicsController extends AppController
             $this->Flash->error($e->getMessage());
             return $this->redirect(['action' => 'view', $topic->id]);
         }
+    }
+
+    /**
+     * Update Image
+     *
+     * @return \Cake\Network\Response|null Redirects to index.
+     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+     */
+    public function updateImage()
+    {
+        $this->autoRender = false;
+        $this->request->allowMethod(['post','get']);
+        debug($this->request);
+        Log::write('debug', $this->request->input('json_decode'));
+        
     }
 
 }

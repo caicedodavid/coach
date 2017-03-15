@@ -152,11 +152,11 @@ class AppUsersController extends UsersController
         if ($this->request->is(['patch', 'post', 'put'])) {
             $data = $this->request->data;
             $data["birthdate"] = date('Y-m-d',strtotime($data["birthdate"]));
-            $this->AppUsers->saveImage($data["user_image"], $user->id);
-            unset($data["user_image"]);
             $user = $this->AppUsers->patchEntity($user, $data);
             if ($this->AppUsers->save($user)) {
-
+                if(!$this->AppUsers->saveImage(array('file' => $data['avatar_file'], 'data' => $data['avatar_data']), $user->id)) {
+                    $this->Flash->error(__('There was a problem saving the image.'));
+                }; 
                 $this->Flash->success(__('The user has been saved.'));
                 return $this->redirect(['action' => 'myProfile', 'controller' => 'AppUsers']);
             } else {

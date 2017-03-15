@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Core\Configure as Config;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -10,6 +11,7 @@ use Cake\Utility\Hash;
 use Cake\Event\Event;
 use Cake\Datasource\EntityInterface;
 use App\Error\AssociatedTopicException;
+use App\Utils\CropAvatar;
 
 /**
  * Topics Model
@@ -377,9 +379,17 @@ class TopicsTable extends Table
         if(!$data['file']['size']) {
             return;
         }
+        
+        $crop = new CropAvatar(null, $data['data'], $data['file'], Config::read('FileStorage.imageSizes.Topics.big.thumbnail.width'),
+            Config::read('FileStorage.imageSizes.Topics.big.thumbnail.height'));
+        $data['file']['tmp_name'] = $crop->getResult();
         $entity = $this->TopicImage->newEntity();
-        $entity = $this->TopicImage->patchEntity($entity, $data);
-        return $this->TopicImage->uploadImage($topicId, $entity);
+        $entity = $this->TopicImage->patchEntity($entity, array('file' => $data['file']));
+        if($this->TopicImage->uploadImage($topicId, $entity)) {
+            @unlink($crop->getResult());
+            return true;
+        };
+        return false;
     }
 
     /**
@@ -390,11 +400,9 @@ class TopicsTable extends Table
      * @param image topic image
      * @return Array
      */
-    public function patchTopic($userId, $topic, &$data, &$image)
+    public function patchTopic($userId, $topic, &$data)
     {
         $topic["coach_id"] = $userId;
-        $image = $data["topic_image"];
-        unset($data["topic_image"]);
         $topic = $this->patchEntity($topic, $data);
         $topic->dirty('categories', true);
         return $topic;

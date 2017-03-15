@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use Cake\Core\Configure as Config;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -15,6 +16,7 @@ use \DateTimeZone;
 use \DateInterval;
 use App\Error\AgendaRequestException;
 use App\Utils\Logger;
+use App\Utils\CropAvatar;
 
 /**
  * Users Model
@@ -265,9 +267,18 @@ class AppUsersTable extends UsersTable
         if(!$data['file']['size']) {
             return;
         }
+        
+        $crop = new CropAvatar(null, $data['data'], $data['file'], Config::read('FileStorage.imageSizes.AppUsers.medium.thumbnail.width'),
+            Config::read('FileStorage.imageSizes.AppUsers.medium.thumbnail.height'));
+        $data['file']['tmp_name'] = $crop->getResult();
         $entity = $this->UserImage->newEntity();
-        $entity = $this->UserImage->patchEntity($entity, $data);
-        return $this->UserImage->uploadImage($userId, $entity);
+        $entity = $this->UserImage->patchEntity($entity, array('file' => $data['file']));
+
+        if($this->UserImage->uploadImage($userId, $entity)) {
+            @unlink($crop->getResult());
+            return true;
+        };
+        return false;
     }
 
     /**
