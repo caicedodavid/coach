@@ -5,7 +5,6 @@ use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Utility\Hash;
 use App\Error\AssociatedTopicException;
-use Cake\Log\Log;
 use Cake\Core\Configure;
 
 /**
@@ -272,20 +271,4 @@ class TopicsController extends AppController
             return $this->redirect(['action' => 'view', $topic->id]);
         }
     }
-
-    /**
-     * Update Image
-     *
-     * @return \Cake\Network\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function updateImage()
-    {
-        $this->autoRender = false;
-        $this->request->allowMethod(['post','get']);
-        debug($this->request);
-        Log::write('debug', $this->request->input('json_decode'));
-        
-    }
-
 }

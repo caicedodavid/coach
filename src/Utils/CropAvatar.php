@@ -2,6 +2,12 @@
 
 namespace App\Utils;
 
+/**
+ * Class crop avatar
+ *
+ * For cropping images
+ */
+
 class CropAvatar {
   private $src;
   private $data;
@@ -12,6 +18,16 @@ class CropAvatar {
   private $width;
   private $height;
 
+  /**
+   * Class constructor.
+   *
+   * @param $src image source
+   * @param $data data that describes how to crop image
+   * @param $file image to be cropped
+   * @param $withd of new image
+   * @param $height of new image
+   * @return void
+   */
   function __construct($src, $data, $file, $width, $height) {
     $this -> setSrc($src);
     $this -> setData($data);
@@ -20,11 +36,24 @@ class CropAvatar {
     $this -> crop($this->src, $this->dst, $this->data, $this->width, $this->height);
   }
 
+  /**
+   * set dimensions of new image.
+   *
+   * @param $withd of new image
+   * @param $height of new image
+   * @return void
+   */
   private function setDimensions($width, $height) {
     $this->width = $width;
     $this->height = $height;
 
   }
+  /**
+   * Set src.
+   *
+   * @param $src image source
+   * @return void
+   */
 
   private function setSrc($src) {
     if (!empty($src)) {
@@ -39,12 +68,24 @@ class CropAvatar {
     }
   }
 
+  /**
+   * Set data.
+   *
+   * @param $data 
+   * @return void
+   */
   private function setData($data) {
     if (!empty($data)) {
       $this -> data = json_decode(stripslashes($data));
     }
   }
 
+  /**
+   * Set file.
+   *
+   * @param $file image to be cropped
+   * @return void
+   */
   private function setFile($file) {
     $errorCode = $file['error'];
 
@@ -82,10 +123,26 @@ class CropAvatar {
     }
   }
 
+  /**
+   * Set destination of new image.
+   *
+   * @param $data 
+   * @return void
+   */
   private function setDst() {
     $this -> dst = WWW_ROOT . 'images/' . date('YmdHis') . '.png';
   }
 
+  /**
+   * crop image.
+   *
+   * @param $src image source
+   * @param $data data that describes how to crop image
+   * @param $file image to be cropped
+   * @param $withd of new image
+   * @param $height of new image 
+   * @return void
+   */
   private function crop($src, $dst, $data, $width, $height) {
     if (!empty($src) && !empty($dst) && !empty($data)) {
       switch ($this -> type) {
@@ -189,10 +246,17 @@ class CropAvatar {
       }
 
       imagedestroy($src_img);
+      @unlink($this->src);
       imagedestroy($dst_img);
     }
   }
 
+  /**
+   * code to message.
+   *
+   * @param $code 
+   * @return string error message
+   */
   private function codeToMessage($code) {
     $errors = array(
       UPLOAD_ERR_INI_SIZE =>'The uploaded file exceeds the upload_max_filesize directive in php.ini',
@@ -211,10 +275,21 @@ class CropAvatar {
     return 'Unknown upload error';
   }
 
+  /**
+   * image getter.
+   *
+   * @return new image localization
+   */
   public function getResult() {
     return !empty($this -> data) ? $this -> dst : $this -> src;
   }
 
+  /**
+   * message getter.
+   *
+   * @param $code 
+   * @return string error message
+   */
   public function getMsg() {
     return $this -> msg;
   }
