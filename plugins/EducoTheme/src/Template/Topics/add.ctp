@@ -4,5 +4,5 @@ $this->assign('action', ['action' => 'coachTopics', $userAuth['id'], 'controller
 $this->assign('title', __('Add Topic'));
 $this->assign('isFree', false);
 $this->assign('price', '');
-$this->assign('categoryIds', []);
+$this->assign('categoryIds', '[]');
 ?>
