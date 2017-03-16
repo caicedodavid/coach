@@ -83,6 +83,7 @@ class TopicsController extends AppController
         if ($this->request->is('ajax')) {
             $this->render('list');
         }
+        $this->set('categoryId', $this->request->query['category_id']);
     }
 
 
