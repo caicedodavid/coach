@@ -97,6 +97,11 @@ class AppUsersController extends UsersController
      */
     public function userProfile($id)
     {
+        $user = $this->getUser();
+        if($user['id'] === $id) {
+             return $this->redirect(['action' => 'myProfile']);
+        }
+        $this->set('editProfile', false);
         $this->view($id);    
     }
 
@@ -108,7 +113,12 @@ class AppUsersController extends UsersController
 
     public function coachProfile($id)
     {
+        $user = $this->getUser();
+        if($user['id'] === $id) {
+            return $this->redirect(['action' => 'myProfile']);
+        }
         $this->set('isCoach', $this->isCoach($this->getUser()));
+        $this->set('editProfile', false);
         $this->view($id);
     }
 
@@ -120,6 +130,7 @@ class AppUsersController extends UsersController
     public function myProfile()
     {
         $user = $this->getUser();
+        $this->set('editProfile', true);
         if(!$user) {
              return $this->redirect(['controller' => 'Pages', 'action' => 'display', 'home']);
         }
@@ -132,7 +143,7 @@ class AppUsersController extends UsersController
             $this->render("coach_profile");
         }
         else {
-            $this->userProfile($user['id']);
+            $this->view($user['id']);
             $this->render("user_profile");
         }    
     }

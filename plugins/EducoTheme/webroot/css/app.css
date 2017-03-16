@@ -259,3 +259,7 @@ ul.list-group {
     max-height: 800px;
     overflow-y:scroll;
 }
+.reset-password {
+    margin: 5px 5px 5px 5px;
+    color: #0000EE;
+}
