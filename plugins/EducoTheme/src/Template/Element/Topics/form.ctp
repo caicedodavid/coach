@@ -60,7 +60,7 @@
         <?= $this->Form->input('active');?>
         <?= $this->Form->unlockField('is_free');?>
         <?= $this->Form->button(__('Submit'), ['id' => 'submit-button', 'class' => 'ed_btn ed_orange medium btn btn-primary pull-right avatar-save']) ?>
-        <?= $this->Html->link(__('Cancel'), $this->fetch('action'), ['class' => 'ed_btn ed_green medium btn btn-default pull-right']) ?>
+        <?= $this->Html->link(__('Cancel'), ['controller' => 'Topics', 'action' => $this->fetch('action'), $this->fetch('param')], ['class' => 'ed_btn ed_green medium btn btn-default pull-right']) ?>
         <?php echo $this->element('crop_modal', ['previewClass' => 'preview-topic-sm']); ?>
     <?= $this->Form->end() ?>
 </div>
