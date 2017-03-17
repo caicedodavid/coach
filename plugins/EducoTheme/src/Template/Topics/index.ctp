@@ -1,5 +1,5 @@
 <?php $this->start('banner') ?>
-<?php echo $this->element('banner', ['title' => __('Topics')]); ?>
+<?php echo $this->element('banner', ['title' => __('Topics') . ($selectedCategory ? ' > ' . $selectedCategory : null)]); ?>
 <?php $this->end() ?>
 
 <div class="page index">
