@@ -29,6 +29,7 @@ class TopicsController extends AppController
         $this->Auth->allow(['index','coachTopics','view']);
         $this->loadComponent('PlumSearch.Filter', [
             'parameters' => [
+                ['name' => 'name', 'className' => 'Input'],
                 [
                     'name' => 'category_id',
                     'className' => 'Select',

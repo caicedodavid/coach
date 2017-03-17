@@ -52,6 +52,7 @@ class TopicsTable extends Table
                 return $q->where(['Categories.id' => $value]);
             }
         ]);
+        $this->addFilter('name', ['className' => 'Like']);
 
         $this->hasMany('TopicImage', [
             'className' => 'TopicImage',

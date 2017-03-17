@@ -215,4 +215,10 @@ $(document).ready(function(){
 		};
 	})
 
+	$('#topic-search').click(function() { 
+		var $form = $('#search-form');
+		$form.find("input[name='name']").val($('.input-group').find("#widget-search").val());
+		$form.submit();
+	})
+
 });
