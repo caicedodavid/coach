@@ -21,20 +21,6 @@ return [
         ],
         [
             'role' => ['user','coach'],
-            'plugin'=> 'CakeDC/Users',
-            'controller' => 'Users',
-            'action' => ['changePassword'],
-            'allowed' => function (array $user, $role, Request $request) {
-                $ownerUserId = Hash::get($request->params, 'pass.0');
-                $sessionUserId = Hash::get($user, 'id');
-                if (!empty($ownerUserId) && !empty($sessionUserId)) {
-                    return $ownerUserId === $sessionUserId;
-                }
-                return false;
-            }   
-        ],
-        [
-            'role' => ['user','coach'],
             'plugin'=> false,
             'controller' => 'AppUsers',
             'action' => [
@@ -50,7 +36,8 @@ return [
             'controller' => 'AppUsers',
             'action' => [
                 'edit',
-                'agenda'
+                'agenda',
+                'changedPassword'
             ],
             'allowed' => function (array $user, $role, Request $request) {
                 $ownerUserId = Hash::get($request->params, 'pass.0');

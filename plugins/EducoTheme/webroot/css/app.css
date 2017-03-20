@@ -263,3 +263,8 @@ ul.list-group {
     margin: 5px 5px 5px 5px;
     color: #0000EE;
 }
+.selected-category {
+    color: #167ac6;
+    padding-right: 0px;
+    padding-left : 10px;
+}

@@ -52,4 +52,4 @@
     </div>
     </div>
 </div>
-<?=$editProfile ? $this->AuthLink->link(__d('CakeDC/Users', 'Reset Password'), ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'changePassword', $user->id], ['class' => 'reset-password pull-right']) : null?>
+<?=$this->AuthLink->link(__('Reset Password'), ['plugin' => false, 'controller' => 'AppUsers', 'action' => 'changedPassword', $user->id], ['class' => 'reset-password pull-right']);?>

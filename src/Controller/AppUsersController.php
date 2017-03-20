@@ -257,7 +257,30 @@ class AppUsersController extends UsersController
             $this->Flash->error(__('The calendar could not be saved. Please, try again.'));
         }
         return $this->redirect(['action' => 'agenda', $user['id']]);
+    }
 
+    /**
+     * change Password of user
+     *
+     * Saves the token from the calendarApi
+     * @param changePassword
+     * @return void
+     */
+     public function changedPassword($id) 
+    {
+        $user = $this->AppUsers->get($this->getUser()['id']);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = $this->request->data;
+            $user = $this->AppUsers->patchEntity($user, $data, ['validate' => 'PasswordConfirm']);
+            if ($this->AppUsers->save($user)) {
+                $this->Flash->success(__('The password has been changed'));
+                return $this->redirect(['action' => 'myProfile', 'controller' => 'AppUsers']);
+            } else {
+                $this->Flash->error(__('The password could not be changed.'));
+            }
+        }
+        $this->set('user', $user);
     }
 
 }

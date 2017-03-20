@@ -64,7 +64,7 @@ $config = [
         'Profile' => [
             //Allow view other users profiles
             'viewOthers' => true,
-            'route' => ['plugin' => false, 'controller' => 'AppUsers', 'action' => 'myProfile'],
+            'route' => ['plugin' => 'CakeDC/Users', 'controller' => 'Users', 'action' => 'profile'],
         ],
         'Key' => [
             'Session' => [

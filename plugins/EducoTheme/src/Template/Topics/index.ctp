@@ -8,11 +8,10 @@
 <?php $this->start('bottomScript'); ?>
     <script type="text/javascript">
     	$(function() {
-    		$(".select-category[category-id='" + <?="'" . $categoryId . "'"?> + "']").css({
-				'color':'#167ac6',
-				'padding-right':'0px',
-				'padding-left':'10px'
-			})
-		});
+    		$(".select-category[category-id='" + <?="'" . $categoryId . "'"?> + "']").addClass( "selected-category" );
+    		var $nameInput = $('#search-form').find("input[name='name']");
+			$('.input-group').find("#widget-search").val($nameInput.val());
+			$nameInput.val(null);
+		})
     </script>
 <?php $this->end('bottomScript'); ?>
