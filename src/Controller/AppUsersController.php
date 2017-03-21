@@ -97,6 +97,11 @@ class AppUsersController extends UsersController
      */
     public function userProfile($id)
     {
+        $user = $this->getUser();
+        if($user['id'] === $id) {
+             return $this->redirect(['action' => 'myProfile']);
+        }
+        $this->set('editProfile', false);
         $this->view($id);    
     }
 
@@ -108,7 +113,12 @@ class AppUsersController extends UsersController
 
     public function coachProfile($id)
     {
+        $user = $this->getUser();
+        if($user['id'] === $id) {
+            return $this->redirect(['action' => 'myProfile']);
+        }
         $this->set('isCoach', $this->isCoach($this->getUser()));
+        $this->set('editProfile', false);
         $this->view($id);
     }
 
@@ -120,6 +130,7 @@ class AppUsersController extends UsersController
     public function myProfile()
     {
         $user = $this->getUser();
+        $this->set('editProfile', true);
         if(!$user) {
              return $this->redirect(['controller' => 'Pages', 'action' => 'display', 'home']);
         }
@@ -132,7 +143,7 @@ class AppUsersController extends UsersController
             $this->render("coach_profile");
         }
         else {
-            $this->userProfile($user['id']);
+            $this->view($user['id']);
             $this->render("user_profile");
         }    
     }
@@ -246,7 +257,30 @@ class AppUsersController extends UsersController
             $this->Flash->error(__('The calendar could not be saved. Please, try again.'));
         }
         return $this->redirect(['action' => 'agenda', $user['id']]);
+    }
 
+    /**
+     * change Password of user
+     *
+     * Saves the token from the calendarApi
+     * @param changePassword
+     * @return void
+     */
+     public function changedPassword($id) 
+    {
+        $user = $this->AppUsers->get($this->getUser()['id']);
+
+        if ($this->request->is(['patch', 'post', 'put'])) {
+            $data = $this->request->data;
+            $user = $this->AppUsers->patchEntity($user, $data, ['validate' => 'PasswordConfirm']);
+            if ($this->AppUsers->save($user)) {
+                $this->Flash->success(__('The password has been changed'));
+                return $this->redirect(['action' => 'myProfile', 'controller' => 'AppUsers']);
+            } else {
+                $this->Flash->error(__('The password could not be changed.'));
+            }
+        }
+        $this->set('user', $user);
     }
 
 }

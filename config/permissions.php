@@ -36,7 +36,8 @@ return [
             'controller' => 'AppUsers',
             'action' => [
                 'edit',
-                'agenda'
+                'agenda',
+                'changedPassword'
             ],
             'allowed' => function (array $user, $role, Request $request) {
                 $ownerUserId = Hash::get($request->params, 'pass.0');
