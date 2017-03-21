@@ -15,6 +15,7 @@
     this.$avatarSave = this.$avatarForm.find('.avatar-save');
     this.$avatarAccept = this.$avatarForm.find('.avatar-accept');
     this.$avatarBtns = this.$avatarForm.find('.avatar-btns');
+    this.$closeButton = this.$avatarForm.find('.close');
 
     this.$avatarWrapper = this.$avatarModal.find('.avatar-wrapper');
     this.$avatarPreview = this.$container.find('.avatar-preview');
@@ -54,6 +55,7 @@
       this.$avatarInput.on('change', $.proxy(this.change, this));
       this.$avatarForm.on('submit', $.proxy(this.submit, this));
       this.$avatarBtns.on('click', $.proxy(this.rotate, this));
+      this.$closeButton.on('click', $.proxy(this.stopCropper, this));
     },
 
     initTooltip: function () {
@@ -195,8 +197,6 @@
       }
 
       this.$avatarModal.one('hidden.bs.modal', function () {
-        _this.$avatarPreview.empty();
-        _this.stopCropper();
       });
     },
 
@@ -205,6 +205,7 @@
         this.$img.cropper('destroy');
         this.$img.remove();
         this.active = false;
+        this.$avatarInput.val(null);
       }
     },
 
@@ -298,7 +299,15 @@
   };
 
   $('.avatar-accept').click(function(){
-    //$('.avatar-view').hide();
-    //$('.preview-huge').removeAttr("hidden");
-    $('img').cropper('destroy');
+    $('.avatar-view').hide();
+    $('.preview-hidden').show();
+    //$('img').cropper('destroy');
+  });
+
+  $('.preview-hidden').click(function(){
+    $('#avatar-modal').modal('show');
+  });
+
+  $('.close').click(function(){
+    $('#crop-avatar').cropper('destroy');
   });

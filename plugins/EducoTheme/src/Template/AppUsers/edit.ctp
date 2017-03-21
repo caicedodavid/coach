@@ -19,7 +19,7 @@
                     <div class="avatar-view preview-user" title="Change the avatar">
                         <?php echo $this->Img->displayImage($user['user_image'], 'medium');?>
                     </div>
-                    <div class="avatar-preview preview-huge" hidden></div>
+                    <center><div class="avatar-preview preview-hidden preview-user-2"></div></center>
                     <!-- Loading state -->
                     <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
                     <?php

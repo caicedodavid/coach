@@ -12,7 +12,7 @@
         <div class="avatar-view preview-topic" title="Change the avatar">
             <?php echo $this->Img->displayImage($topic['topic_image'], 'big');?>
         </div>
-        <div class="avatar-preview preview-huge" hidden></div>
+        <center><div class="avatar-preview preview-hidden preview-topic-2" hidden></div></center>
         <!-- Loading state -->
         <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
         <?php
