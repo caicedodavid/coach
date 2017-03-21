@@ -301,13 +301,8 @@
   $('.avatar-accept').click(function(){
     $('.avatar-view').hide();
     $('.preview-hidden').show();
-    //$('img').cropper('destroy');
   });
 
   $('.preview-hidden').click(function(){
     $('#avatar-modal').modal('show');
-  });
-
-  $('.close').click(function(){
-    $('#crop-avatar').cropper('destroy');
   });
