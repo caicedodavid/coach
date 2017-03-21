@@ -39,9 +39,9 @@
             <div class="sidebar_wrapper">
                 <aside class="widget widget_search">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="Search...">
+                        <input type="text" id="widget-search" class="form-control" placeholder="Search...">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button"><i class="fa fa-search"></i></button>
+                            <button class="btn btn-default" type="button" id="topic-search"><i class="fa fa-search"></i></button>
                         </span>
                     </div>
                 </aside>
@@ -56,7 +56,7 @@
                         </li>
                     <?php endforeach;?>
                     </ul>
-                    <div id="divCheckbox" style="display: none;">
+                    <div id="divCheckbox" hidden>
                         <?= $this->element('PlumSearch.search'); ?>
                     </div>
                 </aside>

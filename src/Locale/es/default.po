@@ -2486,3 +2486,6 @@ msgstr "Precio (USD)"
 
 msgid "Edit Topic"
 msgid "Editar Tópico"
+
+msgid "Details"
+msgid "Detalles"
