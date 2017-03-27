@@ -27,7 +27,6 @@
                         echo $this->Form->input('last_name',  ['class' => 'form-control']);
                         echo $this->Form->input('email', ['class' => 'form-control']);
                         echo $this->Html->tag('b', __('Birthdate'), ['class' => 'custom-label']);
-                        echo $this->Html->tag('/b');
                         echo $this->Html->tag('br');
                         echo $this->Form->input('birthdate',[
                             'error'=> false,

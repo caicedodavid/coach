@@ -14,10 +14,10 @@
     <div class="col-md-9 col-md-offset-1">
         <div class="ed_dashboard_inner_tab">
             <div class="tab-content">
-                <div class="avatar-view preview-topic" title="Change the Image">
+                <div class="avatar-view preview-topic" title=<?=__("Change the Image")?>
                     <?php echo $this->Img->displayImage($topic['topic_image'], 'big');?>
                 </div>
-                <center><div class="avatar-preview preview-hidden preview-topic-2" data-toggle="tooltip" data-placement="bottom" title="Change the Image"></div></center>
+                <center><div class="avatar-preview preview-hidden preview-topic-2" data-toggle="tooltip" data-placement="bottom" title=<?=__("Change the Image")?>></div></center>
                 <!-- Loading state -->
                 <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
                         <div class="row">
