@@ -1,7 +1,6 @@
-<?php $this->start('banner') ?>
-<?php echo $this->element('banner', ['title' => __('Topics') . ($selectedCategory ? ' > ' . $selectedCategory : null)]); ?>
-<?php $this->end() ?>
-
+<?php $this->start('banner');
+echo $this->element('banner', ['title' => __('Topics') . ($selectedCategory ? ' > ' . $selectedCategory : null)]);
+$this->end();?>
 <div class="page index">
     <?php echo $this->element('Topics/list'); ?>
 </div>

@@ -220,5 +220,6 @@ $(document).ready(function(){
 		$form.find("input[name='name']").val($('.input-group').find("#widget-search").val());
 		$form.submit();
 	})
-
+	
+    $('[data-toggle="tooltip"]').tooltip();   
 });

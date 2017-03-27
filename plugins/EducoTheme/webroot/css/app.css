@@ -268,3 +268,31 @@ ul.list-group {
     padding-right: 0px;
     padding-left : 10px;
 }
+.ed_dashboard_inner_tab select{
+    margin-top:0px;
+}
+.duration-select {
+    margin-bottom: 10px;
+    border-color: #ccc;
+}
+.topic-input{
+    box-shadow: none;
+}
+.ed_dashboard_inner_tab select.duration-select {
+    border-color: #ccc;
+}
+.educo-theme .form-control label, .input label {
+    color: #272727;
+    font-family: 'Roboto Slab', serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+.custom-label {
+    color: #272727;
+    font-family: 'Roboto Slab', serif;
+    font-size: 12px;
+    font-weight: bold;
+}
+.ed_team_member_description h4 {
+    height: 34px;
+}
