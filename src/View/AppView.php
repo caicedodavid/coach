@@ -47,6 +47,7 @@ class AppView extends View
                 'error' => '<div class="message alert-danger" role="alert">{{content}}</div>'
             ]
         ]);
-        $this->loadHelper('CakeDC/Users.User');
+        $this->loadHelper('Breadcrumbs');
+
     }
 }

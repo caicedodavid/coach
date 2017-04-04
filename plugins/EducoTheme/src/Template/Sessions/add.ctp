@@ -1,5 +1,10 @@
-<?php $this->start('banner') ?>
-    <?php echo $this->element('banner', ['title' => __('Request Session')]); ?>
+<?php $this->start('banner');  
+$this->Breadcrumbs->add([
+    ['title' => __('Topics'), 'url' => ['controller' => 'topics', 'action' => 'index']],
+    ['title' => __('Request Session'), 'url' => ['controller' => 'sessions', 'action' => 'add', $coachId, $topic ? $topic->id : null]]
+]);
+$topic ? $this->Breadcrumbs->insertAfter(__('Topics'), $topic->name, ['controller' => 'topics', 'action' => 'view', $topic->id]) : null;
+echo $this->element('banner', ['title' => __('Request Session')]);?>
 <?php $this->end() ?>
 <?php $this->assign('customBackgroundClass','ed_purchase_course course_purchase_wrapper')?>
 <?php use Cake\Routing\Router;?>
