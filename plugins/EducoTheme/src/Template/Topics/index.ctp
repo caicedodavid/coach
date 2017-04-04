@@ -1,5 +1,9 @@
-<?php $this->start('banner') ?>
+<?php $this->start('banner');
+	$this->Breadcrumbs->add([
+    ['title' => __('Topics'), 'url' => ['controller' => 'topics', 'action' => 'index']],
+]);?>
 <?php echo $this->element('banner', ['title' => __('Topics') . ($selectedCategory ? ' > ' . $selectedCategory : null)]); ?>
+
 <?php $this->end() ?>
 
 <div class="page index">

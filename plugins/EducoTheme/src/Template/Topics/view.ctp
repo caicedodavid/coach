@@ -1,5 +1,9 @@
-<?php $this->start('banner') ?>
-    <?php echo $this->element('banner', ['title' => __('Topic')]); ?>
+<?php $this->start('banner');
+    $this->Breadcrumbs->add([
+    ['title' => __('Topics'), 'url' => ['controller' => 'topics', 'action' => 'index']],
+    ['title' => $topic->name, 'url' => ['controller' => 'topics', 'action' => 'view', $topic->id]]
+]);
+echo $this->element('banner', ['title' => __('Topic')]);?>
 <?php $this->end() ?>
 <?php $this->assign('customBackgroundClass','ed_course_single')?>
 <div class="row">
