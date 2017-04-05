@@ -31,7 +31,9 @@
 												<div class="row">
 													<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 														<div class="ed_stardiv">
-															<div class="star-rating"><?php echo $this->Html->tag('span',null, ['style' => 'width:' . ($topic->rating)/5 * 100 . '%;'])?></span></div>
+															<div class="star-rating">
+																<?= $this->element('rating', ["rating" => $topic->rating])?>
+															</div>
 														</div>
 													</div>
 												</div>

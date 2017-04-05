@@ -1,3 +1,4 @@
+<?php?>
 <div class="row">
     <?php if (!$users->count()):?>
         <div class="alert alert-info"><?= __('There are no available coaches')?></div>
@@ -10,10 +11,12 @@
                             <?php echo $this->Img->display($user['user_image'], 'medium', ['url' => ['action' => 'coachProfile', $user->id]]);?>
                         </div>
                         <div class="ed_team_member_description">
-                            <h4><?= $this->Html->link(__($user->full_name), ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']) ?></h4>
+                            <div class="coach-name">
+                                <h4><?= $this->Html->link(__($user->full_name), ['action' => 'coachProfile', $user->id, 'controller' => 'AppUsers']) ?></h4>
+                            </div>
                             <div class="ed_rating">
                                 <div class="ed_stardiv">
-                                    <div class="col-md-2"><?php echo "<span class=\"stars\", data-rating=\"" . $user->rating ."\"></span>"?></div>
+                                    <div class="col-md-2"><?= $this->element('rating', ["rating" => $user->rating])?></div>
                                 </div>
                             </div>
                             <p><?= $user->profession ?></p>

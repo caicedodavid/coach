@@ -38,10 +38,12 @@ class AppView extends View
     {
         parent::initialize();
         $this->loadHelper('CakeDC/Users.AuthLink');
+        $this->loadHelper('CakeDC/Users.User');
         $this->loadHelper('Burzum/FileStorage.Image');
         $this->loadHelper('Img');
         $this->loadHelper('Balance');
         $this->loadHelper('Sidebar');
+        $this->loadHelper('Rating');
         $this->loadHelper('Form', [
             'templates' => [
                 'error' => '<div class="message alert-danger" role="alert">{{content}}</div>'

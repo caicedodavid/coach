@@ -19,14 +19,15 @@
                     <div class="avatar-view preview-user" title="Change the avatar">
                         <?php echo $this->Img->displayImage($user['user_image'], 'medium');?>
                     </div>
-                    <center><div class="avatar-preview preview-hidden preview-user-2"></div></center>
+                    <center><div class="avatar-preview preview-hidden preview-user-2" data-toggle="tooltip" data-placement="bottom" title="Change the Image"></div></center>
                     <!-- Loading state -->
                     <div class="loading" aria-label="Loading" role="img" tabindex="-1"></div>
                     <?php
                         echo $this->Form->input('first_name', ['class' => 'form-control']);
                         echo $this->Form->input('last_name',  ['class' => 'form-control']);
                         echo $this->Form->input('email', ['class' => 'form-control']);
-                        echo "<b>" . __('Birthdate') . "</b></br>";
+                        echo $this->Html->tag('b', __('Birthdate'), ['class' => 'custom-label']);
+                        echo $this->Html->tag('br');
                         echo $this->Form->input('birthdate',[
                             'error'=> false,
                             'id' => 'birthdate',
