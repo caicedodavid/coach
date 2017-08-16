@@ -14,7 +14,7 @@ The framework source code can be found here: [cakephp/cakephp](https://github.co
 3. Composer install.
 4. Update database settings in config/app.php.
 5. Run the command bin/cake migrations migrate -p CakeDC/Users
-
+6. Run the command bin/cake migrations migrate -p Burzum/FileStorage
 
 ## Configuration
 
