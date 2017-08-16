@@ -14,7 +14,7 @@ class Braincert implements SessionAdapter
 	const API_END_POINT = "https://api.braincert.com/v2/";
     const OK_STATUS = "ok";
     const ERROR_STATUS = "error";
-    const BRAINCERT_TIMEZONE = 28;
+    const BRAINCERT_TIMEZONE = 30;
 
     public $apiKey = NULL;
 
@@ -74,7 +74,7 @@ class Braincert implements SessionAdapter
         }
     	$fields= array(
     		'class_id' => $session["external_class_id"],
-    		'userId' => $user["id"],
+    		'userId' => $user["role"] == 'coach' ? 1 : 2,
     		'userName' => $user["username"],
     		'isTeacher' => (int)('coach'===$user['role']),
     		'lessonName' => $session["subject"],
