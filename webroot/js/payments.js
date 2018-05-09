@@ -26,7 +26,8 @@ $(document).ready(function(){
         // Disable the submit button to prevent repeated clicks:
         $form.find('.submit').prop('disabled', true);
     
-        // Request a token from Stripe:
+        console.log($form);
+        return false;
         Stripe.card.createToken($form, stripeResponseHandler);
     
         // Prevent the form from being submitted:
